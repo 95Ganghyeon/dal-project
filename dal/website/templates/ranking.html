@@ -13,7 +13,10 @@
             나와 같은 월경타입의 사람들이 평가한 순위
         </span>
     </head>
+    {% block content %}
     <ul class="ranking">
+        {% for score in product_score %}
+        {% if %}
         <li class="ranking__image">
             <a href="" class="image__link">
                 <img src="" class="link__image">
@@ -34,11 +37,7 @@
         </ul>
         <ul class="condition__star">
             <li class="star__first">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
+                
             </li>
         </ul>
     </nav>
