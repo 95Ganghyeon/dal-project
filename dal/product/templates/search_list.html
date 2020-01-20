@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+    <div>
+        <form action="." method="post">
+            <input type="text" name=""/>
+            <input type="submit" value="Submit"/>
+        </form>
+        <a href="#">제품끼리 비교하고 싶다면?</a>
+    </div>
+    <p>총 ?개의 상품이 검색되었습니다.</p>
+    <select name="order">
+        <option value="정확도">정확도순</option>
+    </select>
+    <div>
+        {% for product in products %}
+            <div>
+                <img src="#">
+                <p>{{ product.hashtag }}</p>
+                <h2>{{ product.name }}</h2>
+                <h3>{{ product.category }}</h3>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

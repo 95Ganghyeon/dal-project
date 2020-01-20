@@ -15,13 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import include
+from django.conf.urls import url, include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic.base import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('website/', include('website.urls')),
-    path('', RedirectView.as_view(url='/website/', permanent=True)),
+    path('survey/', include('survey.urls')),
+    path('product/', include('product.urls')),
+    path('', RedirectView.as_view(url='/survey/', permanent=True)),
+    
+    #all-auth
+    path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
+    path('test/', TemplateView.as_view(template_name='test.html'), name='test'),
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

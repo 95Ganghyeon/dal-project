@@ -1,0 +1,27 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<div>
+        <h1>키워드 검색</h1>
+        <input type="radio" name="type" value="종합" checked="checked">종합
+        <input type="radio" name="type" value="흡수력">흡수력
+        <input type="radio" name="type" value="탈취력">탈취력
+        <input type="radio" name="type" value="촉감">촉감/착용감
+        <input type="radio" name="type" value="피부친화도">피부 친화도
+    </div>
+    <p>총 ?개의 상품이 검색되었습니다.</p>
+    <select name="order">
+        <option value="정확도">정확도순</option>
+    </select>
+    <div>
+        {% for product in products %}
+            <div>
+                <img src="#">
+                <p>{{ product.hashtag }}</p>
+                <h2>{{ product.name }}</h2>
+                <h3>{{ product.category }}</h3>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

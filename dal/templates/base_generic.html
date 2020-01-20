@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    {% block title %}<title>DAL</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
+</head>
+<body>
+    {% block navbar %}
+        <li class="navbar">
+       {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
+       <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+       {% else %}
+       <a href="{% url 'account_login' %}" class="nav-link">Login</a>
+       {% endif %}
+        </li>
+    {% endblock %}
+    
+    {% block content %}{% endblock %}
+</body>
+</html>
