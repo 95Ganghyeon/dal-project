@@ -17,9 +17,17 @@ def index(request):
             q6 = len(get_form.cleaned_data.get('volume_extra_score', ''))
             survey_result = Survey.objects.create(volume_score=q3, volume_choice=q2, sensitivity_score=q4, activity_score=q1, disease_score=q5, volume_extra_score=q6)
             
+
+            # store id in session, set to none if not exist
+            
+            request.session['survey_id'] = survey_result.id
+
+            request.session.modified = True
             context = {
-                'mtype': survey_result.mtype
+                'mtype': survey_result.mtype,
+                'survey_id': request.session.get('survey_id','none')
             }
+
             return render(request, 'index.html', context)
             
     form = GetSurveyResponseForm()
