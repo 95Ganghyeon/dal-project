@@ -41,16 +41,21 @@ class GetSurveyResponseForm(forms.Form):
     # 민감도
     SENSITIVITY_SCORE = [
         ('0', '월경 때도 포기할 수 없는 격한 액티비티 매니아'),
-        ('5', '꾸준한 운동은 나의 활력소! 월경 할 때도 운동은 필수'),
-        ('4', '질문'),
-        ('3', '질문'),
+        ('1', '꾸준한 운동은 나의 활력소! 월경 할 때도 운동은 필수'),
         ('2', '질문'),
-        ('1', '질문'),
+        ('3', '질문'),
+        ('4', '질문'),
+        ('5', '질문'),
+        ('6', '질문'),
     ]
     
     # 월경질환
     DISEASE_SCORE = [
-        
+        ('0', '월경 때도 포기할 수 없는 격한 액티비티 매니아'),
+        ('1', '꾸준한 운동은 나의 활력소! 월경 할 때도 운동은 필수'),
+        ('2', '질문'),
+        ('3', '질문'),
+        ('4', '질문'),
     ]
     
     # ---------------------------------------
@@ -59,27 +64,42 @@ class GetSurveyResponseForm(forms.Form):
     activity_score = forms.ChoiceField(
         choices=ACTIVITY_SCORE,
         widget=forms.RadioSelect,
-        label="",
+        label="활동량",
         required=True
     )
         
     volume_choice = forms.ChoiceField(
         choices=VOLUME_CHOICE,
         widget=forms.RadioSelect,
-        label="",
+        label="월경용품",
         required=True
     )
     
     volume_score = forms.ChoiceField(
         choices=VOLUME_SCORE,
         widget=forms.RadioSelect,
-        label="",
+        label="월경량",
         required=True
     )
     
     # 체크박스
     volume_extra_score = forms.MultipleChoiceField(
         choices=VOLUME_EXTRA_SCORE,
-        label="",
-        required=True
+        widget=forms.CheckboxSelectMultiple,
+        label="월경량(추가질문)",
+        required=False
+    )
+    
+    sensitivity_score = forms.MultipleChoiceField(
+        choices=SENSITIVITY_SCORE,
+        widget=forms.CheckboxSelectMultiple,
+        label="민감도",
+        required=False
+    )
+    
+    disease_score = forms.MultipleChoiceField(
+        choices=DISEASE_SCORE,
+        widget=forms.CheckboxSelectMultiple,
+        label="월경질환",
+        required=False
     )

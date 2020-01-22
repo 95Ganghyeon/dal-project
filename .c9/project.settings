@@ -20,13 +20,28 @@
             }
         }
     },
+    "preview": {
+        "@url": "http://ec2-13-125-253-121.ap-northeast-2.compute.amazonaws.com:8080/"
+    },
     "python": {
         "@path": "/usr/local/lib/python3.4/dist-packages:/usr/local/lib/python3.5/dist-packages"
     },
     "run": {
         "configs": {
             "@inited": "true",
-            "json()": {}
+            "json()": {
+                "django run": {
+                    "command": "python3 manage.py runserver 0:8080",
+                    "cwd": "/dal",
+                    "default": true,
+                    "env": {
+                        "ip": "0"
+                    },
+                    "name": "django run",
+                    "runner": "Shell command",
+                    "toolbar": true
+                }
+            }
         }
     },
     "welcome": {

@@ -4,5 +4,5 @@ from survey.models import Survey
 # Register your models here.
 
 @admin.register(Survey)
-class BookAdmin(admin.ModelAdmin):
+class SurveyAdmin(admin.ModelAdmin):
     pass

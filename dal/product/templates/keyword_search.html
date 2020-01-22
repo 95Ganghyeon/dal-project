@@ -2,26 +2,60 @@
 
 
 {% block content %}
-<div>
+    <div>
         <h1>키워드 검색</h1>
-        <input type="radio" name="type" value="종합" checked="checked">종합
-        <input type="radio" name="type" value="흡수력">흡수력
-        <input type="radio" name="type" value="탈취력">탈취력
-        <input type="radio" name="type" value="촉감">촉감/착용감
-        <input type="radio" name="type" value="피부친화도">피부 친화도
+        <form action="{% url 'KeywordSearch' %}" method="GET">
+            <input type="radio" name="keyword" value="general" oneclick="this.form.submit()">종합
+            <input type="radio" name="keyword" value="absorbency">흡수력
+            <input type="radio" name="keyword" value="anti_odour">탈취력
+            <input type="radio" name="keyword" value="comfort">촉감/착용감
+            <input type="radio" name="keyword" value="sensitivity">피부 친화도
+            
+            <input type="submit" value="search">
+        </form>
     </div>
-    <p>총 ?개의 상품이 검색되었습니다.</p>
+    <p>총 {{products|length}}개의 상품이 검색되었습니다.</p>
+    <div>
+        <ul>
+        {% for product in products %}
+            <li>
+                <p>temp: {{product}}</p>
+            <li/>
+        {% endfor %}
+        <ul/>
+    </div>
     <select name="order">
         <option value="정확도">정확도순</option>
     </select>
     <div>
-        {% for product in products %}
-            <div>
-                <img src="#">
-                <p>{{ product.hashtag }}</p>
-                <h2>{{ product.name }}</h2>
-                <h3>{{ product.category }}</h3>
-            </div>
+        <ul>
+        {% for product in page_obj %}
+            <li>
+                <div>
+                    <img src="{{product.image.url}}" alt="제품 이미지">
+                    <p>{{ product.hashtag }}</p>
+                    <h2>{{ product.name }}</h2>
+                    <h3>{{ product.category }}</h3>
+                </div>
+            </li>
         {% endfor %}
+        </ul>
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
     </div>
 {% endblock %}

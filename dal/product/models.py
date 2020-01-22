@@ -1,8 +1,17 @@
 from django.db import models
 from user.models import User_Profile
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 # Create your models here.
+
+class TimeStampedModel(models.Model):
+    created = models.DateTimeField(auto_now_add=True, null=True) # 등록된 시간
+    updated = models.DateTimeField(auto_now=True) # 업데이트된 시간
+    
+    class Meta:
+        abstract = True
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
@@ -19,6 +28,9 @@ class Product(models.Model):
     def __str__(self):
         return self.name
         
+    def search_string(self):
+        return self.name.replace(" ","")
+        
 
 class RankingBoard(models.Model):
     id = models.AutoField(primary_key=True)
@@ -27,7 +39,7 @@ class RankingBoard(models.Model):
     ranking = models.PositiveSmallIntegerField()
     
     
-class Review(models.Model):
+class Review(TimeStampedModel):
     id = models.AutoField(primary_key=True)
     image = models.ImageField(blank=True) 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -37,8 +49,8 @@ class Review(models.Model):
     star = models.PositiveSmallIntegerField() # 별점
     absorbency = models.PositiveSmallIntegerField() # 흡수력
     anti_odour = models.PositiveSmallIntegerField() # 탈취성
-    sensitivity = models.PositiveSmallIntegerField() # 피부친화도
     comfort = models.PositiveSmallIntegerField() # 촉감/착용감
+    sensitivity = models.PositiveSmallIntegerField() # 피부친화도
     
     
 class Hastag(models.Model):

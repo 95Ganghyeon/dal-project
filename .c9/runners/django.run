@@ -1,0 +1,9 @@
+// This file overrides the built-in Shell command runner
+// For more information see http://docs.aws.amazon.com/console/cloud9/change-runner
+{
+  "cmd": [
+    "python3 manage.py runserver 0:8080"
+  ],
+  "working_dir": "$project_path/dal", 
+  "trackId": "Shell"
+}
