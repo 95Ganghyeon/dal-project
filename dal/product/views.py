@@ -7,7 +7,7 @@ from django.db.models import F, Func, Value, Avg
 # Create your views here.
 def ProductDetail(request):
     product = Product.objects.get(id=1)
-    review = Review.objects.get()
+    # review = Review.objects.get()
     # review = Review.objects.select_related('user_id').get(id=1)
     context={
         'product': product,
@@ -36,93 +36,92 @@ def search_list(request):
     
 def KeywordSearch(request):
     
-    products = Review.objects.values_list('product_id__image','product_id__hashtag','product_id__name','product_id__category','star').annotate(avgStar=Avg('star')).order_by('-avgStar')
-    
-    
-    
-    paginator = Paginator(products, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'products': products,
-        'page_obj': page_obj,
-    }
-    return render(request, 'keyword_search.html', context=context)
-
-
-def compareSearch(request):
-    products = None
-    page_obj = None
-    first_page = True
-    products = Product.objects.select_related().all()
-    for product in products:
-        print(product.name)
-    if 'q' in request.GET:
-        first_page = False
-        query = request.GET.get('q')
-        # my_product = Product.objects.get(name=query)
-        # products = Product.objects.filter(price__lt=my_product.price)
-        
+    def makeListOrderbyKeyword(keyword):
+        products = []
+        temp = Review.objects.values('product_id__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
+        for i in temp:
+            products += Product.objects.filter(id=i['product_id__id'])
+            print(i)
         paginator = Paginator(products, 3)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
+        context = {
+            'products': products,
+            'page_obj': page_obj,
+        }
+        return render(request, 'keyword_search.html', context=context)
+
+    if request.GET.get('keyword') == 'star':
+        return makeListOrderbyKeyword('star')
+    elif request.GET.get('keyword') == 'absorbency':
+        return makeListOrderbyKeyword('absorbency')
+    elif request.GET.get('keyword') == 'anti_odour':
+        return makeListOrderbyKeyword('anti_odour')
+    elif request.GET.get('keyword') == 'comfort':
+        return makeListOrderbyKeyword('comfort')
+    elif request.GET.get('keyword') == 'sensitivity':
+        return makeListOrderbyKeyword('sensitivity')
+    else:
+        return makeListOrderbyKeyword('star')
         
+
+def compareSearch(request):
+
+    
+    products1 = Review.objects.values('product_id').annotate(absorbency_avg=Avg('absorbency')).values('product_id__name','absorbency_avg').filter(absorbency_avg__gt=3)
+    products2 = Review.objects.values('product_id').annotate(absorbency_avg=Avg('absorbency')).filter(absorbency_avg__gt=3).values('product_id', 'product_id__name')
+    products3 = Review.objects.annotate(absorbency_avg=Avg('absorbency')).values('product_id__name', 'absorbency_avg').filter(absorbency_avg__gt=3)
+    
     context = {
-        'products': products,
-        'page_obj': page_obj,
-        'first_page': first_page,
+        "products1": products1,
+        "products2": products2,
+        "products3": products3,
     }
     return render(request, 'compare_search.html', context=context)
 
 
-
-
-
-
-
-
-# class SearchList(generic.ListView):
-#     model = Product
-#     template_name = 'search_list.html'
-#     paginate_by = 6
-#     context_object_name = 'products'
+# def compareSearch(request):
     
-#     def get_queryset(self):
-#         try:
-#             search = self.request.GET.get('q')
-#         except KeyError:
-#             search = None
-    
-#         if search:
-#             product_list = Product.objects.filter(name__icontains=search)
-#         else:
-#             product_list = Product.objects.all()
-#         return product_list
+#     if request.method == 'GET':
+
+#         compareProduct = Product.objects.get(name = request.GET.get('q')) # 검색어
+#         compareCondition = request.GET.getlist('compareCondition') # 검색조건
+
+#         print(type(Review.objects.filter(product_id__id = compareProduct.id).aggregate(Avg('absorbency'))))
+
+#         fieldAvgDictionary = {} # 비교하려는 제품 1개에 대한 값들
+#         for condition in compareCondition:
+#             if condition == 'price':
+#                 fieldAvgDictionary['price'] = compareProduct.price
+#             elif condition == 'nature_friendly':
+#                 fieldAvgDictionary['nature_friendly'] = compareProduct.nature_friendly
+#             else:
+#                 Review.objects.filter(product_id__id = compareProduct.id).aggregate(Avg(condition))
+
+#         print(fieldAvgDictionary)
+        
+#         products = Product.objects.all()
+#         for condition, avgValue in fieldAvgDictionary.items():
+#             if condition == 'price':
+#                 products.filter(price__lt = avgValue)
+#             elif condition == 'absorbency':
+#                 temp = Review.objects
+        
+#         paginator = Paginator(products, 3)
+#         page_number = request.GET.get('page')
+#         page_obj = paginator.get_page(page_number)
+        
+#         context = {
+#             'products': products,
+#             'page_obj': page_obj,
+#         }
+#         return render(request, 'compare_search.html', context=context)
+
+#     else:
+#         return render(request, 'compare_search.html', {})
 
 
 
 
 
- 
-    # joined_ProductReview = Review.objects.select_related('product_id')
-    # products = Product.objects.values_list('id', 'image', 'hashtag', 'name', 'category', Avg('review__star'))
-    # products = Review.objects.values_list('product_id__id', 'product_id__category', 'star').annotate(avgStar=Avg('star')).order_by('-avgStar')
-    # products = joined_ProductReview.values('product_id').annotate(avgStar=Avg('star')).order_by('-avgStar')
-    
-    # if request.GET.get('keyword') == 'general':
-    #     products = Review.objects.values('product_id').annotate(avgStar=Avg('star')).order_by('-avgStar')
-    #     # products = joined_ProductReview.values('product_id').annotate(avgStar=Avg('star')).order_by('-avgStar')
-    # elif request.GET.get('keyword') == 'absorbency':
-    #     products = Review.objects.values('product_id').annotate(avgAbsorbency=Avg('absorbency')).order_by('-absorbency')
-    #     # products = joined_ProductReview.values('product_id').annotate(avgAbsorbency=Avg('absorbency')).order_by('-absorbency')
-    # elif request.GET.get('keyword') == 'anti_odour':
-    #     products = Review.objects.values('product_id').annotate(avgAnti_odour=Avg('anti_odour')).order_by('-anti_odour')    
-    #     # products = joined_ProductReview.values('product_id').annotate(avgAnti_odour=Avg('anti_odour')).order_by('-anti_odour')    
-    # elif request.GET.get('keyword') == 'comfort':
-    #     products = Review.objects.values('product_id').annotate(avgComfort=Avg('comfort')).order_by('-comfort')
-    #     # products = joined_ProductReview.values('product_id').annotate(avgComfort=Avg('comfort')).order_by('-comfort')
-    # elif request.GET.get('keyword') == 'sensitivity':
-    #     products = Review.objects.values('product_id').annotate(avgSensitivity=Avg('sensitivity')).order_by('-sensitivity')
-    #     # products = joined_ProductReview.values('product_id').annotate(avgSensitivity=Avg('sensitivity')).order_by('-sensitivity')
 
-    # products = Review.objects.all()

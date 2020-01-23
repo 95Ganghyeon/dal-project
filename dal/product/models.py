@@ -23,6 +23,7 @@ class Product(models.Model):
     count = models.IntegerField()
     category = models.CharField(max_length=30) # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
     hashtag = models.ForeignKey('Hastag', on_delete=models.SET_NULL, null=True)
+    nature_friendly = models.PositiveIntegerField()
     # ingredients = models.TextField() # 막대그래프나 선그래프로 표현될 것... # 삭제
     
     def __str__(self):
