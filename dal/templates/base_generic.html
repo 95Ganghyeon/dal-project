@@ -11,6 +11,7 @@
     {% block navbar %}
         <li class="navbar">
        {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
+       <p>nickname = {{ user.User_Profile.nickname }}, ghost {{ user.User_Profile.ghost_user }}</p>
        <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
        {% else %}
        <a href="{% url 'account_login' %}" class="nav-link">Login</a>
