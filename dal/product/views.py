@@ -6,7 +6,7 @@ from django.db.models import F, Func, Value, Avg, Q
 # Create your views here.
 def ProductDetail(request):
     product = Product.objects.get(id=1)
-    review = Review.objects.get()
+    # review = Review.objects.get()
     # review = Review.objects.select_related('user_id').get(id=1)
     context={
         'product': product,
@@ -30,25 +30,36 @@ def search_list(request):
         'page_obj': page_obj,
     }
     return render(request, 'search_list.html', context=context)
-
-    
     
 def KeywordSearch(request):
-    
-    products = Review.objects.values_list('product_id__image','product_id__hashtag','product_id__name','product_id__category','star').annotate(avgStar=Avg('star')).order_by('-avgStar')
-    
-    
-    
-    paginator = Paginator(products, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'products': products,
-        'page_obj': page_obj,
-    }
-    return render(request, 'keyword_search.html', context=context)
+    def makeListOrderbyKeyword(keyword):
+        products = []
+        temp = Review.objects.values('product_id__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
+        for i in temp:
+            products += Product.objects.filter(id=i['product_id__id'])
+            print(i)
+        paginator = Paginator(products, 3)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context = {
+            'products': products,
+            'page_obj': page_obj,
+        }
+        return render(request, 'keyword_search.html', context=context)
 
-
+    if request.GET.get('keyword') == 'star':
+        return makeListOrderbyKeyword('star')
+    elif request.GET.get('keyword') == 'absorbency':
+        return makeListOrderbyKeyword('absorbency')
+    elif request.GET.get('keyword') == 'anti_odour':
+        return makeListOrderbyKeyword('anti_odour')
+    elif request.GET.get('keyword') == 'comfort':
+        return makeListOrderbyKeyword('comfort')
+    elif request.GET.get('keyword') == 'sensitivity':
+        return makeListOrderbyKeyword('sensitivity')
+    else:
+        return makeListOrderbyKeyword('star')
+        
 def compareSearch(request):
     temp = None
     products = None
@@ -98,3 +109,6 @@ def compareSearch(request):
     }
 
     return render(request, 'compare_search.html', context=context)
+
+
+

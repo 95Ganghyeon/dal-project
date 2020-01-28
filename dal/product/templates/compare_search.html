@@ -3,8 +3,7 @@
 {% block content %}
 
 <div>
-    여기는 탭이 들어갈 곳
-    여기다가 수정을 하면?
+    탭이 들어갈 곳
 </div>
 
 <div>
@@ -26,12 +25,42 @@
                 <input type="checkbox" name="nature-freindly"/>자연유래정도 높은
                 <input type="checkbox" name="anti-odour"/>탈취성 좋은
                 <input type="checkbox" name="less-trouble"/>피부 트러블 덜 나는
+<!--                 
+                <input type="checkbox" name="compareCondition" value="price">저렴한
+                <input type="checkbox" name="compareCondition" value="absorbency">흡수력 좋은
+                <input type="checkbox" name="compareCondition" value="comfort">촉감/착용감 좋은
+                <input type="checkbox" name="compareCondition" value="nature_friendly">자연유래정도 높은
+                <input type="checkbox" name="compareCondition" value="anti_odour">탈취성 좋은
+                <input type="checkbox" name="compareCondition" value="sensitivity">피부 트러블 덜 나는 -->
             </div>
         </div>
         제품 찾아주세요
         <input type="submit" value="검색"/>
     </form>
 </div>
+
+<div>
+    <h1>비교군1</h1>
+    <ul>
+    {% for product1 in products1 %}
+        <li>
+            {{product1}}    
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div>
+    <h1>비교군2</h1>
+    <ul>
+    {% for product2 in products2 %}
+        <li>
+            {{product2}}    
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
 <div>
     <p>총 {{ products|length }}개의 상품이 검색되었습니다</p>
     <hr/> 
@@ -58,6 +87,28 @@
         {% empty %}
             <p>검색 결과가 없습니다.</p>
         {% endfor %}
+
+<div>
+{% if first_page == False %}
+    {% if products %}
+        <p>총 {{ products|length }}개의 상품이 검색되었습니다</p>
+        <hr/> 
+        <select>
+            <option value="">정확도순</option>
+        </select>
+    </div>
+    
+    <div>
+        <ul>
+            {% for product in page_obj %}
+            <li>
+                <img src="{{product.image.url}}" alt="제품 이미지"/>
+                    <p>{{ product.hashtag }}</p>
+                    <h2>{{ product.name }}</h2>
+                    <h3>{{ product.category }}</h3>
+                </a>
+            <li/>
+            {% endfor %}
         </ul>
     {% endif %}
 </div>
@@ -77,5 +128,7 @@
             <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
+</div>
+{% endif %}
 </div>
 {% endblock %}

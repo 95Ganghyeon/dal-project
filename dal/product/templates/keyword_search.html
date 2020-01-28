@@ -5,7 +5,7 @@
     <div>
         <h1>키워드 검색</h1>
         <form action="{% url 'KeywordSearch' %}" method="GET">
-            <input type="radio" name="keyword" value="general" oneclick="this.form.submit()">종합
+            <input type="radio" name="keyword" value="star">종합
             <input type="radio" name="keyword" value="absorbency">흡수력
             <input type="radio" name="keyword" value="anti_odour">탈취력
             <input type="radio" name="keyword" value="comfort">촉감/착용감
@@ -15,15 +15,6 @@
         </form>
     </div>
     <p>총 {{products|length}}개의 상품이 검색되었습니다.</p>
-    <div>
-        <ul>
-        {% for product in products %}
-            <li>
-                <p>temp: {{product}}</p>
-            <li/>
-        {% endfor %}
-        <ul/>
-    </div>
     <select name="order">
         <option value="정확도">정확도순</option>
     </select>
