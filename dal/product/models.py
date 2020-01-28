@@ -14,6 +14,7 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 class Product(models.Model):
+    objects = models.Manager()
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     image = models.ImageField(blank=True) 
@@ -24,13 +25,10 @@ class Product(models.Model):
     category = models.CharField(max_length=30) # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
     hashtag = models.ForeignKey('Hastag', on_delete=models.SET_NULL, null=True)
     # ingredients = models.TextField() # 막대그래프나 선그래프로 표현될 것... # 삭제
-    
+    nature_friendly = models.PositiveIntegerField()
+
     def __str__(self):
         return self.name
-        
-    def search_string(self):
-        return self.name.replace(" ","")
-        
 
 class RankingBoard(models.Model):
     id = models.AutoField(primary_key=True)
@@ -40,6 +38,7 @@ class RankingBoard(models.Model):
     
     
 class Review(TimeStampedModel):
+    objects = models.Manager()
     id = models.AutoField(primary_key=True)
     image = models.ImageField(blank=True) 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)

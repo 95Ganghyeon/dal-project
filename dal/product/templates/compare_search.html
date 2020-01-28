@@ -22,9 +22,9 @@
             <div>
                 <input type="checkbox" name="low-priced"/>저렴한
                 <input type="checkbox" name="absorbent"/>흡수력 좋은
-                <input type="checkbox" name="soft"/>촉감/착용감 좋은
-                <input type="checkbox" name="natural"/>자연유래정도 높은
-                <input type="checkbox" name="deodorant"/>탈취성 좋은
+                <input type="checkbox" name="comfort"/>촉감/착용감 좋은
+                <input type="checkbox" name="nature-freindly"/>자연유래정도 높은
+                <input type="checkbox" name="anti-odour"/>탈취성 좋은
                 <input type="checkbox" name="less-trouble"/>피부 트러블 덜 나는
             </div>
         </div>
@@ -33,30 +33,49 @@
     </form>
 </div>
 <div>
-{% if first_page == False %}
-    {% if products %}
-        <p>총 {{ products|length }}개의 상품이 검색되었습니다</p>
-        <hr/> 
-        <select>
-            <option value="">정확도순</option>
-        </select>
-    </div>
-    
-    <div>
-        <ul>
-            {% for product in page_obj %}
-            <li>
-                <img src="{{product.image.url}}" alt="제품 이미지"/>
-                    <p>{{ product.hashtag }}</p>
-                    <h2>{{ product.name }}</h2>
-                    <h3>{{ product.category }}</h3>
-                </a>
-            <li/>
-            {% endfor %}
+    <p>총 {{ products|length }}개의 상품이 검색되었습니다</p>
+    <hr/> 
+    <select>
+        <option value="">정확도순</option>
+    </select>
+</div>
+
+<div>
+    <ul>
+    {% if first_page == False %}
+        {% for product in page_obj %}
+        <li>
+            <div>
+                <!-- 원인: .url은 queryset에 안먹히고 Review object가 있어야 가능
+                고로 절대경로를 사용하던가 queryset를 object형태로 바꾼 후 리턴 시키던가??
+                어쩔까? -->
+                <img src="{{ product.image.url }}" alt="제품 이미지"/>
+                <p>{{ product.hashtag.name }}</p>
+                <h2>{{ product.name }}</h2>
+                <h3>{{ product.category }}</h3>
+            </div>
+        </li>
+        {% empty %}
+            <p>검색 결과가 없습니다.</p>
+        {% endfor %}
         </ul>
-    {% else %}
-        <p>검색 결과가 없습니다.</p>
     {% endif %}
-{% endif %}
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
 </div>
 {% endblock %}
