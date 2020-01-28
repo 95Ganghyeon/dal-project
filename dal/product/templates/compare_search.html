@@ -33,39 +33,6 @@
 </div>
 
 <div>
-    <h1>비교군1</h1>
-    <ul>
-    {% for product1 in products1 %}
-        <li>
-            {{product1}}    
-        </li>
-    {% endfor %}
-    </ul>
-</div>
-
-<div>
-    <h1>비교군2</h1>
-    <ul>
-    {% for product2 in products2 %}
-        <li>
-            {{product2}}    
-        </li>
-    {% endfor %}
-    </ul>
-</div>
-
-<div>
-    <h1>비교군3</h1>
-    <ul>
-    {% for product3 in products3 %}
-        <li>
-            {{product3}}    
-        </li>
-    {% endfor %}
-    </ul>
-</div>
-
-{% comment %} <div>
 {% if first_page == False %}
     {% if products %}
         <p>총 {{ products|length }}개의 상품이 검색되었습니다</p>
@@ -91,5 +58,6 @@
         <p>검색 결과가 없습니다.</p>
     {% endif %}
 {% endif %}
-</div> {% endcomment %}
+</div>
+
 {% endblock %}

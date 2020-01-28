@@ -5,6 +5,17 @@ from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg
 
 # Create your views here.
+
+# class ProductListView(generic.ListView):
+
+
+
+# class ProductDetailView(generic.DetailView):
+
+
+
+
+
 def ProductDetail(request):
     product = Product.objects.get(id=1)
     # review = Review.objects.get()
@@ -41,7 +52,7 @@ def KeywordSearch(request):
         temp = Review.objects.values('product_id__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
         for i in temp:
             products += Product.objects.filter(id=i['product_id__id'])
-            print(i)
+            print(i, type(i))
         paginator = Paginator(products, 3)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -66,28 +77,32 @@ def KeywordSearch(request):
         
 
 def compareSearch(request):
-
-    
-    products1 = Review.objects.values('product_id').annotate(absorbency_avg=Avg('absorbency')).values('product_id__name','absorbency_avg').filter(absorbency_avg__gt=3)
-    products2 = Review.objects.values('product_id').annotate(absorbency_avg=Avg('absorbency')).filter(absorbency_avg__gt=3).values('product_id', 'product_id__name')
-    products3 = Review.objects.annotate(absorbency_avg=Avg('absorbency')).values('product_id__name', 'absorbency_avg').filter(absorbency_avg__gt=3)
-    
-    context = {
-        "products1": products1,
-        "products2": products2,
-        "products3": products3,
-    }
-    return render(request, 'compare_search.html', context=context)
+    return 
 
 
 # def compareSearch(request):
-    
-#     if request.method == 'GET':
+
+#     def getQuerySet(target, compareProduct, conditions):
+        
+#         return target
+
+#     if request.GET.get('q'):
+        
+#         target = Product.object.all()
 
 #         compareProduct = Product.objects.get(name = request.GET.get('q')) # 검색어
 #         compareCondition = request.GET.getlist('compareCondition') # 검색조건
 
 #         print(type(Review.objects.filter(product_id__id = compareProduct.id).aggregate(Avg('absorbency'))))
+        
+#         resultProducts = Product.objects.all()
+#         for condition in compareCondition:
+#             if condition == 'price':
+                
+#             elif condition == 'nature_friendly':
+                
+        
+                
 
 #         fieldAvgDictionary = {} # 비교하려는 제품 1개에 대한 값들
 #         for condition in compareCondition:
@@ -99,13 +114,6 @@ def compareSearch(request):
 #                 Review.objects.filter(product_id__id = compareProduct.id).aggregate(Avg(condition))
 
 #         print(fieldAvgDictionary)
-        
-#         products = Product.objects.all()
-#         for condition, avgValue in fieldAvgDictionary.items():
-#             if condition == 'price':
-#                 products.filter(price__lt = avgValue)
-#             elif condition == 'absorbency':
-#                 temp = Review.objects
         
 #         paginator = Paginator(products, 3)
 #         page_number = request.GET.get('page')

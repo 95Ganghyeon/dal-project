@@ -23,7 +23,7 @@
         {% for product in page_obj %}
             <li>
                 <div>
-                    <img src="{{product.image.url}}" alt="제품 이미지">
+                    <img src="{{ product.image.url }}" alt="제품 이미지">
                     <p>{{ product.hashtag }}</p>
                     <h2>{{ product.name }}</h2>
                     <h3>{{ product.category }}</h3>
