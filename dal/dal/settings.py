@@ -92,6 +92,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'dal.wsgi.application'
 
 
