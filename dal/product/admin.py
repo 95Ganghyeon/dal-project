@@ -9,11 +9,26 @@ admin.site.register(Hastag)
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'image')
+    list_display = ("name", "image", "best_review")
+
 
 admin.site.register(Product, ProductAdmin)
 
+
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('id','image','user_id','product_id','title','content','star','absorbency','anti_odour','comfort','sensitivity')
+    list_display = (
+        "title",
+        "id",
+        "image",
+        "user_id",
+        "product_id",
+        "content",
+        "star",
+        "absorbency",
+        "anti_odour",
+        "comfort",
+        "sensitivity",
+    )
+
 
 admin.site.register(Review, ReviewAdmin)
