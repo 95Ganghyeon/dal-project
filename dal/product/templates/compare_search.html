@@ -19,12 +19,19 @@
                 여기에 클릭할 때마다 체크박스 모양이 추가되는게 들어와야 할텐데..
             </div>
             <div>
+                <input type="checkbox" name="low-priced"/>저렴한
+                <input type="checkbox" name="absorbent"/>흡수력 좋은
+                <input type="checkbox" name="comfort"/>촉감/착용감 좋은
+                <input type="checkbox" name="nature-freindly"/>자연유래정도 높은
+                <input type="checkbox" name="anti-odour"/>탈취성 좋은
+                <input type="checkbox" name="less-trouble"/>피부 트러블 덜 나는
+<!--                 
                 <input type="checkbox" name="compareCondition" value="price">저렴한
                 <input type="checkbox" name="compareCondition" value="absorbency">흡수력 좋은
                 <input type="checkbox" name="compareCondition" value="comfort">촉감/착용감 좋은
                 <input type="checkbox" name="compareCondition" value="nature_friendly">자연유래정도 높은
                 <input type="checkbox" name="compareCondition" value="anti_odour">탈취성 좋은
-                <input type="checkbox" name="compareCondition" value="sensitivity">피부 트러블 덜 나는
+                <input type="checkbox" name="compareCondition" value="sensitivity">피부 트러블 덜 나는 -->
             </div>
         </div>
         제품 찾아주세요
@@ -54,10 +61,29 @@
             <li/>
             {% endfor %}
         </ul>
-    {% else %}
-        <p>검색 결과가 없습니다.</p>
     {% endif %}
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endif %}
 </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> a3890218fefed2519697b3c93ddcb308a525ad1f
 {% endblock %}
