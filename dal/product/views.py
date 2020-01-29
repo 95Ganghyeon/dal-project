@@ -1,59 +1,67 @@
 from django.shortcuts import render
-from product.models import *
 from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg, Q
+from django.views import generic
+from product.models import *
 
 # Create your views here.
 
-# class ProductListView(generic.ListView):
+
+class ProductDetail(generic.DetailView):
+    model = Product
+    template_name = 'product_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductDetail, self).get_context_data(**kwargs)
+        context["now"] = Profile.birth_date
+        return context
 
 
-
-# class ProductDetailView(generic.DetailView):
-
-
-
-
-
-def ProductDetail(request):
-    product = Product.objects.get(id=1)
-    # review = Review.objects.get()
-    # review = Review.objects.select_related('user_id').get(id=1)
-    context={
-        'product': product,
-        # 'review': review,
-    }
-    return render(request, 'product_detail.html', context=context)
-
-def search_list(request):
-    products = Product.objects.all()
-
-    if 'q' in request.GET:
-        query = request.GET.get('q')
+def NormalSearch(request):
+    product_list = Product.objects.all()
+    query = request.GET.get('q')
+    if query:
         query = query.replace(" ", "")
-        products = products.annotate(rename=Func(F('name'), Value(' '), Value(''), function='REPLACE')).filter(rename__icontains=query)
+        product_list = product_list.annotate(rename=Func(F('name'), Value(' '), Value(''), function='REPLACE')).filter(rename__icontains=query)
         
-    paginator = Paginator(products, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'products': products,
-        'page_obj': page_obj,
-    }
-    return render(request, 'search_list.html', context=context)
+    paginator = Paginator(product_list, 3)
+    page = request.GET.get('page')
     
+    try:
+        page_obj = paginator.get_page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.get_page(1)
+    except EmptyPage:
+        page_obj = paginator.get_page(paginator.num_pages)
+    
+    context = {
+        'product_list': product_list,
+        'page_obj': page_obj,        
+    }
+    return render(request, 'normal_search.html', context=context)
+
+
 def KeywordSearch(request):
     def makeListOrderbyKeyword(keyword):
-        products = []
-        temp = Review.objects.values('product_id__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
-        for i in temp:
-            products += Product.objects.filter(id=i['product_id__id'])
-            print(i, type(i))
-        paginator = Paginator(products, 3)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+        """
+        html radio에서 사용자가 체크한 항목에 맞는 기준으로 Product를 정렬하여, 그 데이터를 바탕으로 랜더링 해주는 함수임
+        """
+        product_list = []
+        review_list = Review.objects.values('product_id__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
+        for review in review_list:
+            product_list += Product.objects.filter(id=review['product_id__id'])            
+        
+        paginator = Paginator(product_list, 3)
+        page = request.GET.get('page')
+        try:
+            page_obj = paginator.get_page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.get_page(1)
+        except EmptyPage:
+            page_obj = paginator.get_page(paginator.num_pages)
+
         context = {
-            'products': products,
+            'product_list': product_list,
             'page_obj': page_obj,
         }
         return render(request, 'keyword_search.html', context=context)
@@ -70,53 +78,67 @@ def KeywordSearch(request):
         return makeListOrderbyKeyword('sensitivity')
     else:
         return makeListOrderbyKeyword('star')
-        
+
+
 def compareSearch(request):
-    temp = None
-    products = None
-    page_obj = None
-    first_page = True
+    
+    def updateReviewSummary():
+        """
+        이게 ReviewSummary 테이블을 UPDATE 하는 함수인데, 이걸 2-3일에 한번 하는 작업으로 바꿔야 함
+        """
+        entireTable = ReviewSummary.objects.all()
+        for record in entireTable:
+            productReviews = Review.objects.filter(product__id=record.product.id)
+            if productReviews:
+                record.absorbency_avg = Review.objects.filter(product__id=record.product.id).aggregate(avg=Avg('absorbency'))['avg']
+                record.anti_odour_avg = Review.objects.filter(product__id=record.product.id).aggregate(avg=Avg('anti_odour'))['avg']
+                record.comfort_avg = Review.objects.filter(product__id=record.product.id).aggregate(avg=Avg('comfort'))['avg']
+                record.sensitivity_avg = Review.objects.filter(product__id=record.product.id).aggregate(avg=Avg('sensitivity'))['avg']
+                record.save()
+            else:
+                pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
 
-    if 'q' in request.GET:
-        first_page = False
-        # products는 Review objects를 product로 group by 한 후 평균 리뷰를 매칭
-        products = Review.objects.values('product_id', 'product_id__category', \
-        'product_id__image', 'product_id__hashtag__name', 'product_id__name', 'product_id__price', \
-        'product_id__nature_friendly').annotate(Avg('absorbency'), Avg('anti_odour'), Avg('comfort'), \
-        Avg('sensitivity'))
+    
+    updateReviewSummary() # 우선 코드 동작을 보기 위해 임시로 넣어놓았음
 
-        query = request.GET.get('q')
-        if query in products.values_list('product_id__name', flat=True):
-            my_product = products.get(product_id__name=query)
-        else:
-            return render(request, 'compare_search.html', {'first_page':first_page})
-        
-        if 'low-priced' in request.GET: 
-            products = products.filter(product_id__price__lt=my_product['product_id__price'])
-        if 'nature-friendly' in request.GET:
-            products = products.filter(product_id__nature_friendly__gt=my_product['product_id__nature_friendly'])
-        if 'absorbent' in request.GET:
-            products = products.filter(absorbency__gt=my_product['absorbency__avg'])
-        if 'comfort' in request.GET:
-            products = products.filter(comfort__gt=my_product['comfort__avg'])
-        if 'anti-odour' in request.GET:
-            products = products.filter(anti_odour__gt=my_product['anti_odour__avg'])
-        if 'less-trouble' in request.GET:
-            products = products.filter(sensitivity__gt=my_product['sensitivity__avg'])
+    
+    ReviewSummary_list = ReviewSummary.objects.all()
 
-        str_id = []
-        for i in products:
-            str_id += str(i['product_id'])
-        temp = Product.objects.filter(id__in=str_id)
+    query = request.GET.get('q')    
+    if query:        
+        criterionProduct = Product.objects.get(name__icontains=query)
+        criterionReviewSummary = ReviewSummary.objects.get(product__id=criterionProduct.id)
+    else:
+        return render(request, 'compare_search.html') # 검색어가 없으면 그냥 초기화면 랜더링
 
-        paginator = Paginator(temp, 3)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+    compareCondition = request.GET.getlist('compareCondition')
+    for condition in compareCondition:
+        if condition == 'price':
+            ReviewSummary_list = ReviewSummary_list.filter(product__price__lt=criterionProduct.price)            
+        if condition == 'nature_friendly':
+            ReviewSummary_list = ReviewSummary_list.filter(product__nature_friendly__gt=criterionProduct.nature_friendly)
+        if condition == 'absorbency':            
+            ReviewSummary_list = ReviewSummary_list.filter(absorbency_avg__gt=criterionReviewSummary.absorbency_avg)            
+        if condition == 'comfort':
+            ReviewSummary_list = ReviewSummary_list.filter(comfort_avg__gt=criterionReviewSummary.comfort_avg)
+        if condition == 'anti_odour':
+            ReviewSummary_list = ReviewSummary_list.filter(anti_odour_avg__gt=criterionReviewSummary.anti_odour_avg)
+        if condition == 'sensitivity':
+            ReviewSummary_list = ReviewSummary_list.filter(sensitivity_avg__gt=criterionReviewSummary.sensitivity_avg)
+    
+    product_list = []
+    for reviewsummary in ReviewSummary_list:
+        product_list += Product.objects.filter(id=reviewsummary.product.id)
+    
+    print(product_list)
+    
+    paginator = Paginator(product_list, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        'products': temp,
+        'product_list': product_list,
         'page_obj': page_obj,
-        'first_page': first_page,
     }
 
     return render(request, 'compare_search.html', context=context)

@@ -13,6 +13,7 @@ class TimeStampedModel(models.Model):
     class Meta:
         abstract = True
 
+
 class Product(models.Model):
     objects = models.Manager()
     id = models.AutoField(primary_key=True)
@@ -23,13 +24,13 @@ class Product(models.Model):
     price = models.PositiveIntegerField()
     count = models.IntegerField()
     category = models.CharField(max_length=30) # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
-    hashtag = models.ForeignKey('Hastag', on_delete=models.SET_NULL, null=True)
+    hashtag = models.ForeignKey('Hashtag', on_delete=models.SET_NULL, null=True)
     nature_friendly = models.PositiveIntegerField()
     # ingredients = models.TextField() # 막대그래프나 선그래프로 표현될 것... # 삭제
-    nature_friendly = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
+
 
 class RankingBoard(models.Model):
     id = models.AutoField(primary_key=True)
@@ -42,8 +43,8 @@ class Review(TimeStampedModel):
     objects = models.Manager()
     id = models.AutoField(primary_key=True)
     image = models.ImageField(blank=True) 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    product_id = models.ForeignKey('Product', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
     title = models.CharField(max_length=30) # 제목
     content = models.TextField() # 설명란
     star = models.PositiveSmallIntegerField() # 별점
@@ -53,9 +54,17 @@ class Review(TimeStampedModel):
     sensitivity = models.PositiveSmallIntegerField() # 피부친화도
     
     
-class Hastag(models.Model):
+class Hashtag(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     
     def __str__(self):
         return self.name
+
+
+class ReviewSummary(models.Model):
+    product = models.OneToOneField('Product', on_delete=models.CASCADE)
+    absorbency_avg = models.FloatField(default=0)
+    anti_odour_avg = models.FloatField(default=0)
+    comfort_avg = models.FloatField(default=0)
+    sensitivity_avg = models.FloatField(default=0)
