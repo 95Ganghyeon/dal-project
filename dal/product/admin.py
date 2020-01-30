@@ -14,6 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductAdmin)
 
+
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('id','image','user','product','title','content','star','absorbency','anti_odour','comfort','sensitivity')
 

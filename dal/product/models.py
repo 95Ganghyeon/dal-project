@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from user.models import Profile
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -6,10 +7,11 @@ from django.utils import timezone
 
 # Create your models here.
 
+
 class TimeStampedModel(models.Model):
-    created = models.DateTimeField(auto_now_add=True, null=True) # 등록된 시간
-    updated = models.DateTimeField(auto_now=True) # 업데이트된 시간
-    
+    created = models.DateTimeField(auto_now_add=True, null=True)  # 등록된 시간
+    updated = models.DateTimeField(auto_now=True)  # 업데이트된 시간
+
     class Meta:
         abstract = True
 
@@ -18,8 +20,10 @@ class Product(models.Model):
     objects = models.Manager()
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    image = models.ImageField(blank=True) 
-    best_review = models.IntegerField()
+    image = models.ImageField(blank=True)
+    best_review = models.OneToOneField(
+        "Review", on_delete=models.SET_NULL, null=True, blank=True
+    )
     score = models.IntegerField()
     price = models.PositiveIntegerField()
     count = models.IntegerField()
@@ -31,14 +35,20 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def search_string(self):
+        return self.name.replace(" ", "")
+
+    def get_absolute_url(self):
+        return reverse("product-detail", args=[str(self.id)])
+
 
 class RankingBoard(models.Model):
     id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=4)
-    product_id = models.OneToOneField('Product', on_delete=models.SET_NULL, null=True)
+    product_id = models.OneToOneField("Product", on_delete=models.SET_NULL, null=True)
     ranking = models.PositiveSmallIntegerField()
-    
-    
+
+
 class Review(TimeStampedModel):
     objects = models.Manager()
     id = models.AutoField(primary_key=True)
@@ -57,7 +67,7 @@ class Review(TimeStampedModel):
 class Hashtag(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    
+
     def __str__(self):
         return self.name
 

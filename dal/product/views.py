@@ -64,18 +64,18 @@ def KeywordSearch(request):
             'product_list': product_list,
             'page_obj': page_obj,
         }
-        return render(request, 'keyword_search.html', context=context)
+        return render(request, "keyword_search.html", context=context)
 
-    if request.GET.get('keyword') == 'star':
-        return makeListOrderbyKeyword('star')
-    elif request.GET.get('keyword') == 'absorbency':
-        return makeListOrderbyKeyword('absorbency')
-    elif request.GET.get('keyword') == 'anti_odour':
-        return makeListOrderbyKeyword('anti_odour')
-    elif request.GET.get('keyword') == 'comfort':
-        return makeListOrderbyKeyword('comfort')
-    elif request.GET.get('keyword') == 'sensitivity':
-        return makeListOrderbyKeyword('sensitivity')
+    if request.GET.get("keyword") == "star":
+        return makeListOrderbyKeyword("star")
+    elif request.GET.get("keyword") == "absorbency":
+        return makeListOrderbyKeyword("absorbency")
+    elif request.GET.get("keyword") == "anti_odour":
+        return makeListOrderbyKeyword("anti_odour")
+    elif request.GET.get("keyword") == "comfort":
+        return makeListOrderbyKeyword("comfort")
+    elif request.GET.get("keyword") == "sensitivity":
+        return makeListOrderbyKeyword("sensitivity")
     else:
         return makeListOrderbyKeyword('star')
 
@@ -141,7 +141,5 @@ def compareSearch(request):
         'page_obj': page_obj,
     }
 
-    return render(request, 'compare_search.html', context=context)
-
-
+    return render(request, "compare_search.html", context=context)
 
