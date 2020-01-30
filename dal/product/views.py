@@ -17,7 +17,7 @@ class ProductDetail(generic.DetailView):
         return context
 
 
-def NormalSearch(request):
+def normalSearch(request):
     product_list = Product.objects.all()
     query = request.GET.get('q')
     if query:
@@ -41,7 +41,7 @@ def NormalSearch(request):
     return render(request, 'normal_search.html', context=context)
 
 
-def KeywordSearch(request):
+def keywordSearch(request):
     def makeListOrderbyKeyword(keyword):
         """
         html radio에서 사용자가 체크한 항목에 맞는 기준으로 Product를 정렬하여, 그 데이터를 바탕으로 랜더링 해주는 함수임
