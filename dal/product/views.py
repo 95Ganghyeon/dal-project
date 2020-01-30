@@ -47,9 +47,9 @@ def KeywordSearch(request):
         html radio에서 사용자가 체크한 항목에 맞는 기준으로 Product를 정렬하여, 그 데이터를 바탕으로 랜더링 해주는 함수임
         """
         product_list = []
-        review_list = Review.objects.values('product_id__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
+        review_list = Review.objects.values('product_fk__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
         for review in review_list:
-            product_list += Product.objects.filter(id=review['product_id__id'])            
+            product_list += Product.objects.filter(id=review['product_fk__id'])            
         
         paginator = Paginator(product_list, 3)
         page = request.GET.get('page')
@@ -88,12 +88,12 @@ def compareSearch(request):
         """
         entireTable = ReviewSummary.objects.all()
         for record in entireTable:
-            productReviews = Review.objects.filter(product__id=record.product.id)
+            productReviews = Review.objects.filter(product_fk__id=record.product_fk.id)
             if productReviews:
-                record.absorbency_avg = Review.objects.filter(product__id=record.product.id).aggregate(avg=Avg('absorbency'))['avg']
-                record.anti_odour_avg = Review.objects.filter(product__id=record.product.id).aggregate(avg=Avg('anti_odour'))['avg']
-                record.comfort_avg = Review.objects.filter(product__id=record.product.id).aggregate(avg=Avg('comfort'))['avg']
-                record.sensitivity_avg = Review.objects.filter(product__id=record.product.id).aggregate(avg=Avg('sensitivity'))['avg']
+                record.absorbency_avg = Review.objects.filter(product_fk__id=record.product_fk.id).aggregate(avg=Avg('absorbency'))['avg']
+                record.anti_odour_avg = Review.objects.filter(product_fk__id=record.product_fk.id).aggregate(avg=Avg('anti_odour'))['avg']
+                record.comfort_avg = Review.objects.filter(product_fk__id=record.product_fk.id).aggregate(avg=Avg('comfort'))['avg']
+                record.sensitivity_avg = Review.objects.filter(product_fk__id=record.product_fk.id).aggregate(avg=Avg('sensitivity'))['avg']
                 record.save()
             else:
                 pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
@@ -107,16 +107,18 @@ def compareSearch(request):
     query = request.GET.get('q')    
     if query:        
         criterionProduct = Product.objects.get(name__icontains=query)
-        criterionReviewSummary = ReviewSummary.objects.get(product__id=criterionProduct.id)
+        criterionReviewSummary = ReviewSummary.objects.get(product_fk__id=criterionProduct.id)
+        print(criterionProduct)
+        print(criterionReviewSummary)
     else:
         return render(request, 'compare_search.html') # 검색어가 없으면 그냥 초기화면 랜더링
 
     compareCondition = request.GET.getlist('compareCondition')
     for condition in compareCondition:
         if condition == 'price':
-            ReviewSummary_list = ReviewSummary_list.filter(product__price__lt=criterionProduct.price)            
+            ReviewSummary_list = ReviewSummary_list.filter(product_fk__price__lt=criterionProduct.price)            
         if condition == 'nature_friendly':
-            ReviewSummary_list = ReviewSummary_list.filter(product__nature_friendly__gt=criterionProduct.nature_friendly)
+            ReviewSummary_list = ReviewSummary_list.filter(product_fk__nature_friendly__gt=criterionProduct.nature_friendly)
         if condition == 'absorbency':            
             ReviewSummary_list = ReviewSummary_list.filter(absorbency_avg__gt=criterionReviewSummary.absorbency_avg)            
         if condition == 'comfort':
@@ -128,7 +130,7 @@ def compareSearch(request):
     
     product_list = []
     for reviewsummary in ReviewSummary_list:
-        product_list += Product.objects.filter(id=reviewsummary.product.id)
+        product_list += Product.objects.filter(id=reviewsummary.product_fk.id)
     
     print(product_list)
     

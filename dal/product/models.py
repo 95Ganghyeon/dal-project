@@ -21,14 +21,14 @@ class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     image = models.ImageField(blank=True)
-    best_review = models.OneToOneField(
+    best_review_fk = models.OneToOneField(
         "Review", on_delete=models.SET_NULL, null=True, blank=True
     )
     score = models.IntegerField()
     price = models.PositiveIntegerField()
     count = models.IntegerField()
     category = models.CharField(max_length=30) # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
-    hashtag = models.ForeignKey('Hashtag', on_delete=models.SET_NULL, null=True)
+    hashtag_fk = models.ForeignKey('Hashtag', on_delete=models.SET_NULL, null=True)
     nature_friendly = models.PositiveIntegerField()
     # ingredients = models.TextField() # 막대그래프나 선그래프로 표현될 것... # 삭제
 
@@ -45,7 +45,7 @@ class Product(models.Model):
 class RankingBoard(models.Model):
     id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=4)
-    product_id = models.OneToOneField("Product", on_delete=models.SET_NULL, null=True)
+    product_fk = models.OneToOneField("Product", on_delete=models.SET_NULL, null=True)
     ranking = models.PositiveSmallIntegerField()
 
 
@@ -53,8 +53,8 @@ class Review(TimeStampedModel):
     objects = models.Manager()
     id = models.AutoField(primary_key=True)
     image = models.ImageField(blank=True) 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    user_fk = models.ForeignKey(User, on_delete=models.CASCADE)
+    product_fk = models.ForeignKey('Product', on_delete=models.CASCADE)
     title = models.CharField(max_length=30) # 제목
     content = models.TextField() # 설명란
     star = models.PositiveSmallIntegerField() # 별점
@@ -73,7 +73,7 @@ class Hashtag(models.Model):
 
 
 class ReviewSummary(models.Model):
-    product = models.OneToOneField('Product', on_delete=models.CASCADE)
+    product_fk = models.OneToOneField('Product', on_delete=models.CASCADE)
     absorbency_avg = models.FloatField(default=0)
     anti_odour_avg = models.FloatField(default=0)
     comfort_avg = models.FloatField(default=0)
