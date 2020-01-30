@@ -7,25 +7,26 @@
 </div>
 
 <div>
-    <form action="{% url 'CompareSearch' %}" method="GET">
+    <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm">
         <div>
             <input type="text" name="q" placeholder="{{user.best_pad}}"/>
+            <input type="hidden" name="compareConditionList" value=""/> 
             <br/>
         </div>
         보다
         <div>        
             <div>
-                <input type="checkbox" name="compareCondition" value="price">저렴한
-                <input type="checkbox" name="compareCondition" value="absorbency">흡수력 좋은
-                <input type="checkbox" name="compareCondition" value="comfort">촉감/착용감 좋은
-                <input type="checkbox" name="compareCondition" value="nature_friendly">자연유래정도 높은
-                <input type="checkbox" name="compareCondition" value="anti_odour">탈취성 좋은
-                <input type="checkbox" name="compareCondition" value="sensitivity">피부 트러블 덜 나는
+                <input type="checkbox" value="price">저렴한
+                <input type="checkbox" value="absorbency">흡수력 좋은
+                <input type="checkbox" value="comfort">촉감/착용감 좋은
+                <input type="checkbox" value="nature_friendly">자연유래정도 높은
+                <input type="checkbox" value="anti_odour">탈취성 좋은
+                <input type="checkbox" value="sensitivity">피부 트러블 덜 나는
             </div>
         </div>
         제품 찾아주세요
-        <input type="submit" value="검색"/>
-    </form>
+        <input type="button" value="검색" id="compareSearchBtn"/>
+    </form>    
 </div>
 
 <div>
@@ -45,7 +46,7 @@
                 <h2>{{ product.name }}</h2>
                 <h3>{{ product.category }}</h3>
             </a>
-        <li/>
+        </li>
         {% endfor %}
     </ul>
 
@@ -55,8 +56,8 @@
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
+            <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
         {% endif %}
 
         <span class="current">
@@ -64,11 +65,35 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
         {% endif %}
     </span>
 </div>
 {% comment %} pagination {% endcomment %}
 
+
+<script type="text/javascript">
+    window.onload = function(){        
+        document.getElementById('compareSearchBtn').onclick = function(){
+            var form = document.getElementById('compareSearchForm');
+            var checkList = document.querySelectorAll("input[type='checkbox']:checked");
+            var checkListStr = "";
+
+            if( checkList.length > 0 ){                
+                checkList.forEach(function(ele){
+                    checkListStr += ele.value + ",";
+                });
+                checkListStr = checkListStr.substring(0, checkListStr.length - 1);
+            }
+
+            form.compareConditionList.value = checkListStr;
+            form.submit();     
+        }
+    }
+</script>
+
 {% endblock %}
+
+
+

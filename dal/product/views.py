@@ -98,22 +98,25 @@ def compareSearch(request):
             else:
                 pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
 
-    
     updateReviewSummary() # 우선 코드 동작을 보기 위해 임시로 넣어놓았음
 
     
-    ReviewSummary_list = ReviewSummary.objects.all()
 
+    ReviewSummary_list = ReviewSummary.objects.all()
     query = request.GET.get('q')    
     if query:        
         criterionProduct = Product.objects.get(name__icontains=query)
         criterionReviewSummary = ReviewSummary.objects.get(product_fk__id=criterionProduct.id)
-        print(criterionProduct)
-        print(criterionReviewSummary)
     else:
         return render(request, 'compare_search.html') # 검색어가 없으면 그냥 초기화면 랜더링
 
-    compareCondition = request.GET.getlist('compareCondition')
+    # compareCondition = request.GET.getlist('compareCondition')
+    compareCondition = request.GET.get('compareConditionList')
+    compareCondition = compareCondition.split(',')
+    print(compareCondition)
+    
+    
+    
     for condition in compareCondition:
         if condition == 'price':
             ReviewSummary_list = ReviewSummary_list.filter(product_fk__price__lt=criterionProduct.price)            
@@ -131,9 +134,8 @@ def compareSearch(request):
     product_list = []
     for reviewsummary in ReviewSummary_list:
         product_list += Product.objects.filter(id=reviewsummary.product_fk.id)
-    
-    print(product_list)
-    
+        
+
     paginator = Paginator(product_list, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
