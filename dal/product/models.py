@@ -33,7 +33,6 @@ class Product(models.Model):
     hashtag = models.ForeignKey("Hastag", on_delete=models.SET_NULL, null=True)
     nature_friendly = models.PositiveIntegerField()
     # ingredients = models.TextField() # 막대그래프나 선그래프로 표현될 것... # 삭제
-<<<<<<< HEAD
 
     def __str__(self):
         return self.name
@@ -44,12 +43,6 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("product-detail", args=[str(self.id)])
 
-=======
-    nature_friendly = models.PositiveIntegerField()
-
-    def __str__(self):
-        return self.name
->>>>>>> 0862f76261cb56993587e2162bd7d1c0c7e40e09
 
 class RankingBoard(models.Model):
     id = models.AutoField(primary_key=True)
