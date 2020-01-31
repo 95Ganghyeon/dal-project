@@ -35,41 +35,37 @@
     </div>
     <div id="tab3" class="">
         <div>
-            BEST REVIEW
-            <div>
-                <div>
-                    {{review.star}}
-                    <br/>
-                    {{review.user_id}} / {{review.age}}
-                    <!--{{review.등록일자}}-->
-                </div>
-                <div>
-                    {{review.title}}
-                    {{review.content}}
-                </div>
-            </div>
-        </div>
-        
-        <ul>
-            {% for review in 리스트 %}
-            <li>
-                <div>
+            BEST REVIEW 
+            {% for review in product.review_set.all %}
+                {% if review.id == product.best_review.id %}   
                     <div>
-                        {{review.star}}
-                        <button></button>
-                        <!--{{user.id}}/{{user.age}}/{{user.gender}}-->
-                        <!--{{review.등록일자}}-->
+                        <div>
+                            {{review.star}} 얘는 베스트 리뷰얌
+                            <br/>
+                            {{review.user_id.username}} {{review.user_id.profile.sex}} / {{review.user_id.profile.age}}살
+                            {{review.created}} 
+                        </div>
+                        <div>
+                            {{review.title}}
+                            {{review.content}}
+                        </div>
                     </div>
+                {% else %}
                     <div>
-                        {{review.title}}
-                        {{review.content}}
+                        <div>
+                            {{review.star}}
+                            <br/>
+                            {{review.user_id.username}} {{review.user_id.profile.sex}} / {{review.user_id.profile.age}}살
+                            {{review.created}}
+                        </div>
+                        <div>
+                            {{review.title}}
+                            {{review.content}}
+                        </div>
                     </div>
-                </div>
-            </li>
+                {% endif %}       
             {% endfor %}
-        </ul>
+        </div>
     </div>
 </div>
-
-
 {% endblock %}

@@ -2,8 +2,8 @@ from django.urls import path
 from product import views
 
 urlpatterns = [
-    path('', views.ProductDetail, name='ProductDetail'),  
-    path('search/', views.search_list, name='SearchList'),
-    path('keywordsearch/', views.KeywordSearch, name='KeywordSearch'),
-    path('comparesearch/', views.compareSearch, name='compareSearch'),
+    path("<int:pk>", views.ProductDetail.as_view(), name="ProductDetail"),
+    path('normalsearch/', views.normalSearch, name='NormalSearch'),
+    path('keywordsearch/', views.keywordSearch, name='KeywordSearch'),
+    path('comparesearch/', views.compareSearch, name='CompareSearch'),
 ]
