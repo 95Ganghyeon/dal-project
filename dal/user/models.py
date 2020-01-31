@@ -10,14 +10,14 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=20, unique = True, )
     birth_date = models.DateField()
     
-    SEX_CHOICES= [
-        ('MALE','M'),
-        ('FEMALE','F'),
-    ]
+    # SEX_CHOICES= [
+    #     ('MALE','M'),
+    #     ('FEMALE','F'),
+    # ]
     
-    sex = models.CharField(choices = SEX_CHOICES,max_length=6)
+    # sex = models.CharField(choices = SEX_CHOICES,max_length=6)
     m_type = models.CharField(null = True, blank=True,max_length=6)
-    survey_id = models.OneToOneField(Survey,on_delete=models.CASCADE)
+    survey_id = models.OneToOneField(Survey,on_delete=models.CASCADE,null = True, blank=True)
 
 class Meta:
     db_table = 'account_profile'
