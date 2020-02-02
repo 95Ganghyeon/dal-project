@@ -29,6 +29,7 @@
     </form>    
 </div>
 
+{% if first_page == False %}
 <div>
     <p>총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
     <hr/> 
@@ -41,10 +42,10 @@
     <ul>
         {% for product in page_obj %}
         <li>
-            <img src="{{product.image.url}}" alt="제품 이미지"/>
-                <p>{{ product.hashtag }}</p>
-                <h2>{{ product.name }}</h2>
-                <h3>{{ product.category }}</h3>
+            <img src="{{product.product_fk.image.url}}" alt="제품 이미지"/>
+                <p>{{ product.product_fk.hashtag_fk.name }}</p>
+                <h2>{{ product.product_fk.name }}</h2>
+                <h3>{{ product.product_fk.category }}</h3>
             </a>
         </li>
         {% endfor %}
@@ -71,7 +72,9 @@
     </span>
 </div>
 {% comment %} pagination {% endcomment %}
-
+{% else %}
+<p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
+{% endif %}
 
 <script type="text/javascript">
     window.onload = function(){        
