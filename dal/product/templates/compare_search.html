@@ -30,50 +30,52 @@
 </div>
 
 {% if first_page == False %}
-<div>
-    <p>총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
-    <hr/> 
-    <select>
-        <option value="">정확도순</option>
-    </select>
-</div>
-    
-<div>
-    <ul>
-        {% for product in page_obj %}
-        <li>
-            <img src="{{product.product_fk.image.url}}" alt="제품 이미지"/>
-                <p>{{ product.product_fk.hashtag_fk.name }}</p>
-                <h2>{{ product.product_fk.name }}</h2>
-                <h3>{{ product.product_fk.category }}</h3>
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
+    {% if searchSuccessBool == True %}
+        <div>
+            <p>총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
+            <hr/> 
+            <select>
+                <option value="">정확도순</option>
+            </select>
+        </div>
+            
+        <div>
+            <ul>
+                {% for product in page_obj %}
+                <li>
+                    <img src="{{product.product_fk.image.url}}" alt="제품 이미지"/>
+                        <p>{{ product.product_fk.hashtag_fk.name }}</p>
+                        <h2>{{ product.product_fk.name }}</h2>
+                        <h3>{{ product.product_fk.category }}</h3>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
 
-</div>
+        </div>
 
-{% comment %} pagination {% endcomment %}
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
-        {% endif %}
+        {% comment %} pagination {% endcomment %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
+                {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
-{% comment %} pagination {% endcomment %}
-{% else %}
-<p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        {% comment %} pagination {% endcomment %}
+    {% else %}
+        <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
+    {% endif %}    
 {% endif %}
 
 <script type="text/javascript">
