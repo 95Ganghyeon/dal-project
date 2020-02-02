@@ -39,13 +39,26 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'survey.apps.SurveyConfig',
     'product.apps.ProductConfig',
-    'user.apps.UserConfig',
-    #all-auth
+    'user.apps.UserConfig',    
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.naver',
+    'sass_processor',
+]
+
+#sass_processor
+SASS_ROOT = os.path.join(BASE_DIR, 'static')
+SASS_PROCESSOR_ENABLED = True
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
+SASS_PRECISION = 8
+SASS_OUTPUT_STYLE = 'compact'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
 ]
 
 #all-auth
@@ -59,6 +72,8 @@ ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 SOCIALACCOUNT_AUTO_SIGNUP = False
 ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
+
+
 
 
 MIDDLEWARE = [

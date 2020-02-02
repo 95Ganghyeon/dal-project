@@ -43,10 +43,9 @@
         {% for product in page_obj %}
         <li>
             <img src="{{product.product_fk.image.url}}" alt="제품 이미지"/>
-                <p>{{ product.product_fk.hashtag_fk.name }}</p>
-                <h2>{{ product.product_fk.name }}</h2>
-                <h3>{{ product.product_fk.category }}</h3>
-            </a>
+            <p>{{ product.product_fk.hashtag_fk.name }}</p>
+            <h2>{{ product.product_fk.name }}</h2>
+            <h3>{{ product.product_fk.category }}</h3>            
         </li>
         {% empty %}
         <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
@@ -88,6 +87,18 @@
                     checkListStr += ele.value + ",";
                 });
                 checkListStr = checkListStr.substring(0, checkListStr.length - 1);
+            }
+
+            // 유효성 체크
+            if(form.q.value == ''){
+                alert("검색어를 입력해주세요");
+                form.q.focus();
+                return;
+            }
+
+            if(checkListStr == ''){
+                alert("비교조건을 선택해주세요");
+                return;
             }
 
             form.compareConditionList.value = checkListStr;
