@@ -24,7 +24,6 @@ class Product(models.Model):
     best_review_fk = models.OneToOneField(
         "Review", on_delete=models.SET_NULL, null=True, blank=True
     )
-    score = models.IntegerField()
     price = models.PositiveIntegerField()
     count = models.IntegerField()
     category = models.CharField(max_length=30) # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
@@ -74,6 +73,7 @@ class Hashtag(models.Model):
 
 class ReviewSummary(models.Model):
     product_fk = models.OneToOneField('Product', on_delete=models.CASCADE)
+    total_score = models.FloatField(default=0) # Review 모델의 star 필드로 계산되는 제품 평점
     absorbency_avg = models.FloatField(default=0)
     anti_odour_avg = models.FloatField(default=0)
     comfort_avg = models.FloatField(default=0)
