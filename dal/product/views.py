@@ -100,25 +100,22 @@ def keywordSearch(request):
 
 
 def compareSearch(request):
-
     first_page = True
-
+    ReviewSummary_list = None
+    criterionReviewSummary = None
+    page_obj = None
     
-    if 'q' in request.GET:     
-        first_page = False                
+    if 'q' in request.GET:
+        first_page = False
         query = request.GET.get('q')   
-         
-        if query == "" or query not in ReviewSummary.objects.values_list('product_fk__name', flat=True):
+        ReviewSummary_list = ReviewSummary.objects.all()
+        if query == "" or query not in ReviewSummary_list.values_list('product_fk__name', flat=True):
             return render(request, 'compare_search.html', {'first_page': first_page, 'searchedWord': query}) 
             # ''에 해당하는 검색결과가 없습니다.
         else:
-            criterionReviewSummary = ReviewSummary.objects.get(product_fk__name=query)
-
-            ReviewSummary_list = ReviewSummary.objects.all()
-
+            criterionReviewSummary = ReviewSummary_list.get(product_fk__name=query)
             compareCondition = request.GET.get('compareConditionList')
             compareCondition = compareCondition.split(',')
-            print(compareCondition)
             
             for condition in compareCondition:
                 if condition == 'price':
@@ -134,18 +131,15 @@ def compareSearch(request):
                 if condition == 'sensitivity':
                     ReviewSummary_list = ReviewSummary_list.filter(sensitivity_avg__gt=criterionReviewSummary.sensitivity_avg)
 
-
             paginator = Paginator(ReviewSummary_list, 3)
             page_number = request.GET.get('page')
             page_obj = paginator.get_page(page_number)
 
-            context = {
-                'first_page': first_page,
-                'product_list': ReviewSummary_list,
-                'page_obj': page_obj,
-            }
+    context = {
+        'first_page': first_page,
+        'product_list': ReviewSummary_list,
+        'page_obj': page_obj,
+    }
 
-            return render(request, "compare_search.html", context=context)
-    else:
-        return render(request, "compare_search.html")
+    return render(request, "compare_search.html", context=context)
 

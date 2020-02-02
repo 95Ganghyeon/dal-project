@@ -48,6 +48,8 @@
                 <h3>{{ product.product_fk.category }}</h3>
             </a>
         </li>
+        {% empty %}
+        <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
         {% endfor %}
     </ul>
 
@@ -72,8 +74,6 @@
     </span>
 </div>
 {% comment %} pagination {% endcomment %}
-{% else %}
-<p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
 {% endif %}
 
 <script type="text/javascript">
