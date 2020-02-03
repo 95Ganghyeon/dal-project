@@ -22,7 +22,7 @@
         <ul>
         {% for product in page_obj %}
             <li>
-                <div>
+                <div onclick="location.href='{{product.get_absolute_url}}'">
                     <img src="{{ product.image.url }}" alt="제품 이미지">
                     <p>{{ product.hashtag }}</p>
                     <h2>{{ product.name }}</h2>

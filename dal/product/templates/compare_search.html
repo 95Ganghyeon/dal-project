@@ -40,19 +40,19 @@
     
 <div>
     <ul>
-        {% for product in page_obj %}
+        {% for reviewSummary in page_obj %}
         <li>
-            <img src="{{product.product_fk.image.url}}" alt="제품 이미지"/>
-            <p>{{ product.product_fk.hashtag_fk.name }}</p>
-            <h2>{{ product.product_fk.name }}</h2>
-            <h3>{{ product.product_fk.category }}</h3>            
+            <div onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
+                <img src="{{reviewSummary.product_fk.image.url}}" alt="제품 이미지"/>
+                <p>{{ reviewSummary.product_fk.hashtag_fk.name }}</p>
+                <h2>{{ reviewSummary.product_fk.name }}</h2>
+                <h3>{{ reviewSummary.product_fk.category }}</h3>            
+            </div>
         </li>
         {% empty %}
         <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
         {% endfor %}
     </ul>
-
-        </div>
 
         {% comment %} pagination {% endcomment %}
         <div class="pagination">

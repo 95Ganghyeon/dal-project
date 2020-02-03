@@ -38,7 +38,7 @@ class Product(models.Model):
         return self.name.replace(" ", "")
 
     def get_absolute_url(self):
-        return reverse("product-detail", args=[str(self.id)])
+        return reverse("ProductDetail", args=[str(self.id)])
 
 
 class RankingBoard(models.Model):
@@ -49,18 +49,28 @@ class RankingBoard(models.Model):
 
 
 class Review(TimeStampedModel):
-    objects = models.Manager()
     id = models.AutoField(primary_key=True)
     image = models.ImageField(blank=True) 
     user_fk = models.ForeignKey(User, on_delete=models.CASCADE)
     product_fk = models.ForeignKey('Product', on_delete=models.CASCADE)
-    title = models.CharField(max_length=30) # 제목
     content = models.TextField() # 설명란
     star = models.PositiveSmallIntegerField() # 별점
     absorbency = models.PositiveSmallIntegerField() # 흡수력
     anti_odour = models.PositiveSmallIntegerField() # 탈취성
-    comfort = models.PositiveSmallIntegerField() # 촉감/착용감
     sensitivity = models.PositiveSmallIntegerField() # 피부친화도
+    comfort = models.PositiveSmallIntegerField() # 촉감/착용감
+
+    def star_Str(self):
+        if self.star == 1:
+            return "최악"
+        elif self.star == 2:
+            return "별로"
+        elif self.star == 3:
+            return "나름"
+        elif self.star == 4:
+            return "오오"
+        elif self.star == 5:
+            return "대박"
     
     
 class Hashtag(models.Model):

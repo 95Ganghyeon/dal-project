@@ -6,10 +6,11 @@
         <img src="{{product.image.url}}" alt=""/>
     </div>
     <div>
+        {{product.name}}<br/>
+        - 정가 {{product.price}} / {{product.count}}개입<br/>
         {{product.hashtag}}
-        {{product}}
+        
         {{product.score}}
-        정가 {{product.price}} / {{product.count}}개입
     </div>
     <div>
         <button type="button">비교함 담기</button>
@@ -22,50 +23,53 @@
     <div>
         <ul>
             <li class="" data-tab="tab1">제품정보</li>
+                <div id="tab1" class="">
+                    여기는 '제품정보' 탭 // 지마켓처럼 제품 소개 이미지 통짜로 박을 것임<hr/>
+                </div>
+            </li>
             <li class="" data-tab="tab2">성분정보</li>
+                <div id="tab2" class="">
+                    여기는 '성분정보' 탭 // 생리대 구조 그래프와 성분 기재 + 자연 유래도 퍼센트와 그래프 포함<hr/>
+                </div>
+            </li>
             <li class="" data-tab="tab3">리뷰({{product}})</li>
+                <div id="tab3" class="">
+                    <div>
+                        BEST REVIEW
+                        <div>
+                            {{bestReview.star_Str}}
+                            {{bestReview.user_fk.username}} / {{bestReview.user_fk.profile.age}}세 / 여성
+                            {{bestReview.created}}
+                            {{bestReview.content}}
+                        </div>
+                    </div>
+
+                    <div>
+                        REVIEW
+                        <ul>
+                            {% for review in review_list %}
+                            <li>
+                                <div>
+                                    {{review.star_Str}}
+                                    {{review.user_fk.username}} / {{review.user_fk.age}}세 / 여성
+                                    {{review.created}}
+                                    {{review.content}}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>        
+                </div>
+            </li>            
         </ul>
     </div>
-    
-    <div id="tab1" class="">
-        여기는 '제품정보' 탭 // 아직 디자인 안나옴
-    </div>
-    <div id="tab2" class="">
-        여기는 '성분정보' 탭 // 아직 디자인 안나옴
-    </div>
-    <div id="tab3" class="">
-        <div>
-            BEST REVIEW 
-            {% for review in product.review_set.all %}
-                {% if review.id == product.best_review.id %}   
-                    <div>
-                        <div>
-                            {{review.star}} 얘는 베스트 리뷰얌
-                            <br/>
-                            {{review.user_id.username}} {{review.user_id.profile.sex}} / {{review.user_id.profile.age}}살
-                            {{review.created}} 
-                        </div>
-                        <div>
-                            {{review.title}}
-                            {{review.content}}
-                        </div>
-                    </div>
-                {% else %}
-                    <div>
-                        <div>
-                            {{review.star}}
-                            <br/>
-                            {{review.user_id.username}} {{review.user_id.profile.sex}} / {{review.user_id.profile.age}}살
-                            {{review.created}}
-                        </div>
-                        <div>
-                            {{review.title}}
-                            {{review.content}}
-                        </div>
-                    </div>
-                {% endif %}       
-            {% endfor %}
-        </div>
-    </div>
+</div>
+
+<div>
+    <form action="", method="POST">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input type="submit" value="제출">
+    </form>
 </div>
 {% endblock %}
