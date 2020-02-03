@@ -117,19 +117,18 @@ def compareSearch(request):
             compareCondition = request.GET.get('compareConditionList')
             compareCondition = compareCondition.split(',')
             
-            for condition in compareCondition:
-                if condition == 'price':
-                    ReviewSummary_list = ReviewSummary_list.filter(product_fk__price__lt=criterionReviewSummary.product_fk.price)
-                if condition == 'nature_friendly':
-                    ReviewSummary_list = ReviewSummary_list.filter(product_fk__nature_friendly__gt=criterionReviewSummary.product_fk.nature_friendly)
-                if condition == 'absorbency':            
-                    ReviewSummary_list = ReviewSummary_list.filter(absorbency_avg__gt=criterionReviewSummary.absorbency_avg)            
-                if condition == 'comfort':
-                    ReviewSummary_list = ReviewSummary_list.filter(comfort_avg__gt=criterionReviewSummary.comfort_avg)
-                if condition == 'anti_odour':
-                    ReviewSummary_list = ReviewSummary_list.filter(anti_odour_avg__gt=criterionReviewSummary.anti_odour_avg)
-                if condition == 'sensitivity':
-                    ReviewSummary_list = ReviewSummary_list.filter(sensitivity_avg__gt=criterionReviewSummary.sensitivity_avg)
+            if 'price' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(product_fk__price__lt=criterionReviewSummary.product_fk.price)
+            if 'nature_friendly' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(product_fk__nature_friendly__gt=criterionReviewSummary.product_fk.nature_friendly)
+            if 'absorbency' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(absorbency_avg__gt=criterionReviewSummary.absorbency_avg)
+            if 'comfort' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(comfort_avg__gt=criterionReviewSummary.comfort_avg)
+            if 'anti_odour' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(anti_odour_avg__gt=criterionReviewSummary.anti_odour_avg)
+            if 'sensitivity' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(sensitivity_avg__gt=criterionReviewSummary.sensitivity_avg)
 
             paginator = Paginator(ReviewSummary_list, 3)
             page_number = request.GET.get('page')
