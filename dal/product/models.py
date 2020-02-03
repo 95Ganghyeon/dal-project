@@ -54,7 +54,6 @@ class Review(TimeStampedModel):
     image = models.ImageField(blank=True) 
     user_fk = models.ForeignKey(User, on_delete=models.CASCADE)
     product_fk = models.ForeignKey('Product', on_delete=models.CASCADE)
-    title = models.CharField(max_length=30) # 제목
     content = models.TextField() # 설명란
     star = models.PositiveSmallIntegerField() # 별점
     absorbency = models.PositiveSmallIntegerField() # 흡수력
