@@ -4,12 +4,32 @@
 <head>
     {% block title %}<title>DAL</title>{% endblock %}
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+<<<<<<< HEAD
     <script rel="javascript" href="{% static 'js/common.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/styles.scss' %}">
+=======
+    <meta name="description" content="">
+    <!-- load css/stylesheet -->
+>>>>>>> 1fe25b6818d1dba3ac5198b3ff71def2b9cc6b8d
     
-    {% comment %} boostrap {% endcomment %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.3.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
+    
+    <link rel="stylesheet" href="{% static 'css/fonts.css'%}">
+    <link rel="stylesheet" href="{% static 'css/animate.css'%}">
+    <link rel="stylesheet" href="{% static 'css/slick.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <link rel="stylesheet" href="{% static 'css/color/color.css'%}">
+
+    <!-- include jQuery -->
+    <script src="{% static 'js/jquery-1.11.3.min.js'%}"></script>
+    <!-- include jQuery -->
+    <script src="{% static 'js/plugins.js'%}"></script>
+    <!-- include jQuery -->
+    <script src="{% static 'js/jquery.main.js'%}"></script>
+
 </head>
 <body>
     {% block navbar %}
@@ -25,6 +45,51 @@
         </li>
     {% endblock %}
     
-    {% block content %}{% endblock %}    
+    {% block content %}{% endblock %}
+
+    {% block footer %}
+    <!-- footer of the Page -->
+    <footer id="footer" class="wow fadeInUp" data-wow-delay="0.4s">
+      <span class="free-ship">FREE SHIPPING</span>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4 col-lg-4 txt-holder">
+            <div class="footer-logo">
+              <a href="index.html">jewelry</a>
+            </div>
+            <p>Pharetra, erat sed fermentum<br> feugiat, velit mauris egestas<br> quam. </p>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-lg-3">
+            <h3>contact us</h3>
+            <!-- Contact of the page -->
+            <ul class="list-unstyled contact-info">
+              <li><i class="icon icon-location"></i><address>Limited. 222-UTC , EU .</address></li>
+              <li><i class="icon icon-email"></i><a class="txt" href="#">Support@emtheme.com</a></li>
+              <li><i class="icon icon-phone"></i><a class="txt" href="#">(00)-213 1234567</a></li>
+              <li><i class="icon icon-printer"></i><a class="txt" href="#">(00)-213 1879017</a></li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-lg-5">
+            <h3>intagram feed</h3>
+            <!-- Instagram of the page -->
+            <ul class="list-unstyled instagram-list">
+              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
+              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
+              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
+              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
+              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
+              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
+              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
+              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <span class="support">24H SUPPORT</span>
+    </footer>
+    <!-- Back Top of the page -->
+    <span id="back-top" class="arrow_carrot-up"></span>
+    {% endblock footer %}
+    
 </body>
 </html>
