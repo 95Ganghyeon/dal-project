@@ -3,3 +3,4 @@ __pycache__
 Pipfile
 Pipfile.lock
 .python-version
+nohup.out
