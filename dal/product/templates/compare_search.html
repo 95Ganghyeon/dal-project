@@ -102,64 +102,42 @@
     {% endif %}
 </div>
 
-
-
-        {% comment %} pagination {% endcomment %}
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
-        {% endif %}
-    </span>
-
-
-
 <script type="text/javascript">
     window.onload = function(){        
-        document.getElementById('compareSearchForm').addEventListener('submit', function(){
-            compareSearchFormValidation();
-        });
+    document.getElementById('compareSearchForm').addEventListener('submit', function(){
+        compareSearchFormValidation();
+    });
     }
-
+    
     function compareSearchFormValidation(){
-        var form = document.getElementById('compareSearchForm');
-        var checkList = document.querySelectorAll("input[type='checkbox']:checked");
-        var checkListStr = "";
-
-        if( checkList.length > 0 ){                
-            checkList.forEach(function(ele){
-                checkListStr += ele.value + ",";
-            });
-            checkListStr = checkListStr.substring(0, checkListStr.length - 1);
-        }
-
-        // 유효성 체크
-        if(form.q.value == ''){
-            alert("검색어를 입력해주세요");
-            form.q.focus();
-            return;
-        }
-
-        if(checkListStr == ''){
-            alert("비교조건을 선택해주세요");
-            return;
-        }
-
-        form.compareConditionList.value = checkListStr;
-        form.submit();
+    var form = document.getElementById('compareSearchForm');
+    var checkList = document.querySelectorAll("input[type='checkbox']:checked");
+    var checkListStr = "";
+    
+    if( checkList.length > 0 ){                
+        checkList.forEach(function(ele){
+            checkListStr += ele.value + ",";
+        });
+        checkListStr = checkListStr.substring(0, checkListStr.length - 1);
+    }
+    
+    // 유효성 체크
+    if(form.q.value == ''){
+        alert("검색어를 입력해주세요");
+        form.q.focus();
+        return;
+    }
+    
+    if(checkListStr == ''){
+        alert("비교조건을 선택해주세요");
+        return;
+    }
+    
+    form.compareConditionList.value = checkListStr;
+    form.submit();
     }
 </script>
-
+    
 {% endblock %}
 
 
