@@ -1,6 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+
+{% comment %} 상단에 기본적으로 출력되는 상품에 대한 간단한 정보 {% endcomment %}
 <div>
     <div>
         <img src="{{product.image.url}}" alt=""/>
@@ -19,6 +21,7 @@
     </div>
 </div>
 
+{% comment %} 3개의 탭으로 구성되어서 '제품정보' '성분정보' '리뷰' 탭을 CSS 등으로 표현해줄 부분 {% endcomment %}
 <div>
     <div>
         <ul>
@@ -66,6 +69,7 @@
 
 </div>
 
+{% comment %} '리뷰 남기러 가기'를 클릭하면 CSS로 가려져 있다가 보일 창 {% endcomment %}
 <div>
     <form action="", method="POST">
         {% csrf_token %}

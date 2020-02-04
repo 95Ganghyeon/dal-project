@@ -1,9 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, resolve_url
 from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg, Q
 from django.views import generic
 from product.models import *
 from product.forms import GetReviewResponseForm
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -25,31 +27,34 @@ def updateReviewSummary():
         else:
             pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
 
-
+# @login_required
 def productDetail(request, pk):
     if request.method == 'POST':
         get_form = GetReviewResponseForm(request.POST)
 
-        if get_form.is_valid():
-            q1 = int(get_form.cleaned_data['star_score'])
-            q2 = int(get_form.cleaned_data['absorbency_score'])
-            q3 = int(get_form.cleaned_data['anti_odour_score'])
-            q4 = int(get_form.cleaned_data['sensitivity_score'])
-            q5 = int(get_form.cleaned_data['comfort_score'])
+        # if get_form.is_valid():
+            
+
+
+
+            # q1 = int(get_form.cleaned_data['star_score'])
+            # q2 = int(get_form.cleaned_data['absorbency_score'])
+            # q3 = int(get_form.cleaned_data['anti_odour_score'])
+            # q4 = int(get_form.cleaned_data['sensitivity_score'])
+            # q5 = int(get_form.cleaned_data['comfort_score'])
             # content = 
 
             # review_result = Review.objects.create(user_fk = , product_fk = get_object_or_404(Product, id=pk), )
-            # user athentication이 되어있어야 user_fk 값을 넣을 수 있음.
-
-
-
+            # user athentication이 되어있어야 user_fk 값을 넣을 수 있음.        
     else:
+
         product = get_object_or_404(Product, id=pk)
         bestReview = product.best_review_fk # type(리뷰 오브젝트 한개)
         review_list = Review.objects.filter(product_fk = product)   
 
-        # form = GetReviewResponseForm()
+        # form = GetReviewResponseForm(request)
         context = {
+            'product': product,
             'bestReview': bestReview,
             'review_list': review_list,
             # 'form': form,

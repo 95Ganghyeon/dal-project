@@ -2,6 +2,7 @@
 
 
 {% block content %}
+    
     <div>
         <h1>키워드 검색</h1>
         <form action="{% url 'KeywordSearch' %}" method="GET">
@@ -32,6 +33,7 @@
         {% endfor %}
         </ul>
     </div>
+    
     {% comment %} pagination {% endcomment %}
     <div class="pagination">
         <span class="step-links">
@@ -50,5 +52,5 @@
             {% endif %}
         </span>
     </div>
-    {% comment %} pagination {% endcomment %}
+    
 {% endblock %}

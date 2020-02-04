@@ -1,7 +1,17 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from .models import Review
 
 
+class GetReviewResponseForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['star', 'absorbency', 'anti_odour', 'sensitivity', 'comfort', 'product_fk', 'user_fk']
+        # widgets = 
+
+
+
+"""
 class GetReviewResponseForm(forms.Form):
     # 종합평가
     STAR_SCORE = [
@@ -91,3 +101,4 @@ class GetReviewResponseForm(forms.Form):
         label="촉감/착용감",
         required=True
     )
+"""

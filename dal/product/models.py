@@ -3,7 +3,7 @@ from django.urls import reverse
 from user.models import Profile
 from django.contrib.auth.models import User
 from django.utils import timezone
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -21,9 +21,7 @@ class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     image = models.ImageField(blank=True)
-    best_review_fk = models.OneToOneField(
-        "Review", on_delete=models.SET_NULL, null=True, blank=True
-    )
+    best_review_fk = models.OneToOneField("Review", on_delete=models.SET_NULL, null=True, blank=True)
     price = models.PositiveIntegerField()
     count = models.IntegerField()
     category = models.CharField(max_length=30) # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
@@ -54,11 +52,24 @@ class Review(TimeStampedModel):
     user_fk = models.ForeignKey(User, on_delete=models.CASCADE)
     product_fk = models.ForeignKey('Product', on_delete=models.CASCADE)
     content = models.TextField() # 설명란
-    star = models.PositiveSmallIntegerField() # 별점
-    absorbency = models.PositiveSmallIntegerField() # 흡수력
-    anti_odour = models.PositiveSmallIntegerField() # 탈취성
-    sensitivity = models.PositiveSmallIntegerField() # 피부친화도
-    comfort = models.PositiveSmallIntegerField() # 촉감/착용감
+    star = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]        
+    ) # 별점
+    absorbency = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    ) # 흡수력
+    anti_odour = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    ) # 탈취성
+    sensitivity = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    ) # 피부친화도
+    comfort = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    ) # 촉감/착용감
+
+    def __str__(self):
+        return self.user_fk.username + "의 리뷰"
 
     def star_Str(self):
         if self.star == 1:
@@ -71,6 +82,10 @@ class Review(TimeStampedModel):
             return "오오"
         elif self.star == 5:
             return "대박"
+        
+    def get_absolute_url(self):
+        return reverse("product:product_detail", kwargs={"pk": self.id})
+    
     
     
 class Hashtag(models.Model):
@@ -88,3 +103,6 @@ class ReviewSummary(models.Model):
     anti_odour_avg = models.FloatField(default=0)
     comfort_avg = models.FloatField(default=0)
     sensitivity_avg = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.product_fk.name + "에 대한 ReviewSummary"

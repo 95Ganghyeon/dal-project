@@ -3,9 +3,10 @@
 {% block content %}
 
 <div>
-    {% comment %} 탭이 들어갈 곳 {% endcomment %}
+    {% comment %} 탭을 만들어야 함 {% endcomment %}
 </div>
 
+{% comment %} 검색창 부분 {% endcomment %}
 <div>
     <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm">
         <div>
@@ -29,50 +30,52 @@
     </form>    
 </div>
 
+{% comment %} 최초에 /comparesearch/ url로 접근했을 때는 아래의 내용이 보이지 않음 {% endcomment %}
 {% if first_page == False %}
-<div>
-    <p>총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
-    <hr/> 
-    <select>
-        <option value="">정확도순</option>
-    </select>
-</div>
-    
-<div>
-    <ul>
-        {% for reviewSummary in page_obj %}
-        <li>
-            <div onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
-                <img src="{{reviewSummary.product_fk.image.url}}" alt="제품 이미지"/>
-                <p>{{ reviewSummary.product_fk.hashtag_fk.name }}</p>
-                <h2>{{ reviewSummary.product_fk.name }}</h2>
-                <h3>{{ reviewSummary.product_fk.category }}</h3>            
-            </div>
-        </li>
-        {% empty %}
-        <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
-        {% endfor %}
-    </ul>
+    <div>
+        <p>총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
+        <hr/> 
+        <select>
+            <option value="">정확도순</option>
+        </select>
+    </div>
+        
+    <div>
+        <ul>
+            {% for reviewSummary in page_obj %}
+            <li>
+                <div onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
+                    <img src="{{reviewSummary.product_fk.image.url}}" alt="제품 이미지"/>
+                    <p>{{ reviewSummary.product_fk.hashtag_fk.name }}</p>
+                    <h2>{{ reviewSummary.product_fk.name }}</h2>
+                    <h3>{{ reviewSummary.product_fk.category }}</h3>            
+                </div>
+            </li>
+            {% empty %}
+            <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
+            {% endfor %}
+        </ul>
+    </div>
 
-        {% comment %} pagination {% endcomment %}
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
-                {% endif %}
+    {% comment %} pagination {% endcomment %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
+            {% endif %}
 
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
-{% comment %} pagination {% endcomment %}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
+    {% endif %}
+        </span>
+    </div>
+
 {% endif %}
 
 <script type="text/javascript">
