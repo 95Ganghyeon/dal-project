@@ -4,10 +4,7 @@ from user.models import Profile
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-
 # Create your models here.
-
-
 class TimeStampedModel(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True)  # 등록된 시간
     updated = models.DateTimeField(auto_now=True)  # 업데이트된 시간
@@ -39,13 +36,6 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("ProductDetail", args=[str(self.id)])
-
-
-class RankingBoard(models.Model):
-    id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=4)
-    product_fk = models.OneToOneField("Product", on_delete=models.SET_NULL, null=True)
-    ranking = models.PositiveSmallIntegerField()
 
 
 class Review(TimeStampedModel):

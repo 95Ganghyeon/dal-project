@@ -26,6 +26,7 @@ urlpatterns = [
     path('survey/', include('survey.urls')),
     path('product/', include('product.urls')),
     path('user/', include('user.urls')),
+    path('ranking/', include('ranking.urls')),
     path('', RedirectView.as_view(url='/survey/', permanent=True)),
 
 

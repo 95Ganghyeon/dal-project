@@ -3,8 +3,6 @@ from product.models import *
 
 
 # Review 모델 Admin에 등록
-
-admin.site.register(RankingBoard)
 admin.site.register(Hashtag)
 
 
