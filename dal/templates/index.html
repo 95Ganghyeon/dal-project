@@ -1,6 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+
+    <a href="javascript:void(0);">검사하기</a>
     {% if mtype %}
     <p>당신 타입은 {{ mtype }}입니다 이거 가져와라</p>
     <p>survey id = {% if survey_id %}{{ survey_id }}{% else %} cant find{% endif %}</p>
