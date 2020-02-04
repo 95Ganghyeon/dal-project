@@ -1,6 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+
+{% comment %} 상단에 기본적으로 출력되는 상품에 대한 간단한 정보 {% endcomment %}
 <div>
     <div>
         <img src="{{product.image.url}}" alt=""/>
@@ -15,10 +17,12 @@
     <div>
         <button type="button">비교함 담기</button>
         <button type="button">내 생리대 등록</button>
-        <button type="button">리뷰 남기러가기</button>
+        <button type="button">리뷰 남기러가기</button> 
+        {% comment %} 여기의 '리뷰 남기러가기' 버튼을 클릭할 때, 로그인이 안되어있으면 아예 안넘어가도록 설정해놓아야 함 {% endcomment %}
     </div>
 </div>
 
+{% comment %} 3개의 탭으로 구성되어서 '제품정보' '성분정보' '리뷰' 탭을 CSS 등으로 표현해줄 부분 {% endcomment %}
 <div>
     <div>
         <ul>
@@ -66,10 +70,12 @@
 
 </div>
 
+{% comment %} '리뷰 남기러 가기'를 클릭하면 CSS로 가려져 있다가 보일 창 {% endcomment %}
 <div>
-    <form action="", method="POST">
+    <input type="button" value="close"> 
+    <form action="", method="POST">    
         {% csrf_token %}
-        {{ form.as_table }}
+        {{ form }}
         <input type="submit" value="제출">
     </form>
 </div>
