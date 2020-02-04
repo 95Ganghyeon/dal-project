@@ -1,0 +1,52 @@
+{% extends "base_generic.html"%}
+
+{% block content %}
+    <head class="header">내 타입(ISTP)의 최적생리대는?
+        <span class="header__explain">
+            나와 같은 월경타입의 사람들이 평가한 순위
+        </span>
+    </head>
+    <a href="#">타입별 랭킹찾기</a>
+    <a href="#">M-Type 재검사</a>
+    <div>
+        <ul>
+            {% comment %} for loop {% endcomment %}
+            <div class="ranking__image">
+                <a href="" class="image__link">
+                    <img src="" class="link__image">
+                </a>
+                <div class="image__rank">1위</div>
+                <div class="image__explain">
+                    좋은느낌|총점 89
+                    <div class="explain__price">5000원 자연유래도 98%</span>
+                </div>
+                <div>
+                    흡수력 점수(별)
+                    탈취성 점수(별)
+                    피부친화도 점수(별)
+                    촉감 점수(별)
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <ul class="condition__content">
+            <li class="content__first">
+                <img src="" alt="물방울">
+                <span class="first__tag">흡수력</span>
+            </li>
+            <li>
+                <img src="" alt="페브리즈">
+                <span>탈취성</span>
+            </li>
+            <li>
+                <img src="" alt="거품">
+                <span>피부친화도</span>
+            </li>
+            <li>
+                <img src="" alt="물결">
+                <span>촉감/착용감</span>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

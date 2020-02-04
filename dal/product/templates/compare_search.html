@@ -6,110 +6,138 @@
     {% comment %} 탭을 만들어야 함 {% endcomment %}
 </div>
 
-{% comment %} 검색창 부분 {% endcomment %}
-<div>
-    <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm">
-        <div>
-            <input type="text" name="q" placeholder="{{user.best_pad}}"/>
-            <input type="hidden" name="compareConditionList" value=""/> 
-            <br/>
+<div class="product-search-page container">
+    <!-- 상단 탭 -->
+    <div class="search-pannel row">
+        <div class="keyword-search col-sm-6">
+            <h2>키워드 검색</h2>
+            <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
         </div>
-        보다
-        <div>        
-            <div>
-                <input type="checkbox" value="price">저렴한
-                <input type="checkbox" value="absorbency">흡수력 좋은
-                <input type="checkbox" value="comfort">촉감/착용감 좋은
-                <input type="checkbox" value="nature_friendly">자연유래정도 높은
-                <input type="checkbox" value="anti_odour">탈취성 좋은
-                <input type="checkbox" value="sensitivity">피부 트러블 덜 나는
+        <div class="compared-search selected col-sm-6">
+            <h2>직접 비교하기</h2>
+            <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
+        </div>
+    </div>
+    
+    <div class="search-content-box">
+        <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
+            <div class="row">
+                <div class="search-text col-lg-3 text-center">
+                    <input id="compareSearchText" type="text" name="q" placeholder="{{user.best_pad}}"/>
+                    <span>보다</span>
+                    <input type="hidden" name="compareConditionList" value=""/>
+                </div>
+
+                <div class="checkbox-box col-lg-6 text-center">
+                    <input type="checkbox" id="compareCondition1" value="price">
+                    <label for="compareCondition1">저렴한</label>
+
+                    <input type="checkbox" id="compareCondition2" value="absorbency">
+                    <label for="compareCondition2">흡수력 좋은</label>
+
+                    <input type="checkbox" id="compareCondition3" value="comfort">
+                    <label for="compareCondition3">촉감/착용감 좋은</label>
+                    
+                    <input type="checkbox" id="compareCondition4" value="nature_friendly">
+                    <label for="compareCondition4">자연유래정도 높은</label>
+
+                    <input type="checkbox" id="compareCondition5" value="anti_odour">
+                    <label for="compareCondition5">탈취성 좋은</label>
+
+                    <input type="checkbox" id="compareCondition6" value="sensitivity">
+                    <label for="compareCondition6">피부 트러블 덜 나는</label>
+                </div>
+
+                <div class="col-lg-3 text-center">
+                    <span>제품을 찾아주세요</span>
+                    <input type="submit" value="검색">
+                </div>
+            </div>
+        </form>
+
+        {% if first_page == False %}
+        <div class="result-box">
+            <p>총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
+            <select>
+                <option>선택</option>
+                <option>흡수력 순</option>
+                <option>촉감/착용감 순</option>
+                <option>자연유래정도 순</option>
+                <option>탈취성 순</option>
+                <option>민감도 순</option>
+            </select>
+
+            <div class="product-box">
+                <ul>
+                    {% for reviewSummary in page_obj %}
+                    <li onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
+                        <img src="#" alt=""/>
+                        <p>{{ reviewSummary.product_fk.hashtag_fk.name }}</p>
+                        <h2>{{ reviewSummary.product_fk.name }}</h2>
+                        <h3>{{ reviewSummary.product_fk.category }}</h3>
+                    </li>
+                    {% empty %}
+                    <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
+                    {% endfor %}
+                </ul>
             </div>
         </div>
-        제품 찾아주세요
-        <input type="button" value="검색" id="compareSearchBtn"/>
-    </form>    
-</div>
-
-{% comment %} 최초에 /comparesearch/ url로 접근했을 때는 아래의 내용이 보이지 않음 {% endcomment %}
-{% if first_page == False %}
-    <div>
-        <p>총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
-        <hr/> 
-        <select>
-            <option value="">정확도순</option>
-        </select>
-    </div>
         
-    <div>
-        <ul>
-            {% for reviewSummary in page_obj %}
-            <li>
-                <div onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
-                    <img src="{{reviewSummary.product_fk.image.url}}" alt="제품 이미지"/>
-                    <p>{{ reviewSummary.product_fk.hashtag_fk.name }}</p>
-                    <h2>{{ reviewSummary.product_fk.name }}</h2>
-                    <h3>{{ reviewSummary.product_fk.category }}</h3>            
-                </div>
-            </li>
-            {% empty %}
-            <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
-            {% endfor %}
-        </ul>
-    </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
+                {% endif %}
 
-    {% comment %} pagination {% endcomment %}
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
             </span>
-
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
-    {% endif %}
-        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
+        {% endif %}
     </div>
-
-{% endif %}
+    {% endif %}
+</div>
 
 <script type="text/javascript">
     window.onload = function(){        
-        document.getElementById('compareSearchBtn').onclick = function(){
-            var form = document.getElementById('compareSearchForm');
-            var checkList = document.querySelectorAll("input[type='checkbox']:checked");
-            var checkListStr = "";
-
-            if( checkList.length > 0 ){                
-                checkList.forEach(function(ele){
-                    checkListStr += ele.value + ",";
-                });
-                checkListStr = checkListStr.substring(0, checkListStr.length - 1);
-            }
-
-            // 유효성 체크
-            if(form.q.value == ''){
-                alert("검색어를 입력해주세요");
-                form.q.focus();
-                return;
-            }
-
-            if(checkListStr == ''){
-                alert("비교조건을 선택해주세요");
-                return;
-            }
-
-            form.compareConditionList.value = checkListStr;
-            form.submit();     
-        }
+    document.getElementById('compareSearchForm').addEventListener('submit', function(){
+        compareSearchFormValidation();
+    });
+    }
+    
+    function compareSearchFormValidation(){
+    var form = document.getElementById('compareSearchForm');
+    var checkList = document.querySelectorAll("input[type='checkbox']:checked");
+    var checkListStr = "";
+    
+    if( checkList.length > 0 ){                
+        checkList.forEach(function(ele){
+            checkListStr += ele.value + ",";
+        });
+        checkListStr = checkListStr.substring(0, checkListStr.length - 1);
+    }
+    
+    // 유효성 체크
+    if(form.q.value == ''){
+        alert("검색어를 입력해주세요");
+        form.q.focus();
+        return;
+    }
+    
+    if(checkListStr == ''){
+        alert("비교조건을 선택해주세요");
+        return;
+    }
+    
+    form.compareConditionList.value = checkListStr;
+    form.submit();
     }
 </script>
-
+    
 {% endblock %}
 
 
