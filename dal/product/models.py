@@ -53,11 +53,6 @@ class Review(TimeStampedModel):
     user_fk = models.ForeignKey(User, on_delete=models.CASCADE)
     product_fk = models.ForeignKey('Product', on_delete=models.CASCADE)
     content = models.TextField() # 설명란
-    star = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        choices=RANGE_ONE_TO_FIVE,
-        default=None
-    ) # 별점
     absorbency = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=RANGE_ONE_TO_FIVE,
@@ -83,16 +78,22 @@ class Review(TimeStampedModel):
     def __str__(self):
         return self.user_fk.username + "의 리뷰"
 
-    def star_Str(self):
-        if self.star == 1:
+    def score(self):
+        """
+        4개 평가 항목을 평균낸 '종합점수'를 반환함
+        """
+        return (self.absorbency + self.anti_odour + self.sensitivity + self.comfort) / 4
+
+    def score_Str(self):
+        if self.score() < 1.5:
             return "최악"
-        elif self.star == 2:
+        if 1.5 <= self.score() < 2.5:
             return "별로"
-        elif self.star == 3:
+        if 1 <= self.score() < 3.5:
             return "나름"
-        elif self.star == 4:
+        if 1 <= self.score() < 4.5:
             return "오오"
-        elif self.star == 5:
+        else:
             return "대박"
         
     def get_absolute_url(self):
@@ -118,3 +119,5 @@ class ReviewSummary(models.Model):
 
     def __str__(self):
         return self.product_fk.name + "에 대한 ReviewSummary"
+
+    
