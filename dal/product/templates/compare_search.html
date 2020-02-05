@@ -3,7 +3,7 @@
 {% block content %}
 
 <div>
-    {% comment %} 탭이 들어갈 곳 {% endcomment %}
+    {% comment %} 탭을 만들어야 함 {% endcomment %}
 </div>
 
 <div class="product-search-page container">
@@ -22,13 +22,13 @@
     <div class="search-content-box">
         <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
             <div class="row">
-                <div class="search-text col-lg-3 text-center">
+                <div class="search-text col-lg-3 text-center mb20">
                     <input id="compareSearchText" type="text" name="q" placeholder="{{user.best_pad}}"/>
                     <span>보다</span>
                     <input type="hidden" name="compareConditionList" value=""/>
                 </div>
 
-                <div class="checkbox-box col-lg-6 text-center">
+                <div class="checkbox-box col-lg-5 text-center mb20">
                     <input type="checkbox" id="compareCondition1" value="price">
                     <label for="compareCondition1">저렴한</label>
 
@@ -48,7 +48,7 @@
                     <label for="compareCondition6">피부 트러블 덜 나는</label>
                 </div>
 
-                <div class="col-lg-3 text-center">
+                <div class="col-lg-4 text-center mb20">
                     <span>제품을 찾아주세요</span>
                     <input type="submit" value="검색">
                 </div>
@@ -102,64 +102,55 @@
     {% endif %}
 </div>
 
-
-
-        {% comment %} pagination {% endcomment %}
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
-        {% endif %}
-    </span>
-
-
-
 <script type="text/javascript">
     window.onload = function(){        
         document.getElementById('compareSearchForm').addEventListener('submit', function(){
             compareSearchFormValidation();
         });
+
+        document.querySelectorAll('.search-pannel div').forEach(function(item){
+            item.onclick = function(){
+                select_pannel(item);
+            }
+        });  
     }
 
+    function select_pannel(selected_item){
+        document.querySelectorAll('.search-pannel div').forEach(function(item){
+            item.classList.remove('selected');
+        });
+        selected_item.classList.add('selected');
+    }
+    
     function compareSearchFormValidation(){
         var form = document.getElementById('compareSearchForm');
         var checkList = document.querySelectorAll("input[type='checkbox']:checked");
         var checkListStr = "";
-
+        
         if( checkList.length > 0 ){                
             checkList.forEach(function(ele){
                 checkListStr += ele.value + ",";
             });
             checkListStr = checkListStr.substring(0, checkListStr.length - 1);
         }
-
+        
         // 유효성 체크
         if(form.q.value == ''){
             alert("검색어를 입력해주세요");
             form.q.focus();
             return;
         }
-
+        
         if(checkListStr == ''){
             alert("비교조건을 선택해주세요");
             return;
         }
-
+        
         form.compareConditionList.value = checkListStr;
         form.submit();
     }
 </script>
-
+    
 {% endblock %}
 
 
