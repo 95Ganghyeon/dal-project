@@ -1,0 +1,74 @@
+body {
+	background-color: #fffefc;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+.mb20 {
+    margin-bottom: 20px;
+}
+.mb30 {
+    margin-bottom: 30px;
+}
+
+/*
+    비교검색 스타일
+*/
+.product-search-page .search-pannel div {
+    padding: 0;
+    padding: 60px 10px 30px;
+    border-bottom: 2px solid #bebebe;
+    color: #bebebe;
+}
+
+.product-search-page .search-pannel div h2 {
+    color: #bebebe;
+    margin: 5px 0;
+}
+
+.product-search-page .search-pannel div.selected {
+    border-bottom-color: #272727;
+    color: #1e1e1e;
+}
+
+.product-search-page .search-pannel div.selected h2 {
+    color: #1e1e1e;
+}
+
+.product-search-page .search-content-box {
+    padding: 50px 0;
+}
+
+#compareSearchText {
+    padding: 0 10px;
+    border: solid 1px #979797;
+    background-color: #f6f6f6;
+}
+
+.product-search-page .search-content-box input[type="checkbox"] {
+    display: none;
+}
+
+.product-search-page .search-content-box input[type="checkbox"] + label {
+    padding: 2px 15px;
+    margin: 2px;
+    opacity: 0.35;
+    border-radius: 26px;
+    border: solid 1px #979797;
+}
+
+.product-search-page .search-content-box input[type="checkbox"]:checked + label {
+    color: #FFFFFF;
+    opacity: 0.88;
+    border-radius: 26px;
+    background-color: #272727;
+}
+
+.product-search-page .search-content-box input[type="submit"] {
+    margin-left: 20px;
+    height: 32px;
+    padding: 0 30px;
+    border: solid 1px #979797;
+    background-color: #FFFFFF;
+}
