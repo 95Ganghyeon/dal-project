@@ -27,21 +27,90 @@
     <script src="{% static 'js/jquery.main.js'%}"></script>
 
 </head>
-<body>
-    {% block navbar %}
-        <li class="navbar sticky-top navbar-expand-sm bg-light navbar-light">
-        <a class="navbar-brand" href="{% url 'index' %}">DAL</a>
-       {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
-       <p>nickname = {{ user.username }}</p>
-        <a href="{% url 'profile' %}" class="nav-link">profile</a>
-       <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
-       {% else %}
-       <a href="{% url 'account_login' %}" class="nav-link">Login</a>
-       {% endif %}
-        </li>
-    {% endblock %}
+<body>    
+    {% block pageloader %}
+      <div id="pre-loader" class="loader-container">
+      <div class="loader">
+        <img src="images/svg/rings.svg" alt="loader">
+      </div>
+      </div>
+    {% endblock pageloader %}
+
+    {% block header %}
+  <header id="header" class="sticky-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="col-xs-12 col-sm-4 logo">
+            <a href="index.html"><img src="{% static 'images/logo.png'%}" alt="DAL LOGO"></a>
+          </div>
+          <div class="col-xs-12 col-sm-4 nav-holder">
+            <a href="#" class="nav-opener"><span>menu</span></a>
+            <!-- nav of the page -->
+            <nav id="nav">
+              <ul class="list-unstyled">
+                <li class="active">
+                  <a href="#">M-type (랭킹)</a>
+                  {% comment %} <ul class="list-unstyled drop">
+                    <li><a href="index.html">Home 1</a></li>
+                    <li><a href="home.html">Home 2</a></li>
+                  </ul> {% endcomment %}
+                </li>
+                <li>
+                  <a href="product/compare_search.html">비교하기</a>
+                </li>
+              </ul>
+            </nav>
+            <div class="col-xs-12 col-sm-4 align-right">
+              <!-- social-networks of the page -->
+              <ul class="list-unstyled icon-list">
+                <li>
+                  {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
+                  <a href="#">{{ user.username }}</a>
+                  {% comment %} 유저이미지 <a href="#"><img src="{% static 'images/user.png'%}" alt="user login"></a> {% endcomment %} 
+                  <ul class="list-unstyled drop">
+                    <li><a href="profile.html">마이페이지</a></li>
+                    <li><a href='{% url 'account_logout' %}'>로그아웃</a></li>
+                  </ul>
+                  {% else %}
+                  <a href="{% url 'account_login' %}" class="nav-link">로그인</a>
+                  {% endif %}
+                  
+                </li>
+                <li>
+                  <a class="btn-search" href="#"><span class="glyphicon glyphicon-search"></span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Search Popup of the page -->
+  <div class="search-popup">
+    <div class="holder">
+      <div class="col">
+        <div class="block-holder">
+          <a href="#" class="close-btn"><i class="icon-close"></i></a>
+          <form action="#" class="submit-form">
+            <fieldset>
+              <label for="search" class="icon-search"></label>
+              <input type="search" id="search">
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endblock header %}
+
+    <div class='container'>
     
-    {% block content %}{% endblock %}
+    {% block content %}
+    
+    {% endblock %}
+    </div>
 
     {% block footer %}
     <!-- footer of the Page -->

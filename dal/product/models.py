@@ -84,14 +84,14 @@ class Review(TimeStampedModel):
         """
         return (self.absorbency + self.anti_odour + self.sensitivity + self.comfort) / 4
 
-    def score_Str(self):
+    def score_str(self):
         if self.score() < 1.5:
             return "최악"
-        if 1.5 <= self.score() < 2.5:
+        elif 1.5 <= self.score() < 2.5:
             return "별로"
-        if 1 <= self.score() < 3.5:
+        elif 2.5 <= self.score() < 3.5:
             return "나름"
-        if 1 <= self.score() < 4.5:
+        elif 3.5 <= self.score() < 4.5:
             return "오오"
         else:
             return "대박"
@@ -111,13 +111,16 @@ class Hashtag(models.Model):
 
 class ReviewSummary(models.Model):
     product_fk = models.OneToOneField('Product', on_delete=models.CASCADE)
-    total_score = models.FloatField(default=0) # Review 모델의 star 필드로 계산되는 제품 평점
     absorbency_avg = models.FloatField(default=0)
     anti_odour_avg = models.FloatField(default=0)
-    comfort_avg = models.FloatField(default=0)
     sensitivity_avg = models.FloatField(default=0)
+    comfort_avg = models.FloatField(default=0)
+
 
     def __str__(self):
         return self.product_fk.name + "에 대한 ReviewSummary"
 
+    def score_avg(self):
+        return (self.absorbency_avg + self.anti_odour_avg + self.sensitivity_avg + self.comfort_avg) / 4
+    
     
