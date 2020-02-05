@@ -53,8 +53,8 @@ function initSlickSlider() {
 		autoplaySpeed: 4000
 	});
 	jQuery('.blockquote-slider').slick({
-		autoplay: true,
-		adaptiveHeight: true
+		autoplay: false,
+		adaptiveHeight: false
 	});
 	jQuery('.team-slider').slick({
 		dots: true,

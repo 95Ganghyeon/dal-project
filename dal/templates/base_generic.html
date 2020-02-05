@@ -35,16 +35,16 @@
       </div>
       </div>
     {% endblock pageloader %}
-
+  <div id="wrapper">
     {% block header %}
   <header id="header" class="sticky-header">
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
-          <div class="col-xs-12 col-sm-4 logo">
+          <div class="logo">
             <a href="index.html"><img src="{% static 'images/logo.png'%}" alt="DAL LOGO"></a>
           </div>
-          <div class="col-xs-12 col-sm-4 nav-holder">
+          <div class="nav-holder">
             <a href="#" class="nav-opener"><span>menu</span></a>
             <!-- nav of the page -->
             <nav id="nav">
@@ -61,7 +61,7 @@
                 </li>
               </ul>
             </nav>
-            <div class="col-xs-12 col-sm-4 align-right">
+            <div class="align-right">
               <!-- social-networks of the page -->
               <ul class="list-unstyled icon-list">
                 <li>
@@ -134,20 +134,7 @@
               <li><i class="icon icon-printer"></i><a class="txt" href="#">(00)-213 1879017</a></li>
             </ul>
           </div>
-          <div class="col-xs-12 col-sm-4 col-lg-5">
-            <h3>intagram feed</h3>
-            <!-- Instagram of the page -->
-            <ul class="list-unstyled instagram-list">
-              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
-              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
-              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
-              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
-              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
-              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
-              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
-              <li><a href="#"><img src="http://placehold.it/95x70" alt="image description"></a></li>
-            </ul>
-          </div>
+          
         </div>
       </div>
       <span class="support">24H SUPPORT</span>
@@ -155,6 +142,6 @@
     <!-- Back Top of the page -->
     <span id="back-top" class="arrow_carrot-up"></span>
     {% endblock footer %}
-    
+    </div>
 </body>
 </html>

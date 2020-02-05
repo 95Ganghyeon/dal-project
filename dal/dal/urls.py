@@ -33,7 +33,7 @@ urlpatterns = [
     #all-auth
     # path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('test/', TemplateView.as_view(template_name='home.html'), name='home'),    
+    path('test/', TemplateView.as_view(template_name='test.html'), name='test'),    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
