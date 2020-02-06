@@ -3,9 +3,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from allauth.socialaccount.models import SocialAccount
 from .models import *
+from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-
+class UserAdmin(ImportExportModelAdmin):
+  pass
 
 #overide default user admin 
 admin.site.unregister(User)
