@@ -38,7 +38,7 @@ def productDetail(request, pk):
             review = form.save(commit=False)
             review.product_fk = Product.objects.get(id=pk)            
             review.user_fk = request.user
-            # review.m_type =
+            review.m_type = request.user.profile.survey_fk.mtype
             review.save()
     
     product = get_object_or_404(Product, id=pk)

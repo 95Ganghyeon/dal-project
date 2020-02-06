@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 class Survey(models.Model):
+        
     activity_score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(6)]
     )

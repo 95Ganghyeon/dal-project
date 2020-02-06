@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-
-
 from allauth.socialaccount.models import SocialAccount
+from .models import *
+
 # Register your models here.
 
 
@@ -32,5 +32,8 @@ class CustomUserAdmin(UserAdmin):
       return 'none'
 
 
+class ProfileAdmin(admin.ModelAdmin):
+  list_display = ('id', 'user_fk', 'ghost_user', 'm_type', 'survey_fk', 'age')
 
+admin.site.register(Profile, ProfileAdmin)
 
