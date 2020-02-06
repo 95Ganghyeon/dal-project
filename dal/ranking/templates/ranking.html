@@ -1,52 +1,58 @@
 {% extends "base_generic.html"%}
 
 {% block content %}
-    <head class="header">내 타입(ISTP)의 최적생리대는?
-        <span class="header__explain">
-            나와 같은 월경타입의 사람들이 평가한 순위
-        </span>
-    </head>
-    <a href="#">타입별 랭킹찾기</a>
-    <a href="#">M-Type 재검사</a>
+    
+<div>
+<hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
+</div>
+
+<div>
+    <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
+    <span>나와 같은 월경타입의 사람들이 평가한 순위</span>
+</div>
+
+<div>
     <div>
-        <ul>
-            {% comment %} for loop {% endcomment %}
-            <div class="ranking__image">
-                <a href="" class="image__link">
-                    <img src="" class="link__image">
-                </a>
-                <div class="image__rank">1위</div>
-                <div class="image__explain">
-                    좋은느낌|총점 89
-                    <div class="explain__price">5000원 자연유래도 98%</span>
-                </div>
-                <div>
-                    흡수력 점수(별)
-                    탈취성 점수(별)
-                    피부친화도 점수(별)
-                    촉감 점수(별)
-                </div>
-            </li>
-        </ul>
+        <button type="button">타입별 랭킹찾기</button>
+    </div>
+
+    <div>
+        <button type="button" onclick="location.href='#'">M-Type 재검사</button>
+    </div>
+</div>
+
+<div>
+    <div>
+        {% comment %} 폰트 어썸을 활용해서 아이콘을 넣을 자리 {% endcomment %}
+        <span>흡수력</span>
     </div>
     <div>
-        <ul class="condition__content">
-            <li class="content__first">
-                <img src="" alt="물방울">
-                <span class="first__tag">흡수력</span>
-            </li>
-            <li>
-                <img src="" alt="페브리즈">
-                <span>탈취성</span>
-            </li>
-            <li>
-                <img src="" alt="거품">
-                <span>피부친화도</span>
-            </li>
-            <li>
-                <img src="" alt="물결">
-                <span>촉감/착용감</span>
-            </li>
-        </ul>
+        {% comment %} 폰트 어썸을 활용해서 아이콘을 넣을 자리 {% endcomment %}
+        <span>탈취성</span>
     </div>
+    <div>
+        {% comment %} 폰트 어썸을 활용해서 아이콘을 넣을 자리 {% endcomment %}
+        <span>피부친화도</span>
+    </div>
+    <div>
+        {% comment %} 폰트 어썸을 활용해서 아이콘을 넣을 자리 {% endcomment %}
+        <span>촉감/착용감</span>
+    </div>
+</div>
+
+<div>
+    <ul>
+        {% for product in products %}
+        <li>
+            <div>
+                <img src="{{product.image.url}}" alt=""/>
+                {{ product.name }} | 총점 
+                {{ product.price }}
+                자연유래도 {{ nature_friendly }}%
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}

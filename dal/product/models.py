@@ -15,7 +15,6 @@ class TimeStampedModel(models.Model):
 
 
 class Product(models.Model):
-    objects = models.Manager()
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     image = models.ImageField(blank=True)
@@ -53,11 +52,12 @@ class Review(TimeStampedModel):
     user_fk = models.ForeignKey(User, on_delete=models.CASCADE)
     product_fk = models.ForeignKey('Product', on_delete=models.CASCADE)
     content = models.TextField() # 설명란
-    star = models.PositiveSmallIntegerField(
+    m_type = models.CharField(max_length=4) # 유저의 mtype
+    score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=RANGE_ONE_TO_FIVE,
         default=None
-    ) # 별점
+    ) # 종합평점
     absorbency = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=RANGE_ONE_TO_FIVE,
@@ -83,16 +83,16 @@ class Review(TimeStampedModel):
     def __str__(self):
         return self.user_fk.username + "의 리뷰"
 
-    def star_Str(self):
-        if self.star == 1:
+    def score_str(self):
+        if self.score == 1:
             return "최악"
-        elif self.star == 2:
+        elif self.score == 2:
             return "별로"
-        elif self.star == 3:
+        elif self.score == 3:
             return "나름"
-        elif self.star == 4:
+        elif self.score == 4:
             return "오오"
-        elif self.star == 5:
+        elif self.score == 5:
             return "대박"
         
     def get_absolute_url(self):

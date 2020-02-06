@@ -3,7 +3,9 @@ from product.models import Product
 
 # Create your models here.
 class RankingBoard(models.Model):
-    id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=4)
-    product_fk = models.OneToOneField(Product, on_delete=models.SET_NULL, null=True)
-    ranking = models.PositiveSmallIntegerField()
+    product_fk = models.OneToOneField(Product, on_delete=models.CASCADE)
+    m_type = models.CharField(max_length=4)
+    score_avg = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.m_type + " " + self.product_fk + " " + str(self.score)

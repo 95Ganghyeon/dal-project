@@ -11,16 +11,16 @@ from django.http import JsonResponse
 
 def updateReviewSummary():
     """
-    이게 ReviewSummary 테이블을 UPDATE 하는 함수인데, 이걸 2-3일에 한번 하는 작업으로 바꿔야 함
+    ReviewSummary 테이블을 UPDATE 하는 함수임(2~3일 주기로 실행될 것임)
     """
     entireTable = ReviewSummary.objects.all()
     for record in entireTable:
         productReviews = Review.objects.filter(product_fk__id=record.product_fk.id)
         if productReviews:
-            record.absorbency_avg = Review.objects.filter(product_fk__id=record.product_fk.id).aggregate(avg=Avg('absorbency'))['avg']
-            record.anti_odour_avg = Review.objects.filter(product_fk__id=record.product_fk.id).aggregate(avg=Avg('anti_odour'))['avg']
-            record.comfort_avg = Review.objects.filter(product_fk__id=record.product_fk.id).aggregate(avg=Avg('comfort'))['avg']
-            record.sensitivity_avg = Review.objects.filter(product_fk__id=record.product_fk.id).aggregate(avg=Avg('sensitivity'))['avg']
+            record.absorbency_avg = productReviews.aggregate(avg=Avg('absorbency'))['avg']
+            record.anti_odour_avg = productReviews.aggregate(avg=Avg('anti_odour'))['avg']
+            record.comfort_avg = productReviews.aggregate(avg=Avg('comfort'))['avg']
+            record.sensitivity_avg = productReviews.aggregate(avg=Avg('sensitivity'))['avg']
             record.save()
         else:
             pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
@@ -39,6 +39,7 @@ def productDetail(request, pk):
             review = form.save(commit=False)
             review.product_fk = Product.objects.get(id=pk)            
             review.user_fk = request.user
+            review.m_type = request.user.profile.survey_fk.mtype
             review.save()
     
     product = get_object_or_404(Product, id=pk)
