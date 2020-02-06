@@ -1,5 +1,12 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
 body {
-	background-color: #fffefc;
+    background-color: #fffefc;
+    font-family: 'Noto Sans CJK KR', Noto Sans KR, sans-serif;
+}
+
+.hover-cursor {
+    cursor: pointer;
 }
 
 .mb10 {
@@ -22,9 +29,16 @@ body {
     color: #bebebe;
 }
 
+.product-search-page .search-pannel div,
+.product-search-page .search-pannel div h2 {
+    transition: all 0.5s;
+}
+
 .product-search-page .search-pannel div h2 {
     color: #bebebe;
     margin: 5px 0;
+    font-size: 22px;
+    font-weight: bold;
 }
 
 .product-search-page .search-pannel div.selected {
@@ -40,10 +54,16 @@ body {
     padding: 50px 0;
 }
 
+.product-search-page .search-content-box form div > div {
+    margin-bottom: 25px;
+}
+
 #compareSearchText {
     padding: 0 10px;
-    border: solid 1px #979797;
+    border: solid 1px #bebebe;
     background-color: #f6f6f6;
+    width: 200px;
+    margin-right: 20px;
 }
 
 .product-search-page .search-content-box input[type="checkbox"] {
@@ -51,18 +71,25 @@ body {
 }
 
 .product-search-page .search-content-box input[type="checkbox"] + label {
-    padding: 2px 15px;
+    padding: 2px 20px;
     margin: 2px;
     opacity: 0.35;
     border-radius: 26px;
     border: solid 1px #979797;
+    font-weight: normal;
+    cursor: pointer;
+    margin-bottom: 5px;
+
+    transition: all 0.5s;
 }
 
-.product-search-page .search-content-box input[type="checkbox"]:checked + label {
+.product-search-page .search-content-box input[type="checkbox"]:checked + label,
+.product-search-page .search-content-box input[type="checkbox"] + label:hover {
     color: #FFFFFF;
-    opacity: 0.88;
+    opacity: 1;
     border-radius: 26px;
-    background-color: #272727;
+    border: solid 1px #979797;
+    background-color: #2b5e2e;
 }
 
 .product-search-page .search-content-box input[type="submit"] {
@@ -70,5 +97,5 @@ body {
     height: 32px;
     padding: 0 30px;
     border: solid 1px #979797;
-    background-color: #FFFFFF;
+    background-color: transparent;
 }

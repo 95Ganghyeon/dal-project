@@ -9,12 +9,12 @@
 <div class="product-search-page container">
     <!-- 상단 탭 -->
     <div class="search-pannel row">
-        <div class="keyword-search col-sm-6">
-            <h2>키워드 검색</h2>
+        <div class="keyword-search col-sm-6 hover-cursor">
+            <h2 class="hover-cursor">키워드 검색</h2>
             <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
         </div>
-        <div class="compared-search selected col-sm-6">
-            <h2>직접 비교하기</h2>
+        <div class="compared-search selected col-sm-6 hover-cursor">
+            <h2 class="hover-cursor">직접 비교하기</h2>
             <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
         </div>
     </div>
@@ -22,13 +22,13 @@
     <div class="search-content-box">
         <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
             <div class="row">
-                <div class="search-text col-lg-3 text-center mb20">
+                <div class="search-text col-lg-4 text-center">
                     <input id="compareSearchText" type="text" name="q" placeholder="{{user.best_pad}}"/>
-                    <span>보다</span>
+                    <span><b>보다</b></span>
                     <input type="hidden" name="compareConditionList" value=""/>
                 </div>
 
-                <div class="checkbox-box col-lg-5 text-center mb20">
+                <div class="checkbox-box col-lg-4 text-center text-xl-left text-lg-left">
                     <input type="checkbox" id="compareCondition1" value="price">
                     <label for="compareCondition1">저렴한</label>
 
@@ -48,8 +48,8 @@
                     <label for="compareCondition6">피부 트러블 덜 나는</label>
                 </div>
 
-                <div class="col-lg-4 text-center mb20">
-                    <span>제품을 찾아주세요</span>
+                <div class="col-lg-4 text-center">
+                    <span><b>제품을 찾아주세요</b></span>
                     <input type="submit" value="검색">
                 </div>
             </div>
@@ -103,6 +103,8 @@
 </div>
 
 <script type="text/javascript">
+    var pre_selected_item = document.querySelector('.search-pannel .compared-search');
+
     window.onload = function(){        
         document.getElementById('compareSearchForm').addEventListener('submit', function(){
             compareSearchFormValidation();
@@ -111,7 +113,14 @@
         document.querySelectorAll('.search-pannel div').forEach(function(item){
             item.onclick = function(){
                 select_pannel(item);
+                pre_selected_item = item;
             }
+            item.addEventListener('mouseover', function(){
+                select_pannel(item);
+            });
+            item.addEventListener('mouseout', function(){
+                select_pannel(pre_selected_item);
+            })
         });  
     }
 

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.naver',
     'sass_processor',
+    'bootstrap4',
 ]
 
 #sass_processor
