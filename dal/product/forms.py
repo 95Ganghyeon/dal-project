@@ -6,9 +6,9 @@ from .models import Review
 class GetReviewResponseForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['star', 'absorbency', 'anti_odour', 'sensitivity', 'comfort', 'content']        
+        fields = ['score', 'absorbency', 'anti_odour', 'sensitivity', 'comfort', 'content']        
         widgets = {
-            'star': forms.RadioSelect,
+            'score': forms.RadioSelect,
             'absorbency': forms.RadioSelect,
             'anti_odour': forms.RadioSelect,
             'sensitivity': forms.RadioSelect,

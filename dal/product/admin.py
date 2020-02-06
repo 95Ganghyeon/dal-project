@@ -14,7 +14,7 @@ admin.site.register(Product, ProductAdmin)
 
 
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('id','image','user_fk','product_fk','content','star','absorbency','anti_odour','sensitivity', 'comfort')
+    list_display = ('id','image','user_fk','product_fk','content','score','absorbency','anti_odour','sensitivity', 'comfort')
 
 admin.site.register(Review, ReviewAdmin)
 
