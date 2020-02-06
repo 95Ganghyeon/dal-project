@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Avg
 from django.contrib.auth.decorators import login_required
-from product.models import Review
+from product.models import Review, Product
 from ranking.models import RankingBoard
 
 # Create your views here.
@@ -36,22 +36,25 @@ def ranking(request):
         elif cnt == 2: # 타입 스트링이 2개만 일치하면 가중치로 '0.75'을 반환
             return 0.5
         else: # 나머지 경우에는 가중치로 '0'을 반환
-            return 0
+            return 0 
 
+    
     currentUser = request.user
-    typeToRank = currentUser.profile.survey_fk.mtype # 현재유저의 타입을 나타내는 "OOOO"스트링 값임
+    currentUserType = currentUser.profile.survey_fk.mtype # 현재유저의 타입을 나타내는 "OOOO"스트링 값임
     
-    entireRankingBoard = RankingBoard.objects.all()
-    # for record in entireRankingBoard: 
+    result_table = Product.objects.all().annotate(weightReflectedScore=0)
+    for product in result_table:
+        temp = 0        
+        for record in RankingBoard.objects.filter(product_fk=product):            
+            temp += record.score * weightCalculate(currentUserType, record.m_type)
         
-        
-        
-        
-        # reviewWriterType = review.user_fk.profile.survey_fk.mtype # 리뷰작성자의 타입을 나타내는 "OOOO"스트링 값임
+        product.weightReflectedScore = temp
     
+    products = result_table.order_by('weightReflectedScore')        
 
     context = {
-        'currentUser': currentUser
+        'currentUser': currentUser,
+        'products': products,
     }
     return render(request, 'ranking.html', context=context)
 
