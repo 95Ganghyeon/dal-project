@@ -53,6 +53,7 @@ class Review(TimeStampedModel):
     user_fk = models.ForeignKey(User, on_delete=models.CASCADE)
     product_fk = models.ForeignKey('Product', on_delete=models.CASCADE)
     content = models.TextField() # 설명란
+    m_type = models.CharField(max_length=4)
     star = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=RANGE_ONE_TO_FIVE,
@@ -78,6 +79,7 @@ class Review(TimeStampedModel):
         choices=RANGE_ONE_TO_FIVE,
         default=None
     ) # 촉감/착용감
+    total_score = models.PositiveSmallIntegerField()
 
     
     def __str__(self):
