@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from product.models import *
 from product.forms import GetReviewResponseForm
 from user.models import Profile, User
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -128,7 +129,7 @@ def compareSearch(request):
     ReviewSummary_list = None
     criterionReviewSummary = None
     page_obj = None
-    
+
     if 'q' in request.GET:
         first_page = False
         query = request.GET.get('q')   
@@ -162,6 +163,7 @@ def compareSearch(request):
         'first_page': first_page,
         'product_list': ReviewSummary_list,
         'page_obj': page_obj,
+        'all_products': list(Product.objects.values('name')),
     }
 
     return render(request, "compare_search.html", context=context)
