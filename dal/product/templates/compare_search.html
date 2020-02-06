@@ -6,6 +6,7 @@
     {% comment %} 탭을 만들어야 함 {% endcomment %}
 </div>
 
+    {{all_products}}
 <div class="product-search-page container">
     <!-- 상단 탭 -->
     <div class="search-pannel row">
@@ -111,26 +112,49 @@
         });
 
         document.querySelectorAll('.search-pannel div').forEach(function(item){
-            item.onclick = function(){
+            item.addEventListener('click', function(){
                 select_pannel(item);
                 pre_selected_item = item;
-            }
+            });
             item.addEventListener('mouseover', function(){
                 select_pannel(item);
             });
             item.addEventListener('mouseout', function(){
                 select_pannel(pre_selected_item);
-            })
-        });  
+            });
+        }); 
+
+        document.getElementById('compareSearchText').addEventListener('keyup', function(){
+            getCompleteCompareSearchText();
+        });
     }
 
+    // 자동완성 검색어 가져오기
+    function getCompleteCompareSearchText(){
+        var text = document.getElementById('compareSearchText').value;
+        var xhr = new XMLHttpRequest();
+        var requestStr = "{% url 'CompareSearch' %}?search_text=" + text;
+        xhr.open('GET', requestStr);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                alert('초성으로 바꾸면' + xhr.responseText);
+            }
+            else {
+                alert('Request failed.  Returned status of ' + xhr.status);
+            }
+        };
+        xhr.send();
+    }
+
+    // comparesearch / keywordsearch 탭 선택
     function select_pannel(selected_item){
         document.querySelectorAll('.search-pannel div').forEach(function(item){
             item.classList.remove('selected');
         });
         selected_item.classList.add('selected');
     }
-    
+
+    // comparesearch form 유효성 검사
     function compareSearchFormValidation(){
         var form = document.getElementById('compareSearchForm');
         var checkList = document.querySelectorAll("input[type='checkbox']:checked");
