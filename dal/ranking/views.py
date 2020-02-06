@@ -38,20 +38,30 @@ def ranking(request):
         else: # 나머지 경우에는 가중치로 '0'을 반환
             return 0 
 
-    
+
     currentUser = request.user
     currentUserType = currentUser.profile.survey_fk.mtype # 현재유저의 타입을 나타내는 "OOOO"스트링 값임
     
-    result_table = Product.objects.all().annotate(weightReflectedScore=0)
-    for product in result_table:
+    """
+    product_id_list = Product.objects.values_list('id', flat=True) # flat =True : 파이썬의 리스트 [] 자료구조로 필드값들을 반환
+    temp_dic = {}
+    for product_id in product_id_list:
         temp = 0        
-        for record in RankingBoard.objects.filter(product_fk=product):            
+        for record in RankingBoard.objects.filter(product_fk__id=product_id):            
             temp += record.score * weightCalculate(currentUserType, record.m_type)
         
-        product.weightReflectedScore = temp
+        temp_dic[product_id] = temp
     
-    products = result_table.order_by('weightReflectedScore')        
-
+    result_dic = sorted(temp_dic.items(), key=lambda x: x[1], reverse=True)
+    products = []    
+    for product in result_dic:
+        products += Product.objects.get(id=product.keys())
+        
+    # products = result_table.order_by('weightReflectedScore')        
+    """
+    products = Product.objects.all()
+    
+    
     context = {
         'currentUser': currentUser,
         'products': products,

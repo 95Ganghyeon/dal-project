@@ -45,7 +45,7 @@
         {% for product in products %}
         <li>
             <div>
-                {{ product.image }}
+                <img src="{{product.image.url}}" alt=""/>
                 {{ product.name }} | 총점 
                 {{ product.price }}
                 자연유래도 {{ nature_friendly }}%
