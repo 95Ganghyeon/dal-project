@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.naver',
     'sass_processor',
     'bootstrap4',
+    'import_export',
 ]
 
 #sass_processor
@@ -176,6 +177,3 @@ STATICFILES_DIRS = [ STATIC_DIR, ]
 # 이미지 파일 업로드
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-
-

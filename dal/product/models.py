@@ -15,7 +15,6 @@ class TimeStampedModel(models.Model):
 
 
 class Product(models.Model):
-    objects = models.Manager()
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     image = models.ImageField(blank=True)

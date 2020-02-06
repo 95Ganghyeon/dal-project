@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from survey.models import Survey
 from datetime import datetime
 
-
 class Profile(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -25,6 +24,9 @@ class Profile(models.Model):
     def age(self):
         age_calculate = datetime.now().year - self.birth_date.year
         return age_calculate + 1
+
+    def __str__(self):
+        return str(self.user)
 
 
 class Meta:
