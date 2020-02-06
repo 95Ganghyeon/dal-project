@@ -79,7 +79,6 @@ class Review(TimeStampedModel):
         choices=RANGE_ONE_TO_FIVE,
         default=None
     ) # 촉감/착용감
-    total_score = models.PositiveSmallIntegerField()
 
     
     def __str__(self):
