@@ -21,7 +21,7 @@ class SignupForm(forms.Form):
   def signup(self, request, user):
     user.save()
     profile = Profile()
-    profile.user = user
+    profile.user_fk = user
     profile.nickname = self.cleaned_data['nickname']
     profile.birth_date = self.cleaned_data['birth_date']
     profile.save()

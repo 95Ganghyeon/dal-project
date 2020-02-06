@@ -17,7 +17,7 @@
     <div>
         <button type="button">비교함 담기</button>
         <button type="button">내 생리대 등록</button>
-        <button type="button">리뷰 남기러가기</button> 
+        <button type="button">리뷰 남기기</button> 
         {% comment %} 여기의 '리뷰 남기러가기' 버튼을 클릭할 때, 로그인이 안되어있으면 아예 안넘어가도록 설정해놓아야 함 {% endcomment %}
     </div>
 </div>
@@ -55,7 +55,7 @@
                             <li>
                                 <div>
                                     {{review.star_Str}}
-                                    {{review.user_fk.username}} / {{review.user_fk.age}}세 / 여성
+                                    {{review.user_fk.username}} / {{review.user_fk.profile.age}}세 / 여성
                                     {{review.created}}
                                     {{review.content}}
                                 </div>

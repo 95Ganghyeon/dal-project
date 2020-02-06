@@ -3,6 +3,7 @@ from survey.forms import GetSurveyResponseForm
 from survey.models import Survey
 
 # Create your views here.
+
 def index(request):
     if request.method == 'POST':
         get_form = GetSurveyResponseForm(request.POST)
