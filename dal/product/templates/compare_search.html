@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load js %}
 
 {% block content %}
 <script src="{% static 'js/hangul.min.js'%}"></script>
@@ -24,7 +25,7 @@
             <div class="row">
                 <div class="search-text col-lg-4 text-center">
                     <div class="d-inline-block">
-                        <input id="compareSearchText" type="text" name="q" placeholder="{{user.best_pad}}" autocomplete="off"/>
+                        <input id="compareSearchText" type="text" name="q" value="{% if request.GET.q %}{{request.GET.q}}{% else %}{{user.best_pad}}{% endif %}" autocomplete="off"/>
                         <ul class="" id="autoCompleteText"></ul>
                     </div>
                     <span><b>보다</b></span>
@@ -32,22 +33,22 @@
                 </div>
 
                 <div class="checkbox-box col-lg-4 text-center text-xl-left text-lg-left">
-                    <input type="checkbox" id="compareCondition1" value="price">
+                    <input type="checkbox" id="compareCondition1" value="price" {% if request.GET.compareConditionList %}{% if 'price' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
                     <label for="compareCondition1">저렴한</label>
 
-                    <input type="checkbox" id="compareCondition2" value="absorbency">
+                    <input type="checkbox" id="compareCondition2" value="absorbency" {% if request.GET.compareConditionList %}{% if 'absorbency' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
                     <label for="compareCondition2">흡수력 좋은</label>
 
-                    <input type="checkbox" id="compareCondition3" value="comfort">
+                    <input type="checkbox" id="compareCondition3" value="comfort" {% if request.GET.compareConditionList %}{% if 'comfort' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
                     <label for="compareCondition3">촉감/착용감 좋은</label>
                     
-                    <input type="checkbox" id="compareCondition4" value="nature_friendly">
+                    <input type="checkbox" id="compareCondition4" value="nature_friendly" {% if request.GET.compareConditionList %}{% if 'nature_friendly' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
                     <label for="compareCondition4">자연유래정도 높은</label>
 
-                    <input type="checkbox" id="compareCondition5" value="anti_odour">
+                    <input type="checkbox" id="compareCondition5" value="anti_odour" {% if request.GET.compareConditionList %}{% if 'anti_odour' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
                     <label for="compareCondition5">탈취성 좋은</label>
 
-                    <input type="checkbox" id="compareCondition6" value="sensitivity">
+                    <input type="checkbox" id="compareCondition6" value="sensitivity" {% if request.GET.compareConditionList %}{% if 'sensitivity' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
                     <label for="compareCondition6">피부 트러블 덜 나는</label>
                 </div>
 
@@ -105,8 +106,6 @@
     {% endif %}
 </div>
 
-
-
 <div>
     {% comment %} 탭을 만들어야 함 {% endcomment %}
 </div>
@@ -140,11 +139,7 @@
     }
 
     // 검색할 배열
-    var product_list = [
-        { name: "좋은느낌" },
-        { name: "나트라케어" },
-        { name: "좋은데이" },
-    ];
+    var product_list = {{ all_products | js }};
 
     // object 에 초성필드 추가 {name:"좋은느낌", diassembled:"ㅈㅇㄴㄲ"}
     product_list.forEach(function(item){

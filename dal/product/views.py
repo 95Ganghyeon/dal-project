@@ -129,13 +129,14 @@ def compareSearch(request):
     ReviewSummary_list = None
     criterionReviewSummary = None
     page_obj = None
+    all_products = list(Product.objects.values('name').order_by('name'));
 
     if 'q' in request.GET:
         first_page = False
         query = request.GET.get('q')   
         ReviewSummary_list = ReviewSummary.objects.all()
         if query == "" or query not in ReviewSummary_list.values_list('product_fk__name', flat=True):
-            return render(request, 'compare_search.html', {'first_page': first_page, 'searchedWord': query}) 
+            return render(request, 'compare_search.html', {'first_page': first_page, 'searchedWord': query, 'all_products': all_products,}) 
             # ''에 해당하는 검색결과가 없습니다.
         else:
             criterionReviewSummary = ReviewSummary_list.get(product_fk__name=query)
@@ -163,7 +164,7 @@ def compareSearch(request):
         'first_page': first_page,
         'product_list': ReviewSummary_list,
         'page_obj': page_obj,
-        'all_products': list(Product.objects.values('name').order_by('name')),
+        'all_products': all_products,
     }
 
     return render(request, "compare_search.html", context=context)
