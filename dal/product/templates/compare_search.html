@@ -74,7 +74,7 @@
 
         <div class="product-box">
             <ul>
-                {% for reviewSummary in page_obj %}
+                {% for reviewSummary in product_list %}
                 <li onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
                     <img src="#" alt=""/>
                     <p>{{ reviewSummary.product_fk.hashtag_fk.name }}</p>
