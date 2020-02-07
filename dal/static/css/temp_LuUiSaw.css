@@ -35,9 +35,7 @@ body { background-color: #fffefc; font-family: 'Noto Sans CJK KR', Noto Sans KR,
 
 .product-search-page .result-box .product-box ul li > div { cursor: pointer; text-align: center; }
 
-.product-search-page .result-box .product-box ul li > div:hover { /* 상품 리스트 hover 주고 싶으면 여기 건들 것 */ }
-
-.product-search-page .result-box .product-box ul li > div:hover h2 { /* color: #2b5e2e; */ }
+.product-search-page .result-box .product-box ul li > div:hover h2 { color: #2b5e2e; }
 
 .product-search-page .result-box .product-box ul li > div > div { height: 205px; padding: 15px; margin-bottom: 13px; border: solid 1px #979797; background-color: #ffffff; display: flex; justify-content: space-between; align-items: center; }
 
@@ -71,10 +69,6 @@ body { background-color: #fffefc; font-family: 'Noto Sans CJK KR', Noto Sans KR,
 
 .product-search-page .search-content-box input[type="submit"] { margin-left: 20px; height: 32px; padding: 0 30px; border: solid 1px #979797; background-color: transparent; }
 
-.pagination { /* opacity: 0.3; */ /* background-color: red; */ }
-
-.pagination > span { height: 100px; }
-
-.pagination > span > a { z-index: 20; height: 100px; }
+.pagination { height: 300px; }
 
 /*# sourceMappingURL=temp.css.map */

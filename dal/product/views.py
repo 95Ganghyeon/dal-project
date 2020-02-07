@@ -156,7 +156,7 @@ def compareSearch(request):
             if 'sensitivity' in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(sensitivity_avg__gt=criterionReviewSummary.sensitivity_avg)
 
-            paginator = Paginator(ReviewSummary_list, 3)
+            paginator = Paginator(ReviewSummary_list, 2)
             page_number = request.GET.get('page')
             page_obj = paginator.get_page(page_number)
 

@@ -2,119 +2,122 @@
 {% load static %}
 {% load sass_tags %}
 <html lang="ko">
+
 <head>
-    {% block title %}<title>DAL</title>{% endblock %}
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <!-- load css/stylesheet -->
+  {% block title %}<title>DAL</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <!-- load css/stylesheet -->
 
-    {% load bootstrap4 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    
-    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.3.0/css/font-awesome.min.css' %}">
-    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}"> -->
-    
-    <link rel="stylesheet" href="{% static 'css/fonts.css'%}">
-    <link rel="stylesheet" href="{% static 'css/animate.css'%}">
-    <link rel="stylesheet" href="{% static 'css/slick.css'%}">
-    <link rel="stylesheet" href="{% static 'css/style.css'%}">
-    <link rel="stylesheet" href="{% sass_src 'css/temp.scss'%}">
-    <link rel="stylesheet" href="{% static 'css/color/color.css'%}">
+  {% load bootstrap4 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
 
-    <!-- include jQuery -->
-    <script src="{% static 'js/jquery-1.11.3.min.js'%}"></script>
-    <!-- include jQuery -->
-    <script src="{% static 'js/plugins.js'%}"></script>
-    <!-- include jQuery -->
-    <script src="{% static 'js/jquery.main.js'%}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.3.0/css/font-awesome.min.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}"> -->
+
+  <link rel="stylesheet" href="{% static 'css/fonts.css'%}">
+  <link rel="stylesheet" href="{% static 'css/animate.css'%}">
+  <link rel="stylesheet" href="{% static 'css/slick.css'%}">
+  <link rel="stylesheet" href="{% static 'css/style.css'%}">
+  <link rel="stylesheet" href="{% sass_src 'css/temp.scss'%}">
+  <link rel="stylesheet" href="{% static 'css/color/color.css'%}">
+
+  <!-- include jQuery -->
+  <script src="{% static 'js/jquery-1.11.3.min.js'%}"></script>
+  <!-- include jQuery -->
+  <script src="{% static 'js/plugins.js'%}"></script>
+  <!-- include jQuery -->
+  <script src="{% static 'js/jquery.main.js'%}"></script>
 
 </head>
-<body>    
-    {% block pageloader %}
-      <div id="pre-loader" class="loader-container">
-      <div class="loader">
-        <img src="images/svg/rings.svg" alt="loader">
-      </div>
-      </div>
-    {% endblock pageloader %}
+
+<body>
+  {% block pageloader %}
+  <div id="pre-loader" class="loader-container">
+    <div class="loader">
+      <img src="images/svg/rings.svg" alt="loader">
+    </div>
+  </div>
+  {% endblock pageloader %}
   <div id="wrapper">
     {% block header %}
-  <header id="header" class="sticky-header">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="logo">
-            <a href="index.html"><img src="{% static 'images/logo.png'%}" alt="DAL LOGO"></a>
-          </div>
-          <div class="nav-holder">
-            <a href="#" class="nav-opener"><span>menu</span></a>
-            <!-- nav of the page -->
-            <nav id="nav">
-              <ul class="list-unstyled">
-                <li class="active">
-                  <a href="#">M-type (랭킹)</a>
-                  {% comment %} <ul class="list-unstyled drop">
-                    <li><a href="index.html">Home 1</a></li>
-                    <li><a href="home.html">Home 2</a></li>
-                  </ul> {% endcomment %}
-                </li>
-                <li>
-                  <a href="product/compare_search.html">비교하기</a>
-                </li>
-              </ul>
-            </nav>
-            <div class="align-right">
-              <!-- social-networks of the page -->
-              <ul class="list-unstyled icon-list">
-                <li>
-                  {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
-                  <a href="#">{{ user.username }}</a>
-                  {% comment %} 유저이미지 <a href="#"><img src="{% static 'images/user.png'%}" alt="user login"></a> {% endcomment %} 
-                  <ul class="list-unstyled drop">
-                    <li><a href="profile.html">마이페이지</a></li>
-                    <li><a href='{% url 'account_logout' %}'>로그아웃</a></li>
-                  </ul>
-                  {% else %}
-                  <a href="{% url 'account_login' %}" class="nav-link">로그인</a>
-                  {% endif %}
-                  
-                </li>
-                <li>
-                  <a class="btn-search" href="#"><span class="glyphicon glyphicon-search"></span></a>
-                </li>
-              </ul>
+    <header id="header" class="sticky-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="logo">
+              <a href="index.html"><img src="{% static 'images/logo.png'%}" alt="DAL LOGO"></a>
+            </div>
+            <div class="nav-holder">
+              <a href="#" class="nav-opener"><span>menu</span></a>
+              <!-- nav of the page -->
+              <nav id="nav">
+                <ul class="list-unstyled">
+                  <li class="active">
+                    <a href="#">M-type (랭킹)</a>
+                    {% comment %} <ul class="list-unstyled drop">
+                      <li><a href="index.html">Home 1</a></li>
+                      <li><a href="home.html">Home 2</a></li>
+                    </ul> {% endcomment %}
+                  </li>
+                  <li>
+                    <a href="product/compare_search.html">비교하기</a>
+                  </li>
+                </ul>
+              </nav>
+              <div class="align-right">
+                <!-- social-networks of the page -->
+                <ul class="list-unstyled icon-list">
+                  <li>
+                    {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
+                    <a href="#">{{ user.username }}</a>
+                    {% comment %} 유저이미지 <a href="#"><img src="{% static 'images/user.png'%}" alt="user login"></a>
+                    {% endcomment %}
+                    <ul class="list-unstyled drop">
+                      <li><a href="profile.html">마이페이지</a></li>
+                      <li><a href='{% url 'account_logout' %}'>로그아웃</a></li>
+                    </ul>
+                    {% else %}
+                    <a href="{% url 'account_login' %}" class="nav-link">로그인</a>
+                    {% endif %}
+
+                  </li>
+                  <li>
+                    <a class="btn-search" href="#"><span class="glyphicon glyphicon-search"></span></a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </header>
-  <!-- Search Popup of the page -->
-  <div class="search-popup">
-    <div class="holder">
-      <div class="col">
-        <div class="block-holder">
-          <a href="#" class="close-btn"><i class="icon-close"></i></a>
-          <form action="#" class="submit-form">
-            <fieldset>
-              <label for="search" class="icon-search"></label>
-              <input type="search" id="search">
-            </fieldset>
-          </form>
+    </header>
+    <!-- Search Popup of the page -->
+    <div class="search-popup">
+      <div class="holder">
+        <div class="col">
+          <div class="block-holder">
+            <a href="#" class="close-btn"><i class="icon-close"></i></a>
+            <form action="#" class="submit-form">
+              <fieldset>
+                <label for="search" class="icon-search"></label>
+                <input type="search" id="search">
+              </fieldset>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
     {% endblock header %}
 
     <div class='container'>
-    
-    {% block content %}
-    
-    {% endblock %}
+
+      {% block content %}
+
+      {% endblock %}
     </div>
 
     {% block footer %}
@@ -133,13 +136,15 @@
             <h3>contact us</h3>
             <!-- Contact of the page -->
             <ul class="list-unstyled contact-info">
-              <li><i class="icon icon-location"></i><address>Limited. 222-UTC , EU .</address></li>
+              <li><i class="icon icon-location"></i>
+                <address>Limited. 222-UTC , EU .</address>
+              </li>
               <li><i class="icon icon-email"></i><a class="txt" href="#">Support@emtheme.com</a></li>
               <li><i class="icon icon-phone"></i><a class="txt" href="#">(00)-213 1234567</a></li>
               <li><i class="icon icon-printer"></i><a class="txt" href="#">(00)-213 1879017</a></li>
             </ul>
           </div>
-          
+
         </div>
       </div>
       <span class="support">24H SUPPORT</span>
@@ -147,6 +152,7 @@
     <!-- Back Top of the page -->
     <span id="back-top" class="arrow_carrot-up"></span>
     {% endblock footer %}
-    </div>
+  </div>
 </body>
+
 </html>

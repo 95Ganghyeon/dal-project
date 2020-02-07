@@ -2308,7 +2308,7 @@ a:focus {
 /*------------------------------------------------------------------
 24. Pagination / .pagination
 -------------------------------------------------------------------*/
-
+/* 
 .pagination {
 	font-size: 0;
 	position: absolute;
@@ -2355,7 +2355,7 @@ a:focus {
 	transform: scale(1.5, 2);
 	-webkit-transition: all .25s linear;
 	transition: all .25s linear;
-}
+} */
 
 /*------------------------------------------------------------------
 25. Contact Section / .contact-sec
@@ -5197,7 +5197,7 @@ a:focus {
 		line-height: 22px;
 	}
 
-	.pagination li {
+	/* .pagination li {
 		margin: 0 15px 0 0;
 		font-size: 20px;
 		line-height: 22px;
@@ -5211,7 +5211,7 @@ a:focus {
 		margin: 0 12px;
 	}
 	.pagination .slick-prev.slick-arrow,
-	.pagination .slick-next.slick-arrow{ display: none; }
+	.pagination .slick-next.slick-arrow{ display: none; } */
 
 	.contact-sec .map {
 		width: 100%;
@@ -5933,7 +5933,7 @@ a:focus {
 		line-height: 26px;
 	}
 
-	.pagination li {
+	/* .pagination li {
 		margin: 0 25px 0 0;
 		font-size: 24px;
 		line-height: 26px;
@@ -5946,7 +5946,7 @@ a:focus {
 	.pagination .slick-next.slick-arrow{
 		display: inline-block;
 		vertical-align: middle;
-	}
+	} */
 
 	.text-holder {
 		padding: 78px 20px 0 55px;

@@ -63,23 +63,36 @@
     {% if first_page == False %}
     <div class="result-box row">
         <p class="col-12">총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
-        <select>
-            <option>선택</option>
-            <option>흡수력 순</option>
-            <option>촉감/착용감 순</option>
-            <option>자연유래정도 순</option>
-            <option>탈취성 순</option>
-            <option>민감도 순</option>
-        </select>
+        <div class="col-12">
+            <select>
+                <option>선택</option>
+                <option>흡수력 순</option>
+                <option>촉감/착용감 순</option>
+                <option>자연유래정도 순</option>
+                <option>탈취성 순</option>
+                <option>민감도 순</option>
+            </select>
+        </div>
 
-        <div class="product-box">
-            <ul>
-                {% for reviewSummary in product_list %}
-                <li onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
-                    <img src="#" alt=""/>
-                    <p>{{ reviewSummary.product_fk.hashtag_fk.name }}</p>
-                    <h2>{{ reviewSummary.product_fk.name }}</h2>
-                    <h3>{{ reviewSummary.product_fk.category }}</h3>
+        <div class="product-box col-12">
+            <ul class="row">
+                {% for reviewSummary in page_obj %}
+                <li class="col-lg-4 col-md-6 col-xs-12 my-4" onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
+                    <div>
+                        <div class="">
+                            <div class="">
+                                {% if page_obj.number == 1 %}
+                                    {% if forloop.counter0 < 3 %}
+                                        <span class="rank">{{ forloop.counter }}위</span>
+                                    {% endif %}
+                                {% endif %}
+                                <span>흡수력 4.3점</span>
+                            </div>
+                            <img class="" src="{{ reviewSummary.product_fk.image.url }}" alt=""/>
+                        </div c>
+                        <span>{{ reviewSummary.product_fk.hashtag_fk.name }}</span>
+                        <h2>{{ reviewSummary.product_fk.name }}({{ reviewSummary.product_fk.category }})</h2>
+                    </div>
                 </li>
                 {% empty %}
                 <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
@@ -87,7 +100,6 @@
             </ul>
         </div>
     </div>
-    
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
@@ -98,11 +110,13 @@
             <span class="current">
                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
             </span>
+
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
+            {% endif %}
         </span>
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
-        {% endif %}
+    </div>
     {% endif %}
 </div>
 
@@ -153,7 +167,7 @@
 
     console.log(product_list);
 
-    var is_cursor_in_ul = true;
+    var is_cursor_in_ul = false;
     
     function configCompareSearchTextEvent(){
         var inputText = document.getElementById('compareSearchText');
