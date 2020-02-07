@@ -13,11 +13,9 @@
 
   {% load bootstrap4 %}
   {% bootstrap_css %}
-  {% bootstrap_javascript %}
+  {% bootstrap_javascript jquery='full'%}
 
-  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.3.0/css/font-awesome.min.css' %}">
-  <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}"> -->
-  <link rel="stylesheet" href="{% static 'css/style.css'%}">
+  <link rel="stylesheet" href="{% sass_src 'css/temp.scss'%}">
 
 </head>
 <body>    
