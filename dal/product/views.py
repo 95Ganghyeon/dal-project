@@ -163,7 +163,7 @@ def compareSearch(request):
         'first_page': first_page,
         'product_list': ReviewSummary_list,
         'page_obj': page_obj,
-        'all_products': list(Product.objects.values('name')),
+        'all_products': list(Product.objects.values('name').order_by('name')),
     }
 
     return render(request, "compare_search.html", context=context)

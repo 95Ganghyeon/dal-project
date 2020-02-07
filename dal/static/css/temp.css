@@ -54,7 +54,7 @@ body {
     padding: 50px 0;
 }
 
-.product-search-page .search-content-box form div > div {
+.product-search-page .search-content-box form > div > div {
     margin-bottom: 25px;
 }
 
@@ -64,6 +64,43 @@ body {
     background-color: #f6f6f6;
     width: 200px;
     margin-right: 20px;
+}
+
+#autoCompleteText {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+
+    border: solid 1px #bebebe;
+    border-top: none;
+    background-color: #f6f6f6;
+    width: 200px;
+
+    z-index: 10;
+    transition: all 0.5s;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.1s, opacity 0.1s linear;
+}
+
+#autoCompleteText.focusin {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0;
+    transition-duration: 0.4s;
+}
+
+#autoCompleteText li {
+    list-style: none;
+    text-align: left;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+#autoCompleteText li:hover {
+    background-color: #2b5e2e;
+    color: #FFFFFF;
 }
 
 .product-search-page .search-content-box input[type="checkbox"] {

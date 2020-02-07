@@ -1,12 +1,11 @@
 {% extends "base_generic.html" %}
+{% load static %}
 
 {% block content %}
+<script src="{% static 'js/hangul.min.js'%}"></script>
 
-<div>
-    {% comment %} 탭을 만들어야 함 {% endcomment %}
-</div>
+<div style="height: 100px;"> 걍넣어본</div>
 
-    {{all_products}}
 <div class="product-search-page container">
     <!-- 상단 탭 -->
     <div class="search-pannel row">
@@ -24,7 +23,10 @@
         <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
             <div class="row">
                 <div class="search-text col-lg-4 text-center">
-                    <input id="compareSearchText" type="text" name="q" placeholder="{{user.best_pad}}"/>
+                    <div class="d-inline-block">
+                        <input id="compareSearchText" type="text" name="q" placeholder="{{user.best_pad}}" autocomplete="off"/>
+                        <ul class="" id="autoCompleteText"></ul>
+                    </div>
                     <span><b>보다</b></span>
                     <input type="hidden" name="compareConditionList" value=""/>
                 </div>
@@ -103,14 +105,26 @@
     {% endif %}
 </div>
 
+
+
+<div>
+    {% comment %} 탭을 만들어야 함 {% endcomment %}
+</div>
+
+</script>
+
+
+
 <script type="text/javascript">
     var pre_selected_item = document.querySelector('.search-pannel .compared-search');
-
+    
     window.onload = function(){        
         document.getElementById('compareSearchForm').addEventListener('submit', function(){
             compareSearchFormValidation();
         });
 
+        configCompareSearchTextEvent();
+        
         document.querySelectorAll('.search-pannel div').forEach(function(item){
             item.addEventListener('click', function(){
                 select_pannel(item);
@@ -123,29 +137,89 @@
                 select_pannel(pre_selected_item);
             });
         }); 
+    }
 
-        document.getElementById('compareSearchText').addEventListener('keyup', function(){
-            getCompleteCompareSearchText();
+    // 검색할 배열
+    var product_list = [
+        { name: "좋은느낌" },
+        { name: "나트라케어" },
+        { name: "좋은데이" },
+    ];
+
+    // object 에 초성필드 추가 {name:"좋은느낌", diassembled:"ㅈㅇㄴㄲ"}
+    product_list.forEach(function(item){
+        // Hangul.disassemble(str:string, grouped:boolean = false)
+        var chosung_arr = Hangul.disassemble(item.name, true);
+        var chosung = chosung_arr.reduce(function(acc_ele, ele){
+            return acc_ele + ele[0]; // 초성만 누적시켜 하나의 스트링으로 반환
+        }, "");
+        item.diassembled = chosung;
+    });
+
+    console.log(product_list);
+
+    var is_cursor_in_ul = true;
+    
+    function configCompareSearchTextEvent(){
+        var inputText = document.getElementById('compareSearchText');
+        var ul = document.getElementById('autoCompleteText');
+        
+        inputText.addEventListener('focusin', function(){
+            createSearchTextList(this, ul);
+        });
+        inputText.addEventListener('keyup', function(){
+            createSearchTextList(this, ul);
+        });
+        inputText.addEventListener('focusout', function(){
+            if( is_cursor_in_ul == false ){
+                removeSearchTextList(ul);
+            }
+        });
+        ul.addEventListener('mouseenter', function(){
+            is_cursor_in_ul = true;
+        });
+        ul.addEventListener('mouseleave', function(){
+            is_cursor_in_ul = false;
         });
     }
 
-    // 자동완성 검색어 가져오기
-    function getCompleteCompareSearchText(){
-        var text = document.getElementById('compareSearchText').value;
-        var xhr = new XMLHttpRequest();
-        var requestStr = "{% url 'CompareSearch' %}?search_text=" + text;
-        xhr.open('GET', requestStr);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                alert('초성으로 바꾸면' + xhr.responseText);
-            }
-            else {
-                alert('Request failed.  Returned status of ' + xhr.status);
-            }
-        };
-        xhr.send();
+    function removeSearchTextList(ul){
+        // 기존 자동완성 ul 자식 노드 모두 삭제
+        while(ul.hasChildNodes()){
+            ul.removeChild(ul.firstChild);
+        }
+
+        ul.classList.remove('focusin');
     }
 
+    function createSearchTextList(inputText, ul){
+        removeSearchTextList(ul);
+
+        var search = inputText.value;
+        var search_chosung = Hangul.disassemble(search, true).reduce(function(acc_ele, ele){
+            return acc_ele + ele[0];
+        }, "");
+        
+        product_list.filter(function(item){
+            return item.name.includes(search) || item.diassembled.includes(search_chosung);
+        }).forEach(function(item, index){
+            // 검색결과 ul 아래에 li 로 추가
+            var li = document.createElement('li');
+            if( index > 5 ){
+                return;
+            }
+            li.innerHTML = item.name;
+            li.addEventListener('click', function(){
+                inputText.value = item.name;
+                removeSearchTextList(ul);
+            });
+
+            ul.appendChild(li);
+        });
+
+        ul.classList.add('focusin');
+    }
+    
     // comparesearch / keywordsearch 탭 선택
     function select_pannel(selected_item){
         document.querySelectorAll('.search-pannel div').forEach(function(item){
