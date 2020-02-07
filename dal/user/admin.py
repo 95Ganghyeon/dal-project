@@ -34,7 +34,7 @@ class CustomUserAdmin(UserAdmin):
       return 'none'
 
 
-class ProfileAdmin(admin.ModelAdmin):
+class ProfileAdmin(ImportExportModelAdmin):
   list_display = ('id', 'user_fk', 'ghost_user', 'm_type', 'survey_fk', 'age')
 
 admin.site.register(Profile, ProfileAdmin)
