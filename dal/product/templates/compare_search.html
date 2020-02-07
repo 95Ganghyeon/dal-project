@@ -23,7 +23,7 @@
     <div class="search-content-box">
         <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
             <div class="row">
-                <div class="search-text col-lg-4 text-center">
+                <div class="search-text col-lg-3 text-center">
                     <div class="d-inline-block">
                         <input id="compareSearchText" type="text" name="q" value="{% if request.GET.q %}{{request.GET.q}}{% else %}{{user.best_pad}}{% endif %}" autocomplete="off"/>
                         <ul class="" id="autoCompleteText"></ul>
@@ -32,7 +32,7 @@
                     <input type="hidden" name="compareConditionList" value=""/>
                 </div>
 
-                <div class="checkbox-box col-lg-4 text-center text-xl-left text-lg-left">
+                <div class="checkbox-box col-lg-5 text-center text-xl-left text-lg-left">
                     <input type="checkbox" id="compareCondition1" value="price" {% if request.GET.compareConditionList %}{% if 'price' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
                     <label for="compareCondition1">저렴한</label>
 
@@ -58,51 +58,51 @@
                 </div>
             </div>
         </form>
-
-        {% if first_page == False %}
-        <div class="result-box">
-            <p>총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
-            <select>
-                <option>선택</option>
-                <option>흡수력 순</option>
-                <option>촉감/착용감 순</option>
-                <option>자연유래정도 순</option>
-                <option>탈취성 순</option>
-                <option>민감도 순</option>
-            </select>
-
-            <div class="product-box">
-                <ul>
-                    {% for reviewSummary in page_obj %}
-                    <li onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
-                        <img src="#" alt=""/>
-                        <p>{{ reviewSummary.product_fk.hashtag_fk.name }}</p>
-                        <h2>{{ reviewSummary.product_fk.name }}</h2>
-                        <h3>{{ reviewSummary.product_fk.category }}</h3>
-                    </li>
-                    {% empty %}
-                    <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-            </span>
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
-        {% endif %}
     </div>
+
+    {% if first_page == False %}
+    <div class="result-box row">
+        <p class="col-12">총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
+        <select>
+            <option>선택</option>
+            <option>흡수력 순</option>
+            <option>촉감/착용감 순</option>
+            <option>자연유래정도 순</option>
+            <option>탈취성 순</option>
+            <option>민감도 순</option>
+        </select>
+
+        <div class="product-box">
+            <ul>
+                {% for reviewSummary in page_obj %}
+                <li onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
+                    <img src="#" alt=""/>
+                    <p>{{ reviewSummary.product_fk.hashtag_fk.name }}</p>
+                    <h2>{{ reviewSummary.product_fk.name }}</h2>
+                    <h3>{{ reviewSummary.product_fk.category }}</h3>
+                </li>
+                {% empty %}
+                <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+        </span>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
+        {% endif %}
     {% endif %}
 </div>
 
@@ -200,7 +200,7 @@
         }).forEach(function(item, index){
             // 검색결과 ul 아래에 li 로 추가
             var li = document.createElement('li');
-            if( index > 5 ){
+            if( index > 4 ){
                 return;
             }
             li.innerHTML = item.name;
