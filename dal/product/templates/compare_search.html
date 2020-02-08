@@ -23,18 +23,18 @@
     <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
         <div class="search-content-box">
             <div class="row search-option">
-                <div class="search-text col-lg-3 text-center">
+                <div class="search-text col-lg-4 col-xl-3 text-center">
                     <div class="d-inline-block">
                         <input id="compareSearchText" type="text" name="q"
                             value="{% if request.GET.q %}{{request.GET.q}}{% else %}{{user.best_pad}}{% endif %}"
                             autocomplete="off" />
                         <ul class="" id="autoCompleteText"></ul>
                     </div>
-                    <span><b>보다</b></span>
+                    <span>보다</span>
                     <input type="hidden" name="compareConditionList" value="" />
                 </div>
 
-                <div class="checkbox-box col-lg-5 text-center text-xl-left text-lg-left">
+                <div class="checkbox-box col-lg-5 col-xl-5">
                     <input type="checkbox" id="compareCondition1" value="price"
                         {% if request.GET.compareConditionList %}{% if 'price' in request.GET.compareConditionList %}checked="true"
                         {% endif %}{% endif %}>
@@ -66,8 +66,8 @@
                     <label for="compareCondition6">피부 트러블 덜 나는</label>
                 </div>
 
-                <div class="col-lg-4 text-center">
-                    <span><b>제품을 찾아주세요</b></span>
+                <div class="col-lg-3 text-center col-xl-4">
+                    <span>제품을 찾아주세요</span>
                     <input type="submit" value="검색">
                 </div>
             </div>
@@ -151,28 +151,32 @@
                 </ul>
             </div>
         </div>
-        <div class="pagination">
-            <span class="step-links">
+
+        <!-- pagination -->
+        <div>
+            <ul class="my-pagination">
+                <!-- 이전 페이지로 이동 -->
                 {% if page_obj.has_previous %}
-                <a
-                    href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">&laquo;
-                    first</a>
-                <a
-                    href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">previous</a>
+                    <li class="nav"><a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">&laquo;</a></li>
+                {% else %}
+                    <li class="nav disabled">&laquo;</li>
                 {% endif %}
-
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-
+                <!-- [1] [2] [3] -->
+                {% for i in page_obj.paginator.page_range %}     
+                    {% if page_obj.number == i %}
+                        <li class="disabled">&#91; {{ i }} &#93;</li>
+                    {% else %}
+                        <li><a href="?page={{ i }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">&#91; {{ i }} &#93;</a></li>
+                    {% endif %}
+                {% endfor %}
+                <!-- 다음 페이지로 이동 -->
                 {% if page_obj.has_next %}
-                <a
-                    href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">next</a>
-                <a
-                    href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">last
-                    &raquo;</a>
+                    <li class="nav"><a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">&raquo;</a></li>
+                {% else %}
+                    <li class="nav disabled">&raquo;</li>
                 {% endif %}
-            </span>
+            </ul>
+            <p class="text-center">(총 {{ page_obj.paginator.num_pages }} 페이지)</p>
         </div>
         {% endif %}
     </form>
@@ -233,13 +237,13 @@
         });
         div.addEventListener('focusout', function(){
             if( is_cursor_in_drop_down == false ){
-                ul.classList.toggle('focusin');
+                ul.classList.remove('focusin');
                 // div.classList.toggle('focusin');
             }    
         });
         document.querySelectorAll('.drop-down-box ul li').forEach(function(item, num){
             item.addEventListener('click', function(){
-                ul.classList.toggle('focusin');
+                ul.classList.remove('focusin');
                 // div.classList.toggle('focusin');
                 div.innerHTML = item.innerHTML;
                 option_form.value = item.getAttribute('data-option');
@@ -269,10 +273,10 @@
         var ul = document.getElementById('autoCompleteText');
         
         inputText.addEventListener('focusin', function(){
-            createSearchTextList(this, ul);
+            createSearchTextList(inputText, ul);
         });
         inputText.addEventListener('keyup', function(){
-            createSearchTextList(this, ul);
+            createSearchTextList(inputText, ul);
         });
         inputText.addEventListener('focusout', function(){
             if( is_cursor_in_ul == false ){
