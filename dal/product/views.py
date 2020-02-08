@@ -130,18 +130,22 @@ def compareSearch(request):
     criterionReviewSummary = None
     page_obj = None
     all_products = list(Product.objects.values('name').order_by('name'));
+    option = None
+    option_res = None # 앞단으로 보내줄 변수
 
     if 'q' in request.GET:
         first_page = False
         query = request.GET.get('q')   
         ReviewSummary_list = ReviewSummary.objects.all()
-        if query == "" or query not in ReviewSummary_list.values_list('product_fk__name', flat=True):
+
+        if query not in ReviewSummary_list.values_list('product_fk__name', flat=True): # 검색 결과 없을 때
             return render(request, 'compare_search.html', {'first_page': first_page, 'searchedWord': query, 'all_products': all_products,}) 
-            # ''에 해당하는 검색결과가 없습니다.
-        else:
+        else: # 검색 결과 존재할 떄
             criterionReviewSummary = ReviewSummary_list.get(product_fk__name=query)
             compareCondition = request.GET.get('compareConditionList')
             compareCondition = compareCondition.split(',')
+
+            print(compareCondition[0])
             
             if 'price' in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(product_fk__price__lt=criterionReviewSummary.product_fk.price)
@@ -156,6 +160,26 @@ def compareSearch(request):
             if 'sensitivity' in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(sensitivity_avg__gt=criterionReviewSummary.sensitivity_avg)
 
+            """ 
+            정렬 옵션에 따른 order by
+            """
+            if 'option' in request.GET and request.GET.get('option') != '':
+                option = request.GET.get('option')   
+            else: # 쿼리스트링에 option 이 없거나, option= 인 경우 (초기화면 고려)
+                option = compareCondition[0]
+
+            option_res = option # 앞단으로 보낼 option 변수 생성 (변형 전)
+
+            # orm 에 알맞게 변형
+            if option == 'price':
+                option = 'product_fk__' + option
+            elif option == 'nature_friendly':
+                option = '-product_fk__' + option
+            else:
+                option = '-' + option +'_avg'
+
+            ReviewSummary_list = ReviewSummary_list.order_by(option)
+
             paginator = Paginator(ReviewSummary_list, 2)
             page_number = request.GET.get('page')
             page_obj = paginator.get_page(page_number)
@@ -165,6 +189,7 @@ def compareSearch(request):
         'product_list': ReviewSummary_list,
         'page_obj': page_obj,
         'all_products': all_products,
+        'option': option_res,
     }
 
     return render(request, "compare_search.html", context=context)

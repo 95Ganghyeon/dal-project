@@ -19,36 +19,50 @@
             <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
         </div>
     </div>
-    
-    <div class="search-content-box">
-        <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
-            <div class="row">
+
+    <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
+        <div class="search-content-box">
+            <div class="row search-option">
                 <div class="search-text col-lg-3 text-center">
                     <div class="d-inline-block">
-                        <input id="compareSearchText" type="text" name="q" value="{% if request.GET.q %}{{request.GET.q}}{% else %}{{user.best_pad}}{% endif %}" autocomplete="off"/>
+                        <input id="compareSearchText" type="text" name="q"
+                            value="{% if request.GET.q %}{{request.GET.q}}{% else %}{{user.best_pad}}{% endif %}"
+                            autocomplete="off" />
                         <ul class="" id="autoCompleteText"></ul>
                     </div>
                     <span><b>보다</b></span>
-                    <input type="hidden" name="compareConditionList" value=""/>
+                    <input type="hidden" name="compareConditionList" value="" />
                 </div>
 
                 <div class="checkbox-box col-lg-5 text-center text-xl-left text-lg-left">
-                    <input type="checkbox" id="compareCondition1" value="price" {% if request.GET.compareConditionList %}{% if 'price' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
+                    <input type="checkbox" id="compareCondition1" value="price"
+                        {% if request.GET.compareConditionList %}{% if 'price' in request.GET.compareConditionList %}checked="true"
+                        {% endif %}{% endif %}>
                     <label for="compareCondition1">저렴한</label>
 
-                    <input type="checkbox" id="compareCondition2" value="absorbency" {% if request.GET.compareConditionList %}{% if 'absorbency' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
+                    <input type="checkbox" id="compareCondition2" value="absorbency"
+                        {% if request.GET.compareConditionList %}{% if 'absorbency' in request.GET.compareConditionList %}checked="true"
+                        {% endif %}{% endif %}>
                     <label for="compareCondition2">흡수력 좋은</label>
 
-                    <input type="checkbox" id="compareCondition3" value="comfort" {% if request.GET.compareConditionList %}{% if 'comfort' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
+                    <input type="checkbox" id="compareCondition3" value="comfort"
+                        {% if request.GET.compareConditionList %}{% if 'comfort' in request.GET.compareConditionList %}checked="true"
+                        {% endif %}{% endif %}>
                     <label for="compareCondition3">촉감/착용감 좋은</label>
-                    
-                    <input type="checkbox" id="compareCondition4" value="nature_friendly" {% if request.GET.compareConditionList %}{% if 'nature_friendly' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
+
+                    <input type="checkbox" id="compareCondition4" value="nature_friendly"
+                        {% if request.GET.compareConditionList %}{% if 'nature_friendly' in request.GET.compareConditionList %}checked="true"
+                        {% endif %}{% endif %}>
                     <label for="compareCondition4">자연유래정도 높은</label>
 
-                    <input type="checkbox" id="compareCondition5" value="anti_odour" {% if request.GET.compareConditionList %}{% if 'anti_odour' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
+                    <input type="checkbox" id="compareCondition5" value="anti_odour"
+                        {% if request.GET.compareConditionList %}{% if 'anti_odour' in request.GET.compareConditionList %}checked="true"
+                        {% endif %}{% endif %}>
                     <label for="compareCondition5">탈취성 좋은</label>
 
-                    <input type="checkbox" id="compareCondition6" value="sensitivity" {% if request.GET.compareConditionList %}{% if 'sensitivity' in request.GET.compareConditionList %}checked="true"{% endif %}{% endif %}>
+                    <input type="checkbox" id="compareCondition6" value="sensitivity"
+                        {% if request.GET.compareConditionList %}{% if 'sensitivity' in request.GET.compareConditionList %}checked="true"
+                        {% endif %}{% endif %}>
                     <label for="compareCondition6">피부 트러블 덜 나는</label>
                 </div>
 
@@ -57,68 +71,115 @@
                     <input type="submit" value="검색">
                 </div>
             </div>
-        </form>
-    </div>
-
-    {% if first_page == False %}
-    <div class="result-box row">
-        <p class="col-12">총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
-        <div class="col-12">
-            <select>
-                <option>선택</option>
-                <option>흡수력 순</option>
-                <option>촉감/착용감 순</option>
-                <option>자연유래정도 순</option>
-                <option>탈취성 순</option>
-                <option>민감도 순</option>
-            </select>
         </div>
 
-        <div class="product-box col-12">
-            <ul class="row">
-                {% for reviewSummary in page_obj %}
-                <li class="col-lg-4 col-md-6 col-xs-12 my-4" onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
-                    <div>
-                        <div class="">
+        {% if first_page == False %}
+        <div class="result-box row">
+            <p class="col-12">총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
+            <div class="col-12">
+                <!-- 드롭다운 옵션 선택 div -->
+                <div class="drop-down-box">
+                    <a href="javascript:void(0);">
+                        {% if option == 'price' %}
+                        저렴한 순
+                        {% elif option == 'absorbency' %}
+                        흡수력 순
+                        {% elif option == 'comfort' %}
+                        촉감/착용감 순
+                        {% elif option == 'nature_friendly' %}
+                        자연유래정도 순
+                        {% elif option == 'anti_odour' %}
+                        탈취성 순
+                        {% elif option == 'sensitivity' %}
+                        민감도 순
+                        {% else %}
+                        정렬 선택
+                        {% endif %}
+                    </a>
+                    <input type="hidden" value="{% if option %}{{ option }}{% endif %}" name="option">
+                    <ul>
+                        <li data-option="price">저렴한 순</li>
+                        <li data-option="absorbency">흡수력 순</li>
+                        <li data-option="comfort">촉감/착용감 순</li>
+                        <li data-option="nature_friendly">자연유래정도 순</li>
+                        <li data-option="anti_odour">탈취성 순</li>
+                        <li data-option="sensitivity">민감도 순</li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+            <div class="product-box col-12">
+                <ul class="row">
+                    {% for reviewSummary in page_obj %}
+                    <li class="col-lg-4 col-md-6 col-xs-12 my-4"
+                        onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
+                        <div>
                             <div class="">
-                                {% if page_obj.number == 1 %}
+                                <div class="">
+                                    {% if page_obj.number == 1 %}
                                     {% if forloop.counter0 < 3 %}
-                                        <span class="rank">{{ forloop.counter }}위</span>
+                                    <span class="rank">{{ forloop.counter }}위</span>
                                     {% endif %}
-                                {% endif %}
-                                <span>흡수력 4.3점</span>
-                            </div>
-                            <img class="" src="{{ reviewSummary.product_fk.image.url }}" alt=""/>
-                        </div c>
-                        <span>{{ reviewSummary.product_fk.hashtag_fk.name }}</span>
-                        <h2>{{ reviewSummary.product_fk.name }}({{ reviewSummary.product_fk.category }})</h2>
-                    </div>
-                </li>
-                {% empty %}
-                <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p> 
-                {% endfor %}
-            </ul>
+                                    {% endif %}
+                                    <span>
+                                        {% if option == 'price' %}
+                                        가격 {{ reviewSummary.product_fk.price }}원
+                                        {% elif option == 'absorbency' %}
+                                        흡수력 {{ reviewSummary.absorbency_avg }}점
+                                        {% elif option == 'comfort' %}
+                                        촉감/착용감 {{ reviewSummary.comfort_avg }}점
+                                        {% elif option == 'nature_friendly' %}
+                                        자연유래정도 {{ reviewSummary.product_fk.nature_friendly }}점
+                                        {% elif option == 'anti_odour' %}
+                                        탈취성 {{ reviewSummary.anti_odour_avg }}점
+                                        {% elif option == 'sensitivity' %}
+                                        민감도 {{ reviewSummary.sensitivity_avg }}점
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <img class="" src="{{ reviewSummary.product_fk.image.url }}" alt="" />
+                            </div c>
+                            <span>{{ reviewSummary.product_fk.hashtag_fk.name }}</span>
+                            <h2>{{ reviewSummary.product_fk.name }}({{ reviewSummary.product_fk.category }})</h2>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <p>'{{searchedWord}}'에 해당하는 검색결과가 없습니다.</p>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">previous</a>
-            {% endif %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a
+                    href="?page=1{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">&laquo;
+                    first</a>
+                <a
+                    href="?page={{ page_obj.previous_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">previous</a>
+                {% endif %}
 
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                <a
+                    href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">next</a>
+                <a
+                    href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}{% if request.GET.option %}&amp;option={{ request.GET.option }}{% endif %}">last
+                    &raquo;</a>
+                {% endif %}
             </span>
-
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.compareConditionList %}&amp;compareConditionList={{request.GET.compareConditionList}}{% endif %}{% if request.GET.q %}&amp;q={{request.GET.q}}{% endif %}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
-    {% endif %}
+        </div>
+        {% endif %}
+    </form>
 </div>
+
+
+
 
 <div>
     {% comment %} 탭을 만들어야 함 {% endcomment %}
@@ -150,6 +211,40 @@
                 select_pannel(pre_selected_item);
             });
         }); 
+
+        configDropDownBoxEvent();
+    }
+
+    function configDropDownBoxEvent(){
+        var div = document.querySelector('.drop-down-box a');
+        var ul = document.querySelector('.drop-down-box ul');
+        var is_cursor_in_drop_down = false;
+        var option_form = document.getElementsByName('option')[0];
+
+        ul.addEventListener('mouseenter', function(){
+            is_cursor_in_drop_down = true;
+        });
+        ul.addEventListener('mouseleave', function(){
+            is_cursor_in_drop_down = false;
+        });
+        div.addEventListener('click', function(){
+            ul.classList.toggle('focusin');
+            // div.classList.toggle('focusin');
+        });
+        div.addEventListener('focusout', function(){
+            if( is_cursor_in_drop_down == false ){
+                ul.classList.toggle('focusin');
+                // div.classList.toggle('focusin');
+            }    
+        });
+        document.querySelectorAll('.drop-down-box ul li').forEach(function(item, num){
+            item.addEventListener('click', function(){
+                ul.classList.toggle('focusin');
+                // div.classList.toggle('focusin');
+                div.innerHTML = item.innerHTML;
+                option_form.value = item.getAttribute('data-option');
+            });
+        });
     }
 
     // 검색할 배열
