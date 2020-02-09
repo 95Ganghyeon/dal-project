@@ -19,10 +19,6 @@ body { animation: fadein 1s; -moz-animation: fadein 1s; /* Firefox */ -webkit-an
   from { opacity: 0; }
   to { opacity: 1; } }
 
-li { padding: 4px 0; }
-
-.hover-cursor { cursor: pointer; }
-
 /* 공통 드롭다운 스타일 */
 .drop-down-box { padding: 10px 10px; }
 
@@ -41,7 +37,7 @@ li { padding: 4px 0; }
 .drop-down-box ul li:hover { background-color: #2b5e2e; color: #FFFFFF; }
 
 /* 공통 페이지네이션 스타일 */
-ul.my-pagination { display: flex; justify-content: center; align-items: center; }
+ul.my-pagination { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; }
 
 ul.my-pagination li { margin: 0 5px; letter-spacing: -2px; }
 
@@ -52,13 +48,13 @@ ul.my-pagination li a { color: #282828; }
 ul.my-pagination li a:hover { text-decoration: none; color: #d4d4d4; }
 
 /* 비교검색 스타일 */
-.product-search-page .search-pannel div { padding: 0; padding: 60px 10px 30px; border-bottom: 2px solid #bebebe; color: #bebebe; transition: all 0.5s; }
+.product-search-page .search-pannel div { padding: 60px 10px 40px; border-bottom: 2px solid #bebebe; color: #bebebe; transition: all 0.5s; cursor: pointer; }
 
-.product-search-page .search-pannel div h2 { transition: all 0.5s; color: #bebebe; margin: 5px 0; font-size: 22px; font-weight: bold; }
+.product-search-page .search-pannel div h2 { color: inherit; margin: 12px 0; font-size: 22px; font-weight: bold; cursor: pointer; }
+
+.product-search-page .search-pannel div span { cursor: pointer; color: inherit; }
 
 .product-search-page .search-pannel div.selected { border-bottom-color: #272727; color: #1e1e1e; }
-
-.product-search-page .search-pannel div.selected h2 { color: #1e1e1e; }
 
 .product-search-page .search-content-box { padding: 50px 0; }
 
@@ -90,9 +86,11 @@ ul.my-pagination li a:hover { text-decoration: none; color: #d4d4d4; }
 
 .product-search-page .result-box > p + div { padding: 0 5px; text-align: right; }
 
-.product-search-page .result-box .product-box { padding: 0; margin: 0 auto; }
+.product-search-page .result-box .product-box { margin: 0 auto; }
 
-.product-search-page .result-box .product-box ul { width: 100%; padding: 0; margin: 0; }
+.product-search-page .result-box .product-box ul { width: 100%; }
+
+.product-search-page .result-box .product-box ul > p { margin: 0 auto; padding: 30px 0 60px 15px; }
 
 .product-search-page .result-box .product-box ul li { width: 100%; height: 100%; }
 
