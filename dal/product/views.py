@@ -129,7 +129,7 @@ def compareSearch(request):
     ReviewSummary_list = None
     criterionReviewSummary = None
     page_obj = None
-    all_products = list(Product.objects.values('name').order_by('name'));
+    all_products = list(Product.objects.values('name').order_by('name'))
     option = None
     option_res = None # 앞단으로 보내줄 변수
 

@@ -5,8 +5,6 @@
 {% block content %}
 <script src="{% static 'js/hangul.min.js'%}"></script>
 
-<div style="height: 100px;"> 걍넣어본</div>
-
 <div class="product-search-page container">
     <!-- 상단 탭 -->
     <div class="search-pannel row">
@@ -19,7 +17,7 @@
             <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
         </div>
     </div>
-
+    
     <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
         <div class="search-content-box">
             <div class="row search-option">
@@ -181,16 +179,6 @@
         {% endif %}
     </form>
 </div>
-
-
-
-
-<div>
-    {% comment %} 탭을 만들어야 함 {% endcomment %}
-</div>
-
-</script>
-
 
 
 <script type="text/javascript">
