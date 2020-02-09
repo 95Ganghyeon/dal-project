@@ -110,8 +110,8 @@ def keywordSearch(request):
         }
         return render(request, "keyword_search.html", context=context)
 
-    if request.GET.get("keyword") == "star":
-        return makeListOrderbyKeyword("star")
+    if request.GET.get("keyword") == "score":
+        return makeListOrderbyKeyword("score")
     elif request.GET.get("keyword") == "absorbency":
         return makeListOrderbyKeyword("absorbency")
     elif request.GET.get("keyword") == "anti_odour":
@@ -121,7 +121,7 @@ def keywordSearch(request):
     elif request.GET.get("keyword") == "sensitivity":
         return makeListOrderbyKeyword("sensitivity")
     else:
-        return makeListOrderbyKeyword('star')
+        return makeListOrderbyKeyword('score')
 
 
 def compareSearch(request):

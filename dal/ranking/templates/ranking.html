@@ -3,10 +3,6 @@
 {% block content %}
     
 <div>
-<hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
-</div>
-
-<div>
     <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
     <span>나와 같은 월경타입의 사람들이 평가한 순위</span>
 </div>
@@ -46,8 +42,8 @@
         <li>
             <div>
                 <img src="{{product.image.url}}" alt=""/>
-                {{ product.name }} | 총점 
-                {{ product.price }}
+                {{ product.name }} | 총점 ???
+                {{ product.price }}원
                 자연유래도 {{ nature_friendly }}%
             </div>
         </li>
