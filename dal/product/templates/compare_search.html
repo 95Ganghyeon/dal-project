@@ -207,6 +207,15 @@
             item.addEventListener('click', function(){
                 select_pannel(item);
                 pre_selected_item = item;
+
+                if( item.classList.contains('compared-search') ){
+                    location.href = '{% url 'CompareSearch' %}';
+                }
+
+                if( item.classList.contains('keyword-search') ){
+                    location.href = '{% url 'KeywordSearch' %}';
+                }
+
             });
             item.addEventListener('mouseover', function(){
                 select_pannel(item);
