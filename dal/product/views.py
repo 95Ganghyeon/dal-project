@@ -17,6 +17,7 @@ def updateReviewSummary():
     for record in entireTable:
         productReviews = Review.objects.filter(product_fk__id=record.product_fk.id)
         if productReviews:
+            record.total_score = productReviews.aggregate(avg=Avg('score'))['avg']
             record.absorbency_avg = productReviews.aggregate(avg=Avg('absorbency'))['avg']
             record.anti_odour_avg = productReviews.aggregate(avg=Avg('anti_odour'))['avg']
             record.comfort_avg = productReviews.aggregate(avg=Avg('comfort'))['avg']
@@ -85,43 +86,72 @@ def normalSearch(request):
 
 
 def keywordSearch(request):
-    
-    def makeListOrderbyKeyword(keyword):
-        """
-        html radio에서 사용자가 체크한 항목에 맞는 기준으로 Product를 정렬하여, 그 데이터를 바탕으로 랜더링 해주는 함수임
-        """
-        product_list = []
-        review_list = Review.objects.values('product_fk__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
-        for review in review_list:
-            product_list += Product.objects.filter(id=review['product_fk__id'])            
-        
-        paginator = Paginator(product_list, 3)
-        page = request.GET.get('page')
-        try:
-            page_obj = paginator.get_page(page)
-        except PageNotAnInteger:
-            page_obj = paginator.get_page(1)
-        except EmptyPage:
-            page_obj = paginator.get_page(paginator.num_pages)
 
-        context = {
-            'product_list': product_list,
-            'page_obj': page_obj,
-        }
-        return render(request, "keyword_search.html", context=context)
+    ReviewSummary_list = ReviewSummary.objects.all()
 
     if request.GET.get("keyword") == "score":
-        return makeListOrderbyKeyword("score")
+        ReviewSummary_list = ReviewSummary_list.order_by('-total_score')
     elif request.GET.get("keyword") == "absorbency":
-        return makeListOrderbyKeyword("absorbency")
+        ReviewSummary_list = ReviewSummary_list.order_by('-absorbency_avg')
     elif request.GET.get("keyword") == "anti_odour":
-        return makeListOrderbyKeyword("anti_odour")
+        ReviewSummary_list = ReviewSummary_list.order_by('-anti_odour_avg')
     elif request.GET.get("keyword") == "comfort":
-        return makeListOrderbyKeyword("comfort")
+        ReviewSummary_list = ReviewSummary_list.order_by('-comfort_avg')
     elif request.GET.get("keyword") == "sensitivity":
-        return makeListOrderbyKeyword("sensitivity")
+        ReviewSummary_list = ReviewSummary_list.order_by('-sensitivity_avg')
     else:
-        return makeListOrderbyKeyword('score')
+        ReviewSummary_list = ReviewSummary_list.order_by('-total_score')
+    
+    paginator = Paginator(ReviewSummary_list, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'product_list': ReviewSummary_list,
+    }
+    return render(request, "keyword_search.html", context=context)
+
+    
+    
+    # def makeListOrderbyKeyword(keyword):
+    #     """
+    #     html radio에서 사용자가 체크한 항목에 맞는 기준으로 Product를 정렬하여, 그 데이터를 바탕으로 랜더링 해주는 함수임
+    #     """
+    #     product_list = []
+    #     review_list = Review.objects.values('product_fk__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
+    #     for review in review_list:
+    #         product_list += Product.objects.filter(id=review['product_fk__id'])            
+        
+    #     paginator = Paginator(product_list, 3)
+    #     page = request.GET.get('page')
+    #     try:
+    #         page_obj = paginator.get_page(page)
+    #     except PageNotAnInteger:
+    #         page_obj = paginator.get_page(1)
+    #     except EmptyPage:
+    #         page_obj = paginator.get_page(paginator.num_pages)
+
+    #     context = {
+    #         'product_list': product_list,
+    #         'page_obj': page_obj,
+    #     }
+    #     return render(request, "keyword_search.html", context=context)
+
+    # if request.GET.get("keyword") == "score":
+    #     return makeListOrderbyKeyword("score")
+    # elif request.GET.get("keyword") == "absorbency":
+    #     return makeListOrderbyKeyword("absorbency")
+    # elif request.GET.get("keyword") == "anti_odour":
+    #     return makeListOrderbyKeyword("anti_odour")
+    # elif request.GET.get("keyword") == "comfort":
+    #     return makeListOrderbyKeyword("comfort")
+    # elif request.GET.get("keyword") == "sensitivity":
+    #     return makeListOrderbyKeyword("sensitivity")
+    # else:
+    #     return makeListOrderbyKeyword('score')
+    
+    
 
 
 def compareSearch(request):
@@ -129,10 +159,10 @@ def compareSearch(request):
     ReviewSummary_list = None
     criterionReviewSummary = None
     page_obj = None
-    all_products = list(Product.objects.values('name').order_by('name'));
+    all_products = list(Product.objects.values('name').order_by('name'))
     option = None
     option_res = None # 앞단으로 보내줄 변수
-
+    
     if 'q' in request.GET:
         first_page = False
         query = request.GET.get('q')   
@@ -180,7 +210,7 @@ def compareSearch(request):
 
             ReviewSummary_list = ReviewSummary_list.order_by(option)
 
-            paginator = Paginator(ReviewSummary_list, 2)
+            paginator = Paginator(ReviewSummary_list, 6)
             page_number = request.GET.get('page')
             page_obj = paginator.get_page(page_number)
 
