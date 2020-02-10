@@ -8,16 +8,16 @@
 <div class="product-search-page container">
     <!-- 상단 탭 -->
     <div class="search-pannel row">
-        <div class="keyword-search col-sm-6 hover-cursor">
-            <h2 class="hover-cursor">키워드 검색</h2>
+        <div class="keyword-search col-sm-6">
+            <h2>키워드 검색</h2>
             <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
         </div>
-        <div class="compared-search selected col-sm-6 hover-cursor">
-            <h2 class="hover-cursor">직접 비교하기</h2>
+        <div class="compared-search selected col-sm-6">
+            <h2>직접 비교하기</h2>
             <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
         </div>
     </div>
-    
+
     <form action="{% url 'CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">
         <div class="search-content-box">
             <div class="row search-option">
