@@ -1,0 +1,43 @@
+.navbar {
+  width:100%;
+  max-width: 1280px;
+  height:5%;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.modal{
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+}
+
+.modal-content{
+    height: 100%;
+    overflow-y: auto;
+    border-radius: 0px;
+}
+
+.modal .modal-content{
+    -webkit-transition: opacity 0.3s linear, right 0.8s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.8s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.8s ease-out;
+    transition: opacity 0.3s linear, right 0.8s ease-out;
+}
+
+.modal{
+    right: 0;
+}
+
+button.like-link {
+  background: none!important;
+  border: none;
+  padding:8px;
+  /*input has OS specific font-family*/
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}

@@ -19,6 +19,6 @@ class ReviewAdmin(ImportExportModelAdmin):
 admin.site.register(Review, ReviewAdmin)
 
 class ReviewSummaryAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'total_score','product_fk', 'absorbency_avg', 'anti_odour_avg', 'comfort_avg', 'sensitivity_avg')
+    list_display = ('id', 'product_fk', 'total_score', 'absorbency_avg', 'anti_odour_avg', 'comfort_avg', 'sensitivity_avg')
 
 admin.site.register(ReviewSummary, ReviewSummaryAdmin)
