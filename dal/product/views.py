@@ -6,6 +6,7 @@ from product.models import *
 from product.forms import GetReviewResponseForm
 from user.models import Profile, User
 from django.http import JsonResponse
+import urllib
 
 # Create your views here.
 
@@ -25,7 +26,25 @@ def updateReviewSummary():
         else:
             pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
 
-      
+# 한 페이지에 보일 paginator 숫자 범위 제한하는 함수
+def get_paginator(obj, page, obj_per_page, page_range):
+    page = int(page) if page else 1
+
+    paginator = Paginator(obj, obj_per_page)
+    max_page = paginator.num_pages # 마지막 페이지
+    start_page = int( (page - 1) / page_range ) * page_range
+    end_page = start_page + page_range
+    if end_page >= max_page:
+        end_page = max_page
+
+    return {
+        'page_obj': paginator.get_page(page),
+        'page_range': paginator.page_range[start_page:end_page],
+        'has_prev': True if start_page > 1 else False,
+        'has_next': True if end_page < max_page else False,
+        'prev_page': (start_page),
+        'next_page': (end_page + 1),
+    }
 
 def productDetail(request, pk):
 
@@ -59,7 +78,6 @@ def productDetail(request, pk):
         }
         return render(request, 'product_detail.html', context=context)
 
-
 def normalSearch(request):
     product_list = Product.objects.all()
     query = request.GET.get('q')
@@ -82,7 +100,6 @@ def normalSearch(request):
         'page_obj': page_obj,        
     }
     return render(request, 'normal_search.html', context=context)
-
 
 def keywordSearch(request):
     
@@ -123,15 +140,20 @@ def keywordSearch(request):
     else:
         return makeListOrderbyKeyword('score')
 
-
 def compareSearch(request):
     first_page = True
     ReviewSummary_list = None
-    criterionReviewSummary = None
-    page_obj = None
+    paginator = None
+    query_string = ''
     all_products = list(Product.objects.values('name').order_by('name'));
     option = None
     option_res = None # 앞단으로 보내줄 변수
+
+    # 쿼리스트링 생성 for paginator
+    if request.META['QUERY_STRING']:
+        for item in request.META['QUERY_STRING'].split('&'):
+            if 'page' not in item:
+                query_string += '&' + item
 
     if 'q' in request.GET:
         first_page = False
@@ -140,13 +162,9 @@ def compareSearch(request):
 
         if query not in ReviewSummary_list.values_list('product_fk__name', flat=True): # 검색 결과 없을 때
             return render(request, 'compare_search.html', {'first_page': first_page, 'searchedWord': query, 'all_products': all_products,}) 
-        else: # 검색 결과 존재할 떄
+        else: # 검색 결과 존재할 때
             criterionReviewSummary = ReviewSummary_list.get(product_fk__name=query)
-            compareCondition = request.GET.get('compareConditionList')
-            compareCondition = compareCondition.split(',')
-
-            print(compareCondition[0])
-            
+            compareCondition = request.GET.get('compareConditionList').split(',')            
             if 'price' in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(product_fk__price__lt=criterionReviewSummary.product_fk.price)
             if 'nature_friendly' in compareCondition:
@@ -179,17 +197,17 @@ def compareSearch(request):
                 option = '-' + option +'_avg'
 
             ReviewSummary_list = ReviewSummary_list.order_by(option)
-
-            paginator = Paginator(ReviewSummary_list, 2)
-            page_number = request.GET.get('page')
-            page_obj = paginator.get_page(page_number)
-
+            
+            page = request.GET.get('page')
+            paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+            
     context = {
         'first_page': first_page,
         'product_list': ReviewSummary_list,
-        'page_obj': page_obj,
+        'paginator': paginator,
         'all_products': all_products,
         'option': option_res,
+        'query_string': query_string,
     }
 
     return render(request, "compare_search.html", context=context)

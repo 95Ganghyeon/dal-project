@@ -91,7 +91,6 @@ body {
         position: absolute;
         right: 0;
         border: solid 1px #bebebe;
-        border-top: none;
         background-color: #fffefc;
         width: fit-content;
         z-index: 10;
@@ -339,7 +338,7 @@ ul.my-pagination {
                                     &.rank {
                                         font-size: 26px;
                                         font-weight: 600;
-                                        line-height: 1.54;
+                                        margin-bottom: 13px;
                                     }
                                 }
                             }
