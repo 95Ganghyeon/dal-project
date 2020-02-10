@@ -6,128 +6,128 @@ $breakpoint-desktop: 992px - 1px;
 $breakpoint-largedesktop: 1200px - 1px;
 
 body {
-    background-color: #fffefc;
-    font-family: 'Noto Sans CJK KR', Noto Sans KR, sans-serif;
+  background-color: #fffefc;
+  font-family: "Noto Sans CJK KR", Noto Sans KR, sans-serif;
 }
 
 li {
-    padding: 4px 0;
+  padding: 4px 0;
 }
 
 .hover-cursor {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .mb10 {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .mb20 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .mb30 {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 /*
     공통 드롭다운 스타일
 */
 .drop-down-box {
-    padding: 0 10px;
-    margin: 0;
+  padding: 0 10px;
+  margin: 0;
 
-    a {
-        color: #1e1e1e;
-        display: inline-flex;
-        justify-content: flex-end;
-        align-items: center;
-        padding: 4px 0;
-        transition: all 0.5s;
+  a {
+    color: #1e1e1e;
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 4px 0;
+    transition: all 0.5s;
 
-        &:hover {
-            text-decoration: none;
-        }
+    &:hover {
+      text-decoration: none;
+    }
 
-        /*
+    /*
         &.focusin::after {
             content: '∧';
         }
         */
 
-        &::after {
-            content: '∨';
-            font-size: 14px;
-            color: #979797;
-            display: inline-block;
-            margin-left: 10px;
-        }
+    &::after {
+      content: "∨";
+      font-size: 14px;
+      color: #979797;
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+
+  ul {
+    margin: 0 10px;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    border: solid 1px #bebebe;
+    border-top: none;
+    background-color: #fffefc;
+    width: fit-content;
+    z-index: 10;
+    transition: all 0.5s;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.1s, opacity 0.1s linear;
+    cursor: pointer;
+
+    &.focusin {
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0;
+      transition-duration: 0.4s;
     }
 
-    ul {
-        margin: 0 10px;
-        padding: 0;
-        position: absolute;
-        right: 0;
-        border: solid 1px #bebebe;
-        border-top: none;
-        background-color: #fffefc;
-        width: fit-content;
-        z-index: 10;
-        transition: all 0.5s;
-        visibility: hidden;
-        opacity: 0;
-        transition: visibility 0s linear 0.1s, opacity 0.1s linear;
-        cursor: pointer;
-    
-        &.focusin {
-            visibility: visible;
-            opacity: 1;
-            transition-delay: 0;
-            transition-duration: 0.4s;
-        }
-    
-        li {
-            list-style: none;
-            text-align: right;
-            cursor: pointer;
-            padding: 5px 28px;
-    
-            &:hover {
-                background-color: #2b5e2e;
-                color: #FFFFFF;
-            }
-        }
+    li {
+      list-style: none;
+      text-align: right;
+      cursor: pointer;
+      padding: 5px 28px;
+
+      &:hover {
+        background-color: #2b5e2e;
+        color: #ffffff;
+      }
     }
+  }
 }
 
 /*
     공통 페이지네이션 스타일
 */
 ul.my-pagination {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
 
-    li {
-        margin: 0 5px;
-        letter-spacing: -2px;
-        
-        &.disabled {
-            color: #d4d4d4;
-        }
+  li {
+    margin: 0 5px;
+    letter-spacing: -2px;
 
-        a {
-            color: #282828;
-            &:hover {
-                text-decoration: none;
-                color: #d4d4d4;
-            }
-        }
+    &.disabled {
+      color: #d4d4d4;
     }
+
+    a {
+      color: #282828;
+      &:hover {
+        text-decoration: none;
+        color: #d4d4d4;
+      }
+    }
+  }
 }
 
 /*
@@ -135,190 +135,351 @@ ul.my-pagination {
 */
 
 .product-search-page {
-    .search-pannel div {
-        padding: 0;
-        padding: 60px 10px 30px;
-        border-bottom: 2px solid #bebebe;
-        color: #bebebe;
-        transition: all 0.5s;
+  .search-pannel div {
+    padding: 0;
+    padding: 60px 10px 30px;
+    border-bottom: 2px solid #bebebe;
+    color: #bebebe;
+    transition: all 0.5s;
 
-        h2 {
+    h2 {
+      transition: all 0.5s;
+      color: #bebebe;
+      margin: 5px 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    &.selected {
+      border-bottom-color: #272727;
+      color: #1e1e1e;
+
+      h2 {
+        color: #1e1e1e;
+      }
+    }
+  }
+
+  .search-content-box {
+    padding: 50px 0;
+
+    div.search-option > div {
+      span {
+        display: inline-block;
+        font-weight: bold;
+        margin: 0 10px;
+      }
+
+      @media (max-width: $breakpoint-largedesktop) {
+        &:last-child span {
+          margin-bottom: 15px;
+        }
+      }
+
+      @media (max-width: $breakpoint-desktop) {
+        &.checkbox-box {
+          max-width: 550px;
+          margin: 17px auto;
+          display: inline-flex;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+      }
+
+      input {
+        &[type="checkbox"] {
+          display: none;
+
+          + label {
+            padding: 5px 20px;
+            margin: 5px;
+            opacity: 0.35;
+            border-radius: 26px;
+            border: solid 1px #979797;
+            font-weight: normal;
+            cursor: pointer;
+            margin-bottom: 5px;
             transition: all 0.5s;
-            color: #bebebe;
-            margin: 5px 0;
-            font-size: 22px;
-            font-weight: bold;
+          }
+
+          &:checked + label,
+          + label:hover {
+            color: #ffffff;
+            opacity: 1;
+            border-radius: 26px;
+            border: solid 1px #979797;
+            background-color: #2b5e2e;
+          }
         }
 
-        &.selected {
-            border-bottom-color: #272727;
-            color: #1e1e1e;
-
-            h2 {
-                color: #1e1e1e;
-            }
+        &[type="submit"] {
+          margin: 0 10px;
+          height: 32px;
+          padding: 0 30px;
+          border: solid 1px #979797;
+          background-color: transparent;
         }
+      }
+    }
+  }
+
+  .result-box {
+    > p {
+      border-bottom: solid 2px #d4d4d4;
+      padding-bottom: 15px;
+
+      + div {
+        padding: 0 5px;
+        text-align: right;
+      }
     }
 
-    .search-content-box {
-        padding: 50px 0;
+    .product-box {
+      padding: 0;
+      margin: 0 auto;
 
-        div.search-option>div {
+      ul {
+        width: 100%;
+        padding: 0;
+        margin: 0;
 
-            span {
-                display: inline-block;
-                font-weight: bold;
-                margin: 0 10px;
+        li {
+          list-style: none;
+          width: 100%;
+          height: 100%;
+          > div {
+            cursor: pointer;
+            text-align: center;
+
+            &:hover {
+              /* 상품 리스트 hover 주고 싶으면 여기 건들 것 */
+              h2 {
+                /* color: #2b5e2e; */
+              }
             }
 
-            @media (max-width: $breakpoint-largedesktop) {
-                &:last-child span {
-                    margin-bottom: 15px;
+            > div {
+              height: 205px;
+              padding: 15px;
+              margin-bottom: 13px;
+
+              border: solid 1px #979797;
+              background-color: #ffffff;
+
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              > div {
+                height: 100%;
+                span {
+                  display: block;
+                  text-align: left;
+
+                  &.rank {
+                    font-size: 26px;
+                    font-weight: 600;
+                    line-height: 1.54;
+                  }
                 }
-            }
-            
-            @media (max-width: $breakpoint-desktop) {
-                &.checkbox-box {
-                    max-width: 550px;
-                    margin: 17px auto;
-                    display: inline-flex;
-                    justify-content: center;
-                    flex-wrap: wrap;
-                }
+              }
+
+              > img {
+                width: 166px;
+                height: 185px;
+              }
             }
 
-            input {
-                &[type="checkbox"] {
-                    display: none;
-        
-                    +label {
-                        padding: 5px 20px;
-                        margin: 5px;
-                        opacity: 0.35;
-                        border-radius: 26px;
-                        border: solid 1px #979797;
-                        font-weight: normal;
-                        cursor: pointer;
-                        margin-bottom: 5px;
-                        transition: all 0.5s;
-                    }
-        
-                    &:checked+label,
-                    +label:hover {
-                        color: #FFFFFF;
-                        opacity: 1;
-                        border-radius: 26px;
-                        border: solid 1px #979797;
-                        background-color: #2b5e2e;
-                    }
-                }
-        
-                &[type="submit"] {
-                    margin: 0 10px;
-                    height: 32px;
-                    padding: 0 30px;
-                    border: solid 1px #979797;
-                    background-color: transparent;
-                }
+            > span {
+              font-size: 16px;
+              line-height: 1.44;
+              letter-spacing: 1.7px;
             }
+
+            > h2 {
+              font-weight: bold;
+              font-size: 22px;
+              line-height: 1.82;
+            }
+          }
         }
+      }
     }
-
-    .result-box {
-        >p {
-            border-bottom: solid 2px #d4d4d4;
-            padding-bottom: 15px;
-
-            +div {
-                padding: 0 5px;
-                text-align: right;
-            }
-        }
-
-        .product-box {
-            padding: 0;
-            margin: 0 auto;
-
-            ul {
-                width: 100%;
-                padding: 0;
-                margin: 0;
-
-                li {
-                    list-style: none;
-                    width: 100%;
-                    height: 100%;
-                    >div {
-                        cursor: pointer;
-                        text-align: center;
-
-                        &:hover {
-                            /* 상품 리스트 hover 주고 싶으면 여기 건들 것 */
-                            h2 {
-                                /* color: #2b5e2e; */
-                            }
-                        }
-
-                        >div {
-                            height: 205px;
-                            padding: 15px;
-                            margin-bottom: 13px;
-                            
-                            border: solid 1px #979797;
-                            background-color: #ffffff;
-
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            
-                            >div {
-                                height: 100%;
-                                span {
-                                    display: block;
-                                    text-align: left;
-                                    
-                                    &.rank {
-                                        font-size: 26px;
-                                        font-weight: 600;
-                                        line-height: 1.54;
-                                    }
-                                }
-                            }
-
-                            >img {
-                                width: 166px;
-                                height: 185px;
-                            }
-                        }
-
-                        >span {
-                            font-size: 16px;
-                            line-height: 1.44;
-                            letter-spacing: 1.7px;
-                        }
-
-                        >h2 {
-                            font-weight: bold;
-                            font-size: 22px;
-                            line-height: 1.82; 
-                        }
-                    }
-                    
-                }
-            } 
-        }
-    }
+  }
 }
 
-#compareSearchText {
+.product-detail-page {
+  box-sizing: border-box;
+
+  .main-content {
+    // margin-top: 58px;
+    // margin-left: 392px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-bottom: 70px;
+  }
+
+  .left-container {
+    width: 553px;
+    height: 479px;
+    padding: 85px 133px 77px 134px;
+    border: 1px solid #bebebe;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // background-color: blue;
+  }
+
+  .left-container img {
+    width: 286px;
+    height: 317px;
+  }
+
+  .right-container {
+    width: 524px;
+    padding: 0 30px;
+    // background-color: brown;
+  }
+
+  .product-introduction div:nth-child(1) {
+    // background-color: pink;
+    height: 54px;
+    font-size: 28px;
+    color: #1e1e1e;
+    display: flex;
+    align-items: center;
+  }
+
+  .product-introduction div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-introduction div:nth-child(3) {
+    margin-top: 34px;
+    width: 324px;
+    // background-color: coral;
+    font-size: 20px;
+    color: #1e1e1e;
+    display: flex;
+    align-items: center;
+  }
+
+  .product-introduction div:nth-child(4) {
+    width: 433px;
+    font-size: 20px;
+    color: #1e1e1e;
+    display: flex;
+    align-items: center;
+  }
+
+  .product-score {
+    background-color: #272727;
+    padding: 8px 32px 6px 33px;
+    color: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 32px;
+    font-size: 22px;
+  }
+
+  .product-button {
+    margin-top: 55px;
+  }
+
+  .product-button div:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 19px;
+  }
+
+  .button1 {
+    width: 48%;
+    height: 80px;
+    border: solid 0.5px #1e1e1e;
+    border-radius: 15px;
+    opacity: 0.8;
+    background-color: #fffefc;
+  }
+
+  .button2 {
+    width: 48%;
+    height: 80px;
+    border: solid 0.5px #1e1e1e;
+    border-radius: 15px;
+    opacity: 0.8;
+    background-color: #fffefc;
+  }
+
+  .product-button div:nth-child(2) {
+    padding-bottom: 15px;
+  }
+
+  .button3 {
+    width: 100%;
+    height: 80px;
+    border: solid 0.5px #1e1e1e;
+    border-radius: 15px;
+    opacity: 0.8;
+    background-color: #fffefc;
+  }
+
+  .product-detail-list {
+    display: flex;
+    justify-content: center;
+  }
+
+  .product-detail-list li {
+    list-style: none;
+    text-align: center;
+  }
+
+  .product-detail-list li input {
+    display: none;
+  }
+
+  .product-detail-list li label {
+    display: inline-block;
+    text-align: center;
+    padding: 0 175px;
+    height: 60px;
+    font-size: 20px;
+    color: #bebebe;
+  }
+
+  .product-detail-list li label span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  label:hover {
+    cursor: pointer;
+  }
+
+  #tab1 ~ #content1,
+  #tab2 ~ #content2,
+  #tab3 ~ #content3 {
+    display: none;
+  }
+
+  #tab1:checked ~ #content1,
+  #tab2:checked ~ #content2,
+  #tab3:checked ~ #content3 {
+    display: block;
+  }
+  #compareSearchText {
     padding: 5px 10px;
     border: solid 1px #bebebe;
     background-color: #f6f6f6;
     width: 170px;
     margin: 0 10px;
-}
+  }
 
-#autoCompleteText {
+  #autoCompleteText {
     margin: 0 10px;
     padding: 0;
     position: absolute;
@@ -333,35 +494,34 @@ ul.my-pagination {
     transition: visibility 0s linear 0.1s, opacity 0.1s linear;
 
     &.focusin {
-        visibility: visible;
-        opacity: 1;
-        transition-delay: 0;
-        transition-duration: 0.4s;
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0;
+      transition-duration: 0.4s;
     }
 
     li {
-        list-style: none;
-        text-align: left;
-        cursor: pointer;
-        padding: 5px 10px;
+      list-style: none;
+      text-align: left;
+      cursor: pointer;
+      padding: 5px 10px;
 
-        &:hover {
-            background-color: #2b5e2e;
-            color: #FFFFFF;
-        }
+      &:hover {
+        background-color: #2b5e2e;
+        color: #ffffff;
+      }
     }
-}
+  }
 
-
-.pagination {
+  .pagination {
     /* opacity: 0.3; */
     /* background-color: red; */
-    >span {
+    > span {
+      height: 100px;
+      > a {
+        z-index: 20;
         height: 100px;
-        >a {
-            z-index: 20;
-            height: 100px;
-        }
+      }
     }
-
+  }
 }
