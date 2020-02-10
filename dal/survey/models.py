@@ -40,5 +40,5 @@ class Survey(models.Model):
     
     mtype = property(get_mtype)
     
-    def __str__(self):
-        return self.mtype
+    # def __str__(self):
+    #     return self.mtype

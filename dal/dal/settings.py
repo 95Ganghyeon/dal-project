@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.naver',
+    'allauth.socialaccount.providers.kakao',
     'sass_processor',
     'bootstrap4',
     'import_export',
@@ -76,8 +77,7 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 SOCIALACCOUNT_AUTO_SIGNUP = False
 ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
 
-
-
+#all-auth socialaccount credentials
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
