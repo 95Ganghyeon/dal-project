@@ -149,11 +149,12 @@ ul.my-pagination {
 }
 
 /*
-    비교검색 스타일
+    키워드검색 & 비교검색 스타일
 */
-
 .product-search-page {
-    .search-pannel div {
+    
+    // 공통 패널
+    .search-panel div {
         padding: 60px 10px 40px;
         border-bottom: 2px solid #bebebe;
         color: #bebebe;
@@ -179,6 +180,29 @@ ul.my-pagination {
         }
     }
 
+    // 키워드 검색 조건입력 박스
+    .search-condition-box{
+        padding: 70px 0;
+        
+        div.search-keyword{
+            
+            input{
+                visibility: hidden;
+
+            }
+            
+            label>span {
+                display: inline-block;
+                font-weight: bold;
+                text-align: center;              
+            }
+            
+            text-align: center;
+        }
+
+    }
+
+    // 비교 검색 조건입력 박스
     .search-content-box {
         padding: 50px 0;
 
@@ -283,6 +307,7 @@ ul.my-pagination {
         }
     }
 
+    // 공통 검색결과 나열 박스
     .result-box {
         >p {
             border-bottom: solid 2px #d4d4d4;
