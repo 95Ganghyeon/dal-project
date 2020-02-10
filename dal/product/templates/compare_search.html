@@ -7,7 +7,7 @@
 
 <div class="product-search-page container">
     <!-- 상단 탭 -->
-    <div class="search-panel row">
+    <div class="search-pannel row">
         <div class="keyword-search col-sm-6">
             <h2>키워드 검색</h2>
             <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
@@ -157,7 +157,7 @@
                 {% if paginator.has_prev %}
                     <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
                 {% else %}
-                    <li class="nav disabled">&laquo;</li>
+                    <!-- <li class="nav disabled">&laquo;</li> -->
                 {% endif %}
                 <!-- [1] [2] [3] -->
                 {% for i in paginator.page_range %}     
@@ -171,7 +171,7 @@
                 {% if paginator.has_next %}
                     <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
                 {% else %}
-                    <li class="nav disabled">&raquo;</li>
+                    <!-- <li class="nav disabled">&raquo;</li> -->
                 {% endif %}
             </ul>
         </div>
@@ -181,26 +181,26 @@
 
 
 <script type="text/javascript">
-    var pre_selected_item = document.querySelector('.search-pannel .compared-search');
     
     window.onload = function(){        
         document.getElementById('compareSearchForm').addEventListener('submit', function(){
             compareSearchFormValidation();
         });
-
+        
         configCompareSearchTextEvent();
         
         document.querySelectorAll('.search-pannel div').forEach(function(item){
+            var pre_selected_item = document.querySelector('.search-pannel .compared-search');
             item.addEventListener('click', function(){
                 select_pannel(item);
                 pre_selected_item = item;
 
                 if( item.classList.contains('compared-search') ){
-                    location.href = '{% url 'CompareSearch' %}';
+                    location.href = "{% url 'CompareSearch' %}";
                 }
 
                 if( item.classList.contains('keyword-search') ){
-                    location.href = '{% url 'KeywordSearch' %}';
+                    location.href = "{% url 'KeywordSearch' %}";
                 }
 
             });
@@ -259,12 +259,9 @@
         }, "");
         item.diassembled = chosung;
     });
-
-    console.log(product_list);
-
-    var is_cursor_in_ul = false;
     
     function configCompareSearchTextEvent(){
+        var is_cursor_in_ul = false;
         var inputText = document.getElementById('compareSearchText');
         var ul = document.getElementById('autoCompleteText');
         

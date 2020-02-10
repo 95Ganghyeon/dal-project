@@ -53,6 +53,10 @@ q:before, q:after {
 	content: '';
 	content: none;
 }
+a:hover {
+	color: #d4d4d4;
+	text-decoration: none;
+}
 table {
 	border-collapse: collapse;
 	border-spacing: 0;

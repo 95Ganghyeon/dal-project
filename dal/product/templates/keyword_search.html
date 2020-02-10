@@ -5,12 +5,12 @@
     
 <div class="product-search-page container">
     <!-- 상단 탭 -->
-    <div class="search-panel row">
-        <div class="keyword-search col-sm-6">
+    <div class="search-pannel row">
+        <div class="keyword-search col-sm-6 selected">
             <h2>키워드 검색</h2>
             <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
         </div>
-        <div class="compared-search selected col-sm-6">
+        <div class="compared-search col-sm-6">
             <h2>직접 비교하기</h2>
             <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
         </div>
@@ -190,13 +190,22 @@
 
 
 <script type="text/javascript">
-    var pre_selected_item = document.querySelector('.search-pannel .compared-search');
-
+    
     window.onload = function(){
         document.querySelectorAll('.search-pannel div').forEach(function(item){
+            var pre_selected_item = document.querySelector('.search-pannel .keyword-search');
             item.addEventListener('click', function(){
                 select_pannel(item);
                 pre_selected_item = item;
+
+                if( item.classList.contains('compared-search') ){
+                    location.href = "{% url 'CompareSearch' %}";
+                }
+
+                if( item.classList.contains('keyword-search') ){
+                    location.href = "{% url 'KeywordSearch' %}";
+                }
+
             });
             item.addEventListener('mouseover', function(){
                 select_pannel(item);
@@ -239,6 +248,14 @@
                 option_form.value = item.getAttribute('data-option');
             });
         });
+    }
+
+    // comparesearch / keywordsearch 탭 선택
+    function select_pannel(selected_item){
+        document.querySelectorAll('.search-pannel div').forEach(function(item){
+            item.classList.remove('selected');
+        });
+        selected_item.classList.add('selected');
     }
 
 </script>
