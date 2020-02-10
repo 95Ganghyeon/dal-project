@@ -17,6 +17,7 @@ def updateReviewSummary():
     for record in entireTable:
         productReviews = Review.objects.filter(product_fk__id=record.product_fk.id)
         if productReviews:
+            record.total_score = productReviews.aggregate(avg=Avg('score'))['avg']
             record.absorbency_avg = productReviews.aggregate(avg=Avg('absorbency'))['avg']
             record.anti_odour_avg = productReviews.aggregate(avg=Avg('anti_odour'))['avg']
             record.comfort_avg = productReviews.aggregate(avg=Avg('comfort'))['avg']
@@ -132,7 +133,7 @@ def compareSearch(request):
     all_products = list(Product.objects.values('name').order_by('name'))
     option = None
     option_res = None # 앞단으로 보내줄 변수
-
+    
     if 'q' in request.GET:
         first_page = False
         query = request.GET.get('q')   
