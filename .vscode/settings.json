@@ -1,5 +1,5 @@
 {
-  "python.pythonPath": "/home/y1andyu/.local/share/virtualenvs/dal-project-rbl3Hr8W/bin/python",
+  "python.pythonPath": "/Users/kwonganghyeon/.pyenv/versions/3.8.1/bin/python",
   "python.linting.pylintEnabled": false,
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,

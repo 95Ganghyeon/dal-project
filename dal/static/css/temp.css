@@ -41,7 +41,7 @@ ul.my-pagination li { margin: 0 5px; letter-spacing: -2px; }
 
 ul.my-pagination li.disabled { color: #d4d4d4; }
 
-/* 비교검색 스타일 */
+/* 키워드검색 &비교검색 스타일 */
 .product-search-page .search-pannel div { padding: 60px 10px 40px; border-bottom: 2px solid #bebebe; color: #bebebe; transition: all 0.5s; cursor: pointer; }
 
 .product-search-page .search-pannel div h2 { color: inherit; margin: 12px 0; font-size: 22px; font-weight: bold; cursor: pointer; }
@@ -49,6 +49,14 @@ ul.my-pagination li.disabled { color: #d4d4d4; }
 .product-search-page .search-pannel div span { cursor: pointer; color: inherit; }
 
 .product-search-page .search-pannel div.selected { border-bottom-color: #272727; color: #1e1e1e; }
+
+.product-search-page .search-condition-box { padding: 70px 0; }
+
+.product-search-page .search-condition-box div.search-keyword { text-align: center; }
+
+.product-search-page .search-condition-box div.search-keyword input { visibility: hidden; }
+
+.product-search-page .search-condition-box div.search-keyword label > span { display: inline-block; font-weight: bold; text-align: center; }
 
 .product-search-page .search-content-box { padding: 50px 0; }
 
