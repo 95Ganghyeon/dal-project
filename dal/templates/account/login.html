@@ -8,7 +8,7 @@
 
 {% block head_title %}로그인하기{% endblock %}
 
-{% block content %}
+{% block content %} 
 
 <div class="container login-container">
   
@@ -26,7 +26,7 @@
     {% endif %}
 
   <div class="row">
-    <div class="col-4 text-left">
+    <div class="col-4 text-left signuptext">
       <a href="{% url 'account_signup' %}">회원가입</a>
     </div>
     <div class="col-8 text-right">
@@ -46,7 +46,7 @@
 
   <div class="container">
   <div class='row'>
-    <a href="{% provider_login_url "naver" %}"><img src='{% static 'images/naver_login.png' %}'/></a>
+    <a href="{% provider_login_url "naver" %}"><img src='{% static 'images/naver_login.png' %}'/'></a>
   </div>
   <div class="row">
     <a href="{% provider_login_url "kakao" %}"><img src='{% static 'images/kakao_login.png' %}'/></a>

@@ -27,8 +27,14 @@ def updateReviewSummary():
         else:
             pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
 
-# 한 페이지에 보일 paginator 숫자 범위 제한하는 함수
+
 def get_paginator(obj, page, obj_per_page, page_range):
+    """
+    한 페이지에 보일 paginator 숫자 범위 제한하는 함수임.
+    이 함수는 paginator에 대한 dictionary 자료형을 반환함.
+    이 dictonary를 context 변수 하나와 연결하여 넣은 뒤, 
+    template에서 "변수명.page_obj", "변수명.page_range" 등등의 방식으로 사용하면 됨.
+    """
     page = int(page) if page else 1
 
     paginator = Paginator(obj, obj_per_page)
@@ -79,7 +85,9 @@ def productDetail(request, pk):
         }
         return render(request, 'product_detail.html', context=context)
 
+
 def normalSearch(request):
+    
     product_list = Product.objects.all()
     query = request.GET.get('q')
     if query:
@@ -102,6 +110,7 @@ def normalSearch(request):
     }
     return render(request, 'normal_search.html', context=context)
 
+
 def keywordSearch(request):
 
     ReviewSummary_list = ReviewSummary.objects.all()
@@ -119,58 +128,18 @@ def keywordSearch(request):
     else:
         ReviewSummary_list = ReviewSummary_list.order_by('-total_score')
     
-    paginator = Paginator(ReviewSummary_list, 6)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page = request.GET.get('page')
+    paginator = get_paginator(ReviewSummary_list, page, 1, 2)
 
-    context = {
-        'page_obj': page_obj,
+    context = {    
         'product_list': ReviewSummary_list,
+        'paginator': paginator,
     }
-    return render(request, "keyword_search.html", context=context)
-
-    
-    
-    # def makeListOrderbyKeyword(keyword):
-    #     """
-    #     html radio에서 사용자가 체크한 항목에 맞는 기준으로 Product를 정렬하여, 그 데이터를 바탕으로 랜더링 해주는 함수임
-    #     """
-    #     product_list = []
-    #     review_list = Review.objects.values('product_fk__id').annotate(avgOrder = Avg(keyword)).order_by('-avgOrder')
-    #     for review in review_list:
-    #         product_list += Product.objects.filter(id=review['product_fk__id'])            
-        
-    #     paginator = Paginator(product_list, 3)
-    #     page = request.GET.get('page')
-    #     try:
-    #         page_obj = paginator.get_page(page)
-    #     except PageNotAnInteger:
-    #         page_obj = paginator.get_page(1)
-    #     except EmptyPage:
-    #         page_obj = paginator.get_page(paginator.num_pages)
-
-    #     context = {
-    #         'product_list': product_list,
-    #         'page_obj': page_obj,
-    #     }
-    #     return render(request, "keyword_search.html", context=context)
-
-    # if request.GET.get("keyword") == "score":
-    #     return makeListOrderbyKeyword("score")
-    # elif request.GET.get("keyword") == "absorbency":
-    #     return makeListOrderbyKeyword("absorbency")
-    # elif request.GET.get("keyword") == "anti_odour":
-    #     return makeListOrderbyKeyword("anti_odour")
-    # elif request.GET.get("keyword") == "comfort":
-    #     return makeListOrderbyKeyword("comfort")
-    # elif request.GET.get("keyword") == "sensitivity":
-    #     return makeListOrderbyKeyword("sensitivity")
-    # else:
-    #     return makeListOrderbyKeyword('score')
-    
+    return render(request, "keyword_search.html", context=context)    
     
 
 def compareSearch(request):
+    
     first_page = True
     ReviewSummary_list = None
     paginator = None

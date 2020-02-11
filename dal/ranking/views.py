@@ -9,7 +9,6 @@ from ranking.models import RankingBoard
 def updateRankingBoard():
     """
     RankingBoard 테이블을 UPDATE 하는 함수임(2~3일 주기로 실행될 것임)
-    (!!!) 직접 실행시켜보니 코스트가 매우 큰거 같음. 반드시 주기적으로 실행되야 할듯함.
     """    
     entireTable = RankingBoard.objects.all()    
     for record in entireTable:
@@ -65,7 +64,6 @@ def ranking(request):
         
         return result
 
-    updateRankingBoard()
     currentUser = request.user
     currentUserType = currentUser.profile.survey_fk.mtype # 현재유저의 타입을 나타내는 "OOOO"스트링 값임
     

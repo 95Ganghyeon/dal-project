@@ -150,10 +150,12 @@ ul.my-pagination {
 }
 
 /*
-    비교검색 스타일
+    키워드검색 &비교검색 스타일
 */
 
 .product-search-page {
+
+    // 공통 패널
     .search-pannel div {
         padding: 60px 10px 40px;
         border-bottom: 2px solid #bebebe;
@@ -180,6 +182,31 @@ ul.my-pagination {
         }
     }
 
+    // 키워드 검색 조건입력 박스
+    .search-condition-box{
+        padding: 70px 0;
+        
+        div.search-keyword{
+            
+            input{
+                visibility: hidden;
+
+            }
+            
+            label>span {
+                display: inline-block;
+                font-weight: bold;
+                text-align: center;              
+            }
+            
+            text-align: center;
+        }
+
+    }
+
+
+
+    // 비교검색 조건입력 박스
     .search-content-box {
         padding: 50px 0;
 
@@ -284,6 +311,7 @@ ul.my-pagination {
         }
     }
 
+    // 공통 검색결과 나열 박스
     .result-box {
         >p {
             border-bottom: solid 2px #d4d4d4;
@@ -592,5 +620,135 @@ ul.my-pagination {
                 height: 100px;
             }
         }
+    }
+}
+
+.index {
+
+    .main {
+
+        .box {
+            height: 100%;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-cover {
+            margin-top: 50px;
+        }
+
+        .btn-more {
+            font-size: 13px;
+            transition: all .25s linear;
+            color: #000000;
+            border: solid 1px;
+            border-radius: 2px;
+            padding: 5px 30px;
+        }
+        .btn-more:hover {
+            text-decoration: none;
+            color: rgb(197, 151, 66);
+        }
+    }
+
+    .mtype-info {
+
+        .subject {
+            height: 150px;
+            display: flex;
+            align-items: center;
+    
+            .text {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                background-color: #ededed;
+                padding: 0px 50px;
+                font-size: 14px;
+                line-height: 22px;
+            }
+        }
+        .detail {
+            height: 300px;
+            display: flex;
+            align-items: center;
+
+            #subtext {
+                display: block;
+                font-size: 12px;
+                color: #686868;
+                margin-bottom: 40px;
+            }
+            #type {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            p {
+                font-size: 14px;
+            }
+        }
+    }
+    .additional-info {
+        
+        .title {
+            margin: 30px;
+            padding: 20px;
+        }
+
+        p {
+            font-size: 12px;
+            margin-bottom: 10px;
+            line-height: 22px;
+        }
+        .content-box {
+            padding: 20px;
+        }
+        .dal-story {
+            background-color: #ededed;
+            height: 300px;
+            width: 100%;
+            
+            .story-title {
+                display: flex;
+                align-items: center;
+                height: 150px;
+
+                .text {
+                    padding: 0px 30px;
+                    font-size: 14px;
+                    line-height: 22px;
+                }
+            }
+        }
+    }
+
+    .photo {
+        
+    }
+
+    .site-info {
+        .subject {
+            height: 150px;
+            display: flex;
+            align-items: center;
+    
+            .text {
+                padding: 0px 30px;
+                font-size: 14px;
+                line-height: 22px;
+            }
+        }
+        .img {
+            margin-bottom: 20px;
+        }
+        
+    }
+
+    .gradation {
+        float: left;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0));
     }
 }
