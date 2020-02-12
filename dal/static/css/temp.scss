@@ -147,16 +147,25 @@ ul.my-pagination {
 }
 
 /*
-    비교검색 스타일
+    키워드검색 &비교검색 스타일
 */
 
 .product-search-page {
+  // 공통 패널
   .search-pannel div {
     padding: 60px 10px 40px;
     border-bottom: 2px solid #bebebe;
     color: #bebebe;
     transition: all 0.5s;
     cursor: pointer;
+
+    h2 {
+      color: inherit;
+      margin: 12px 0;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
     h2 {
       color: inherit;
@@ -174,195 +183,615 @@ ul.my-pagination {
     &.selected {
       border-bottom-color: #272727;
       color: #1e1e1e;
-    }
-  }
+      // 키워드 검색 조건입력 박스
+      .search-condition-box {
+        padding: 70px 0;
 
-  .search-content-box {
-    padding: 50px 0;
-
-    div.search-option > div {
-      span {
-        display: inline-block;
-        font-weight: bold;
-        margin: 0 10px;
-      }
-
-      @media (max-width: $breakpoint-largedesktop) {
-        &:last-child span {
-          margin-bottom: 15px;
-        }
-      }
-
-      @media (max-width: $breakpoint-desktop) {
-        &.checkbox-box {
-          max-width: 550px;
-          margin: 17px auto;
-          display: inline-flex;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-      }
-
-      #compareSearchText {
-        padding: 5px 10px;
-        border: solid 1px #bebebe;
-        background-color: #f6f6f6;
-        width: 170px;
-        margin: 0 10px;
-      }
-
-      #autoCompleteText {
-        margin: 0 10px;
-        position: absolute;
-        border: solid 1px #bebebe;
-        border-top: none;
-        background-color: #f6f6f6;
-        width: 170px;
-        z-index: 10;
-        transition: all 0.5s;
-        visibility: hidden;
-        opacity: 0;
-        transition: visibility 0s linear 0.1s, opacity 0.1s linear;
-
-        &.focusin {
-          visibility: visible;
-          opacity: 1;
-          transition-delay: 0;
-          transition-duration: 0.4s;
-        }
-
-        li {
-          text-align: left;
-          cursor: pointer;
-          padding: 10px 10px;
-
-          &:hover {
-            background-color: #2b5e2e;
-            color: #ffffff;
-          }
-        }
-      }
-
-      input {
-        &[type="checkbox"] {
-          display: none;
-
-          + label {
-            padding: 9px 20px;
-            margin: 5px;
-            opacity: 0.35;
-            border-radius: 26px;
-            border: solid 1px #979797;
-            font-weight: normal;
-            cursor: pointer;
-            margin-bottom: 5px;
-            transition: all 0.5s;
+        div.search-keyword {
+          input {
+            visibility: hidden;
           }
 
-          &:checked + label,
-          + label:hover {
-            color: #ffffff;
-            opacity: 1;
-            border-radius: 26px;
-            border: solid 1px #979797;
-            background-color: #2b5e2e;
-          }
-        }
-
-        &[type="submit"] {
-          margin: 0 10px;
-          height: 32px;
-          padding: 0 30px;
-          border: solid 1px #979797;
-          background-color: transparent;
-        }
-      }
-    }
-  }
-
-  .result-box {
-    > p {
-      border-bottom: solid 2px #d4d4d4;
-      padding-bottom: 15px;
-
-      + div {
-        padding: 0 5px;
-        text-align: right;
-      }
-    }
-
-    .product-box {
-      margin: 0 auto;
-
-      ul {
-        width: 100%;
-
-        > p {
-          margin: 0 auto;
-          padding: 30px 0 60px 15px;
-        }
-
-        li {
-          width: 100%;
-          height: 100%;
-
-          > div {
-            cursor: pointer;
+          label > span {
+            display: inline-block;
+            font-weight: bold;
             text-align: center;
+          }
 
-            &:hover {
-              /* 상품 리스트 hover 주고 싶으면 여기 건들 것 */
-              h2 {
-                /* color: #2b5e2e; */
+          text-align: center;
+        }
+      }
+
+      // 비교검색 조건입력 박스
+      .search-content-box {
+        padding: 50px 0;
+
+        div.search-option > div {
+          span {
+            display: inline-block;
+            font-weight: bold;
+            margin: 0 10px;
+          }
+
+          @media (max-width: $breakpoint-largedesktop) {
+            &:last-child span {
+              margin-bottom: 15px;
+            }
+          }
+
+          @media (max-width: $breakpoint-desktop) {
+            &.checkbox-box {
+              max-width: 550px;
+              margin: 17px auto;
+              display: inline-flex;
+              justify-content: center;
+              flex-wrap: wrap;
+            }
+          }
+
+          #compareSearchText {
+            padding: 5px 10px;
+            border: solid 1px #bebebe;
+            background-color: #f6f6f6;
+            width: 170px;
+            margin: 0 10px;
+          }
+
+          #autoCompleteText {
+            margin: 0 10px;
+            position: absolute;
+            border: solid 1px #bebebe;
+            border-top: none;
+            background-color: #f6f6f6;
+            width: 170px;
+            z-index: 10;
+            transition: all 0.5s;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s linear 0.1s, opacity 0.1s linear;
+
+            &.focusin {
+              visibility: visible;
+              opacity: 1;
+              transition-delay: 0;
+              transition-duration: 0.4s;
+            }
+
+            li {
+              text-align: left;
+              cursor: pointer;
+              padding: 10px 10px;
+
+              &:hover {
+                background-color: #2b5e2e;
+                color: #ffffff;
+              }
+            }
+          }
+
+          input {
+            &[type="checkbox"] {
+              display: none;
+
+              + label {
+                padding: 9px 20px;
+                margin: 5px;
+                opacity: 0.35;
+                border-radius: 26px;
+                border: solid 1px #979797;
+                font-weight: normal;
+                cursor: pointer;
+                margin-bottom: 5px;
+                transition: all 0.5s;
+              }
+
+              &:checked + label,
+              + label:hover {
+                color: #ffffff;
+                opacity: 1;
+                border-radius: 26px;
+                border: solid 1px #979797;
+                background-color: #2b5e2e;
               }
             }
 
-            > div {
-              height: 205px;
-              padding: 15px;
-              margin-bottom: 13px;
-
+            &[type="submit"] {
+              margin: 0 10px;
+              height: 32px;
+              padding: 0 30px;
               border: solid 1px #979797;
-              background-color: #ffffff;
+              background-color: transparent;
+            }
+          }
+        }
+      }
 
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
+      // 공통 검색결과 나열 박스
+      .result-box {
+        > p {
+          border-bottom: solid 2px #d4d4d4;
+          padding-bottom: 15px;
+
+          + div {
+            padding: 0 5px;
+            text-align: right;
+          }
+        }
+
+        .product-box {
+          margin: 0 auto;
+
+          ul {
+            width: 100%;
+
+            > p {
+              margin: 0 auto;
+              padding: 30px 0 60px 15px;
+            }
+
+            li {
+              width: 100%;
+              height: 100%;
 
               > div {
-                height: 100%;
+                cursor: pointer;
+                text-align: center;
 
-                span {
-                  display: block;
-                  text-align: left;
-
-                  &.rank {
-                    font-size: 26px;
-                    font-weight: 600;
-                    line-height: 1.54;
+                &:hover {
+                  /* 상품 리스트 hover 주고 싶으면 여기 건들 것 */
+                  h2 {
+                    /* color: #2b5e2e; */
                   }
                 }
+
+                > div {
+                  height: 205px;
+                  padding: 15px;
+                  margin-bottom: 13px;
+
+                  border: solid 1px #979797;
+                  background-color: #ffffff;
+
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+
+                  > div {
+                    height: 100%;
+
+                    span {
+                      display: block;
+                      text-align: left;
+
+                      &.rank {
+                        font-size: 26px;
+                        font-weight: 600;
+                        line-height: 1.54;
+                      }
+                    }
+                  }
+
+                  > img {
+                    width: 166px;
+                    height: 185px;
+                  }
+                }
+
+                > span {
+                  font-size: 16px;
+                  line-height: 1.44;
+                  letter-spacing: 1.7px;
+                }
+
+                > h2 {
+                  font-weight: bold;
+                  font-size: 22px;
+                  line-height: 1.82;
+                }
               }
-
-              > img {
-                width: 166px;
-                height: 185px;
-              }
-            }
-
-            > span {
-              font-size: 16px;
-              line-height: 1.44;
-              letter-spacing: 1.7px;
-            }
-
-            > h2 {
-              font-weight: bold;
-              font-size: 22px;
-              line-height: 1.82;
             }
           }
         }
+      }
+    }
+
+    .product-detail-page {
+      box-sizing: border-box;
+
+      .main-content {
+        // margin-top: 58px;
+        // margin-left: 392px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        margin-bottom: 70px;
+      }
+
+      .left-container {
+        width: 553px;
+        height: 479px;
+        padding: 85px 133px 77px 134px;
+        border: 1px solid #bebebe;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // background-color: blue;
+      }
+
+      .left-container img {
+        width: 286px;
+        height: 317px;
+      }
+
+      .right-container {
+        width: 524px;
+        padding: 0 30px;
+        // background-color: brown;
+      }
+
+      .product-introduction div:nth-child(1) {
+        // background-color: pink;
+        height: 54px;
+        font-size: 28px;
+        color: #1e1e1e;
+        display: flex;
+        align-items: center;
+      }
+
+      .product-introduction div:nth-child(2) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .product-introduction div:nth-child(3) {
+        margin-top: 34px;
+        width: 324px;
+        // background-color: coral;
+        font-size: 20px;
+        color: #1e1e1e;
+        display: flex;
+        align-items: center;
+      }
+
+      .product-introduction div:nth-child(4) {
+        width: 433px;
+        font-size: 20px;
+        color: #1e1e1e;
+        display: flex;
+        align-items: center;
+      }
+
+      .product-score {
+        background-color: #272727;
+        padding: 8px 32px 6px 33px;
+        color: #f8f8f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 32px;
+        font-size: 22px;
+      }
+
+      .product-button {
+        margin-top: 55px;
+      }
+    }
+
+    //위에꺼랑 똑같이 반복되는 것 같음
+    //   .search-content-box {
+    //     padding: 50px 0;
+
+    //     div.search-option > div {
+    //       span {
+    //         display: inline-block;
+    //         font-weight: bold;
+    //         margin: 0 10px;
+    //       }
+
+    //       @media (max-width: $breakpoint-largedesktop) {
+    //         &:last-child span {
+    //           margin-bottom: 15px;
+    //         }
+    //       }
+
+    //       @media (max-width: $breakpoint-desktop) {
+    //         &.checkbox-box {
+    //           max-width: 550px;
+    //           margin: 17px auto;
+    //           display: inline-flex;
+    //           justify-content: center;
+    //           flex-wrap: wrap;
+    //         }
+    //       }
+
+    //       #compareSearchText {
+    //         padding: 5px 10px;
+    //         border: solid 1px #bebebe;
+    //         background-color: #f6f6f6;
+    //         width: 170px;
+    //         margin: 0 10px;
+    //       }
+
+    //       #autoCompleteText {
+    //         margin: 0 10px;
+    //         position: absolute;
+    //         border: solid 1px #bebebe;
+    //         border-top: none;
+    //         background-color: #f6f6f6;
+    //         width: 170px;
+    //         z-index: 10;
+    //         transition: all 0.5s;
+    //         visibility: hidden;
+    //         opacity: 0;
+    //         transition: visibility 0s linear 0.1s, opacity 0.1s linear;
+
+    //         &.focusin {
+    //           visibility: visible;
+    //           opacity: 1;
+    //           transition-delay: 0;
+    //           transition-duration: 0.4s;
+    //         }
+
+    //         li {
+    //           text-align: left;
+    //           cursor: pointer;
+    //           padding: 10px 10px;
+
+    //           &:hover {
+    //             background-color: #2b5e2e;
+    //             color: #ffffff;
+    //           }
+    //         }
+    //       }
+
+    //       input {
+    //         &[type="checkbox"] {
+    //           display: none;
+
+    //           + label {
+    //             padding: 9px 20px;
+    //             margin: 5px;
+    //             opacity: 0.35;
+    //             border-radius: 26px;
+    //             border: solid 1px #979797;
+    //             font-weight: normal;
+    //             cursor: pointer;
+    //             margin-bottom: 5px;
+    //             transition: all 0.5s;
+    //           }
+
+    //           &:checked + label,
+    //           + label:hover {
+    //             color: #ffffff;
+    //             opacity: 1;
+    //             border-radius: 26px;
+    //             border: solid 1px #979797;
+    //             background-color: #2b5e2e;
+    //           }
+    //         }
+
+    //         &[type="submit"] {
+    //           margin: 0 10px;
+    //           height: 32px;
+    //           padding: 0 30px;
+    //           border: solid 1px #979797;
+    //           background-color: transparent;
+    //         }
+    //       }
+    //     }
+    //   }
+
+    //   .result-box {
+    //     > p {
+    //       border-bottom: solid 2px #d4d4d4;
+    //       padding-bottom: 15px;
+
+    //       + div {
+    //         padding: 0 5px;
+    //         text-align: right;
+    //       }
+    //     }
+
+    //     .product-box {
+    //       margin: 0 auto;
+
+    //       ul {
+    //         width: 100%;
+
+    //         > p {
+    //           margin: 0 auto;
+    //           padding: 30px 0 60px 15px;
+    //         }
+
+    //         li {
+    //           width: 100%;
+    //           height: 100%;
+
+    //           > div {
+    //             cursor: pointer;
+    //             text-align: center;
+
+    //             &:hover {
+    //               /* 상품 리스트 hover 주고 싶으면 여기 건들 것 */
+    //               h2 {
+    //                 /* color: #2b5e2e; */
+    //               }
+    //             }
+
+    //             > div {
+    //               height: 205px;
+    //               padding: 15px;
+    //               margin-bottom: 13px;
+
+    //               border: solid 1px #979797;
+    //               background-color: #ffffff;
+
+    //               display: flex;
+    //               justify-content: space-between;
+    //               align-items: center;
+
+    //               > div {
+    //                 height: 100%;
+
+    //                 span {
+    //                   display: block;
+    //                   text-align: left;
+
+    //                   &.rank {
+    //                     font-size: 26px;
+    //                     font-weight: 600;
+    //                     line-height: 1.54;
+    //                   }
+    //                 }
+    //               }
+
+    //               > img {
+    //                 width: 166px;
+    //                 height: 185px;
+    //               }
+    //             }
+
+    //             > span {
+    //               font-size: 16px;
+    //               line-height: 1.44;
+    //               letter-spacing: 1.7px;
+    //             }
+
+    //             > h2 {
+    //               font-weight: bold;
+    //               font-size: 22px;
+    //               line-height: 1.82;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // }
+
+    .index {
+      .main {
+        .box {
+          height: 100%;
+          min-height: 500px;
+          display: flex;
+          align-items: center;
+        }
+
+        .btn-cover {
+          margin-top: 50px;
+        }
+
+        .btn-more {
+          font-size: 13px;
+          transition: all 0.25s linear;
+          color: #000000;
+          border: solid 1px;
+          border-radius: 2px;
+          padding: 5px 30px;
+        }
+        .btn-more:hover {
+          text-decoration: none;
+          color: rgb(197, 151, 66);
+        }
+      }
+
+      .mtype-info {
+        .subject {
+          height: 150px;
+          display: flex;
+          align-items: center;
+
+          .text {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            background-color: #ededed;
+            padding: 0px 50px;
+            font-size: 14px;
+            line-height: 22px;
+          }
+        }
+        .detail {
+          height: 300px;
+          display: flex;
+          align-items: center;
+
+          #subtext {
+            display: block;
+            font-size: 12px;
+            color: #686868;
+            margin-bottom: 40px;
+          }
+          #type {
+            font-size: 20px;
+            margin-bottom: 20px;
+          }
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+      .additional-info {
+        .title {
+          margin: 30px;
+          padding: 20px;
+        }
+
+        p {
+          font-size: 12px;
+          margin-bottom: 10px;
+          line-height: 22px;
+        }
+        .content-box {
+          padding: 20px;
+        }
+        .dal-story {
+          background-color: #ededed;
+          height: 300px;
+          width: 100%;
+
+          .story-title {
+            display: flex;
+            align-items: center;
+            height: 150px;
+
+            .text {
+              padding: 0px 30px;
+              font-size: 14px;
+              line-height: 22px;
+            }
+          }
+        }
+      }
+
+      .photo {
+      }
+
+      .site-info {
+        .subject {
+          height: 150px;
+          display: flex;
+          align-items: center;
+
+          .text {
+            padding: 0px 30px;
+            font-size: 14px;
+            line-height: 22px;
+          }
+        }
+        .img {
+          margin-bottom: 20px;
+        }
+      }
+
+      .gradation {
+        float: left;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0));
       }
     }
   }
