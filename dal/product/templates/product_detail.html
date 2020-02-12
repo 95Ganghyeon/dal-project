@@ -34,37 +34,68 @@
     </div>
 
     {% comment %} 3개의 탭으로 구성되어서 '제품정보' '성분정보' '리뷰' 탭을 CSS 등으로 표현해줄 부분 {% endcomment %}
-    <div>
-        <ul class="product-detail-list">
-            <li> 
-                <input id="tab1" type="radio" name="tabs" checked>
-                <label for="tab1">
-                    <span>제품정보</span>
-                </label>
+    <div class="product-detail row">
+        <ul class="product-detail-list col-9">
+            <li class="row"> 
+                <input id="tab1" type="radio" name="tabs" >
+                <label class="col-md-4" for="tab1">제품정보</label>
                 <input id="tab2" type="radio" name="tabs">
-                <label for="tab2">성분정보</label>
-                <input id="tab3" type="radio" name="tabs">
-                <label for="tab3">리뷰{{review_list.count}}</label>
-           
-                <section id="content1">
+                <label class="col-md-4" for="tab2">성분정보</label>
+                <input id="tab3" type="radio" name="tabs" checked>
+                <label class="col-md-4" for="tab3">리뷰({{review_list.count}})</label>
+        
+                <section class="col-xl-12" id="content1">
                     여기는 '제품정보' 탭 // 지마켓처럼 제품 소개 이미지 통짜로 박을 것임
                 </section>
-                <section id="content2">
+                <section class="col-xl-12" id="content2">
                     여기는 '성분정보' 탭 // 생리대 구조 그래프와 성분 기재 + 자연 유래도 퍼센트와 그래프 포함
                 </section>
-                <section id="content3">
-                    <div>
-                        BEST REVIEW
-                        <div>
-                            {{bestReview.star_Str}}
-                            {{bestReview.user_fk.username}} / {{bestReview.user_fk.profile.age}}세 / 여성
-                            {{bestReview.created}}
-                            {{bestReview.content}}
+                <section class="col-xl-12" id="content3">
+                    <div class="bestreview">
+                        <div class="bestreview-title">
+                            BEST REVIEW 
+                        </div>
+                        <div class="bestreview-content">
+                            <div class="bestreview-upper">
+                                <div class="user-image">유저 사진</div>
+                                <div class="user-info">
+                                    <div>유전 정보{{bestReview.user_fk.username}} / {{bestReview.user_fk.profile.age}}세 / 여성</div>
+                                    <div>2020.2.11{{bestReview.created}}</div>
+                                </div>
+                                <div class="user-score-box">
+                                    <div class="user-score">대박{{bestReview.star_Str}}</div>
+                                </div>
+                            </div>
+                            <div class="user-content">{{bestReview.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은 날에는 아무리 자주
+                                바꿔도 새곤 했는데, 질경이 마음은 흡수력이 좋아서 전혀 새지 않더라구요 ! 
+                                친구들 중에도 저랑 비슷한 고민하는 친구들한테 추천할 정도였어요. 다만 가격이 조금 아쉬운데,
+                                투자할만한 가치가 충분하다고는 생각합니다 ! 첫째날, 둘째날 양 진짜 많으신 분들 강추드려요 : )
+                            </div>
                         </div>
                     </div>
 
-                    <div>
-                        REVIEW
+                    <div class="review">
+                        <div class="review-title">
+                            Review 
+                        </div>
+                        {% for review in review_list %}
+                        
+                        <div class="review-content">
+                            <div class="bestreview-upper">
+                                <div class="user-image">유저 사진</div>
+                                <div class="user-info">
+                                    <div>유전 정보{{review.user_fk.username}} / {{review.user_fk.profile.age}}세 / 여성</div>
+                                    <div>2020.2.11{{review.created}}</div>
+                                </div>
+                                <div class="user-score-box">
+                                    <div class="user-score">대박{{review.star_Str}}</div>
+                                </div>
+                            </div>
+                            <div class="user-content">
+                                {{review.content}}
+                            </div>
+                        </div>
+                        {% comment %} REVIEW
                         <ul>
                             {% for review in review_list %}
                             <li>
@@ -76,7 +107,8 @@
                                 </div>
                             </li>
                             {% endfor %}
-                        </ul>
+                        </ul> {% endcomment %}
+                        {% endfor %}
                     </div>
                 </section>
             </li>
