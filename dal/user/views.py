@@ -6,5 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def profile(request):
-  
-  return render(request,'profile.html')
+  m_type = "ISTP"
+  n_result = 4
+  context = {'m_type':m_type, 'n_result':4}
+  return render(request,'profile.html',context=context)
