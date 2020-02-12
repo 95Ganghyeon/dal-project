@@ -12,8 +12,8 @@
   <!-- load css/stylesheet -->
 
   {% load bootstrap4 %}
+  {% bootstrap_javascript jquery='slim'%}
   {% bootstrap_css %}
-  {% bootstrap_javascript jquery='full'%}
   <script src="https://kit.fontawesome.com/6f1d36fa89.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{% sass_src 'css/temp.scss'%}">
   <link rel="stylesheet" href="{% static 'css/base.css'%}">
@@ -26,7 +26,7 @@
 <body>    
 
 {% block navbar %}
-<nav class="navbar navbar-expand-md navbar-light bg-faded">
+<nav class="navbar navbar-expand-md">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -48,7 +48,7 @@
     <ul class="nav navbar-nav ml-auto">
     {% if user.is_authenticated %}
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
           {{ user.username }}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">

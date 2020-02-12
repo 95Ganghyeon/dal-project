@@ -10,7 +10,7 @@
       마이페이지
     </div>
     <div class="col text-right">
-      개인정보 변경
+      <a href='{% url 'edit_profile' %}'>개인정보 변경</a>
     </div>
   </div>
 
@@ -47,6 +47,14 @@
     <div class="col text-right">
       전체별점 <i class="fas fa-angle-down"></i>
     </div>
+  </div>
+
+  <div class="row">
+    {% if products  %}
+      {% for product in products %}
+        {{ product.name }}
+      {% endfor %}
+    {% endif %}
   </div>
 </div>
 
