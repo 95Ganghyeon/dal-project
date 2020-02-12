@@ -243,12 +243,13 @@
                 // div.classList.toggle('focusin');
                 div.innerHTML = item.innerHTML;
                 option_form.value = item.getAttribute('data-option');
+                compareSearchFormValidation();
             });
         });
     }
 
     // 검색할 배열
-    var product_list = {{ all_products | js }};
+    var product_list = {{ all_products | safe }};
 
     // object 에 초성필드 추가 {name:"좋은느낌", diassembled:"ㅈㅇㄴㄲ"}
     product_list.forEach(function(item){
