@@ -1,5 +1,9 @@
 {
-  "python.pythonPath": "/Users/kwonganghyeon/.pyenv/versions/3.8.1/bin/python",
+<<<<<<< HEAD
+  "python.pythonPath": "/home/y1andyu/.local/share/virtualenvs/dal-project-rbl3Hr8W/bin/python",
+=======
+  "python.pythonPath": "/Users/tomlee/.virtualenvs/django/bin/python",
+>>>>>>> 1f68583e3c0ac9af7889121ed1bb8b0735fc153c
   "python.linting.pylintEnabled": false,
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,

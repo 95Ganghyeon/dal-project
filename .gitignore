@@ -46,6 +46,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.vscode/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -122,3 +123,4 @@ dmypy.json
 .pyre/
 
 # End of https://www.gitignore.io/api/django
+.vscode/settings.json
