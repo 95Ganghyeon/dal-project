@@ -1,6 +1,8 @@
 @charset "UTF-8";
 @import url(font.css);
 @import url(reset.css);
+.my-type-title { width: 390px; height: 45px; font-size: 30px; font-weight: 500; font-stretch: normal; font-style: normal; line-height: 1.4; letter-spacing: normal; text-align: center; }
+
 /* 기본 컬러 연노랑:  */
 body { animation: fadein 1s; -moz-animation: fadein 1s; /* Firefox */ -webkit-animation: fadein 1s; /* Safari and Chrome */ -o-animation: fadein 1s; /* Opera */ }
 
