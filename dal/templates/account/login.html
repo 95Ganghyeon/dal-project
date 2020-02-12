@@ -12,7 +12,7 @@
 
 <div class="container login-container">
   
-  <div id='account-header'>로그인하기</div>
+  <div id="account-header" class="text-left font-weight-bold">로그인하기</div>
   {% get_providers as socialaccount_providers %}
 
   <form method="POST" action="{% url 'account_login' %}">
@@ -35,12 +35,12 @@
   </div>
 
   <div class="row">
-    <button class="btn-login" type="submit">로그인</button>
+    <input class="btn-login" type="submit" value="로그인"/>
   </div>
     
   </form>
 
-  <p>or</p>
+  <p class="hr-sect">or</p>
 
   {% if socialaccount_providers %}
 
