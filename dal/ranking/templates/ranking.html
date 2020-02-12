@@ -1,9 +1,9 @@
 {% extends "base_generic.html"%}
 
 {% block content %}
-    
+
 <div>
-    <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
+    <h2 class="my-type-title">내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
     <span>나와 같은 월경타입의 사람들이 평가한 순위</span>
 </div>
 
@@ -47,8 +47,9 @@
                 자연유래도 {{ nature_friendly }}%
             </div>
         </li>
+        {% empty %}
+        <span>검색 결과가 없습니다.</span>
         {% endfor %}
     </ul>
 </div>
-
 {% endblock %}

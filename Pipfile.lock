@@ -113,7 +113,8 @@
         },
         "et-xmlfile": {
             "hashes": [
-                "sha256:614d9722d572f6246302c4491846d2c393c199cfa4edc9af593437691683335b"
+                "sha256:614d9722d572f6246302c4491846d2c393c199cfa4edc9af593437691683335b",
+                "sha256:a563c919dd6f7e040e53cd605606933cdd9ca6f1e905dccdb5add83cf0aa5484"
             ],
             "version": "==1.0.1"
         },
