@@ -1,7 +1,7 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-
+<pre> {% filter force_escape %} {% debug %} {% endfilter %} </pre>
 {% load sass_tags %}
 <link rel="stylesheet" href="{% sass_src 'css/user.scss'%}">
 
