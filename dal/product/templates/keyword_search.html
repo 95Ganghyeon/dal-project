@@ -17,56 +17,53 @@
     </div>
 
     <form action="{% url 'KeywordSearch' %}" method="GET" id="keywordSearchForm">
-        <div class="search-condition-box">
-            <div class="keyword-pannel row justify-content-md-center">                
-                <div class="search-keyword col-md-2">
-                    {% comment %} <input type="radio" name="keyword" value="abc" id="abc"/>
-                    <label for="abc">abc</label> {% endcomment %}
-                    <input type="radio" name="keyword" value="score" onclick="form.submit()" id="score">
-                    <label for="score">
-                        <span>
-                            <i class="fas fa-3x fa-trophy"></i><br/>                            
-                            종합
-                        </span>
-                    </label>
-                </div>
-                <div class="search-keyword col-md-2">
-                    <input type="radio" name="keyword" value="absorbency" onclick="form.submit()" id="absorbency">
-                    <label for="absorbency">
-                        <span>
-                            <i class="fas fa-3x fa-tint"></i><br/>                            
-                            흡수력
-                        </span>
-                    <label>
-                </div>
-                <div class="search-keyword col-md-2">
-                    <input type="radio" name="keyword" value="anti_odour" onclick="form.submit()" id="anti_odour">
-                    <label for="anti_odour">
-                        <span>
-                            <i class="fas fa-3x fa-wind"></i><br/>                            
-                            탈취력
-                        </span>
-                    <label>
-                </div>
-                <div class="search-keyword col-md-2">
-                    <input type="radio" name="keyword" value="comfort" onclick="form.submit()" id="comfort">
-                    <label for="comfort">
-                        <span>
-                            <i class="fas fa-3x fa-water"></i><br/>                            
-                            촉감/착용감
-                        </span>
-                    <label>
-                </div>
-                <div class="search-keyword col-md-2">
-                    <input type="radio" name="keyword" value="sensitivity" onclick="form.submit()" id="sensitivity">
-                    <label for="sensitivity">
-                        <span>
-                            <i class="fas fa-3x fa-allergies"></i><br/>                            
-                            피부 친화도
-                        </span>
-                    <label>
-                </div>            
+        
+        <div class="search-condition-box row justify-content-md-center">                
+            <div class="condition-keyword col-md-2">                    
+                <input type="radio" name="keyword" value="score" onclick="form.submit()" id="score">
+                <label class="selected" for="score">
+                    <span>
+                        <i class="fas fa-3x fa-trophy"></i><br/>                            
+                        종합
+                    </span>
+                </label>
             </div>
+            <div class="condition-keyword col-md-2">
+                <input type="radio" name="keyword" value="absorbency" onclick="form.submit()" id="absorbency">
+                <label for="absorbency">
+                    <span>
+                        <i class="fas fa-3x fa-tint"></i><br/>                            
+                        흡수력
+                    </span>
+                <label>
+            </div>
+            <div class="condition-keyword col-md-2">
+                <input type="radio" name="keyword" value="anti_odour" onclick="form.submit()" id="anti_odour">
+                <label for="anti_odour">
+                    <span>
+                        <i class="fas fa-3x fa-wind"></i><br/>                            
+                        탈취력
+                    </span>
+                <label>
+            </div>
+            <div class="condition-keyword col-md-2">
+                <input type="radio" name="keyword" value="comfort" onclick="form.submit()" id="comfort">
+                <label for="comfort">
+                    <span>
+                        <i class="fas fa-3x fa-water"></i><br/>                            
+                        촉감/착용감
+                    </span>
+                <label>
+            </div>
+            <div class="condition-keyword col-md-2">
+                <input type="radio" name="keyword" value="sensitivity" onclick="form.submit()" id="sensitivity">
+                <label for="sensitivity">
+                    <span>
+                        <i class="fas fa-3x fa-allergies"></i><br/>                       
+                        피부 친화도
+                    </span>
+                <label>
+            </div>                        
         </div>
     
     

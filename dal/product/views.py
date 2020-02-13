@@ -113,7 +113,15 @@ def normalSearch(request):
 
 def keywordSearch(request):
     
+    query_string = ''
     ReviewSummary_list = ReviewSummary.objects.all()
+    
+    # 쿼리스트링 생성 for paginator
+    if request.META['QUERY_STRING']:        
+        for item in request.META['QUERY_STRING'].split('&'):
+            if 'page' not in item:
+                query_string += '&' + item
+        print(query_string)
 
     if request.GET.get("keyword") == "score":
         ReviewSummary_list = ReviewSummary_list.order_by('-total_score')
@@ -134,6 +142,7 @@ def keywordSearch(request):
     context = {    
         'product_list': ReviewSummary_list,
         'paginator': paginator,
+        'query_string': query_string,
     }
     return render(request, "keyword_search.html", context=context)    
     

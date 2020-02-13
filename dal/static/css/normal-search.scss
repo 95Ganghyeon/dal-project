@@ -1,59 +1,4 @@
-.keyword-search-page{
-
-    // 상단 패널
-    .search-pannel div {
-        padding: 60px 10px 40px;
-        border-bottom: 2px solid #bebebe;
-        color: #bebebe;
-        transition: all 0.5s;
-        cursor: pointer;
-
-        h2 {
-            color: inherit;
-            margin: 12px 0;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        span {
-            cursor: pointer;
-            color: inherit;
-        }
-
-        &.selected {
-            border-bottom-color: #272727;
-            color: #1e1e1e;
-        }
-    }
-
-    // 키워드검색 조건입력 박스
-    .search-condition-box{
-        padding: 70px 0;
-        
-        .condition-keyword{
-            text-align: center;
-            
-            input[type="radio"]{
-                display: none;
-                
-                +label{
-                    cursor: pointer;
-                    opacity: 0.3;
-                    
-                    i{
-                        color: #2b5e2e;
-                        padding: 0 0 15px 0;
-                    }
-                }
-
-                +label:hover{
-                    opacity: 1;
-                }
-            }
-        }
-    }
-
+.normal-search-page{
 
     // 공통 검색결과 나열 박스
     .result-box {
@@ -144,5 +89,7 @@
             }
         }
     }
+
+
 
 }
