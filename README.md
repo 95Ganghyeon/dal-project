@@ -6,3 +6,4 @@ required package -
 Django
 pillow
 django-allauth
+test
