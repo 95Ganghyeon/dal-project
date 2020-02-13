@@ -2,6 +2,12 @@
 # Created by https://www.gitignore.io/api/django
 # Edit at https://www.gitignore.io/?templates=django
 
+
+# sass-processor로 컴파일된 css파일은 무시
+style.css
+style.css.map
+
+
 nohup.out
 ### Django ###
 *.log

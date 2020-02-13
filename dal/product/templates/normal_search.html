@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    
+<div class="normal-search-page container">    
     <div>
         <form action="{% url 'NormalSearch' %}" method="GET">
             <input type="search" name="q" value = "{{ request.GET.product }}">
@@ -49,5 +49,5 @@
             {% endif %}
         </span>
     </div>
-
+</div>
 {% endblock %}

@@ -1,0 +1,8 @@
+{
+  "python.pythonPath": "/home/mechaniccoder/.local/share/virtualenvs/dal-project-45deZtMQ/bin/python",
+  "python.linting.pylintEnabled": false,
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.formatting.provider": "black",
+  "python.linting.flake8Args": ["--max--line-length=88"]
+}
