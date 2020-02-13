@@ -9,21 +9,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <!-- load css/stylesheet -->
 
   {% load bootstrap4 %}
   {% bootstrap_javascript jquery='slim'%}
   {% bootstrap_css %}
+  <!-- load css/stylesheet -->
+  <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}" type="text/css" />
   <script src="https://kit.fontawesome.com/6f1d36fa89.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="{% sass_src 'css/temp.scss'%}">
-  <link rel="stylesheet" href="{% static 'css/base.css'%}">
-
-  <link rel="stylesheet" href="{% static 'css/animate.css'%}">
   <script src="{% static 'js/wow.min.js'%}"></script>
   <script> new WOW().init(); </script>
-
 </head>
-<body>    
+<body>
 
 {% block navbar %}
 <nav class="navbar navbar-expand-md navbar-light bg-faded" style="margin: 0 auto;">

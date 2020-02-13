@@ -112,7 +112,7 @@ def normalSearch(request):
 
 
 def keywordSearch(request):
-
+    
     ReviewSummary_list = ReviewSummary.objects.all()
 
     if request.GET.get("keyword") == "score":

@@ -63,7 +63,7 @@ def ranking(request):
             result[key] = temp_score
         
         return result
-
+    
     currentUser = request.user
     currentUserType = currentUser.profile.survey_fk.mtype # 현재유저의 타입을 나타내는 "OOOO"스트링 값임
     

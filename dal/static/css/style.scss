@@ -1,0 +1,162 @@
+@charset "utf-8";
+
+@import url(_reset.css);
+@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700&display=swap&subset=korean);
+
+
+$breakpoint-smalldevices: 576px - 1px;
+$breakpoint-tablet: 768px - 1px;
+$breakpoint-desktop: 992px - 1px;
+$breakpoint-largedesktop: 1200px - 1px;
+
+body {
+    animation: fadein 1s;
+    -moz-animation: fadein 1s;
+    /* Firefox */
+    -webkit-animation: fadein 1s;
+    /* Safari and Chrome */
+    -o-animation: fadein 1s;
+    /* Opera */
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadein {
+
+    /* Firefox */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein {
+
+    /* Safari and Chrome */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadein {
+
+    /* Opera */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/*
+    공통 드롭다운 스타일
+*/
+.drop-down-box {
+    padding: 10px 10px;
+
+    a {
+        display: inline-flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 10px 0;
+
+        /*
+        &.focusin::after {
+            content: '∧';
+        }
+        */
+
+        &::after {
+            content: '∨';
+            font-size: 14px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+    }
+
+    ul {
+        margin: 0 10px;
+        position: absolute;
+        right: 0;
+        border: solid 1px #bebebe;
+        background-color: #fffefc;
+        width: fit-content;
+        z-index: 10;
+        transition: all 0.5s;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s linear 0.1s, opacity 0.1s linear;
+        cursor: pointer;
+
+        &.focusin {
+            visibility: visible;
+            opacity: 1;
+            transition-delay: 0;
+            transition-duration: 0.4s;
+        }
+
+        li {
+            text-align: right;
+            cursor: pointer;
+            padding: 10px 28px;
+
+            &:hover {
+                background-color: #2b5e2e;
+                color: #FFFFFF;
+            }
+        }
+    }
+}
+
+/*
+    공통 페이지네이션 스타일
+*/
+ul.my-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+
+    li {
+        margin: 0 5px;
+        letter-spacing: -2px;
+
+        &.disabled {
+            color: #d4d4d4;
+        }
+    }
+}
+
+
+
+
+@import "index.scss";
+@import "base.scss";
+@import "accounts.scss";
+@import "user.scss";
+@import "product-details.scss";
+@import "compare-search.scss";
+@import "keyword-search.scss";
+@import "ranking.scss";
+
+
+
+

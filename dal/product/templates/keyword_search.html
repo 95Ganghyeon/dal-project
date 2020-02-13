@@ -3,7 +3,7 @@
 
 {% block content %}
     
-<div class="product-search-page container">
+<div class="keyword-search-page container">
     <!-- 상단 탭 -->
     <div class="search-pannel row">
         <div class="keyword-search col-sm-6 selected">
@@ -18,72 +18,61 @@
 
     <form action="{% url 'KeywordSearch' %}" method="GET" id="keywordSearchForm">
         <div class="search-condition-box">
-            <div class="row search-keyword">
-                <div class="col-md-1"></div>
+            <div class="keyword-pannel row justify-content-md-center">                
                 <div class="search-keyword col-md-2">
-                    <label>
+                    {% comment %} <input type="radio" name="keyword" value="abc" id="abc"/>
+                    <label for="abc">abc</label> {% endcomment %}
+                    <input type="radio" name="keyword" value="score" onclick="form.submit()" id="score">
+                    <label for="score">
                         <span>
-                            <i class="fas fa-3x fa-trophy" style="color:#2b5e2e"></i><br/>
-                            {% comment %} 임시로 이미지 대신 쓸 아이콘이라서 html style class 넣어놓음...
-                            나중에 반드시 지울 것! {% endcomment %}
-                            <input type="radio" name="keyword" value="score" onclick="form.submit()"><br/>
+                            <i class="fas fa-3x fa-trophy"></i><br/>                            
                             종합
                         </span>
                     </label>
                 </div>
                 <div class="search-keyword col-md-2">
-                    <label>
+                    <input type="radio" name="keyword" value="absorbency" onclick="form.submit()" id="absorbency">
+                    <label for="absorbency">
                         <span>
-                            <i class="fas fa-3x fa-tint" style="color:#2b5e2e"></i><br/>
-                            {% comment %} 임시로 이미지 대신 쓸 아이콘이라서 html style class 넣어놓음...
-                            나중에 반드시 지울 것! {% endcomment %}
-                            <input type="radio" name="keyword" value="absorbency" onclick="form.submit()"><br/>
+                            <i class="fas fa-3x fa-tint"></i><br/>                            
                             흡수력
                         </span>
                     <label>
                 </div>
                 <div class="search-keyword col-md-2">
-                    <label>
+                    <input type="radio" name="keyword" value="anti_odour" onclick="form.submit()" id="anti_odour">
+                    <label for="anti_odour">
                         <span>
-                            <i class="fas fa-3x fa-wind" style="color:#2b5e2e"></i><br/>
-                            {% comment %} 임시로 이미지 대신 쓸 아이콘이라서 html style class 넣어놓음...
-                            나중에 반드시 지울 것! {% endcomment %}
-                            <input type="radio" name="keyword" value="anti_odour" onclick="form.submit()"><br/>
+                            <i class="fas fa-3x fa-wind"></i><br/>                            
                             탈취력
                         </span>
                     <label>
                 </div>
                 <div class="search-keyword col-md-2">
-                    <label>
+                    <input type="radio" name="keyword" value="comfort" onclick="form.submit()" id="comfort">
+                    <label for="comfort">
                         <span>
-                            <i class="fas fa-3x fa-water" style="color:#2b5e2e"></i><br/>
-                            {% comment %} 임시로 이미지 대신 쓸 아이콘이라서 html style class 넣어놓음...
-                            나중에 반드시 지울 것! {% endcomment %}
-                            <input type="radio" name="keyword" value="comfort" onclick="form.submit()"><br/>
+                            <i class="fas fa-3x fa-water"></i><br/>                            
                             촉감/착용감
                         </span>
                     <label>
                 </div>
                 <div class="search-keyword col-md-2">
-                    <label>
+                    <input type="radio" name="keyword" value="sensitivity" onclick="form.submit()" id="sensitivity">
+                    <label for="sensitivity">
                         <span>
-                            <i class="fas fa-3x fa-allergies" style="color:#2b5e2e"></i><br/>
-                            {% comment %} 임시로 이미지 대신 쓸 아이콘이라서 html style class 넣어놓음...
-                            나중에 반드시 지울 것! {% endcomment %}
-                            <input type="radio" name="keyword" value="sensitivity" onclick="form.submit()"><br/>
+                            <i class="fas fa-3x fa-allergies"></i><br/>                            
                             피부 친화도
                         </span>
                     <label>
-                </div>
-                <div class="col-md-1"></div>
-
+                </div>            
             </div>
         </div>
     
     
         <div class="result-box row">
             <p class="col-12">총 {{ product_list|length }}개의 상품이 검색되었습니다</p>    
-            <div class="col-12">
+            {% comment %} <div class="col-12">
                 <!-- 드롭다운 옵션 선택 div -->
                 <div class="drop-down-box">
                     <a href="javascript:void(0);">
@@ -113,7 +102,7 @@
                         <li data-option="sensitivity">민감도 순</li>
                     </ul>
                 </div>
-            </div>
+            </div> {% endcomment %}
 
             <div class="product-box col-12">
                 <ul class="row">
@@ -123,24 +112,24 @@
                         <div>
                             <div class="">
                                 <div class="">
-                                    {% if page_obj.number == 1 %}
+                                    {% if paginator.page_obj.number == 1 %}
                                     {% if forloop.counter0 < 3 %}
                                     <span class="rank">{{ forloop.counter }}위</span>
                                     {% endif %}
                                     {% endif %}
                                     <span>
-                                        {% if option == 'price' %}
-                                        가격 {{ reviewSummary.product_fk.price }}원
-                                        {% elif option == 'absorbency' %}
+                                        {% if 'score' in query_string %}
+                                        종합점수 {{ reviewSummary.total_score }}점
+                                        {% elif 'absorbency' in query_string %}
                                         흡수력 {{ reviewSummary.absorbency_avg }}점
-                                        {% elif option == 'comfort' %}
-                                        촉감/착용감 {{ reviewSummary.comfort_avg }}점
-                                        {% elif option == 'nature_friendly' %}
-                                        자연유래정도 {{ reviewSummary.product_fk.nature_friendly }}점
-                                        {% elif option == 'anti_odour' %}
+                                        {% elif 'anti_odour' in query_string %}
                                         탈취성 {{ reviewSummary.anti_odour_avg }}점
-                                        {% elif option == 'sensitivity' %}
+                                        {% elif 'comfort' in query_string %}
+                                        촉감/착용감 {{ reviewSummary.comfort_avg }}점                                    
+                                        {% elif 'sensitivity' in query_string %}
                                         민감도 {{ reviewSummary.sensitivity_avg }}점
+                                        {% else %}
+                                        종합점수 {{ reviewSummary.total_score }}점
                                         {% endif %}
                                     </span>
                                 </div>
@@ -212,7 +201,7 @@
             item.addEventListener('mouseout', function(){
                 select_pannel(pre_selected_item);
             });
-        }); 
+        });         
 
         configDropDownBoxEvent();
     }
@@ -256,6 +245,7 @@
         });
         selected_item.classList.add('selected');
     }
+    
 
 </script>
 
