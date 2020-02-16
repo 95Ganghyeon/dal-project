@@ -68,7 +68,7 @@ class ProductIngredient(models.Model):
     )    
     
     def calculate_natureFriendlyScore(self):
-        return (cover_layer_score/40)*30 + (absorbent_layer_score/40)*60 + (etc_score/40)*10
+        return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
 
     nature_friendly_score = property(calculate_natureFriendlyScore)
 
