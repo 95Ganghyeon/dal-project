@@ -1,55 +1,48 @@
 {% extends "base_generic.html"%}
 
 {% block content %}
+<div class="ranking-page container">
+    <div class="ranking-top">
+        <div class="ranking-header">
+            <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
+            <span>나와 같은 월경타입의 사람들이 평가한 순위</span><br>
+            <select class="select-box">
+                <option selected>총점순</option>
+                <option>자연유래도순</option>
+                <option>흡수력순</option>
+                <option>탈취성순</option>
+                <option>피부친화도순</option>
+                <option>촉감/착용감순</option>
+            </select>
+        </div>
 
-<div>
-    <h2 class="my-type-title">내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
-    <span>나와 같은 월경타입의 사람들이 평가한 순위</span>
-</div>
-
-<div>
-    <div>
-        <button type="button">타입별 랭킹찾기</button>
-    </div>
-
-    <div>
-        <button type="button" onclick="location.href='#'">M-Type 재검사</button>
-    </div>
-</div>
-
-<div>
-    <div>
-        {% comment %} 폰트 어썸을 활용해서 아이콘을 넣을 자리 {% endcomment %}
-        <span>흡수력</span>
-    </div>
-    <div>
-        {% comment %} 폰트 어썸을 활용해서 아이콘을 넣을 자리 {% endcomment %}
-        <span>탈취성</span>
-    </div>
-    <div>
-        {% comment %} 폰트 어썸을 활용해서 아이콘을 넣을 자리 {% endcomment %}
-        <span>피부친화도</span>
-    </div>
-    <div>
-        {% comment %} 폰트 어썸을 활용해서 아이콘을 넣을 자리 {% endcomment %}
-        <span>촉감/착용감</span>
-    </div>
-</div>
-
-<div>
-    <ul>
-        {% for product in products %}
-        <li>
-            <div>
-                <img src="{{product.image.url}}" alt=""/>
-                {{ product.name }}
-                {{ product.price }}원
-                자연유래도 {{ nature_friendly }}%
+        <div class="ranking-sub">
+            <div class="button">
+                <div class="first"><a href="#">타입별 랭킹찾기</a></div>
+                <div class="second"><a href="#">M-Type 재검사</a></div>
             </div>
-        </li>
+        </div>
+    </div>
+
+    <div class="ranking-result">
+        <ul>
+            {% for product in products %}
+            <li>
+                <div>
+                    <img src="{{product.image.url}}" alt=""/>
+                    {{ product.name }}
+                    {{ product.price }}원
+                    자연유래도 {{ nature_friendly }}
+                </div>
+            </li>
+        </ul>
         {% empty %}
-        <span>검색 결과가 없습니다.</span>
+            <div class="no-result">
+                <p> 검색 결과가 없습니다.</p>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
+
+
 {% endblock %}
