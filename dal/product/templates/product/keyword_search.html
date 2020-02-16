@@ -6,13 +6,13 @@
 <div class="keyword-search-page container">
     <!-- 상단 탭 -->
     <div class="search-pannel row">
-        <div class="keyword-search col-sm-6 selected">
-            <h2>키워드 검색</h2>
-            <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
-        </div>
         <div class="compared-search col-sm-6">
             <h2>직접 비교하기</h2>
             <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
+        </div>
+        <div class="keyword-search col-sm-6 selected">
+            <h2>키워드 검색</h2>
+            <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
         </div>
     </div>
 
@@ -21,7 +21,7 @@
         <div class="search-condition-box row justify-content-md-center">                
             <div class="condition-keyword col-md-2">                    
                 <input type="radio" name="keyword" value="score" onclick="form.submit()" id="score">
-                <label class="selected" for="score">
+                <label class="selected" for="score" id="keyword:score">
                     <span>
                         <i class="fas fa-3x fa-trophy"></i><br/>                            
                         종합
@@ -30,7 +30,7 @@
             </div>
             <div class="condition-keyword col-md-2">
                 <input type="radio" name="keyword" value="absorbency" onclick="form.submit()" id="absorbency">
-                <label for="absorbency">
+                <label for="absorbency" id="keyword:absorbency">
                     <span>
                         <i class="fas fa-3x fa-tint"></i><br/>                            
                         흡수력
@@ -39,7 +39,7 @@
             </div>
             <div class="condition-keyword col-md-2">
                 <input type="radio" name="keyword" value="anti_odour" onclick="form.submit()" id="anti_odour">
-                <label for="anti_odour">
+                <label for="anti_odour" id="keyword:anti_odour">
                     <span>
                         <i class="fas fa-3x fa-wind"></i><br/>                            
                         탈취력
@@ -48,7 +48,7 @@
             </div>
             <div class="condition-keyword col-md-2">
                 <input type="radio" name="keyword" value="comfort" onclick="form.submit()" id="comfort">
-                <label for="comfort">
+                <label for="comfort" id="keyword:comfort">
                     <span>
                         <i class="fas fa-3x fa-water"></i><br/>                            
                         촉감/착용감
@@ -57,7 +57,7 @@
             </div>
             <div class="condition-keyword col-md-2">
                 <input type="radio" name="keyword" value="sensitivity" onclick="form.submit()" id="sensitivity">
-                <label for="sensitivity">
+                <label for="sensitivity" id="keyword:sensitivity">
                     <span>
                         <i class="fas fa-3x fa-allergies"></i><br/>                       
                         피부 친화도
@@ -177,8 +177,28 @@
 <script type="text/javascript">
     
     window.onload = function(){
+        var pre_selected_item = document.querySelector('.search-pannel .keyword-search');                                
+        var pre_selected_keyword = function(){            
+            var asdf = document.getElementById(function(){
+                if( window.location.href.indexOf('score') > -1 ){                    
+                    return 'keyword\\:score';
+                }
+                else if( window.location.href.indexOf('absorbency') > -1 ){
+                    return 'keyword\\:absorbency';
+                }
+                else if( window.location.href.indexOf('anti_odour') > -1 ){
+                    return 'keyword\\:anti_odour';
+                }
+                else if( window.location.href.indexOf('comfort') > -1 ){
+                    return 'keyword\\:comfort';
+                }
+                else if( window.location.href.indexOf('sensitivity') > -1 ){
+                    return 'keyword\\:sensitivity';
+                }                
+            });
+        };
+
         document.querySelectorAll('.search-pannel div').forEach(function(item){
-            var pre_selected_item = document.querySelector('.search-pannel .keyword-search');
             item.addEventListener('click', function(){
                 select_pannel(item);
                 pre_selected_item = item;
@@ -198,11 +218,23 @@
             item.addEventListener('mouseout', function(){
                 select_pannel(pre_selected_item);
             });
-        });         
+        });                 
 
-        configDropDownBoxEvent();
+        document.querySelectorAll('label').forEach(function(keyword){
+            
+            keyword.addEventListener('click', function(){
+                select_keyword_label(keyword);
+                pre_selected_keyword = keyword;
+            });
+            console.log(window.location.href);
+        });
+
+
+
+        
     }
     
+
     function configDropDownBoxEvent(){
         var div = document.querySelector('.drop-down-box a');
         var ul = document.querySelector('.drop-down-box ul');
@@ -238,6 +270,14 @@
     // comparesearch / keywordsearch 탭 선택
     function select_pannel(selected_item){
         document.querySelectorAll('.search-pannel div').forEach(function(item){
+            item.classList.remove('selected');
+        });
+        selected_item.classList.add('selected');
+    }
+
+    // keyword condition 박스에서 키워드 선택
+    function select_keyword_label(selected_item){
+        document.querySelectorAll('.search-condition-box label').forEach(function(item){
             item.classList.remove('selected');
         });
         selected_item.classList.add('selected');

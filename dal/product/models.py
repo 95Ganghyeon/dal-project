@@ -22,9 +22,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField()
     count = models.IntegerField()
     category = models.CharField(max_length=30) # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
-    hashtag_fk = models.ForeignKey('Hashtag', on_delete=models.SET_NULL, null=True)
-    nature_friendly = models.PositiveIntegerField()
-    # ingredients = models.TextField() # 막대그래프나 선그래프로 표현될 것... # 삭제
+    hashtag_fk = models.ForeignKey('Hashtag', on_delete=models.SET_NULL, null=True)    
 
     def __str__(self):
         return self.name
@@ -34,6 +32,45 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("ProductDetail", args=[str(self.id)])
+
+
+class ProductIngredient(models.Model):
+    """
+    점수 반영 비율: 표지층(cover_layer) 30% // 흡수층(absorbent_layer) 60% // 기타(etc) 10%
+    """
+    RANGE_ONE_TO_FIVE = (
+        (0,'0점'),
+        (10,'10점'),
+        (20,'20점'),
+        (30,'30점'),
+        (40,'40점'),        
+    )
+
+    id = models.AutoField(primary_key=True)
+    product_fk = models.OneToOneField("Product", on_delete=models.CASCADE)
+    cover_layer_string = models.TextField()
+    cover_layer_score = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(40)],
+        choices=RANGE_ONE_TO_FIVE,
+        default=None
+    )
+    absorbent_layer_string = models.TextField()
+    absorbent_layer_score = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(40)],
+        choices=RANGE_ONE_TO_FIVE,
+        default=None
+    )
+    etc_string = models.TextField()
+    etc_score = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(40)],
+        choices=RANGE_ONE_TO_FIVE,
+        default=None
+    )    
+    
+    def calculate_natureFriendlyScore(self):
+        return (cover_layer_score/40)*30 + (absorbent_layer_score/40)*60 + (etc_score/40)*10
+
+    nature_friendly_score = property(calculate_natureFriendlyScore)
 
 
 class Review(TimeStampedModel):

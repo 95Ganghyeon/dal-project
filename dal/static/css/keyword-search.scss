@@ -45,6 +45,10 @@
                         color: #2b5e2e;
                         padding: 0 0 15px 0;
                     }
+
+                    &.selected{
+                        opacity: 1;
+                    }
                 }
 
                 +label:hover{
