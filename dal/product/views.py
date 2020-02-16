@@ -83,7 +83,7 @@ def productDetail(request, pk):
             'review_list': review_list,
             'form': form,
         }
-        return render(request, 'product_detail.html', context=context)
+        return render(request, 'product/product_detail.html', context=context)
 
 
 def normalSearch(request):
@@ -108,7 +108,7 @@ def normalSearch(request):
         'product_list': product_list,
         'page_obj': page_obj,        
     }
-    return render(request, 'normal_search.html', context=context)
+    return render(request, 'product/normal_search.html', context=context)
 
 
 def keywordSearch(request):
@@ -144,7 +144,7 @@ def keywordSearch(request):
         'paginator': paginator,
         'query_string': query_string,
     }
-    return render(request, "keyword_search.html", context=context)    
+    return render(request, "product/keyword_search.html", context=context)    
     
 
 def compareSearch(request):
@@ -218,5 +218,5 @@ def compareSearch(request):
         'query_string': query_string,
     }
 
-    return render(request, "compare_search.html", context=context)
+    return render(request, "product/compare_search.html", context=context)
 

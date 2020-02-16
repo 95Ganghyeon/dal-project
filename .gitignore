@@ -8,6 +8,10 @@ style.css
 style.css.map
 
 
+# .vscode 환경설정 json파일 무시
+.vscode/settings.json
+
+
 nohup.out
 ### Django ###
 *.log

@@ -78,7 +78,7 @@ def ranking(request):
         'currentUser': currentUser,
         'products': products,
     }
-    return render(request, 'ranking.html', context=context)
+    return render(request, 'ranking/ranking.html', context=context)
 
 
 

@@ -22,7 +22,7 @@ def profile(request):
     products = False
 
   context = {'m_type':m_type, 'n_result':n_result, 'products':products}
-  return render(request,'profile.html',context=context)
+  return render(request,'user/profile.html',context=context)
 
 def edit_profile(request):
   if request.method == 'POST':
@@ -32,4 +32,4 @@ def edit_profile(request):
     placeholder = {'nickname':profile.nickname,'email':request.user.email}
     warning = {'nickname':"변경할 닉네임 입력해주세요","email":"변경할 이메일 입력해주세요"}
     context = {'placeholder':placeholder,'warning':warning}
-    return render(request,'profile_change.html',context=context)
+    return render(request,'user/profile_change.html',context=context)
