@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.db.models import Avg
 from django.contrib.auth.decorators import login_required
 from product.models import Review, Product
-from ranking.models import RankingBoard
+from product.views import get_paginator
+from ranking.models import *
 
 # Create your views here.
 
@@ -20,8 +21,26 @@ def updateRankingBoard():
             pass # '리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. RankingBoard의 score필드값은 Float type이어야 함.
 
 
+def updateReviewSummary():
+    """
+    ReviewSummary 테이블을 UPDATE 하는 함수임(2~3일 주기로 실행될 것임)
+    """
+    entireTable = ReviewSummary.objects.all()
+    for record in entireTable:
+        productReviews = Review.objects.filter(product_fk__id=record.product_fk.id)
+        if productReviews:
+            record.total_score = productReviews.aggregate(avg=Avg('score'))['avg']
+            record.absorbency_avg = productReviews.aggregate(avg=Avg('absorbency'))['avg']
+            record.anti_odour_avg = productReviews.aggregate(avg=Avg('anti_odour'))['avg']
+            record.comfort_avg = productReviews.aggregate(avg=Avg('comfort'))['avg']
+            record.sensitivity_avg = productReviews.aggregate(avg=Avg('sensitivity'))['avg']
+            record.save()
+        else:
+            pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
+
+
 @login_required
-def ranking(request):
+def mtypeRanking(request):
 
     def calculateWeight(userMtype, reviewMtype):
         """
@@ -78,7 +97,41 @@ def ranking(request):
         'currentUser': currentUser,
         'products': products,
     }
-    return render(request, 'ranking/ranking.html', context=context)
+    return render(request, 'ranking/mtype_ranking.html', context=context)
 
 
+def keywordRanking(request):
+
+    query_string = ''
+    ReviewSummary_list = ReviewSummary.objects.all()
+
+    # 쿼리스트링 생성 for paginator
+    if request.META['QUERY_STRING']:        
+        for item in request.META['QUERY_STRING'].split('&'):
+            if 'page' not in item:
+                query_string += '&' + item
+        print(query_string)
+
+    if request.GET.get("keyword") == "score":
+        ReviewSummary_list = ReviewSummary_list.order_by('-total_score')
+    elif request.GET.get("keyword") == "absorbency":
+        ReviewSummary_list = ReviewSummary_list.order_by('-absorbency_avg')
+    elif request.GET.get("keyword") == "anti_odour":
+        ReviewSummary_list = ReviewSummary_list.order_by('-anti_odour_avg')
+    elif request.GET.get("keyword") == "comfort":
+        ReviewSummary_list = ReviewSummary_list.order_by('-comfort_avg')
+    elif request.GET.get("keyword") == "sensitivity":
+        ReviewSummary_list = ReviewSummary_list.order_by('-sensitivity_avg')
+    else:
+        ReviewSummary_list = ReviewSummary_list.order_by('-total_score')
+    
+    page = request.GET.get('page')
+    paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+
+    context = {    
+        'product_list': ReviewSummary_list,
+        'paginator': paginator,
+        'query_string': query_string,
+    }
+    return render(request, "ranking/keyword_ranking.html", context=context)  
 

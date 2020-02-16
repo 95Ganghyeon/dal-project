@@ -68,7 +68,7 @@ class ProductIngredient(models.Model):
     )    
     
     def calculate_natureFriendlyScore(self):
-        return (cover_layer_score/40)*30 + (absorbent_layer_score/40)*60 + (etc_score/40)*10
+        return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
 
     nature_friendly_score = property(calculate_natureFriendlyScore)
 
@@ -144,14 +144,3 @@ class Hashtag(models.Model):
     def __str__(self):
         return self.name
 
-
-class ReviewSummary(models.Model):
-    product_fk = models.OneToOneField('Product', on_delete=models.CASCADE)
-    total_score = models.FloatField(default=0) # Review 모델의 star 필드로 계산되는 제품 평점
-    absorbency_avg = models.FloatField(default=0)
-    anti_odour_avg = models.FloatField(default=0)
-    comfort_avg = models.FloatField(default=0)
-    sensitivity_avg = models.FloatField(default=0)
-
-    def __str__(self):
-        return self.product_fk.name + "에 대한 ReviewSummary"

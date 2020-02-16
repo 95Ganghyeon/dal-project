@@ -3,25 +3,25 @@
 
 {% block content %}
     
-<div class="keyword-search-page container">
+<div class="keyword-ranking-page container">
     <!-- 상단 탭 -->
-    <div class="search-pannel row">
-        <div class="compared-search col-sm-6">
-            <h2>직접 비교하기</h2>
-            <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
+    <div class="ranking-pannel row">
+        <div class="mtype-ranking col-sm-6">
+            <h2>mtype 랭킹</h2>
+            <span>내 타입과 같은 사람들이 평가한 랭킹을 보여드려요</span>
         </div>
-        <div class="keyword-search col-sm-6 selected">
-            <h2>키워드 검색</h2>
+        <div class="keyword-ranking col-sm-6 selected">
+            <h2>keyword 랭킹</h2>
             <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
         </div>
     </div>
 
-    <form action="{% url 'KeywordSearch' %}" method="GET" id="keywordSearchForm">
+    <form action="{% url 'KeywordRanking' %}" method="GET" id="keywordSearchForm">
         
         <div class="search-condition-box row justify-content-md-center">                
             <div class="condition-keyword col-md-2">                    
                 <input type="radio" name="keyword" value="score" onclick="form.submit()" id="score">
-                <label class="selected" for="score" id="keyword:score">
+                <label class="selected" for="score" id="keyword-score">
                     <span>
                         <i class="fas fa-3x fa-trophy"></i><br/>                            
                         종합
@@ -30,7 +30,7 @@
             </div>
             <div class="condition-keyword col-md-2">
                 <input type="radio" name="keyword" value="absorbency" onclick="form.submit()" id="absorbency">
-                <label for="absorbency" id="keyword:absorbency">
+                <label for="absorbency" id="keyword-absorbency">
                     <span>
                         <i class="fas fa-3x fa-tint"></i><br/>                            
                         흡수력
@@ -39,7 +39,7 @@
             </div>
             <div class="condition-keyword col-md-2">
                 <input type="radio" name="keyword" value="anti_odour" onclick="form.submit()" id="anti_odour">
-                <label for="anti_odour" id="keyword:anti_odour">
+                <label for="anti_odour" id="keyword-anti_odour">
                     <span>
                         <i class="fas fa-3x fa-wind"></i><br/>                            
                         탈취력
@@ -48,7 +48,7 @@
             </div>
             <div class="condition-keyword col-md-2">
                 <input type="radio" name="keyword" value="comfort" onclick="form.submit()" id="comfort">
-                <label for="comfort" id="keyword:comfort">
+                <label for="comfort" id="keyword-comfort">
                     <span>
                         <i class="fas fa-3x fa-water"></i><br/>                            
                         촉감/착용감
@@ -57,7 +57,7 @@
             </div>
             <div class="condition-keyword col-md-2">
                 <input type="radio" name="keyword" value="sensitivity" onclick="form.submit()" id="sensitivity">
-                <label for="sensitivity" id="keyword:sensitivity">
+                <label for="sensitivity" id="keyword-sensitivity">
                     <span>
                         <i class="fas fa-3x fa-allergies"></i><br/>                       
                         피부 친화도
@@ -177,38 +177,38 @@
 <script type="text/javascript">
     
     window.onload = function(){
-        var pre_selected_item = document.querySelector('.search-pannel .keyword-search');                                
-        var pre_selected_keyword = function(){            
-            var asdf = document.getElementById(function(){
-                if( window.location.href.indexOf('score') > -1 ){                    
-                    return 'keyword\\:score';
-                }
-                else if( window.location.href.indexOf('absorbency') > -1 ){
-                    return 'keyword\\:absorbency';
-                }
-                else if( window.location.href.indexOf('anti_odour') > -1 ){
-                    return 'keyword\\:anti_odour';
-                }
-                else if( window.location.href.indexOf('comfort') > -1 ){
-                    return 'keyword\\:comfort';
-                }
-                else if( window.location.href.indexOf('sensitivity') > -1 ){
-                    return 'keyword\\:sensitivity';
-                }                
-            });
-        };
+        var pre_selected_item = document.querySelector('.ranking-pannel .keyword-ranking');                                
+        var pre_selected_keyword = document.getElementById(function(){
+            if( window.location.href.indexOf('score') > -1 ){                    
+                return 'keyword-score';
+            }
+            else if( window.location.href.indexOf('absorbency') > -1 ){
+                return 'keyword-absorbency';
+            }
+            else if( window.location.href.indexOf('anti_odour') > -1 ){
+                return 'keyword-anti_odour';
+            }
+            else if( window.location.href.indexOf('comfort') > -1 ){
+                return 'keyword-comfort';
+            }
+            else if( window.location.href.indexOf('sensitivity') > -1 ){
+                return 'keyword-sensitivity';
+            }                
+        });
+        console.log(pre_selected_keyword);
+        console.log(document.getElementById('keyword-score'));
 
-        document.querySelectorAll('.search-pannel div').forEach(function(item){
+        document.querySelectorAll('.ranking-pannel div').forEach(function(item){
             item.addEventListener('click', function(){
                 select_pannel(item);
                 pre_selected_item = item;
 
-                if( item.classList.contains('compared-search') ){
-                    location.href = "{% url 'CompareSearch' %}";
+                if( item.classList.contains('mtype-ranking') ){
+                    location.href = "{% url 'MtypeRanking' %}";
                 }
 
-                if( item.classList.contains('keyword-search') ){
-                    location.href = "{% url 'KeywordSearch' %}";
+                if( item.classList.contains('keyword-ranking') ){
+                    location.href = "{% url 'KeywordRanking' %}";
                 }
 
             });
@@ -267,9 +267,9 @@
         });
     }
 
-    // comparesearch / keywordsearch 탭 선택
+    // MtypeRanking / KeywordRanking 탭 선택
     function select_pannel(selected_item){
-        document.querySelectorAll('.search-pannel div').forEach(function(item){
+        document.querySelectorAll('.ranking-pannel div').forEach(function(item){
             item.classList.remove('selected');
         });
         selected_item.classList.add('selected');
