@@ -20,7 +20,6 @@ def updateRankingBoard():
         else:
             pass # '리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. RankingBoard의 score필드값은 Float type이어야 함.
 
-
 def updateReviewSummary():
     """
     ReviewSummary 테이블을 UPDATE 하는 함수임(2~3일 주기로 실행될 것임)
@@ -38,6 +37,12 @@ def updateReviewSummary():
         else:
             pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
 
+def updateView(request):
+    if 'rb' in request.GET:
+        updateRankingBoard()
+    elif 'rs' in request.GET:
+        updateReviewSummary()
+    return render(request, 'ranking/update.html')
 
 @login_required
 def mtypeRanking(request):
