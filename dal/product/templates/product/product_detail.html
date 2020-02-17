@@ -35,14 +35,14 @@
 
     {% comment %} 3개의 탭으로 구성되어서 '제품정보' '성분정보' '리뷰' 탭을 CSS 등으로 표현해줄 부분 {% endcomment %}
     <div class="product-detail row">
-        <ul class="product-detail-list col-9">
-            <li class="row"> 
+        <ul class="product-detail-list col-10">
+            <li class="col-12"> 
                 <input id="tab1" type="radio" name="tabs" >
-                <label class="col-md-4" for="tab1">제품정보</label>
+                <label class="col-md-3" for="tab1">제품정보</label>
                 <input id="tab2" type="radio" name="tabs">
                 <label class="col-md-4" for="tab2">성분정보</label>
                 <input id="tab3" type="radio" name="tabs" checked>
-                <label class="col-md-4" for="tab3">리뷰({{review_list.count}})</label>
+                <label class="col-md-3" for="tab3">리뷰({{review_list.count}})</label>
         
                 <section class="col-xl-12" id="content1">
                     여기는 '제품정보' 탭 // 지마켓처럼 제품 소개 이미지 통짜로 박을 것임
