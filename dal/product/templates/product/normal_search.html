@@ -3,6 +3,19 @@
 
 {% block content %}
 <div class="normal-search-page container">    
+    
+    <div class="search-pannel row">
+        <div class="compared-search col-sm-6">
+            <h2>직접 비교하기</h2>
+            <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
+        </div>
+        <div class="normal-search selected col-sm-6">
+            <h2>일반 검색</h2>
+            <span>일반검색 입니다</span>
+        </div>
+    </div>
+
+    
     <div>
         <form action="{% url 'NormalSearch' %}" method="GET">
             <input type="search" name="q" value = "{{ request.GET.product }}">
@@ -50,4 +63,45 @@
         </span>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    window.onload = function(){                
+        
+        document.querySelectorAll('.search-pannel div').forEach(function(item){
+            var pre_selected_item = document.querySelector('.search-pannel .compared-search');
+            item.addEventListener('click', function(){
+                select_pannel(item);
+                pre_selected_item = item;
+
+                if( item.classList.contains('compared-search') ){
+                    location.href = "{% url 'CompareSearch' %}";
+                }
+
+                if( item.classList.contains('normal-search') ){
+                    location.href = "{% url 'NormalSearch' %}";
+                }
+
+            });
+            item.addEventListener('mouseover', function(){
+                select_pannel(item);
+            });
+            item.addEventListener('mouseout', function(){
+                select_pannel(pre_selected_item);
+            });
+        }); 
+
+        configDropDownBoxEvent();
+    }
+
+    // comparesearch / normalsearch 탭 선택
+    function select_pannel(selected_item){
+        document.querySelectorAll('.search-pannel div').forEach(function(item){
+            item.classList.remove('selected');
+        });
+        selected_item.classList.add('selected');
+    }
+
+</script>
+
 {% endblock %}

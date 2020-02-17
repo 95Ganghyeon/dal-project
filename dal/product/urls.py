@@ -3,7 +3,6 @@ from product import views
 
 urlpatterns = [
     path("<int:pk>", views.productDetail, name="ProductDetail"),
-    path('normalsearch/', views.normalSearch, name='NormalSearch'),
-    path('keywordsearch/', views.keywordSearch, name='KeywordSearch'),
+    path('normalsearch/', views.normalSearch, name='NormalSearch'),    
     path('comparesearch/', views.compareSearch, name='CompareSearch'),
 ]

@@ -1,0 +1,99 @@
+{% extends "base_generic.html"%}
+
+{% block content %}
+<div class="mtype-ranking-page container">
+    
+    <div class="ranking-pannel row">
+        <div class="mtype-ranking col-sm-6 selected">
+            <h2>mtype 랭킹</h2>
+            <span>내 타입과 같은 사람들이 평가한 랭킹을 보여드려요</span>
+        </div>
+        <div class="keyword-ranking col-sm-6">
+            <h2>keyword 랭킹</h2>
+            <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
+        </div>
+    </div>
+
+    <div class="ranking-top">
+        <div class="ranking-header">
+            <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
+            <span>나와 같은 월경타입의 사람들이 평가한 순위</span><br>
+            <select class="select-box">
+                <option selected>총점순</option>
+                <option>자연유래도순</option>
+                <option>흡수력순</option>
+                <option>탈취성순</option>
+                <option>피부친화도순</option>
+                <option>촉감/착용감순</option>
+            </select>
+        </div>
+
+        <div class="ranking-sub">
+            <div class="button">
+                <div class="first"><a href="#">타입별 랭킹찾기</a></div>
+                <div class="second"><a href="#">M-Type 재검사</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ranking-result">
+        <ul>
+            {% for product in products %}
+            <li>
+                <div>
+                    <img src="{{product.image.url}}" alt=""/>
+                    {{ product.name }}
+                    {{ product.price }}원
+                    자연유래도 {{ nature_friendly }}
+                </div>
+            </li>
+        </ul>
+        {% empty %}
+            <div class="no-result">
+                <p> 검색 결과가 없습니다.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    window.onload = function(){
+        var pre_selected_item = document.querySelector('.ranking-pannel .keyword-ranking');                                        
+
+        document.querySelectorAll('.ranking-pannel div').forEach(function(item){
+            item.addEventListener('click', function(){
+                select_pannel(item);
+                pre_selected_item = item;
+
+                if( item.classList.contains('mtype-ranking') ){
+                    location.href = "{% url 'MtypeRanking' %}";
+                }
+
+                if( item.classList.contains('keyword-ranking') ){
+                    location.href = "{% url 'KeywordRanking' %}";
+                }
+
+            });
+            item.addEventListener('mouseover', function(){
+                select_pannel(item);
+            });
+            item.addEventListener('mouseout', function(){
+                select_pannel(pre_selected_item);
+            });
+        });                 
+
+
+    function select_pannel(selected_item){
+        document.querySelectorAll('.ranking-pannel div').forEach(function(item){
+            item.classList.remove('selected');
+        });
+        selected_item.classList.add('selected');
+    }
+
+</script>
+
+
+
+{% endblock %}

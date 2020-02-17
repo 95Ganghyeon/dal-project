@@ -1,5 +1,32 @@
 .normal-search-page{
 
+    // 상단 패널
+    .search-pannel div {
+        padding: 60px 10px 40px;
+        border-bottom: 2px solid #bebebe;
+        color: #bebebe;
+        transition: all 0.5s;
+        cursor: pointer;
+
+        h2 {
+            color: inherit;
+            margin: 12px 0;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        span {
+            cursor: pointer;
+            color: inherit;
+        }
+
+        &.selected {
+            border-bottom-color: #272727;
+            color: #1e1e1e;
+        }
+    }
+
     // 공통 검색결과 나열 박스
     .result-box {
         >p {

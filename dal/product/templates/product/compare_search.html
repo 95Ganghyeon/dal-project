@@ -12,9 +12,9 @@
             <h2>직접 비교하기</h2>
             <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
         </div>
-        <div class="keyword-search col-sm-6">
-            <h2>키워드 검색</h2>
-            <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
+        <div class="normal-search col-sm-6">
+            <h2>일반 검색</h2>
+            <span>일반검색 입니다</span>
         </div>
     </div>
 
@@ -199,8 +199,8 @@
                     location.href = "{% url 'CompareSearch' %}";
                 }
 
-                if( item.classList.contains('keyword-search') ){
-                    location.href = "{% url 'KeywordSearch' %}";
+                if( item.classList.contains('normal-search') ){
+                    location.href = "{% url 'NormalSearch' %}";
                 }
 
             });
@@ -322,7 +322,7 @@
         ul.classList.add('focusin');
     }
     
-    // comparesearch / keywordsearch 탭 선택
+    // comparesearch / normalsearch 탭 선택
     function select_pannel(selected_item){
         document.querySelectorAll('.search-pannel div').forEach(function(item){
             item.classList.remove('selected');
