@@ -4,4 +4,5 @@ from ranking import views
 urlpatterns = [
     path("mtype/", views.mtypeRanking, name="MtypeRanking"),
     path("keyword/", views.keywordRanking, name="KeywordRanking"),
+    path("update/", views.updateView, name="update"),
 ]
