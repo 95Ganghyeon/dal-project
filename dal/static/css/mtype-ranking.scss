@@ -80,12 +80,17 @@
 
     .ranking-result {
         .row {
+            position: relative;
             img {
                 width: 150px;
                 height: 150px;
             }
-            h4 {
-                font-weight: 500;
+            
+            .product-info {
+                float: left;
+            }
+            .score {
+                float: right;
             }
         }
     }

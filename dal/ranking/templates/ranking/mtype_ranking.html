@@ -20,14 +20,6 @@
         <div class="ranking-header">
             <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
             <span>나와 같은 월경타입의 사람들이 평가한 순위</span><br>
-            <select class="select-box">
-                <option selected>총점순</option>
-                <option>자연유래도순</option>
-                <option>흡수력순</option>
-                <option>탈취성순</option>
-                <option>피부친화도순</option>
-                <option>촉감/착용감순</option>
-            </select>
         </div>
 
         <div class="ranking-sub">
@@ -39,16 +31,21 @@
     </div>
 
     <div class="ranking-result">
+        <ul style="list-style-type:none";>
         {% for product in products %}
-            <div class="row">
-                <h4>{{ forloop.counter }}위</h4>
-                <img src="{{product.image.url}}" alt=""/>
-                <h4>{{ product.name }}</h4>
-                <h4>{{ product.price }}원</h4>
-                <h5>{{ product.count }}개</h5>
-                <h5>자연유래도 {{ nature_friendly }}%</h5>
-                <div>{{ product.reviewsummary.total_score }}</div>
-            </div>
+            <li>
+                <div class="row">
+                    <div>{{ forloop.counter }}위</div>
+                    <div><img src="{{product.image.url}}" alt=""/></div>
+                    <div class="product-info">
+                        {{ product.name }}<br>
+                        {{ product.price }}원<br>
+                        {{ product.count }}개<br>
+                    </div>
+                    <h5>자연유래도 {{ nature_friendly }}%</h5>
+                    <div class="score">{{ product.reviewsummary.total_score }}</div>
+                </div>
+            </li>
         {% empty %}
             <div class="no-result">
                 <p> 검색 결과가 없습니다.</p>
