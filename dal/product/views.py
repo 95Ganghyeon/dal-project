@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404, resolve_url, redirect
 from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg, Q
 from django.contrib.auth.decorators import login_required
-from product.models import *
 from product.forms import GetReviewResponseForm
+from product.models import *
+from ranking.models import ReviewSummary
 from user.models import Profile, User
 from django.http import JsonResponse
 import urllib
@@ -70,28 +71,61 @@ def productDetail(request, pk):
 
 def normalSearch(request):
     
-    product_list = Product.objects.all()
-    query = request.GET.get('q')
-    if query:
-        query = query.replace(" ", "")
-        product_list = product_list.annotate(rename=Func(F('name'), Value(' '), Value(''), function='REPLACE')).filter(rename__icontains=query)
-        
-    paginator = Paginator(product_list, 3)
-    page = request.GET.get('page')
+    first_page = True
+    ReviewSummary_list = None
+    paginator = None
+    query_string = ''
+    all_products = list(Product.objects.values('name').order_by('name'))
+    # option = None
+    # option_res = None # 앞단으로 보내줄 변수
+
+    # 쿼리스트링 생성 for paginator
+    if request.META['QUERY_STRING']:
+        for item in request.META['QUERY_STRING'].split('&'):
+            if 'page' not in item:
+                query_string += '&' + item
     
-    try:
-        page_obj = paginator.get_page(page)
-    except PageNotAnInteger:
-        page_obj = paginator.get_page(1)
-    except EmptyPage:
-        page_obj = paginator.get_page(paginator.num_pages)
+    if 'q' in request.GET:
+        first_page = False
+        ReviewSummary_list = ReviewSummary.objects.all()
+        query = request.GET.get('q')
+        query = query.replace(" ", "")
+        ReviewSummary_list = ReviewSummary_list.annotate(rename=Func(F('product_fk__name'), Value(' '), Value(''), function='REPLACE')).filter(rename__icontains=query)
+
+        ###
+        # """ 
+        # 정렬 옵션에 따른 order by
+        # """
+        # if 'option' in request.GET and request.GET.get('option') != '':
+        #     option = request.GET.get('option')   
+        # else: # 쿼리스트링에 option 이 없거나, option= 인 경우 (초기화면 고려)
+        #     option = compareCondition[0]
+
+        # option_res = option # 앞단으로 보낼 option 변수 생성 (변형 전)
+
+        # # orm 에 알맞게 변형
+        # if option == 'price':
+        #     option = 'product_fk__' + option
+        # elif option == 'nature_friendly':
+        #     option = '-product_fk__' + option
+        # else:
+        #     option = '-' + option +'_avg'
+
+        # ReviewSummary_list = ReviewSummary_list.order_by(option)
+        ###
+        
+        page = request.GET.get('page')
+        paginator = get_paginator(ReviewSummary_list, page, 1, 2)
     
     context = {
-        'product_list': product_list,
-        'page_obj': page_obj,        
+        'first_page': first_page,
+        'product_list': ReviewSummary_list,
+        'paginator': paginator,
+        'all_products': all_products,
+        # 'option': option_res,
+        'query_string': query_string,
     }
     return render(request, 'product/normal_search.html', context=context)
-
   
 
 @login_required
@@ -101,7 +135,7 @@ def compareSearch(request):
     ReviewSummary_list = None
     paginator = None
     query_string = ''
-    all_products = list(Product.objects.values('name').order_by('name'));
+    all_products = list(Product.objects.values('name').order_by('name'))
     option = None
     option_res = None # 앞단으로 보내줄 변수
 
@@ -124,7 +158,7 @@ def compareSearch(request):
             if 'price' in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(product_fk__price__lt=criterionReviewSummary.product_fk.price)
             if 'nature_friendly' in compareCondition:
-                ReviewSummary_list = ReviewSummary_list.filter(product_fk__nature_friendly__gt=criterionReviewSummary.product_fk.nature_friendly)
+                ReviewSummary_list = ReviewSummary_list.filter(product_fk__productingredient__nature_friendly_score__gt=criterionReviewSummary.product_fk.productingredient.calculate_natureFriendlyScore)
             if 'absorbency' in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(absorbency_avg__gt=criterionReviewSummary.absorbency_avg)
             if 'comfort' in compareCondition:
