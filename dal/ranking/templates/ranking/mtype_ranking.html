@@ -7,7 +7,7 @@
     <!-- 상단 탭 -->
     <div class="ranking-pannel row">
         <div class="mtype-ranking col-sm-6 selected">
-            <h2>mtype 랭킹</h2>
+            <h2>Mtype 랭킹</h2>
             <span>내 타입과 같은 사람들이 평가한 랭킹을 보여드려요</span>
         </div>
         <div class="keyword-ranking col-sm-6">
@@ -39,17 +39,16 @@
     </div>
 
     <div class="ranking-result">
-        <ul>
-            {% for product in products %}
-            <li>
-                <div>
-                    <img src="{{product.image.url}}" alt=""/>
-                    {{ product.name }}
-                    {{ product.price }}원
-                    자연유래도 {{ nature_friendly }}
-                </div>
-            </li>
-        </ul>
+        {% for product in products %}
+            <div class="row">
+                <h4>{{ forloop.counter }}위</h4>
+                <img src="{{product.image.url}}" alt=""/>
+                <h4>{{ product.name }}</h4>
+                <h4>{{ product.price }}원</h4>
+                <h5>{{ product.count }}개</h5>
+                <h5>자연유래도 {{ nature_friendly }}%</h5>
+                <div>{{ product.reviewsummary.total_score }}</div>
+            </div>
         {% empty %}
             <div class="no-result">
                 <p> 검색 결과가 없습니다.</p>

@@ -116,6 +116,13 @@
     opacity: 0.8;
     background-color: #fffefc;
   }
+
+  .product-detail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .product-detail-list {
     display: flex;
     justify-content: center;
@@ -182,12 +189,7 @@
       }
     }
   }
-  .product-detail {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right: 60px;
-  }
+  
   .bestreview-title {
     text-align: left;
     padding: 0 86px;
@@ -236,6 +238,7 @@
     justify-content: flex-end;
     height: 100%;
     width: 100%;
+    position: relative;
   }
   .user-score {
     background-color: #184703;
@@ -247,6 +250,38 @@
     align-items: center;
     justify-content: center;
   }
+
+  // .review-score{
+  //   // visibility: hidden; 
+  //   margin-top: 18.5px;
+  //   position: absolute;
+  //   height: 250%;
+  //   width: 30%;
+  //   top: 0%;
+  //   left: 100%;
+  //   background-color: white;
+  //   border: 1px solid black;
+
+  //   div {
+  //     display: flex;
+  //     justify-content: space-between;
+  //     align-items: center;
+  //     flex-shrink: 0;
+  //     padding: 0;
+
+  //     span {
+  //       padding: 0;
+  //     }
+  //   }
+  // } 유저 평점 말풍선 창
+
+
+
+  // .user-score:hover ~ .review-score{
+  //   visibility: visible;
+  // }
+
+  
   .user-content {
     padding-left: 106px;
     padding-right: 100px;
