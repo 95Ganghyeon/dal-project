@@ -1,8 +1,10 @@
 {% extends "base_generic.html"%}
+{% load static %}
 
 {% block content %}
+
 <div class="mtype-ranking-page container">
-    
+    <!-- 상단 탭 -->
     <div class="ranking-pannel row">
         <div class="mtype-ranking col-sm-6 selected">
             <h2>mtype 랭킹</h2>
@@ -60,7 +62,7 @@
 <script type="text/javascript">
 
     window.onload = function(){
-        var pre_selected_item = document.querySelector('.ranking-pannel .keyword-ranking');                                        
+        var pre_selected_item = document.querySelector('.ranking-pannel .mtype-ranking');                                        
 
         document.querySelectorAll('.ranking-pannel div').forEach(function(item){
             item.addEventListener('click', function(){
@@ -83,7 +85,7 @@
                 select_pannel(pre_selected_item);
             });
         });                 
-
+    }
 
     function select_pannel(selected_item){
         document.querySelectorAll('.ranking-pannel div').forEach(function(item){

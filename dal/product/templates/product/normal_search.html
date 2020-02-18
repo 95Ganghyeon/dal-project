@@ -69,7 +69,7 @@
     window.onload = function(){                
         
         document.querySelectorAll('.search-pannel div').forEach(function(item){
-            var pre_selected_item = document.querySelector('.search-pannel .compared-search');
+            var pre_selected_item = document.querySelector('.search-pannel .normal-search');
             item.addEventListener('click', function(){
                 select_pannel(item);
                 pre_selected_item = item;
