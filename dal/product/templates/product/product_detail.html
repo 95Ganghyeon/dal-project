@@ -26,7 +26,7 @@
                     <button class="button2" type="button">내 생리대 등록</button>
                 </div>
                 <div>
-                    <button class="button3" type="button">리뷰 남기기</button>
+                    <button class="button3" type="button" data-toggle="modal" data-target="#myModal">리뷰 남기기</button>
                 </div>
                 {% comment %} 여기의 '리뷰 남기러가기' 버튼을 클릭할 때, 로그인이 안되어있으면 아예 안넘어가도록 설정해놓아야 함 {% endcomment %}
             </div>
@@ -134,15 +134,34 @@
             </li>
         </ul>
     </div>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">REVIEW</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form action="" , method="POST">
+                            {% csrf_token %}
+                            {{product.name}} 을(를) 사용해보니, 내 타입 사람들에게 추천지수는 {{form.score}} 점이다.</br></br>
+                            왜냐하면, 흡수력이 {{form.absorbency}}</br></br>
+                            냄새를 {{form.anti_odour}} 때문이다.</br></br>
+                            그리고 장시간 사용했을 때, 내 피부에 {{form.sensitivity}}</br></br>
+                            마지막으로, 착용감은 {{form.comfort}}</br></br>
+                            <input type="submit" value="제출">
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% comment %} '리뷰 남기러 가기'를 클릭하면 CSS로 가려져 있다가 보일 창 {% endcomment %}
-<div>
-    <input type="button" value="close">
-    <form action="" , method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="제출">
-    </form>
-</div>
 {% endblock %}
