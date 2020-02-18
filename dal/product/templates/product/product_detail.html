@@ -19,7 +19,7 @@
                 <div>{{product.hashtag}}#흡수력 #해시태그</div>
                 <div> 여기는 제품 간단 설명</div>
             </div>
-            
+
             <div class="product-button">
                 <div>
                     <button class="button1" type="button">비교함 담기</button>
@@ -35,15 +35,15 @@
 
     {% comment %} 3개의 탭으로 구성되어서 '제품정보' '성분정보' '리뷰' 탭을 CSS 등으로 표현해줄 부분 {% endcomment %}
     <div class="product-detail row">
-        <ul class="product-detail-list col-10">
-            <li class="col-12"> 
-                <input id="tab1" type="radio" name="tabs" >
+        <ul class="product-detail-list col-9">
+            <li class="col-12">
+                <input id="tab1" type="radio" name="tabs">
                 <label class="col-md-3" for="tab1">제품정보</label>
                 <input id="tab2" type="radio" name="tabs">
                 <label class="col-md-4" for="tab2">성분정보</label>
                 <input id="tab3" type="radio" name="tabs" checked>
                 <label class="col-md-3" for="tab3">리뷰({{review_list.count}})</label>
-        
+
                 <section class="col-xl-12" id="content1">
                     여기는 '제품정보' 탭 // 지마켓처럼 제품 소개 이미지 통짜로 박을 것임
                 </section>
@@ -53,21 +53,41 @@
                 <section class="col-xl-12" id="content3">
                     <div class="bestreview">
                         <div class="bestreview-title">
-                            BEST REVIEW 
+                            BEST REVIEW
                         </div>
                         <div class="bestreview-content">
                             <div class="bestreview-upper">
                                 <div class="user-image">유저 사진</div>
                                 <div class="user-info">
-                                    <div>유전 정보{{bestReview.user_fk.username}} / {{bestReview.user_fk.profile.age}}세 / 여성</div>
+                                    <div>유전 정보{{bestReview.user_fk.username}} / {{bestReview.user_fk.profile.age}}세 / 여성
+                                    </div>
                                     <div>2020.2.11{{bestReview.created}}</div>
                                 </div>
                                 <div class="user-score-box">
-                                    <div class="user-score">대박{{bestReview.star_Str}}</div>
+                                    <div class="user-score">{{bestReview.score_str}}</div>
+                                    <!-- <div class="review-score row">
+                                        <div class="col-xl-12">
+                                            <span class="col-4">흡수력</span>
+                                            <div>{{bestReview.absorbency}}</div>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <span class="col-4">탈취성</span>
+                                            <div>{{bestReview.anti_odour}}</div>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <span class="col-5">피부친화도</span>
+                                            <div>{{bestReview.sensitivity}}</div>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <span class="col-5">촉감/착용감</span>
+                                            <div>{{bestReview.comfort}}</div>
+                                        </div>
+                                    </div> 유저 평점 말풍선 창-->
                                 </div>
                             </div>
-                            <div class="user-content">{{bestReview.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은 날에는 아무리 자주
-                                바꿔도 새곤 했는데, 질경이 마음은 흡수력이 좋아서 전혀 새지 않더라구요 ! 
+                            <div class="user-content">{{bestReview.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은
+                                날에는 아무리 자주
+                                바꿔도 새곤 했는데, 질경이 마음은 흡수력이 좋아서 전혀 새지 않더라구요 !
                                 친구들 중에도 저랑 비슷한 고민하는 친구들한테 추천할 정도였어요. 다만 가격이 조금 아쉬운데,
                                 투자할만한 가치가 충분하다고는 생각합니다 ! 첫째날, 둘째날 양 진짜 많으신 분들 강추드려요 : )
                             </div>
@@ -76,10 +96,10 @@
 
                     <div class="review">
                         <div class="review-title">
-                            Review 
+                            Review
                         </div>
                         {% for review in review_list %}
-                        
+
                         <div class="review-content">
                             <div class="bestreview-upper">
                                 <div class="user-image">유저 사진</div>
