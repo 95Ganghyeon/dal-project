@@ -11,7 +11,7 @@ class Profile(models.Model):
     birth_date = models.DateField()
 
     m_type = models.CharField(null = True, blank=True,max_length=4)
-    survey_fk = models.OneToOneField(Survey,on_delete=models.CASCADE,null = True, blank=True)
+    survey_fk = models.OneToOneField(Survey,on_delete=models.CASCADE, null=True, blank=True)
 
     # 유저 나이 계산함수 (리뷰에 삽입됩니다.)
     def age(self):

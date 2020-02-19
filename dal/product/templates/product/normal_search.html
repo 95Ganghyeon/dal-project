@@ -17,7 +17,7 @@
 
     
     <div>
-        <form action="{% url 'NormalSearch' %}" method="GET">
+        <form action="{% url 'product:NormalSearch' %}" method="GET">
             <input type="search" name="q" value = "{{ request.GET.product }}">
             <input type="submit" value="Search">
         </form>
@@ -75,11 +75,11 @@
                 pre_selected_item = item;
 
                 if( item.classList.contains('compared-search') ){
-                    location.href = "{% url 'CompareSearch' %}";
+                    location.href = "{% url 'product:CompareSearch' %}";
                 }
 
                 if( item.classList.contains('normal-search') ){
-                    location.href = "{% url 'NormalSearch' %}";
+                    location.href = "{% url 'product:NormalSearch' %}";
                 }
 
             });
