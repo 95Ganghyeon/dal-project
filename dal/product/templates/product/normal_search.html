@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <form action="{% url 'NormalSearch' %}" method="GET" id="normalSearchForm" onsubmit="return false">
+    <form action="{% url 'product:NormalSearch' %}" method="GET" id="normalSearchForm" onsubmit="return false">
         <div class="search-content-box">            
             <div class="search-text-box row justify-content-center">                
                 {% comment %} <i class="fas fa-search fa-lg search-icon"></i> {% endcomment %}
@@ -151,11 +151,11 @@
                 pre_selected_item = item;
 
                 if( item.classList.contains('compared-search') ){
-                    location.href = "{% url 'CompareSearch' %}";
+                    location.href = "{% url 'product:CompareSearch' %}";
                 }
 
                 if( item.classList.contains('normal-search') ){
-                    location.href = "{% url 'NormalSearch' %}";
+                    location.href = "{% url 'product:NormalSearch' %}";
                 }
 
             });

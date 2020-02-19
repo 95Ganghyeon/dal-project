@@ -2,15 +2,35 @@ from django.shortcuts import render, get_object_or_404, resolve_url, redirect
 from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg, Q
 from django.contrib.auth.decorators import login_required
+from product.models import *
+from ranking.models import *
 from product.forms import GetReviewResponseForm
 from product.models import *
 from ranking.models import ReviewSummary
 from user.models import Profile, User
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
+import json
 import urllib
 
 # Create your views here.
 
+# 비교함에 상품 담기
+def insert_cart(request, product_id):
+    data = list(Product.objects.filter(id=product_id).values('id', 'name', 'image'))
+
+    # 세션에 담기
+    cart_list = request.session.get('cart', [])
+    cart_list.append(data[0])
+    request.session['cart'] = cart_list
+    
+    # return 할때 HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json") 를 사용해도 결과는 동일합니다
+    return JsonResponse(data[0], safe=False)
+
+# 비교함에서 삭제하기 (미완성)
+def delete_cart(request, product_id):
+    del request.session['cart']
+    data = Product.objects.filter(id=product_id)
+    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json")
 
 def get_paginator(obj, page, obj_per_page, page_range):
     """
@@ -146,7 +166,6 @@ def normalSearch(request):
     return render(request, "product/normal_search.html", context=context)
 
 
-@login_required
 def compareSearch(request):
 
     first_page = True
@@ -168,6 +187,25 @@ def compareSearch(request):
         query = request.GET.get("q")
         ReviewSummary_list = ReviewSummary.objects.all()
 
+<<<<<<< HEAD
+        if query not in ReviewSummary_list.values_list('product_fk__name', flat=True): # 검색 결과 없을 때
+            return render(request, 'product/compare_search.html', {'first_page': first_page, 'searchedWord': query, 'all_products': all_products,}) 
+        else: # 검색 결과 존재할 때
+            criterionReviewSummary = ReviewSummary_list.get(product_fk__name=query)
+            compareCondition = request.GET.get('compareConditionList').split(',')            
+            if 'price' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(product_fk__price__lt=criterionReviewSummary.product_fk.price)
+            if 'nature_friendly' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(product_fk__productingredient__nature_friendly_score__gt=criterionReviewSummary.product_fk.productingredient.nature_friendly_score)
+            if 'absorbency' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(absorbency_avg__gt=criterionReviewSummary.absorbency_avg)
+            if 'comfort' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(comfort_avg__gt=criterionReviewSummary.comfort_avg)
+            if 'anti_odour' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(anti_odour_avg__gt=criterionReviewSummary.anti_odour_avg)
+            if 'sensitivity' in compareCondition:
+                ReviewSummary_list = ReviewSummary_list.filter(sensitivity_avg__gt=criterionReviewSummary.sensitivity_avg)
+=======
         if query not in ReviewSummary_list.values_list(
             "product_fk__name", flat=True
         ):  # 검색 결과 없을 때
@@ -207,6 +245,7 @@ def compareSearch(request):
                 ReviewSummary_list = ReviewSummary_list.filter(
                     sensitivity_avg__gt=criterionReviewSummary.sensitivity_avg
                 )
+>>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
 
             """ 
             정렬 옵션에 따른 order by
@@ -219,14 +258,25 @@ def compareSearch(request):
             option_res = option  # 앞단으로 보낼 option 변수 생성 (변형 전)
 
             # orm 에 알맞게 변형
+<<<<<<< HEAD
+            if option == 'price':
+                option = 'product_fk__' + option
+            elif option == 'nature_friendly':
+                option = '-product_fk__productingredient__' + option + '_score'
+=======
             if option == "price":
                 option = "product_fk__" + option
             elif option == "nature_friendly":
                 option = "-product_fk__" + option
+>>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
             else:
                 option = "-" + option + "_avg"
 
+<<<<<<< HEAD
+            #ReviewSummary_list = ReviewSummary_list.order_by(option)
+=======
             # ReviewSummary_list = ReviewSummary_list.order_by(option)
+>>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
             
             page = request.GET.get('page')
             paginator = get_paginator(ReviewSummary_list, page, 1, 2)

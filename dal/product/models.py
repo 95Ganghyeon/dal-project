@@ -36,7 +36,7 @@ class Product(models.Model):
         return self.name.replace(" ", "")
 
     def get_absolute_url(self):
-        return reverse("ProductDetail", args=[str(self.id)])
+        return reverse('product:ProductDetail', args=[str(self.id)])
 
 
 class ProductIngredient(models.Model):
@@ -51,8 +51,7 @@ class ProductIngredient(models.Model):
         (30, "30점"),
         (40, "40점"),
     )
-
-    id = models.AutoField(primary_key=True)
+    
     product_fk = models.OneToOneField("Product", on_delete=models.CASCADE)
     cover_layer_string = models.TextField()
     cover_layer_score = models.IntegerField(
@@ -70,11 +69,19 @@ class ProductIngredient(models.Model):
     etc_score = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
+<<<<<<< HEAD
+        default=None
+    )    
+    
+    nature_friendly_score = models.FloatField(editable=False)
+
+=======
         default=None,
     )
 
     nature_friendly_score = models.FloatField(editable=False)
 
+>>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
     def get_nature_friendly_score(self):
         return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
     
