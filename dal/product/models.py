@@ -73,8 +73,8 @@ class ProductIngredient(models.Model):
         default=None,
     )
 
-    nature_friendly_score = models.FloatField()
-    
+    nature_friendly_score = models.FloatField(editable=False)
+
     def get_nature_friendly_score(self):
         return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
     
