@@ -147,11 +147,11 @@
                     <div>
                         <form action="" , method="POST">
                             {% csrf_token %}
-                            {{product.name}} 을(를) 사용해보니, 내 타입 사람들에게 추천지수는 {{form.score}} 점이다.</br></br>
-                            구체적으로는 흡수력이 {{form.absorbency}},</br></br>
-                            월경혈 냄새를 {{form.anti_odour}}.</br></br>
-                            그리고 사용할 때 촉감/착용감이 {{form.sensitivity}},</br></br>
-                            마지막으로, 장시간 사용했을 때 내 Y존 피부에 {{form.comfort}}.</br></br>
+                            {{product.name}} 을(를) 사용해보니, 내 타입 사람들에게 추천지수는 {{form.score}} 점이다.</br></br></br>
+                            구체적으로는 흡수력이 {{form.absorbency}},</br></br></br>
+                            월경혈 냄새를 {{form.anti_odour}}.</br></br></br>
+                            그리고 사용할 때 촉감/착용감이 {{form.sensitivity}},</br></br></br>
+                            마지막으로, 장시간 사용했을 때 내 Y존 피부에 {{form.comfort}}.</br></br></br></br>
                             <div>{{form.content}}</div>
                             <div class="d-flex justify-content-center">
                                 <input type="submit" value="의견보내기">
