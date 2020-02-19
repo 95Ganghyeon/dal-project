@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <form action="{% url 'NormalSearch' %}" method="GET" id="normalSearchForm" onsubmit="return false">
+    <form action="{% url 'product:NormalSearch' %}" method="GET" id="normalSearchForm" onsubmit="return false">
         <div class="search-content-box">            
             <div class="search-text-box row justify-content-center">                
                 {% comment %} <i class="fas fa-search fa-lg search-icon"></i> {% endcomment %}
@@ -28,28 +28,6 @@
             </div>
         </div>
     
-<<<<<<< HEAD
-    <div>
-        <form action="{% url 'product:NormalSearch' %}" method="GET">
-            <input type="search" name="q" value = "{{ request.GET.product }}">
-            <input type="submit" value="Search">
-        </form>
-        <a href="#">제품끼리 비교하고 싶다면?</a>
-    </div>
-    <select name="order">
-        <option value="정확도">정확도순</option>
-    </select>
-    <div>
-        <p>총 {{ product_list|length }}개의 상품이 검색되었습니다.</p>
-        <ul>
-        {% for product in page_obj %}
-            <li>
-                <div onclick="location.href='{{product.get_absolute_url}}'">
-                    <img src="{{product.image.url}}" alt="제품 이미지"/>
-                    <p>{{ product.hashtag }}</p>
-                    <h2>{{ product.name }}</h2>
-                    <h3>{{ product.category }}</h3>
-=======
         {% if first_page == False %}
         <div class="result-box row">
             <p class="col-12">총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
@@ -82,7 +60,6 @@
                         <li data-option="anti_odour">탈취성 순</li>
                         <li data-option="sensitivity">민감도 순</li>
                     </ul>
->>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
                 </div>
             </div> {% endcomment %}
 

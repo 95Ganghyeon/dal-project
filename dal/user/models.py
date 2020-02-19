@@ -9,13 +9,7 @@ class Profile(models.Model):
     ghost_user = models.BooleanField(default=False)
     nickname = models.CharField(max_length=20, unique=True,)
     birth_date = models.DateField()
-<<<<<<< HEAD
-
-    m_type = models.CharField(null = True, blank=True,max_length=4)
-    survey_fk = models.OneToOneField(Survey,on_delete=models.CASCADE, null=True, blank=True)
-=======
     survey_fk = models.OneToOneField(Survey,on_delete=models.CASCADE,null = True, blank=True)
->>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
 
     # 유저 나이 계산함수 (리뷰에 삽입됩니다.)
     def age(self):

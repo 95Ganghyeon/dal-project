@@ -2,11 +2,8 @@ from django.shortcuts import render, get_object_or_404, resolve_url, redirect
 from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg, Q
 from django.contrib.auth.decorators import login_required
-<<<<<<< HEAD
 from product.models import *
 from ranking.models import *
-=======
->>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
 from product.forms import GetReviewResponseForm
 from product.models import *
 from ranking.models import ReviewSummary
@@ -17,7 +14,6 @@ import urllib
 
 # Create your views here.
 
-<<<<<<< HEAD
 # 비교함에 상품 담기
 def insert_cart(request, product_id):
     data = list(Product.objects.filter(id=product_id).values('id', 'name', 'image'))
@@ -35,8 +31,6 @@ def delete_cart(request, product_id):
     del request.session['cart']
     data = Product.objects.filter(id=product_id)
     return HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json")
-=======
->>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
 
 def get_paginator(obj, page, obj_per_page, page_range):
     """
