@@ -73,14 +73,14 @@ class ProductIngredient(models.Model):
         default=None,
     )
 
-    def calculate_natureFriendlyScore(self):
-        return (
-            (self.cover_layer_score / 40) * 30
-            + (self.absorbent_layer_score / 40) * 60
-            + (self.etc_score / 40) * 10
-        )
+    nature_friendly_score = models.FloatField(editable=False)
 
-    nature_friendly_score = property(calculate_natureFriendlyScore)
+    def get_nature_friendly_score(self):
+        return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
+    
+    def save(self, *args, **kwargs):
+        self.nature_friendly_score = self.get_nature_friendly_score()
+        super(ProductIngredient, self).save(*args, **kwargs)
 
 
 class Review(TimeStampedModel):

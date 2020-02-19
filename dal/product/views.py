@@ -186,7 +186,7 @@ def compareSearch(request):
             else:
                 option = '-' + option +'_avg'
 
-            ReviewSummary_list = ReviewSummary_list.order_by(option)
+            # ReviewSummary_list = ReviewSummary_list.order_by(option)
             
             page = request.GET.get('page')
             paginator = get_paginator(ReviewSummary_list, page, 1, 2)
