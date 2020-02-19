@@ -3,29 +3,77 @@ from django.core.exceptions import ValidationError
 from .models import Review
 
 
-class GetReviewResponseForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ['score', 'absorbency', 'anti_odour', 'sensitivity', 'comfort', 'content']        
-        widgets = {
-            'score': forms.RadioSelect,
-            'absorbency': forms.RadioSelect,
-            'anti_odour': forms.RadioSelect,
-            'sensitivity': forms.RadioSelect,
-            'comfort': forms.RadioSelect,            
-        }
+class GetReviewResponseForm(forms.Form):
 
+    SCORE = (
+        ("5", "5"),
+        ("4", "4"),
+        ("3", "3"),
+        ("2", "2"),
+        ("1", "1"),
+    )
 
+    ABSORBENCY = (
+        ("5", "아주 만족스러웠고"),
+        ("4", "꽤 괜찮았고"),
+        ("3", "무난했고"),
+        ("2", "축축함이 느껴질 정도였고"),
+        ("1", "최악이었고"),
+    )
 
+    ANTI_ODOUR = (
+        ("5", "아주 깔끔하게 잡아줬다"),
+        ("4", "꽤 잘 잡아줬다"),
+        ("3", "그럭저럭 잡아줬다"),
+        ("2", "거의 잡아주지 못했다"),
+        ("1", "전혀 잡아주지 못했다"),
+    )
 
+    SENSITIVITY = (
+        ("5", "최고로 좋았고"),
+        ("4", "꽤 괜찮았고"),
+        ("3", "무난했고"),
+        ("2", "살짝 불편했고"),
+        ("1", "최악이었고"),
+    )
 
+    COMFORT = (
+        ("5", "전혀 자극이 없었다"),
+        ("4", "꽤 순한 느낌이었다"),
+        ("3", "무난했다"),
+        ("2", "자극이 느껴질 정도로 불편했다"),
+        ("1", "최악이었다"),
+    )
 
+    score = forms.ChoiceField(choices=SCORE)
+    absorbency = forms.ChoiceField(choices=ABSORBENCY)
+    anti_odour = forms.ChoiceField(choices=ANTI_ODOUR)
+    sensitivity = forms.ChoiceField(choices=SENSITIVITY)
+    comfort = forms.ChoiceField(choices=COMFORT)
+    content = forms.CharField(
+        max_length=1000,
+        widget=forms.Textarea(
+            attrs={"cols": 60, "rows": 15, "class": "textarea w-100 mb-3"}
+        ),
+    )
 
-
-
-
-
-
+    # class Meta:
+    #     model = Review
+    #     fields = [
+    #         "score",
+    #         "absorbency",
+    #         "anti_odour",
+    #         "sensitivity",
+    #         "comfort",
+    #         "content",
+    #     ]
+    #     widgets = {
+    #         "score": forms.RadioSelect,
+    #         "absorbency": forms.RadioSelect,
+    #         "anti_odour": forms.RadioSelect,
+    #         "sensitivity": forms.RadioSelect,
+    #         "comfort": forms.RadioSelect,
+    #     }
 
 
 # star_score = forms.ChoiceField(

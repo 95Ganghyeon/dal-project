@@ -116,6 +116,13 @@
     opacity: 0.8;
     background-color: #fffefc;
   }
+
+  .product-detail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .product-detail-list {
     display: flex;
     justify-content: center;
@@ -182,12 +189,7 @@
       }
     }
   }
-  .product-detail {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right: 60px;
-  }
+  
   .bestreview-title {
     text-align: left;
     padding: 0 86px;
@@ -236,6 +238,7 @@
     justify-content: flex-end;
     height: 100%;
     width: 100%;
+    position: relative;
   }
   .user-score {
     background-color: #184703;
@@ -247,6 +250,38 @@
     align-items: center;
     justify-content: center;
   }
+
+  // .review-score{
+  //   // visibility: hidden; 
+  //   margin-top: 18.5px;
+  //   position: absolute;
+  //   height: 250%;
+  //   width: 30%;
+  //   top: 0%;
+  //   left: 100%;
+  //   background-color: white;
+  //   border: 1px solid black;
+
+  //   div {
+  //     display: flex;
+  //     justify-content: space-between;
+  //     align-items: center;
+  //     flex-shrink: 0;
+  //     padding: 0;
+
+  //     span {
+  //       padding: 0;
+  //     }
+  //   }
+  // } 유저 평점 말풍선 창
+
+
+
+  // .user-score:hover ~ .review-score{
+  //   visibility: visible;
+  // }
+
+  
   .user-content {
     padding-left: 106px;
     padding-right: 100px;
@@ -272,232 +307,3 @@
     }
   }
 }
-
-
-
-/////////////////////////////////
-// 이 아래는 필요 없으면 버려도 됩니다.//
-/////////////////////////////////
-
-
-// .product-detail-page {
-//   box-sizing: border-box;
-
-//   .main-content {
-//       // margin-top: 58px;
-//       // margin-left: 392px;
-//       align-items: center;
-//       justify-content: center;
-//       display: flex;
-//       margin-bottom: 70px;
-//   }
-
-//   .left-container {
-//       width: 553px;
-//       height: 479px;
-//       padding: 85px 133px 77px 134px;
-//       border: 1px solid #bebebe;
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//       // background-color: blue;
-//   }
-
-//   .left-container img {
-//       width: 286px;
-//       height: 317px;
-//   }
-
-//   .right-container {
-//       width: 524px;
-//       padding: 0 30px;
-//       // background-color: brown;
-//   }
-
-//   .product-introduction div:nth-child(1) {
-//       // background-color: pink;
-//       height: 54px;
-//       font-size: 28px;
-//       color: #1e1e1e;
-//       display: flex;
-//       align-items: center;
-//   }
-
-//   .product-introduction div:nth-child(2) {
-//       display: flex;
-//       align-items: center;
-//       justify-content: space-between;
-//   }
-
-//   .product-introduction div:nth-child(3) {
-//       margin-top: 34px;
-//       width: 324px;
-//       // background-color: coral;
-//       font-size: 20px;
-//       color: #1e1e1e;
-//       display: flex;
-//       align-items: center;
-//   }
-
-//   .product-introduction div:nth-child(4) {
-//       width: 433px;
-//       font-size: 20px;
-//       color: #1e1e1e;
-//       display: flex;
-//       align-items: center;
-//   }
-
-//   .product-score {
-//       background-color: #272727;
-//       padding: 8px 32px 6px 33px;
-//       color: #f8f8f8;
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//       border-radius: 32px;
-//       font-size: 22px;
-//   }
-
-//   .product-button {
-//       margin-top: 55px;
-//   }
-
-//   .product-button div:nth-child(1) {
-//       display: flex;
-//       justify-content: space-between;
-//       align-items: center;
-//       margin-bottom: 19px;
-//   }
-
-//   .button1 {
-//       width: 48%;
-//       height: 80px;
-//       border: solid 0.5px #1e1e1e;
-//       border-radius: 15px;
-//       opacity: 0.8;
-//       background-color: #fffefc;
-//   }
-
-//   .button2 {
-//       width: 48%;
-//       height: 80px;
-//       border: solid 0.5px #1e1e1e;
-//       border-radius: 15px;
-//       opacity: 0.8;
-//       background-color: #fffefc;
-//   }
-
-//   .product-button div:nth-child(2) {
-//       padding-bottom: 15px;
-//   }
-
-//   .button3 {
-//       width: 100%;
-//       height: 80px;
-//       border: solid 0.5px #1e1e1e;
-//       border-radius: 15px;
-//       opacity: 0.8;
-//       background-color: #fffefc;
-//   }
-
-//   .product-detail-list {
-//       display: flex;
-//       justify-content: center;
-//   }
-
-//   .product-detail-list li {
-//       list-style: none;
-//       text-align: center;
-//   }
-
-//   .product-detail-list li input {
-//       display: none;
-//   }
-
-//   .product-detail-list li label {
-//       display: inline-block;
-//       text-align: center;
-//       padding: 0 175px;
-//       height: 60px;
-//       font-size: 20px;
-//       color: #bebebe;
-//   }
-
-//   .product-detail-list li label span {
-//       display: inline-block;
-//       vertical-align: middle;
-//   }
-
-//   label:hover {
-//       cursor: pointer;
-//   }
-
-//   #tab1~#content1,
-//   #tab2~#content2,
-//   #tab3~#content3 {
-//       display: none;
-//   }
-
-//   #tab1:checked~#content1,
-//   #tab2:checked~#content2,
-//   #tab3:checked~#content3 {
-//       display: block;
-//   }
-
-//   #compareSearchText {
-//       padding: 5px 10px;
-//       border: solid 1px #bebebe;
-//       background-color: #f6f6f6;
-//       width: 170px;
-//       margin: 0 10px;
-//   }
-
-//   #autoCompleteText {
-//       margin: 0 10px;
-//       padding: 0;
-//       position: absolute;
-//       border: solid 1px #bebebe;
-//       border-top: none;
-//       background-color: #f6f6f6;
-//       width: 170px;
-//       z-index: 10;
-//       transition: all 0.5s;
-//       visibility: hidden;
-//       opacity: 0;
-//       transition: visibility 0s linear 0.1s, opacity 0.1s linear;
-
-//       &.focusin {
-//           visibility: visible;
-//           opacity: 1;
-//           transition-delay: 0;
-//           transition-duration: 0.4s;
-//       }
-
-//       li {
-//           list-style: none;
-//           text-align: left;
-//           cursor: pointer;
-//           padding: 5px 10px;
-
-//           &:hover {
-//               background-color: #2b5e2e;
-//               color: #ffffff;
-//           }
-//       }
-//   }
-
-//   .pagination {
-
-//       /* opacity: 0.3; */
-//       /* background-color: red; */
-//       >span {
-//           height: 100px;
-
-//           >a {
-//               z-index: 20;
-//               height: 100px;
-//           }
-//       }
-//   }
-// }
-

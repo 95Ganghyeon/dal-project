@@ -7,7 +7,7 @@
     <!-- 상단 탭 -->
     <div class="ranking-pannel row">
         <div class="mtype-ranking col-sm-6 selected">
-            <h2>mtype 랭킹</h2>
+            <h2>Mtype 랭킹</h2>
             <span>내 타입과 같은 사람들이 평가한 랭킹을 보여드려요</span>
         </div>
         <div class="keyword-ranking col-sm-6">
@@ -16,45 +16,40 @@
         </div>
     </div>
 
-    <div class="ranking-top">
-        <div class="ranking-header">
+    <div class="d-flex ranking-top">
+        <div class="p-2 ranking-header">
             <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
             <span>나와 같은 월경타입의 사람들이 평가한 순위</span><br>
-            <select class="select-box">
-                <option selected>총점순</option>
-                <option>자연유래도순</option>
-                <option>흡수력순</option>
-                <option>탈취성순</option>
-                <option>피부친화도순</option>
-                <option>촉감/착용감순</option>
-            </select>
         </div>
 
-        <div class="ranking-sub">
-            <div class="button">
-                <div class="first"><a href="#">타입별 랭킹찾기</a></div>
-                <div class="second"><a href="#">M-Type 재검사</a></div>
-            </div>
+        <div class="ml-auto p-2 row ranking-sub">
+            <div class="col"><a href="#">타입별 랭킹찾기</a></div>
+            <div class="col"><a href="#">M-Type 재검사</a></div>
         </div>
+        
     </div>
 
     <div class="ranking-result">
-        <ul>
-            {% for product in products %}
+        <ul style="list-style-type:none";>
+        {% for product in products %}
             <li>
-                <div>
-                    <img src="{{product.image.url}}" alt=""/>
-                    {{ product.name }}
-                    {{ product.price }}원
-                    자연유래도 {{ nature_friendly }}
+                <div class="d-flex">                    
+                    <div class="p-2">{{ forloop.counter }}위</div>
+                    <div class="p-2"><img src="{{product.image.url}}" alt=""/></div>
+                    <div class="p-2 product-info">
+                        {{ product.name }}<br/>
+                        {{ product.price }}원 / {{ product.count }}개<br/>
+                        <h5>자연유래도 {{ nature_friendly }}%</h5>
+                    </div>
+                    <div class="ml-auto p-2 score">{{ product.reviewsummary.total_score }}</div>
                 </div>
             </li>
-        </ul>
         {% empty %}
             <div class="no-result">
                 <p> 검색 결과가 없습니다.</p>
             </div>
         {% endfor %}
+        </ul>
     </div>
 </div>
 

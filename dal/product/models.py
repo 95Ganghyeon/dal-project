@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from user.models import Profile, User
+
 # from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -18,11 +19,15 @@ class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     image = models.ImageField(blank=True)
-    best_review_fk = models.OneToOneField("Review", on_delete=models.SET_NULL, null=True, blank=True)
+    best_review_fk = models.OneToOneField(
+        "Review", on_delete=models.SET_NULL, null=True, blank=True
+    )
     price = models.PositiveIntegerField()
     count = models.IntegerField()
-    category = models.CharField(max_length=30) # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
-    hashtag_fk = models.ForeignKey('Hashtag', on_delete=models.SET_NULL, null=True)    
+    category = models.CharField(
+        max_length=30
+    )  # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
+    hashtag_fk = models.ManyToManyField("Hashtag")
 
     def __str__(self):
         return self.name
@@ -38,12 +43,13 @@ class ProductIngredient(models.Model):
     """
     점수 반영 비율: 표지층(cover_layer) 30% // 흡수층(absorbent_layer) 60% // 기타(etc) 10%
     """
+
     RANGE_ONE_TO_FIVE = (
-        (0,'0점'),
-        (10,'10점'),
-        (20,'20점'),
-        (30,'30점'),
-        (40,'40점'),        
+        (0, "0점"),
+        (10, "10점"),
+        (20, "20점"),
+        (30, "30점"),
+        (40, "40점"),
     )
     
     product_fk = models.OneToOneField("Product", on_delete=models.CASCADE)
@@ -51,23 +57,31 @@ class ProductIngredient(models.Model):
     cover_layer_score = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
-        default=None
+        default=None,
     )
     absorbent_layer_string = models.TextField()
     absorbent_layer_score = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
-        default=None
+        default=None,
     )
     etc_string = models.TextField()
     etc_score = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
+<<<<<<< HEAD
         default=None
     )    
     
     nature_friendly_score = models.FloatField(editable=False)
 
+=======
+        default=None,
+    )
+
+    nature_friendly_score = models.FloatField(editable=False)
+
+>>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
     def get_nature_friendly_score(self):
         return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
     
@@ -77,49 +91,48 @@ class ProductIngredient(models.Model):
 
 
 class Review(TimeStampedModel):
-    
+
     # form.py 에서 1~5까지 radio 선택지를 주기 위해서 필요함
     RANGE_ONE_TO_FIVE = (
-        (1,'1'),
-        (2,'2'),
-        (3,'3'),
-        (4,'4'),
-        (5,'5'),
+        (1, "1"),
+        (2, "2"),
+        (3, "3"),
+        (4, "4"),
+        (5, "5"),
     )
-    
+
     id = models.AutoField(primary_key=True)
-    image = models.ImageField(blank=True) 
+    image = models.ImageField(blank=True)
     user_fk = models.ForeignKey(User, on_delete=models.CASCADE)
-    product_fk = models.ForeignKey('Product', on_delete=models.CASCADE)
-    content = models.TextField() # 설명란
-    m_type = models.CharField(max_length=4) # 유저의 mtype
+    product_fk = models.ForeignKey("Product", on_delete=models.CASCADE)
+    content = models.TextField()  # 설명란
+    m_type = models.CharField(max_length=4)  # 유저의 mtype
     score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=RANGE_ONE_TO_FIVE,
-        default=None
-    ) # 종합평점
+        default=None,
+    )  # 종합평점
     absorbency = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=RANGE_ONE_TO_FIVE,
-        default=None
-    ) # 흡수력
+        default=None,
+    )  # 흡수력
     anti_odour = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=RANGE_ONE_TO_FIVE,
-        default=None
-    ) # 탈취성
+        default=None,
+    )  # 탈취성
     sensitivity = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=RANGE_ONE_TO_FIVE,
-        default=None
-    ) # 피부친화도
+        default=None,
+    )  # 피부친화도
     comfort = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=RANGE_ONE_TO_FIVE,
-        default=None
-    ) # 촉감/착용감
+        default=None,
+    )  # 촉감/착용감
 
-    
     def __str__(self):
         return self.user_fk.username + "의 리뷰"
 
@@ -134,12 +147,11 @@ class Review(TimeStampedModel):
             return "오오"
         elif self.score == 5:
             return "대박"
-        
+
     def get_absolute_url(self):
         return reverse("product:product_detail", kwargs={"pk": self.id})
-    
-    
-    
+
+
 class Hashtag(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
