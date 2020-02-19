@@ -118,25 +118,25 @@ def keywordRanking(request):
         print(query_string)
 
     if request.GET.get("keyword") == "score":
-        ReviewSummary_list = ReviewSummary_list.order_by('-total_score')
+        ReviewSummary_list = ReviewSummary_list.order_by('-total_score')[:10]
     elif request.GET.get("keyword") == "absorbency":
-        ReviewSummary_list = ReviewSummary_list.order_by('-absorbency_avg')
+        ReviewSummary_list = ReviewSummary_list.order_by('-absorbency_avg')[:10]
     elif request.GET.get("keyword") == "anti_odour":
-        ReviewSummary_list = ReviewSummary_list.order_by('-anti_odour_avg')
+        ReviewSummary_list = ReviewSummary_list.order_by('-anti_odour_avg')[:10]
     elif request.GET.get("keyword") == "comfort":
-        ReviewSummary_list = ReviewSummary_list.order_by('-comfort_avg')
+        ReviewSummary_list = ReviewSummary_list.order_by('-comfort_avg')[:10]
     elif request.GET.get("keyword") == "sensitivity":
-        ReviewSummary_list = ReviewSummary_list.order_by('-sensitivity_avg')
+        ReviewSummary_list = ReviewSummary_list.order_by('-sensitivity_avg')[:10]
     else:
-        ReviewSummary_list = ReviewSummary_list.order_by('-total_score')
-    
-    page = request.GET.get('page')
-    paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+        ReviewSummary_list = ReviewSummary_list.order_by('-total_score')[:10]    
+
+    # page = request.GET.get('page')
+    # paginator = get_paginator(ReviewSummary_list, page, 1, 2)
 
     context = {    
         'product_list': ReviewSummary_list,
-        'paginator': paginator,
         'query_string': query_string,
+        # 'paginator': paginator,
     }
     return render(request, "ranking/keyword_ranking.html", context=context)  
 
