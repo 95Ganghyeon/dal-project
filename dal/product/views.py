@@ -189,7 +189,7 @@ def compareSearch(request):
                 )
             if "nature_friendly" in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(
-                    product_fk__productingredient__nature_friendly_score__gt=criterionReviewSummary.product_fk.productingredient.calculate_natureFriendlyScore
+                    product_fk__productingredient__nature_friendly_score__gt=criterionReviewSummary.product_fk.productingredient.nature_friendly_score
                 )
             if "absorbency" in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(
