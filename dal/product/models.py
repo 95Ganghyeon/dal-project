@@ -69,19 +69,11 @@ class ProductIngredient(models.Model):
     etc_score = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
-<<<<<<< HEAD
         default=None
     )    
     
     nature_friendly_score = models.FloatField(editable=False)
 
-=======
-        default=None,
-    )
-
-    nature_friendly_score = models.FloatField(editable=False)
-
->>>>>>> 1a63981cf3e17802d0d4946eaeb5fa589f48509a
     def get_nature_friendly_score(self):
         return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
     
