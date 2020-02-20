@@ -94,6 +94,7 @@ def productDetail(request, pk):
         makeReview(request=request, pk=pk)
         return redirect(product)
     else:
+        query_string = ""
         bestReview = product.best_review_fk
         review_list = Review.objects.filter(product_fk=product)
         paginator = Paginator(review_list, 3)
@@ -107,6 +108,7 @@ def productDetail(request, pk):
             "review_list": review_list,
             "form": form,
             "page_obj": page_obj,
+            "query_string": query_string,
         }
         return render(request, "product/product_detail.html", context=context)
 
