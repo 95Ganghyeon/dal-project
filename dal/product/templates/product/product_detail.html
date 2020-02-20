@@ -101,7 +101,7 @@
                         <div class="review-title">
                             Review
                         </div>
-                        {% for review in review_list %}
+                        {% for review in page_obj %}
 
                         <div class="review-content">
                             <div class="bestreview-upper">
@@ -118,20 +118,21 @@
                                 {{review.content}}
                             </div>
                         </div>
-                        {% comment %} REVIEW
-                        <ul>
-                            {% for review in review_list %}
-                            <li>
-                                <div>
-                                    {{review.star_Str}}
-                                    {{review.user_fk.username}} / {{review.user_fk.profile.age}}세 / 여성
-                                    {{review.created}}
-                                    {{review.content}}
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul> {% endcomment %}
                         {% endfor %}
+                        <div>
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">맨 앞으로</a>
+                                <a href="?page={{page_obj.previous_page_number}}">이전으로</a>
+                            {% endif %}
+                            <span>{{page_obj.number}}</span>
+                            <span>/</span>
+                            <span>{{page_obj.paginator.num_pages}}</span>
+                            {% if page_obj.has_next %}
+                                <a href="?page={{page_obj.next_page_number}}">다음으로</a>
+                                <a href="?page={{page_obj.paginator.num_pages}}">맨 뒤로</a>
+                            {% endif %}
+                        </div>
+
                     </div>
                 </section>
             </li>
