@@ -104,6 +104,10 @@ def productDetail(request, pk):
 
 
 def normalSearch(request):
+    
+    temp = ProductIngredient.objects.get(product_fk=1).product_fk.category
+    print(type(temp))
+
 
     first_page = True
     ReviewSummary_list = None
@@ -121,9 +125,9 @@ def normalSearch(request):
 
     if "q" in request.GET:
         first_page = False
-        ReviewSummary_list = ReviewSummary.objects.all()
         query = request.GET.get("q")
         query = query.replace(" ", "")
+        ReviewSummary_list = ReviewSummary.objects.all()
         ReviewSummary_list = ReviewSummary_list.annotate(
             rename=Func(
                 F("product_fk__name"), Value(" "), Value(""), function="REPLACE"
@@ -226,7 +230,7 @@ def compareSearch(request):
             #ReviewSummary_list = ReviewSummary_list.order_by(option)
             
             page = request.GET.get('page')
-            paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+            paginator = get_paginator(ReviewSummary_list, page, 1, 2)    
 
     context = {
         "first_page": first_page,

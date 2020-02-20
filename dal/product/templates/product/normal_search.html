@@ -94,7 +94,11 @@
                                 </div> {% endcomment %}
                                 <img class="" src="{{ reviewSummary.product_fk.image.url }}" alt="" />
                             </div>
-                            <span>{{ reviewSummary.product_fk.hashtag_fk.name }}</span>
+                            <span>
+                                {% for hashtag in reviewSummary.product_fk.hashtag_fk.all %}
+                                    #{{ hashtag }} 
+                                {% endfor %}
+                            </span>
                             <h2>{{ reviewSummary.product_fk.name }}({{ reviewSummary.product_fk.category }})</h2>
                         </div>
                     </li>
