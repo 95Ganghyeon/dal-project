@@ -20,46 +20,72 @@
   <script> new WOW().init(); </script>
   <script>
     window.onload = function () {
-      var cart = document.getElementById("compare-cart-value").value;
-      console.log(cart);
+      {% if request.session.cart %}
+      var cart = {{ request.session.cart|safe }};
+      cart.forEach(function(data){
+        createCartList(data);
+      });
+      {% endif %}
     }
 
+    // 비교함 카트 li 추가
+    function createCartList(data) {
+      var id = data.id;
+      var name = data.name;
+      var image_url = '{{ MEDIA_URL }}' + data.image;
+  
+      var ul = document.querySelector('#compare-cart ul');
+      var li = document.createElement("li");
+      li.setAttribute("data-product-id", id);
+      var a_close = document.createElement("a");
+      a_close.innerHTML = "&times;";
+      a_close.setAttribute("href", "javascript:void(0);");
+      a_close.addEventListener("click", deleteCart);
+      var img = document.createElement("img");
+      img.setAttribute("src", image_url);
+      var a_name = document.createElement("a");
+      a_name.innerText = name;
+  
+      li.appendChild(a_close);
+      li.appendChild(img);
+      li.appendChild(a_name);
+      ul.appendChild(li);
+    }
+    
     // 비교함 카트 담는 ajax
-    function insertCart() {
+    function insertCart(product_id) {
       var xhr = new XMLHttpRequest();
-      var url = "{% url 'product:insert-cart' 2 %}";
+      var url = "/product/cart/insert/" + product_id;
       xhr.open('GET', url);
       xhr.onload = function () {
         if (xhr.status === 200) { // 정상
-          var data = JSON.parse(xhr.responseText);
-          var id = data.id;
-          var name = data.name;
-          var image_url = '{{ MEDIA_URL }}' + data.image;
-
-          var ul = document.querySelector('#compare-cart ul');
-          var li = document.createElement("li");
-          var a_close = document.createElement("a");
-          a_close.innerHTML = "&times;";
-          a_close.setAttribute("href", "javascript:void(0);");
-          a_close.addEventListener("click", deleteCart);
-          var img = document.createElement("img");
-          img.setAttribute("src", image_url);
-          var a_name = document.createElement("a");
-          a_name.innerText = name;
-
-          li.appendChild(a_close);
-          li.appendChild(img);
-          li.appendChild(a_name);
-          ul.appendChild(li);
+          if(xhr.responseText == 'overlap'){
+            alert("이미 비교함에 담긴 상품입니다");
+          }else{
+            var data = JSON.parse(xhr.responseText);
+            createCartList(data);
+          }
         } else { // 에러 발생
-          alert('비교함 담기에 실패했습니다' + xhr.readyState);
+          alert('비교함 담기에 실패했습니다');
         }
       };
       xhr.send();
     }
 
     function deleteCart() {
-
+      var self = this;
+      var product_id = self.parentElement.getAttribute("data-product-id");
+      var xhr = new XMLHttpRequest();
+      var url = "/product/cart/delete/" + product_id;
+      xhr.open('GET', url);
+      xhr.onload = function () {
+        if (xhr.status === 200) { // 정상
+          self.parentElement.remove();
+        } else { // 에러 발생
+          alert('비교함 삭제에 실패했습니다');
+        }
+      };
+      xhr.send();
     }
 
       // 비교함 카트에서 삭제하는 ajax
@@ -68,7 +94,6 @@
   </script>
 </head>
 <body>
-  <input type="hidden" id="compare-cart-value" value="{% if request.session.cart %}{{ request.session.cart }}{% endif %}"/>
 
 {% block navbar %}
 <nav class="navbar navbar-expand-md navbar-light bg-faded" style="margin: 0 auto;">
@@ -124,21 +149,6 @@
 <div id="compare-cart">
   <span>비교하기</span>
   <ul>
-    <li>
-      <a href="#">&times;</a>
-      <img src="#"/>
-      <a href="#">상품이름</a>
-    </li>
-    <li>
-      <a href="#">&times;</a>
-      <img src="#"/>
-      <a href="#">상품이름</a>
-    </li>
-    <li>
-      <a href="#">&times;</a>
-      <img src="#"/>
-      <a href="#">상품이름</a>
-    </li>
   </ul>
 </div>
 {% endblock %}

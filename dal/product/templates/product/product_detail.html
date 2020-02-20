@@ -24,7 +24,9 @@
                 <div>
                     <button class="button1" type="button">비교함 담기</button>
                     <script type="text/javascript">
-                        document.getElementsByClassName("button1")[0].addEventListener("click", insertCart);
+                        document.getElementsByClassName("button1")[0].addEventListener("click", function(){
+                            insertCart({{ product.id }});
+                        });
                     </script>
                     <button class="button2" type="button">내 생리대 등록</button>
                 </div>

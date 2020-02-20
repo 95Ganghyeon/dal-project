@@ -16,10 +16,13 @@ import urllib
 
 # 비교함에 상품 담기
 def insert_cart(request, product_id):
-    data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
-
-    # 세션에 담기
     cart_list = request.session.get("cart", [])
+
+    for idx, val in enumerate(cart_list):
+        if val['id'] == product_id:
+            return HttpResponse("overlap")    
+
+    data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
     cart_list.append(data[0])
     request.session["cart"] = cart_list
 
@@ -29,12 +32,16 @@ def insert_cart(request, product_id):
 
 # 비교함에서 삭제하기 (미완성)
 def delete_cart(request, product_id):
-    del request.session["cart"]
-    data = Product.objects.filter(id=product_id)
-    return HttpResponse(
-        json.dumps(data, ensure_ascii=False), content_type="application/json"
-    )
+    cart_list = request.session.get("cart")
 
+    for idx, val in enumerate(cart_list):
+        if val['id'] == product_id:
+            del cart_list[idx]
+            break
+
+    request.session["cart"] = cart_list
+
+    return HttpResponse("delete success!")
 
 def get_paginator(obj, page, obj_per_page, page_range):
     """
