@@ -96,9 +96,11 @@ def productDetail(request, pk):
     else:
         bestReview = product.best_review_fk
         review_list = Review.objects.filter(product_fk=product)
-        paginator = Paginator(review_list, 3)
-        page_number = request.GET.get("page")
-        page_obj = paginator.get_page(page_number)
+        # paginator = Paginator(review_list, 3)
+        # page_number = request.GET.get("page")
+        # page_obj = paginator.get_page(page_number)
+        page = request.GET.get("page")
+        paginator = get_paginator(review_list, page, 5, 3)
 
         form = GetReviewResponseForm()
         context = {
@@ -106,7 +108,8 @@ def productDetail(request, pk):
             "bestReview": bestReview,
             "review_list": review_list,
             "form": form,
-            "page_obj": page_obj,
+            "paginator": paginator,
+            # "page_obj": page_obj,
         }
         return render(request, "product/product_detail.html", context=context)
 
