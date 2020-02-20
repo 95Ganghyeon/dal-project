@@ -23,7 +23,8 @@ class Product(models.Model):
         "Review", on_delete=models.SET_NULL, null=True, blank=True
     )
     price = models.PositiveIntegerField()
-    count = models.IntegerField()
+    count = models.PositiveIntegerField()
+    size = models.PositiveIntegerField()
     category = models.CharField(
         max_length=30
     )  # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
@@ -54,19 +55,19 @@ class ProductIngredient(models.Model):
     
     product_fk = models.OneToOneField("Product", on_delete=models.CASCADE)
     cover_layer_string = models.TextField()
-    cover_layer_score = models.IntegerField(
+    cover_layer_score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
         default=None,
     )
     absorbent_layer_string = models.TextField()
-    absorbent_layer_score = models.IntegerField(
+    absorbent_layer_score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
         default=None,
     )
     etc_string = models.TextField()
-    etc_score = models.IntegerField(
+    etc_score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
         default=None
