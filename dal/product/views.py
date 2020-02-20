@@ -103,9 +103,11 @@ def productDetail(request, pk):
     else:
         bestReview = product.best_review_fk
         review_list = Review.objects.filter(product_fk=product)
-        paginator = Paginator(review_list, 3)
-        page_number = request.GET.get("page")
-        page_obj = paginator.get_page(page_number)
+        # paginator = Paginator(review_list, 3)
+        # page_number = request.GET.get("page")
+        # page_obj = paginator.get_page(page_number)
+        page = request.GET.get("page")
+        paginator = get_paginator(review_list, page, 5, 3)
 
         form = GetReviewResponseForm()
         context = {
@@ -113,12 +115,17 @@ def productDetail(request, pk):
             "bestReview": bestReview,
             "review_list": review_list,
             "form": form,
-            "page_obj": page_obj,
+            "paginator": paginator,
+            # "page_obj": page_obj,
         }
         return render(request, "product/product_detail.html", context=context)
 
 
 def normalSearch(request):
+    
+    temp = ProductIngredient.objects.get(product_fk=1).product_fk.category
+    print(type(temp))
+
 
     first_page = True
     ReviewSummary_list = None
@@ -136,9 +143,9 @@ def normalSearch(request):
 
     if "q" in request.GET:
         first_page = False
-        ReviewSummary_list = ReviewSummary.objects.all()
         query = request.GET.get("q")
         query = query.replace(" ", "")
+        ReviewSummary_list = ReviewSummary.objects.all()
         ReviewSummary_list = ReviewSummary_list.annotate(
             rename=Func(
                 F("product_fk__name"), Value(" "), Value(""), function="REPLACE"

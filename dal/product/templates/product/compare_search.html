@@ -127,7 +127,7 @@
                                         {% elif option == 'comfort' %}
                                         촉감/착용감 {{ reviewSummary.comfort_avg }}점
                                         {% elif option == 'nature_friendly' %}
-                                        자연유래정도 {{ reviewSummary.product_fk.nature_friendly }}점
+                                        자연유래정도 {{ reviewSummary.product_fk.productingredient.nature_friendly_score }}점
                                         {% elif option == 'anti_odour' %}
                                         탈취성 {{ reviewSummary.anti_odour_avg }}점
                                         {% elif option == 'sensitivity' %}
@@ -136,8 +136,12 @@
                                     </span>
                                 </div>
                                 <img class="" src="{{ reviewSummary.product_fk.image.url }}" alt="" />
-                            </div c>
-                            <span>{{ reviewSummary.product_fk.hashtag_fk.name }}</span>
+                            </div>
+                            <span>
+                                {% for hashtag in reviewSummary.product_fk.hashtag_fk.all %}
+                                    #{{ hashtag }} 
+                                {% endfor %}
+                            </span>
                             <h2>{{ reviewSummary.product_fk.name }}({{ reviewSummary.product_fk.category }})</h2>
                         </div>
                     </li>

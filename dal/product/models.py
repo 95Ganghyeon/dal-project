@@ -54,29 +54,32 @@ class ProductIngredient(models.Model):
     )
     
     product_fk = models.OneToOneField("Product", on_delete=models.CASCADE)
-    cover_layer_string = models.TextField()
+    cover_layer_string = models.TextField(null=True)
     cover_layer_score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
         default=None,
     )
-    absorbent_layer_string = models.TextField()
+    absorbent_layer_string = models.TextField(null=True)
     absorbent_layer_score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
         default=None,
     )
-    etc_string = models.TextField()
+    etc_string = models.TextField(null=True)
     etc_score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
-        default=None
+        default=None,
     )    
     
     nature_friendly_score = models.FloatField(editable=False)
 
     def get_nature_friendly_score(self):
-        return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
+        if "팬티라이너" in self.product_fk.category:
+            return (self.cover_layer_score/40)*45 + (self.absorbent_layer_score/40)*45 + (self.etc_score/40)*10
+        else:
+            return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
     
     def save(self, *args, **kwargs):
         self.nature_friendly_score = self.get_nature_friendly_score()
