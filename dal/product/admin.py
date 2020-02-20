@@ -3,10 +3,9 @@ from product.models import *
 from import_export.admin import ImportExportModelAdmin
 
 # Review 모델 Admin에 등록
-
-admin.site.register(Hashtag)
-
-
+class HashtagAdmin(ImportExportModelAdmin):
+    pass
+admin.site.register(Hashtag, HashtagAdmin)
 
 class ProductAdmin(ImportExportModelAdmin):
     list_display = ('id', 'name', 'image', 'best_review_fk', 'price', 'count')
