@@ -139,7 +139,7 @@
                             </div>
                             <span>
                                 {% for hashtag in reviewSummary.product_fk.hashtag_fk.all %}
-                                    #{{ hashtag }} 
+                                #{{ hashtag }}
                                 {% endfor %}
                             </span>
                             <h2>{{ reviewSummary.product_fk.name }}({{ reviewSummary.product_fk.category }})</h2>
@@ -157,23 +157,23 @@
             <ul class="my-pagination">
                 <!-- 이전 페이지로 이동 -->
                 {% if paginator.has_prev %}
-                    <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
+                <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
                 {% else %}
-                    <!-- <li class="nav disabled">&laquo;</li> -->
+                <!-- <li class="nav disabled">&laquo;</li> -->
                 {% endif %}
                 <!-- [1] [2] [3] -->
-                {% for i in paginator.page_range %}     
-                    {% if paginator.page_obj.number == i %}
-                        <li class="disabled">&#91; {{ i }} &#93;</li>
-                    {% else %}
-                        <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
-                    {% endif %}
+                {% for i in paginator.page_range %}
+                {% if paginator.page_obj.number == i %}
+                <li class="disabled">&#91; {{ i }} &#93;</li>
+                {% else %}
+                <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
+                {% endif %}
                 {% endfor %}
                 <!-- 다음 페이지로 이동 -->
                 {% if paginator.has_next %}
-                    <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
+                <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
                 {% else %}
-                    <!-- <li class="nav disabled">&raquo;</li> -->
+                <!-- <li class="nav disabled">&raquo;</li> -->
                 {% endif %}
             </ul>
         </div>
@@ -184,64 +184,64 @@
 
 <script src="{% static 'js/hangul.min.js'%}"></script>
 <script type="text/javascript">
-    
-    window.onload = function(){        
-        document.getElementById('compareSearchForm').addEventListener('submit', function(){
+
+    window.addEventListener('load', function () {
+        document.getElementById('compareSearchForm').addEventListener('submit', function () {
             compareSearchFormValidation();
         });
-        
+
         configCompareSearchTextEvent();
-        
-        document.querySelectorAll('.search-pannel div').forEach(function(item){
+
+        document.querySelectorAll('.search-pannel div').forEach(function (item) {
             var pre_selected_item = document.querySelector('.search-pannel .compared-search');
-            item.addEventListener('click', function(){
+            item.addEventListener('click', function () {
                 select_pannel(item);
                 pre_selected_item = item;
 
-                if( item.classList.contains('compared-search') ){
+                if (item.classList.contains('compared-search')) {
                     location.href = "{% url 'product:CompareSearch' %}";
                 }
 
-                if( item.classList.contains('normal-search') ){
+                if (item.classList.contains('normal-search')) {
                     location.href = "{% url 'product:NormalSearch' %}";
                 }
 
             });
-            item.addEventListener('mouseover', function(){
+            item.addEventListener('mouseover', function () {
                 select_pannel(item);
             });
-            item.addEventListener('mouseout', function(){
+            item.addEventListener('mouseout', function () {
                 select_pannel(pre_selected_item);
             });
-        }); 
+        });
 
         configDropDownBoxEvent();
-    }
+    });
 
-    function configDropDownBoxEvent(){
+    function configDropDownBoxEvent() {
         var div = document.querySelector('.drop-down-box a');
         var ul = document.querySelector('.drop-down-box ul');
         var is_cursor_in_drop_down = false;
         var option_form = document.getElementsByName('option')[0];
 
-        ul.addEventListener('mouseenter', function(){
+        ul.addEventListener('mouseenter', function () {
             is_cursor_in_drop_down = true;
         });
-        ul.addEventListener('mouseleave', function(){
+        ul.addEventListener('mouseleave', function () {
             is_cursor_in_drop_down = false;
         });
-        div.addEventListener('click', function(){
+        div.addEventListener('click', function () {
             ul.classList.toggle('focusin');
             // div.classList.toggle('focusin');
         });
-        div.addEventListener('focusout', function(){
-            if( is_cursor_in_drop_down == false ){
+        div.addEventListener('focusout', function () {
+            if (is_cursor_in_drop_down == false) {
                 ul.classList.remove('focusin');
                 // div.classList.toggle('focusin');
-            }    
+            }
         });
-        document.querySelectorAll('.drop-down-box ul li').forEach(function(item, num){
-            item.addEventListener('click', function(){
+        document.querySelectorAll('.drop-down-box ul li').forEach(function (item, num) {
+            item.addEventListener('click', function () {
                 ul.classList.remove('focusin');
                 // div.classList.toggle('focusin');
                 div.innerHTML = item.innerHTML;
@@ -255,66 +255,66 @@
     var product_list = {{ all_products | safe }};
 
     // object 에 초성필드 추가 {name:"좋은느낌", diassembled:"ㅈㅇㄴㄲ"}
-    product_list.forEach(function(item){
+    product_list.forEach(function (item) {
         // Hangul.disassemble(str:string, grouped:boolean = false)
         var chosung_arr = Hangul.disassemble(item.name, true);
-        var chosung = chosung_arr.reduce(function(acc_ele, ele){
+        var chosung = chosung_arr.reduce(function (acc_ele, ele) {
             return acc_ele + ele[0]; // 초성만 누적시켜 하나의 스트링으로 반환
         }, "");
         item.diassembled = chosung;
     });
-    
-    function configCompareSearchTextEvent(){
+
+    function configCompareSearchTextEvent() {
         var is_cursor_in_ul = false;
         var inputText = document.getElementById('compareSearchText');
         var ul = document.getElementById('autoCompleteText');
-        
-        inputText.addEventListener('focusin', function(){
+
+        inputText.addEventListener('focusin', function () {
             createSearchTextList(inputText, ul);
         });
-        inputText.addEventListener('keyup', function(){
+        inputText.addEventListener('keyup', function () {
             createSearchTextList(inputText, ul);
         });
-        inputText.addEventListener('focusout', function(){
-            if( is_cursor_in_ul == false ){
+        inputText.addEventListener('focusout', function () {
+            if (is_cursor_in_ul == false) {
                 removeSearchTextList(ul);
             }
         });
-        ul.addEventListener('mouseenter', function(){
+        ul.addEventListener('mouseenter', function () {
             is_cursor_in_ul = true;
         });
-        ul.addEventListener('mouseleave', function(){
+        ul.addEventListener('mouseleave', function () {
             is_cursor_in_ul = false;
         });
     }
 
-    function removeSearchTextList(ul){
+    function removeSearchTextList(ul) {
         // 기존 자동완성 ul 자식 노드 모두 삭제
-        while(ul.hasChildNodes()){
+        while (ul.hasChildNodes()) {
             ul.removeChild(ul.firstChild);
         }
 
         ul.classList.remove('focusin');
     }
 
-    function createSearchTextList(inputText, ul){
+    function createSearchTextList(inputText, ul) {
         removeSearchTextList(ul);
 
         var search = inputText.value;
-        var search_chosung = Hangul.disassemble(search, true).reduce(function(acc_ele, ele){
+        var search_chosung = Hangul.disassemble(search, true).reduce(function (acc_ele, ele) {
             return acc_ele + ele[0];
         }, "");
-        
-        product_list.filter(function(item){
+
+        product_list.filter(function (item) {
             return item.name.includes(search) || item.diassembled.includes(search_chosung);
-        }).forEach(function(item, index){
+        }).forEach(function (item, index) {
             // 검색결과 ul 아래에 li 로 추가
             var li = document.createElement('li');
-            if( index > 4 ){
+            if (index > 4) {
                 return;
             }
             li.innerHTML = item.name;
-            li.addEventListener('click', function(){
+            li.addEventListener('click', function () {
                 inputText.value = item.name;
                 removeSearchTextList(ul);
             });
@@ -324,46 +324,43 @@
 
         ul.classList.add('focusin');
     }
-    
+
     // comparesearch / normalsearch 탭 선택
-    function select_pannel(selected_item){
-        document.querySelectorAll('.search-pannel div').forEach(function(item){
+    function select_pannel(selected_item) {
+        document.querySelectorAll('.search-pannel div').forEach(function (item) {
             item.classList.remove('selected');
         });
         selected_item.classList.add('selected');
     }
 
     // comparesearch form 유효성 검사
-    function compareSearchFormValidation(){
+    function compareSearchFormValidation() {
         var form = document.getElementById('compareSearchForm');
         var checkList = document.querySelectorAll("input[type='checkbox']:checked");
         var checkListStr = "";
-        
-        if( checkList.length > 0 ){                
-            checkList.forEach(function(ele){
+
+        if (checkList.length > 0) {
+            checkList.forEach(function (ele) {
                 checkListStr += ele.value + ",";
             });
             checkListStr = checkListStr.substring(0, checkListStr.length - 1);
         }
-        
+
         // 유효성 체크
-        if(form.q.value == ''){
+        if (form.q.value == '') {
             alert("검색어를 입력해주세요");
             form.q.focus();
             return;
         }
-        
-        if(checkListStr == ''){
+
+        if (checkListStr == '') {
             alert("비교조건을 선택해주세요");
             return;
         }
-        
+
         form.compareConditionList.value = checkListStr;
         form.submit();
     }
 </script>
-    
+
 {% endblock %}
-
-
-

@@ -18,15 +18,15 @@
   <script src="https://kit.fontawesome.com/6f1d36fa89.js" crossorigin="anonymous"></script>
   <script src="{% static 'js/wow.min.js'%}"></script>
   <script> new WOW().init(); </script>
-  <script>
-    window.onload = function () {
+  <script type="text/javascript">
+    window.addEventListener('load', function(){
       {% if request.session.cart %}
-      var cart = {{ request.session.cart|safe }};
-      cart.forEach(function(data){
-        createCartList(data);
+      var cart = {{ request.session.cart| safe}};
+      cart.forEach(function (data) {
+      createCartList(data);
       });
       {% endif %}
-    }
+    });
 
     // 비교함 카트 li 추가
     function createCartList(data) {
@@ -59,10 +59,11 @@
       xhr.open('GET', url);
       xhr.onload = function () {
         if (xhr.status === 200) { // 정상
-          if(xhr.responseText == 'overlap'){
+          var response = xhr.responseText;
+          if( response == 'overlap'){
             alert("이미 비교함에 담긴 상품입니다");
           }else{
-            var data = JSON.parse(xhr.responseText);
+            var data = JSON.parse( response );
             createCartList(data);
           }
         } else { // 에러 발생

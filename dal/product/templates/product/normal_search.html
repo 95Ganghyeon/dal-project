@@ -141,7 +141,7 @@
 <script src="{% static 'js/hangul.min.js'%}"></script>
 <script type="text/javascript">
 
-    window.onload = function(){                
+    window.addEventListener('load', function(){                
         document.getElementById('normalSearchForm').addEventListener('submit', function(){
             normalSearchFormValidation();
         });
@@ -172,7 +172,7 @@
         }); 
         
         configDropDownBoxEvent();
-    }
+    });
 
     function configDropDownBoxEvent(){
         var div = document.querySelector('.drop-down-box a');
