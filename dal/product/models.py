@@ -28,6 +28,7 @@ class Product(models.Model):
     category = models.CharField(
         max_length=30
     )  # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
+    content = models.CharField(max_length=100)
     hashtag_fk = models.ManyToManyField("Hashtag")
 
     def __str__(self):
