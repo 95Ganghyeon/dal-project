@@ -5,7 +5,7 @@
 {% block content %}
 <div class="normal-search-page container">    
     
-    <div class="search-pannel row">
+    <!-- <div class="search-pannel row">
         <div class="compared-search col-sm-6">
             <h2>직접 비교하기</h2>
             <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
@@ -14,17 +14,28 @@
             <h2>일반 검색</h2>
             <span>일반검색 입니다</span>
         </div>
-    </div>
+    </div> -->
 
+    <div class="pannel">
+        <div class="pannel-title">제품검색</div>
+        <div class="pannel-description">특정 제품이 궁금하신가요? 제품명을 검색해주세요</div>
+    </div>
+    
     <form action="{% url 'product:NormalSearch' %}" method="GET" id="normalSearchForm" onsubmit="return false">
         <div class="search-content-box">            
-            <div class="search-text-box row justify-content-center">                
-                {% comment %} <i class="fas fa-search fa-lg search-icon"></i> {% endcomment %}
-                <input type="text" id="normalSearchText" name="q"
-                    value="{% if request.GET.q %}{{request.GET.q}}{% endif %}"
-                    autocomplete="off" placeholder="검색어를 입력하세요">
-                <ul class="" id="autoCompleteText"></ul>
-                <input type="submit" value="검색" id="searchButton">                
+            <div class="search-text-box row justify-content-center">                                
+                <div class="">
+                    <input type="text" id="normalSearchText" name="q"
+                        value="{% if request.GET.q %}{{request.GET.q}}{% endif %}"
+                        autocomplete="off" placeholder="검색어를 입력하세요">
+                    <ul class="" id="autoCompleteText"></ul>
+                </div>
+                <div class="">
+                    <button type="submit" value="검색" id="searchButton">검색하기</button>
+                </div>
+            </div>
+            <div class="href-comparesearch row justify-content-center">
+                <a href="{% url 'product:CompareSearch' %}">제품끼리 비교하고 싶다면?&nbsp;&nbsp;&nbsp;<i class="fas fa-chevron-right"></i></a>
             </div>
         </div>
     

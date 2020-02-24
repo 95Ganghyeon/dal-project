@@ -5,7 +5,7 @@
 {% block content %}
 <div class="compare-search-page container">
     <!-- 상단 탭 -->
-    <div class="search-pannel row">
+    <!-- <div class="search-pannel row">
         <div class="compared-search selected col-sm-6">
             <h2>직접 비교하기</h2>
             <span>내가 쓰고 있는 제품과 원하는 비교를 손쉽게</span>
@@ -14,6 +14,11 @@
             <h2>일반 검색</h2>
             <span>일반검색 입니다</span>
         </div>
+    </div> -->
+
+    <div class="pannel">
+        <div class="pannel-title">직접 비교하기</div>
+        <div class="pannel-description">내가 쓰고 있는 제품과 원하는 비교를 손쉽게</div>
     </div>
 
     <form action="{% url 'product:CompareSearch' %}" method="GET" id="compareSearchForm" onsubmit="return false">

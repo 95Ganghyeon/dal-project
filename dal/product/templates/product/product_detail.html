@@ -66,24 +66,24 @@
                             <div>{{type_based_review_summary.score}}/5</div>
                         </div>
                         <div>
-                            <div class="row">
+                            <div class="row progress">
                                 <div class="col-3">흡수력</div>
-                                <div class="col-8">jQuery 활용한 막대그래프 자리</div>
+                                <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.absorbency|mul:20 }}%" aria-valuenow="{{type_based_review_summary.absorbency}}" aria-valuemin="0" aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.absorbency}}/5</div>
                             </div>
-                            <div class="row">
+                            <div class="row progress">
                                 <div class="col-3">탈취성</div>
-                                <div class="col-8">jQuery 활용한 막대그래프 자리</div>
+                                <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.anti_odour|mul:20 }}%" aria-valuenow="{{type_based_review_summary.anti_odour}}" aria-valuemin="0" aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.anti_odour}}/5</div>
                             </div>
-                            <div class="row">
+                            <div class="row progress">
                                 <div class="col-3">촉감/착용감</div>
-                                <div class="col-8">jQuery 활용한 막대그래프 자리</div>
+                                <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.comfort|mul:20 }}%" aria-valuenow="{{type_based_review_summary.comfort}}" aria-valuemin="0" aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.comfort}}/5</div>
                             </div>
-                            <div class="row">
+                            <div class="row progress">
                                 <div class="col-3">피부 친화도</div>
-                                <div class="col-8">jQuery 활용한 막대그래프 자리</div>
+                                <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.sensitivity|mul:20 }}%" aria-valuenow="{{type_based_review_summary.sensitivity}}" aria-valuemin="0" aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.sensitivity}}/5</div>
                             </div>
                         </div>
