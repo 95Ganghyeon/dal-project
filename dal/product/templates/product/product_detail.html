@@ -3,21 +3,31 @@
 
 {% block content %}
 
-{% comment %} 상단에 기본적으로 출력되는 상품에 대한 간단한 정보 {% endcomment %}
-<div class="product-detail-page">
+<div class="product-detail-page container">
+    <div class="search-path"> 
+        <span>상품검색 > {{product.name}}</span>
+    </div>
     <div class="main-content row">
         <div class="left-container col-lg-4">
             <img src="{{product.image.url}}" alt="" />
         </div>
         <div class="right-container col-lg-5">
             <div class="product-introduction">
-                <div class="font-weight-bold">{{product.name}}</div>
                 <div>
+                    <div class="font-weight-bold">{{product.name}}</div>
                     <div class="product-price">- 정가 {{product.price}} / {{product.count}}개입</div>
-                    <div class="product-score">{{product.score}}85점</div>
                 </div>
-                <div>{{product.hashtag}}#흡수력 #해시태그</div>
-                <div> 여기는 제품 간단 설명</div>
+                <div>
+                    {{ user.type }} 타입에게, 추천지수 {{ 추천지수 }}
+                </div>
+                <div>
+                    <span>
+                        딱 한줄로 설명하자면, {{ product.content }}<br/>
+                        {% for hashtag in product.hashtag_fk.all %}
+                            #{{ hashtag }} 
+                        {% endfor %}
+                    </span>
+                </div>
             </div>
 
             <div class="product-button">
@@ -33,7 +43,6 @@
         </div>
     </div>
 
-    {% comment %} 3개의 탭으로 구성되어서 '제품정보' '성분정보' '리뷰' 탭을 CSS 등으로 표현해줄 부분 {% endcomment %}
     <div class="product-detail row">
         <ul class="product-detail-list col-9">
             <li class="col-12">
@@ -42,7 +51,7 @@
                 <input id="tab2" type="radio" name="tabs">
                 <label class="col-md-4" for="tab2">성분정보</label>
                 <input id="tab3" type="radio" name="tabs" checked>
-                <label class="col-md-3" for="tab3">리뷰({{review_list.count}})</label>
+                <label class="col-md-3" for="tab3">리뷰({{review_list|length}})</label>
 
                 <section class="col-xl-12" id="content1">
                     여기는 '제품정보' 탭 // 지마켓처럼 제품 소개 이미지 통짜로 박을 것임
@@ -51,7 +60,36 @@
                     여기는 '성분정보' 탭 // 생리대 구조 그래프와 성분 기재 + 자연 유래도 퍼센트와 그래프 포함
                 </section>
                 <section class="col-xl-12" id="content3">
-                    <div class="bestreview">
+                    <div class="type-based-summary-box">
+                        <div>
+                            <div>{{user.type}} 타입 {{user.name}}에게, 이 제품의 예상 만족도는?</div>
+                            <div>{{type_based_review_summary.score}}/5</div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-3">흡수력</div>
+                                <div class="col-8">jQuery 활용한 막대그래프 자리</div>
+                                <div class="col-1">{{type_based_review_summary.absorbency}}/5</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">탈취성</div>
+                                <div class="col-8">jQuery 활용한 막대그래프 자리</div>
+                                <div class="col-1">{{type_based_review_summary.anti_odour}}/5</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">촉감/착용감</div>
+                                <div class="col-8">jQuery 활용한 막대그래프 자리</div>
+                                <div class="col-1">{{type_based_review_summary.comfort}}/5</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">피부 친화도</div>
+                                <div class="col-8">jQuery 활용한 막대그래프 자리</div>
+                                <div class="col-1">{{type_based_review_summary.sensitivity}}/5</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="bestreview">
                         <div class="bestreview-title">
                             BEST REVIEW
                         </div>
@@ -65,7 +103,7 @@
                                 </div>
                                 <div class="user-score-box">
                                     <div class="user-score">{{bestReview.score_str}}</div>
-                                    <!-- <div class="review-score row">
+                                    <div class="review-score row">
                                         <div class="col-xl-12">
                                             <span class="col-4">흡수력</span>
                                             <div>{{bestReview.absorbency}}</div>
@@ -82,7 +120,7 @@
                                             <span class="col-5">촉감/착용감</span>
                                             <div>{{bestReview.comfort}}</div>
                                         </div>
-                                    </div> 유저 평점 말풍선 창-->
+                                    </div> 유저 평점 말풍선 창
                                 </div>
                             </div>
                             <div class="user-content">{{bestReview.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은
@@ -92,11 +130,11 @@
                                 투자할만한 가치가 충분하다고는 생각합니다 ! 첫째날, 둘째날 양 진짜 많으신 분들 강추드려요 : )
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="review">
                         <div class="review-title">
-                            Review
+                            전체리뷰({{review_list|length}})
                         </div>
                         {% for review in paginator.page_obj %}
 
@@ -104,6 +142,7 @@
                             <div class="bestreview-upper">
                                 <div class="user-image">유저 사진</div>
                                 <div class="user-info">
+                                    <div>이 리뷰 mtype: {{review.m_type}}</div>
                                     <div>유전 정보{{review.user_fk.username}} / {{review.user_fk.profile.age}}세 / 여성</div>
                                     <div>2020.2.11{{review.created}}</div>
                                 </div>

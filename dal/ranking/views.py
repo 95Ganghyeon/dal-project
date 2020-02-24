@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.db.models import Avg
 from django.contrib.auth.decorators import login_required
 from product.models import Review, Product
-from product.views import get_paginator
+# from product.views import get_paginator
 from ranking.models import *
 
 # Create your views here.
@@ -37,6 +37,28 @@ def updateReviewSummary():
         else:
             pass # 리뷰가 아직 입력되지 않은 경우에는 None type을 aggregate해봐야  None type이 나옴. ReviewSummary의 필드값은 모두 Float type이어야 함.
 
+def calculateWeight(userMtype, reviewMtype):
+    """
+    유저의 타입을 기준으로 하여 랭킹보드를 보면서 '타입 스트링이 몇개나 일치하는가'를 기준으로 가중치를 결정하여 반환함.
+    # 타입 스트링이 4개 전부 일치하면 가중치로 1을 반환
+    # 타입 스트링이 3개만 일치하면 가중치로 0.75를 반환
+    # 타입 스트링이 2개만 일치하면 가중치로 0.5를 반환
+    # 나머지 경우에는 가중치로 0을 반환
+    """
+    cnt = 0
+    for char in userMtype:
+        if char in reviewMtype:
+            cnt += 1
+    
+    if cnt == 4: 
+        return 1
+    elif cnt == 3: 
+        return 0.75
+    elif cnt == 2: 
+        return 0.5
+    else: 
+        return 0
+
 def updateView(request):
     if 'rb' in request.GET:
         updateRankingBoard()
@@ -46,28 +68,6 @@ def updateView(request):
 
 @login_required
 def mtypeRanking(request):
-
-    def calculateWeight(userMtype, reviewMtype):
-        """
-        유저의 타입을 기준으로 하여 랭킹보드를 보면서 '타입 스트링이 몇개나 일치하는가'를 기준으로 가중치를 결정하여 반환함.
-        # 타입 스트링이 4개 전부 일치하면 가중치로 1을 반환
-        # 타입 스트링이 3개만 일치하면 가중치로 0.75를 반환
-        # 타입 스트링이 2개만 일치하면 가중치로 0.5를 반환
-        # 나머지 경우에는 가중치로 0을 반환
-        """
-        cnt = 0
-        for char in userMtype:
-            if char in reviewMtype:
-                cnt += 1
-        
-        if cnt == 4: 
-            return 1
-        elif cnt == 3: 
-            return 0.75
-        elif cnt == 2: 
-            return 0.5
-        else: 
-            return 0
 
     def makeUserTypeRankingBoard(userType):
         """
