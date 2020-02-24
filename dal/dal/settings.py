@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'sass_processor',
     'bootstrap4',
     'import_export',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 #sass_processor
@@ -176,7 +178,6 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ STATIC_DIR, ]
 
-
 # 이미지 파일 업로드
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -269,3 +270,5 @@ BOOTSTRAP4 = {
         'inline': 'bootstrap4.renderers.InlineFieldRenderer',
     },
 }
+
+CKEDITOR_UPLOAD_PATH = "uploads/"

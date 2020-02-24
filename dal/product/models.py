@@ -1,10 +1,10 @@
 from django.db import models
 from django.urls import reverse
 from user.models import Profile, User
-
 # from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 class TimeStampedModel(models.Model):
@@ -28,7 +28,8 @@ class Product(models.Model):
     category = models.CharField(
         max_length=30
     )  # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
-    content = models.CharField(max_length=100)
+    one_line = models.CharField(max_length=100)
+    info = RichTextUploadingField()
     hashtag_fk = models.ManyToManyField("Hashtag")
 
     def __str__(self):
