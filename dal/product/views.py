@@ -7,6 +7,7 @@ from ranking.models import *
 from product.forms import GetReviewResponseForm
 from product.models import *
 from ranking.models import ReviewSummary
+from ranking.views import calculateWeight
 from user.models import Profile, User
 from django.http import HttpResponse, JsonResponse
 import json
@@ -97,26 +98,55 @@ def productDetail(request, pk):
                 content=content,
             )
 
+    def makeTypeBasedReviewSummary(review_list, userMtype):
+        type_based_review_summary = {}
+        temp_score = 0
+        temp_absorbency = 0
+        temp_anti_odour = 0
+        temp_sensitivity = 0
+        temp_comfort = 0        
+        
+        for record in review_list:
+            temp_score += record.score * calculateWeight(userMtype, record.m_type)
+            temp_absorbency += record.absorbency * calculateWeight(userMtype, record.m_type)
+            temp_anti_odour += record.anti_odour * calculateWeight(userMtype, record.m_type)
+            temp_comfort += record.comfort * calculateWeight(userMtype, record.m_type)
+            temp_sensitivity += record.sensitivity * calculateWeight(userMtype, record.m_type)
+        
+        type_based_review_summary['score'] = temp_score / review_list.count()
+        type_based_review_summary['absorbency'] = temp_absorbency / review_list.count()
+        type_based_review_summary['anti_odour'] = temp_anti_odour / review_list.count()
+        type_based_review_summary['comfort'] = temp_comfort / review_list.count()
+        type_based_review_summary['sensitivity'] = temp_sensitivity / review_list.count()
+
+        return type_based_review_summary
+
+
     if request.method == "POST":
         makeReview(request=request, pk=pk)
         return redirect(product)
     else:
-        bestReview = product.best_review_fk
-        review_list = Review.objects.filter(product_fk=product)
-        # paginator = Paginator(review_list, 3)
-        # page_number = request.GET.get("page")
-        # page_obj = paginator.get_page(page_number)
+        best_review = product.best_review_fk
+        same_type_reviews = Review.objects.filter(product_fk=product, m_type=request.user.profile.survey_fk.mtype)
+        other_type_reviews = Review.objects.filter(product_fk=product).exclude(m_type=request.user.profile.survey_fk.mtype)
+        
+        review_list = same_type_reviews | other_type_reviews
+
+        type_based_review_summary = makeTypeBasedReviewSummary(review_list, request.user.profile.survey_fk.mtype)
+
+        print(type_based_review_summary)
+
         page = request.GET.get("page")
         paginator = get_paginator(review_list, page, 5, 3)
 
         form = GetReviewResponseForm()
         context = {
             "product": product,
-            "bestReview": bestReview,
+            "type_based_review_summary": type_based_review_summary,
+            "best_review": best_review,
             "review_list": review_list,
-            "form": form,
             "paginator": paginator,
-            # "page_obj": page_obj,
+            "form": form,
         }
         return render(request, "product/product_detail.html", context=context)
 
