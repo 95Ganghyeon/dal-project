@@ -152,10 +152,6 @@ def productDetail(request, pk):
 
 
 def normalSearch(request):
-    
-    temp = ProductIngredient.objects.get(product_fk=1).product_fk.category
-    print(type(temp))
-
 
     first_page = True
     ReviewSummary_list = None
