@@ -47,25 +47,39 @@
         padding: 70px 0;        
         
         .search-text-box{                        
+            
+            >div{
+                padding: 0px;                
+            }
 
             #normalSearchText {
+                padding: 0px;
+                margin: 0px;  
                 border: 1px #bebebe;
                 border-style: none none solid none;
-                background-color: #f6f6f6;
-                padding: 5px 10px;
+                background-color: #f6f6f6;                
                 width: 600px;
-                height: 60px;
-                margin: 0 10px;
+                height: 50px;                
                 text-align: center;
             }
     
             #searchButton{
+                padding: 0px;
+                margin: 0px;  
                 width: 120px;
-                height: 60px;
+                height: 50px;
+                background-color: #000000;
+                color: #FFFFFF;
+
+                &:hover{
+                    background-color: #bebebe;
+                    color: #000000;
+                }
             }
     
             #autoCompleteText {
-                margin: 0 10px;
+                // margin: 0 10px;
+                margin: 0px;
                 // position: absolute;                
                 border: solid 1px #bebebe;
                 border-top: none;
@@ -96,10 +110,11 @@
                 }
             }
 
-            .href-comparesearch{
-                text-align: center;
-            }
-
+            
+        }
+        
+        .href-comparesearch{
+            padding: 20px;
         }
 
     }
