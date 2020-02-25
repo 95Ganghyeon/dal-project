@@ -187,12 +187,32 @@
 {% block footer %}
 <footer>
   <div class="container">
-    <hr><hr><hr>
-    <a href=""><div>개인정보 처리방침</div></a>
-    <a href=""><div>자주 묻는 질문</div></a>
-    <a href=""><div>자주 묻는 질문</div></a>
-    <a href=""><div>자주 묻는 질문</div></a>
-    <hr><hr><hr>
+    <div class="description-box row">
+      <div class="internal-link col-2">
+        <a href=""><span>개인정보 처리방침</span></a>
+      </div>
+      <div class="internal-link col-2">
+        <a href=""><span>자주 묻는 질문</span></a>
+      </div>
+      <div class="external-link col-1 offset-6">
+        <a href=""><img src="{% static 'images/footer-instagram.png'%}" alt="footer-instagram"></a>
+      </div>
+      <div class="external-link col-1">
+        <a href=""><img src="{% static 'images/footer-kakaotalk.png'%}" alt="footer-kakaotalk"></a>
+      </div>
+    </div>
+    
+    <div class="description-box row">
+      <div class="description col-6">
+        <span>
+          (주)D.A.L. | 대표 대표명 | 이메일 주소 contact@dal.com<br/>
+          서비스 및 기업 문의 000-0000-0000 | 전자우편주소 000 0000 0000
+        </span>
+      </div>
+      <div class="col-2 offset-4">
+        여기에 로고
+      </div>
+    </div>
   </div>
 </footer>
 {% endblock footer %}

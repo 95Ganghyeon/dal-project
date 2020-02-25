@@ -41,6 +41,9 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('product:ProductDetail', args=[str(self.id)])
 
+    def price_per_piece(self):
+        return self.price // self.count
+
 
 class ProductIngredient(models.Model):
     """
