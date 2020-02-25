@@ -1,55 +1,85 @@
 .normal-search-page{
 
     // 상단 패널
-    .search-pannel div {
-        padding: 60px 10px 40px;
-        border-bottom: 2px solid #bebebe;
-        color: #bebebe;
-        transition: all 0.5s;
-        cursor: pointer;
+    .pannel{
+        padding: 80px 0;
+        border-bottom: solid 1px #bebebe;
 
-        h2 {
-            color: inherit;
-            margin: 12px 0;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
+        .pannel-title{
+            padding: 15px;
+            text-align: center;
+            font-size: 2em;
         }
-
-        span {
-            cursor: pointer;
-            color: inherit;
-        }
-
-        &.selected {
-            border-bottom-color: #272727;
-            color: #1e1e1e;
+        .pannel-description{
+            text-align: center;
+            color: #bebebe;            
         }
     }
+    
+    // .search-pannel div {
+    //     padding: 60px 10px 40px;
+    //     border-bottom: 2px solid #bebebe;
+    //     color: #bebebe;
+    //     transition: all 0.5s;
+    //     cursor: pointer;
+
+    //     h2 {
+    //         color: inherit;
+    //         margin: 12px 0;
+    //         font-size: 22px;
+    //         font-weight: bold;
+    //         cursor: pointer;
+    //     }
+
+    //     span {
+    //         cursor: pointer;
+    //         color: inherit;
+    //     }
+
+    //     &.selected {
+    //         border-bottom-color: #272727;
+    //         color: #1e1e1e;
+    //     }
+    // }
 
     // 검색어 입력 박스
     .search-content-box{
         padding: 70px 0;        
         
         .search-text-box{                        
+            
+            >div{
+                padding: 0px;                
+            }
 
             #normalSearchText {
+                padding: 0px;
+                margin: 0px;  
                 border: 1px #bebebe;
                 border-style: none none solid none;
-                background-color: #f6f6f6;
-                padding: 5px 10px;
+                background-color: #f6f6f6;                
                 width: 600px;
-                height: 60px;
-                margin: 0 10px;
+                height: 50px;                
                 text-align: center;
             }
     
             #searchButton{
-                display: none;
+                padding: 0px;
+                margin: 0px;  
+                width: 120px;
+                height: 50px;
+                background-color: #000000;
+                color: #FFFFFF;
+
+                &:hover{
+                    background-color: #bebebe;
+                    color: #000000;
+                }
             }
     
             #autoCompleteText {
-                margin: 0 10px;
+                // margin: 0 10px;
+                margin: 0px;
                 // position: absolute;                
                 border: solid 1px #bebebe;
                 border-top: none;
@@ -80,6 +110,11 @@
                 }
             }
 
+            
+        }
+        
+        .href-comparesearch{
+            padding: 20px;
         }
 
     }

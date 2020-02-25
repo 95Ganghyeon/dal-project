@@ -7,6 +7,7 @@ from ranking.models import *
 from product.forms import GetReviewResponseForm
 from product.models import *
 from ranking.models import ReviewSummary
+from ranking.views import calculateWeight
 from user.models import Profile, User
 from django.http import HttpResponse, JsonResponse
 import json
@@ -16,10 +17,13 @@ import urllib
 
 # 비교함에 상품 담기
 def insert_cart(request, product_id):
-    data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
-
-    # 세션에 담기
     cart_list = request.session.get("cart", [])
+
+    for idx, val in enumerate(cart_list):
+        if val['id'] == product_id:
+            return HttpResponse("overlap")    
+
+    data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
     cart_list.append(data[0])
     request.session["cart"] = cart_list
 
@@ -29,12 +33,16 @@ def insert_cart(request, product_id):
 
 # 비교함에서 삭제하기 (미완성)
 def delete_cart(request, product_id):
-    del request.session["cart"]
-    data = Product.objects.filter(id=product_id)
-    return HttpResponse(
-        json.dumps(data, ensure_ascii=False), content_type="application/json"
-    )
+    cart_list = request.session.get("cart")
 
+    for idx, val in enumerate(cart_list):
+        if val['id'] == product_id:
+            del cart_list[idx]
+            break
+
+    request.session["cart"] = cart_list
+
+    return HttpResponse("delete success!")
 
 def get_paginator(obj, page, obj_per_page, page_range):
     """
@@ -90,30 +98,60 @@ def productDetail(request, pk):
                 content=content,
             )
 
+    def makeTypeBasedReviewSummary(review_list, userMtype):
+        type_based_review_summary = {}
+        temp_score = 0
+        temp_absorbency = 0
+        temp_anti_odour = 0
+        temp_sensitivity = 0
+        temp_comfort = 0        
+        
+        for record in review_list:
+            temp_score += record.score * calculateWeight(userMtype, record.m_type)
+            temp_absorbency += record.absorbency * calculateWeight(userMtype, record.m_type)
+            temp_anti_odour += record.anti_odour * calculateWeight(userMtype, record.m_type)
+            temp_comfort += record.comfort * calculateWeight(userMtype, record.m_type)
+            temp_sensitivity += record.sensitivity * calculateWeight(userMtype, record.m_type)
+        
+        type_based_review_summary['score'] = temp_score / review_list.count()
+        type_based_review_summary['absorbency'] = temp_absorbency / review_list.count()
+        type_based_review_summary['anti_odour'] = temp_anti_odour / review_list.count()
+        type_based_review_summary['comfort'] = temp_comfort / review_list.count()
+        type_based_review_summary['sensitivity'] = temp_sensitivity / review_list.count()
+
+        return type_based_review_summary
+
+
     if request.method == "POST":
         makeReview(request=request, pk=pk)
         return redirect(product)
     else:
-        bestReview = product.best_review_fk
-        review_list = Review.objects.filter(product_fk=product)
+        best_review = product.best_review_fk
+        same_type_reviews = Review.objects.filter(product_fk=product, m_type=request.user.profile.survey_fk.mtype)
+        other_type_reviews = Review.objects.filter(product_fk=product).exclude(m_type=request.user.profile.survey_fk.mtype)
+        
+        review_list = same_type_reviews | other_type_reviews
+
+        type_based_review_summary = makeTypeBasedReviewSummary(review_list, request.user.profile.survey_fk.mtype)
+
+        print(type_based_review_summary)
+
         page = request.GET.get("page")
         paginator = get_paginator(review_list, page, 5, 3)
 
         form = GetReviewResponseForm()
         context = {
             "product": product,
-            "bestReview": bestReview,
+            "type_based_review_summary": type_based_review_summary,
+            "best_review": best_review,
             "review_list": review_list,
-            "form": form,
             "paginator": paginator,
+            "form": form,
         }
         return render(request, "product/product_detail.html", context=context)
 
 
 def normalSearch(request):
-
-    temp = ProductIngredient.objects.get(product_fk=1).product_fk.category
-    print(type(temp))
 
     first_page = True
     ReviewSummary_list = None

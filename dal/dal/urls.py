@@ -28,7 +28,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('ranking/', include('ranking.urls')),
     path('', RedirectView.as_view(url='/survey/', permanent=True)),
-
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 
     #all-auth
     # path('admin/', admin.site.urls),
