@@ -44,6 +44,8 @@ def delete_cart(request, product_id):
 
     return HttpResponse("delete success!")
 
+
+# 공용 paginator
 def get_paginator(obj, page, obj_per_page, page_range):
     """
     한 페이지에 보일 paginator 숫자 범위 제한하는 함수임.
@@ -108,12 +110,14 @@ def productDetail(request, pk):
         denominator = 0     
         
         for record in review_list:
-            temp_score += record.score * calculateWeight(userMtype, record.m_type)
-            temp_absorbency += record.absorbency * calculateWeight(userMtype, record.m_type)
-            temp_anti_odour += record.anti_odour * calculateWeight(userMtype, record.m_type)
-            temp_comfort += record.comfort * calculateWeight(userMtype, record.m_type)
-            temp_sensitivity += record.sensitivity * calculateWeight(userMtype, record.m_type)
-            denominator += calculateWeight(userMtype, record.m_type)
+            weight = calculateWeight(userMtype, record.m_type)
+            
+            temp_score += record.score * weight
+            temp_absorbency += record.absorbency * weight
+            temp_anti_odour += record.anti_odour * weight
+            temp_comfort += record.comfort * weight
+            temp_sensitivity += record.sensitivity * weight
+            denominator += weight
         
         type_based_review_summary['score'] = temp_score / denominator
         type_based_review_summary['absorbency'] = temp_absorbency / denominator
@@ -251,7 +255,7 @@ def compareSearch(request):
             compareCondition = request.GET.get("compareConditionList").split(",")
             if "price" in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(
-                    product_fk__price__lt=criterionReviewSummary.product_fk.price
+                    product_fk__price_per_piece__lt=criterionReviewSummary.product_fk.price_per_piece
                 )
             if "nature_friendly" in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(

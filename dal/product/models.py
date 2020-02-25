@@ -22,15 +22,16 @@ class Product(models.Model):
     best_review_fk = models.OneToOneField(
         "Review", on_delete=models.SET_NULL, null=True, blank=True
     )
-    price = models.PositiveIntegerField()
-    count = models.PositiveIntegerField()
     size = models.PositiveIntegerField()
     category = models.CharField(
         max_length=30
     )  # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
     one_line = models.CharField(max_length=100)
     info = RichTextUploadingField()
+    count = models.PositiveIntegerField()
     hashtag_fk = models.ManyToManyField("Hashtag")
+    price = models.PositiveIntegerField()
+    price_per_piece = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
@@ -41,8 +42,12 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('product:ProductDetail', args=[str(self.id)])
 
-    def price_per_piece(self):
+    def get_price_per_piece(self):
         return self.price // self.count
+
+    def save(self, *args, **kwargs):
+        self.price_per_piece = self.get_price_per_piece()
+        super(Product, self).save(*args, **kwargs)
 
 
 class ProductIngredient(models.Model):
