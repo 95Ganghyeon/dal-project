@@ -104,7 +104,8 @@ def productDetail(request, pk):
         temp_absorbency = 0
         temp_anti_odour = 0
         temp_sensitivity = 0
-        temp_comfort = 0        
+        temp_comfort = 0
+        denominator = 0     
         
         for record in review_list:
             temp_score += record.score * calculateWeight(userMtype, record.m_type)
@@ -112,12 +113,13 @@ def productDetail(request, pk):
             temp_anti_odour += record.anti_odour * calculateWeight(userMtype, record.m_type)
             temp_comfort += record.comfort * calculateWeight(userMtype, record.m_type)
             temp_sensitivity += record.sensitivity * calculateWeight(userMtype, record.m_type)
+            denominator += calculateWeight(userMtype, record.m_type)
         
-        type_based_review_summary['score'] = temp_score / review_list.count()
-        type_based_review_summary['absorbency'] = temp_absorbency / review_list.count()
-        type_based_review_summary['anti_odour'] = temp_anti_odour / review_list.count()
-        type_based_review_summary['comfort'] = temp_comfort / review_list.count()
-        type_based_review_summary['sensitivity'] = temp_sensitivity / review_list.count()
+        type_based_review_summary['score'] = temp_score / denominator
+        type_based_review_summary['absorbency'] = temp_absorbency / denominator
+        type_based_review_summary['anti_odour'] = temp_anti_odour / denominator
+        type_based_review_summary['comfort'] = temp_comfort / denominator
+        type_based_review_summary['sensitivity'] = temp_sensitivity / denominator
 
         return type_based_review_summary
 
@@ -131,15 +133,12 @@ def productDetail(request, pk):
         other_type_reviews = Review.objects.filter(product_fk=product).exclude(m_type=request.user.profile.survey_fk.mtype)
         
         review_list = same_type_reviews | other_type_reviews
-
         type_based_review_summary = makeTypeBasedReviewSummary(review_list, request.user.profile.survey_fk.mtype)
-
-        print(type_based_review_summary)
 
         page = request.GET.get("page")
         paginator = get_paginator(review_list, page, 5, 3)
-
         form = GetReviewResponseForm()
+
         context = {
             "product": product,
             "type_based_review_summary": type_based_review_summary,
