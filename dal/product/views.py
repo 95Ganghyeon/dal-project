@@ -94,12 +94,8 @@ def productDetail(request, pk):
         makeReview(request=request, pk=pk)
         return redirect(product)
     else:
-        query_string = ""
         bestReview = product.best_review_fk
         review_list = Review.objects.filter(product_fk=product)
-        # paginator = Paginator(review_list, 3)
-        # page_number = request.GET.get("page")
-        # page_obj = paginator.get_page(page_number)
         page = request.GET.get("page")
         paginator = get_paginator(review_list, page, 5, 3)
 
@@ -109,18 +105,15 @@ def productDetail(request, pk):
             "bestReview": bestReview,
             "review_list": review_list,
             "form": form,
-            "query_string": query_string,
             "paginator": paginator,
-            # "page_obj": page_obj,
         }
         return render(request, "product/product_detail.html", context=context)
 
 
 def normalSearch(request):
-    
+
     temp = ProductIngredient.objects.get(product_fk=1).product_fk.category
     print(type(temp))
-
 
     first_page = True
     ReviewSummary_list = None

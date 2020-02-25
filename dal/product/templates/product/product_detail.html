@@ -39,6 +39,8 @@
     {% comment %} 3개의 탭으로 구성되어서 '제품정보' '성분정보' '리뷰' 탭을 CSS 등으로 표현해줄 부분 {% endcomment %}
     <div class="product-detail row">
         <ul class="product-detail-list col-9">
+            <li>
+            </li>
             <li class="col-12">
                 <input id="tab1" type="radio" name="tabs">
                 <label class="col-md-3" for="tab1">제품정보</label>
@@ -68,24 +70,6 @@
                                 </div>
                                 <div class="user-score-box">
                                     <div class="user-score">{{bestReview.score_str}}</div>
-                                    <!-- <div class="review-score row">
-                                        <div class="col-xl-12">
-                                            <span class="col-4">흡수력</span>
-                                            <div>{{bestReview.absorbency}}</div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <span class="col-4">탈취성</span>
-                                            <div>{{bestReview.anti_odour}}</div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <span class="col-5">피부친화도</span>
-                                            <div>{{bestReview.sensitivity}}</div>
-                                        </div>
-                                        <div class="col-xl-12">
-                                            <span class="col-5">촉감/착용감</span>
-                                            <div>{{bestReview.comfort}}</div>
-                                        </div>
-                                    </div> 유저 평점 말풍선 창-->
                                 </div>
                             </div>
                             <div class="user-content">{{bestReview.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은
