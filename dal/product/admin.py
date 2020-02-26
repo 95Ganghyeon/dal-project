@@ -8,7 +8,7 @@ class HashtagAdmin(ImportExportModelAdmin):
 admin.site.register(Hashtag, HashtagAdmin)
 
 class ProductAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'name', 'image', 'best_review_fk', 'price', 'count')
+    list_display = ('id', 'name', 'image', 'best_review_fk', 'price', 'count','price_per_piece')
 admin.site.register(Product, ProductAdmin)
 
 class ProductIngredientAdmin(ImportExportModelAdmin):

@@ -37,8 +37,6 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=200)),
                 ('image', models.ImageField(blank=True, upload_to='')),
-                ('price', models.PositiveIntegerField()),
-                ('count', models.PositiveIntegerField()),
                 ('size', models.PositiveIntegerField()),
                 ('category', models.CharField(max_length=30)),
                 ('one_line', models.CharField(max_length=100)),

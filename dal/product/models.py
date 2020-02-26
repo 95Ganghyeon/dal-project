@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from user.models import Profile, User
+
 # from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -28,8 +29,6 @@ class Product(models.Model):
     best_review_fk = models.OneToOneField(
         "Review", on_delete=models.SET_NULL, null=True, blank=True
     )
-    price = models.PositiveIntegerField()
-    count = models.PositiveIntegerField()
     size = models.PositiveIntegerField()
     category = models.CharField(
         max_length=30
@@ -37,6 +36,8 @@ class Product(models.Model):
     one_line = models.CharField(max_length=100)
     brand_fk = models.ForeignKey("Brand", on_delete=models.CASCADE)
     hashtag_fk = models.ManyToManyField("Hashtag")
+    price = models.PositiveIntegerField()
+    price_per_piece = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
@@ -45,7 +46,14 @@ class Product(models.Model):
         return self.name.replace(" ", "")
 
     def get_absolute_url(self):
-        return reverse('product:ProductDetail', args=[str(self.id)])
+        return reverse("product:ProductDetail", args=[str(self.id)])
+
+    def get_price_per_piece(self):
+        return self.price // self.count
+
+    def save(self, *args, **kwargs):
+        self.price_per_piece = self.get_price_per_piece()
+        super(Product, self).save(*args, **kwargs)
 
 
 class ProductIngredient(models.Model):
@@ -60,7 +68,7 @@ class ProductIngredient(models.Model):
         (30, "30점"),
         (40, "40점"),
     )
-    
+
     product_fk = models.OneToOneField("Product", on_delete=models.CASCADE)
     cover_layer_string = models.TextField(null=True)
     cover_layer_score = models.PositiveSmallIntegerField(
@@ -79,16 +87,24 @@ class ProductIngredient(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(40)],
         choices=RANGE_ONE_TO_FIVE,
         default=None,
-    )    
-    
+    )
+
     nature_friendly_score = models.FloatField(editable=False)
 
     def get_nature_friendly_score(self):
         if "팬티라이너" in self.product_fk.category:
-            return (self.cover_layer_score/40)*45 + (self.absorbent_layer_score/40)*45 + (self.etc_score/40)*10
+            return (
+                (self.cover_layer_score / 40) * 45
+                + (self.absorbent_layer_score / 40) * 45
+                + (self.etc_score / 40) * 10
+            )
         else:
-            return (self.cover_layer_score/40)*30 + (self.absorbent_layer_score/40)*60 + (self.etc_score/40)*10
-    
+            return (
+                (self.cover_layer_score / 40) * 30
+                + (self.absorbent_layer_score / 40) * 60
+                + (self.etc_score / 40) * 10
+            )
+
     def save(self, *args, **kwargs):
         self.nature_friendly_score = self.get_nature_friendly_score()
         super(ProductIngredient, self).save(*args, **kwargs)
