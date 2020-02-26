@@ -11,49 +11,48 @@ ChaeBi | 로그인
 {% endblock %}
 
 {% block content %} 
-
-<div class="container login-container">
+<div class="container login-page">
   
-  <div id="account-header" class="text-left font-weight-bold">로그인하기</div>
+  <div class="" id="account-header">로그인하기</div>
   {% get_providers as socialaccount_providers %}
 
   <form method="POST" action="{% url 'account_login' %}">
+    <div class="" id="signuptext">
+      신규회원이신가요?&nbsp<a href="{% url 'account_signup' %}">회원가입하기</a>        
+    </div>
     {% csrf_token %}
-    <div class='form-group'>
-      <input type="email" class="form-control" name="login" placeholder="이메일 주소" autofocus="autofocus" required="" id="id_login">
-      <input type="password" class="form-control" name="password" placeholder="비밀번호" required="" id="id_password">
+    <div class="" id="form-group">
+      <input type="email" class="form-control" name="login" placeholder="이메일 주소를 입력해주세요" autofocus="autofocus" required="" id="id_login">
+      <input type="password" class="form-control" name="password" placeholder="비밀번호를 입력헤주세요" required="" id="id_password">
     </div>
     {% if redirect_field_value %}
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
     {% endif %}
-
-  <div class="row">
-    <div class="col-4 text-left signuptext">
-      <a href="{% url 'account_signup' %}">회원가입</a>
-    </div>
-    <div class="col-8 text-right">
+    
+    <div class="" id="forgot-id-pw">
       <a href="{% url 'account_reset_password' %}">아이디/비밀번호 찾기</a>
     </div>
-  </div>
 
-  <div class="row">
-    <input class="btn-login" type="submit" value="로그인"/>
-  </div>
-    
+    <div class="" id="btn-login">      
+      <label>
+        <input type="submit" value="로그인">
+        <span>로그인</span>
+      </label>
+    </div>      
   </form>
 
-  <p class="hr-sect">or</p>
-
+  <div class="" id="hr-sect">or</div>
+  
   {% if socialaccount_providers %}
 
-  <div class="container">
-  <div class='row'>
+  
+  <div class="" id="social-login-image">
     <a href="{% provider_login_url "naver" %}"><img src='{% static 'images/naver_login.png' %}'></a>
   </div>
-  <div class="row">
+  <div class="" id="social-login-image">
     <a href="{% provider_login_url "kakao" %}"><img src='{% static 'images/kakao_login.png' %}'/></a>
   </div>
-  </div>
+  
 
   {% include "socialaccount/snippets/login_extra.html" %}
 

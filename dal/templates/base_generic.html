@@ -3,220 +3,226 @@
 {% load sass_tags %}
 <html lang="ko">
 
-<head>
-  <title>{% block title %}{% endblock %}</title>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
 
-  {% load bootstrap4 %}
-  {% bootstrap_javascript jquery='slim'%}
-  {% bootstrap_css %}
-  <!-- load css/stylesheet -->
-  <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}" type="text/css" />
-  <script src="https://kit.fontawesome.com/6f1d36fa89.js" crossorigin="anonymous"></script>
-  <script src="{% static 'js/wow.min.js'%}"></script>
-  <script> new WOW().init(); </script>
-  <script type="text/javascript">
-    window.addEventListener('load', function(){
-      {% if request.session.cart %}
-      var cart = {{ request.session.cart| safe}};
-      cart.forEach(function (data) {
-      createCartList(data);
-      });
-      {% endif %}
-    });
-
-    // 비교함 카트 li 추가
-    function createCartList(data) {
-      var id = data.id;
-      var name = data.name;
-      var image_url = '{{ MEDIA_URL }}' + data.image;
-  
-      var ul = document.querySelector('#compare-cart ul');
-      var li = document.createElement("li");
-      li.setAttribute("data-product-id", id);
-      var a_close = document.createElement("a");
-      a_close.innerHTML = "&times;";
-      a_close.setAttribute("href", "javascript:void(0);");
-      a_close.addEventListener("click", deleteCart);
-      var img = document.createElement("img");
-      img.setAttribute("src", image_url);
-      var a_name = document.createElement("a");
-      a_name.innerText = name;
-  
-      li.appendChild(a_close);
-      li.appendChild(img);
-      li.appendChild(a_name);
-      ul.appendChild(li);
-    }
-    
-    // 비교함 카트 담는 ajax
-    function insertCart(product_id) {
-      var xhr = new XMLHttpRequest();
-      var url = "/product/cart/insert/" + product_id;
-      xhr.open('GET', url);
-      xhr.onload = function () {
-        if (xhr.status === 200) { // 정상
-          var response = xhr.responseText;
-          if( response == 'overlap'){
-            alert("이미 비교함에 담긴 상품입니다");
-          }else{
-            var data = JSON.parse( response );
-            createCartList(data);
-          }
-        } else { // 에러 발생
-          alert('비교함 담기에 실패했습니다');
-        }
-      };
-      xhr.send();
-    }
-
-    function deleteCart() {
-      var self = this;
-      var product_id = self.parentElement.getAttribute("data-product-id");
-      var xhr = new XMLHttpRequest();
-      var url = "/product/cart/delete/" + product_id;
-      xhr.open('GET', url);
-      xhr.onload = function () {
-        if (xhr.status === 200) { // 정상
-          self.parentElement.remove();
-        } else { // 에러 발생
-          alert('비교함 삭제에 실패했습니다');
-        }
-      };
-      xhr.send();
-    }
-
-      // 비교함 카트에서 삭제하는 ajax
-
-      // 비교하기 버튼 클릭 이벤트 리스너
-  </script>
-</head>
-<body>
-
-{% block navbar %}
-<header>
-  <div class="container">
-    <nav class="navbar navbar-expand-md navbar-light bg-faded" style="margin: 0 auto;">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <div class="collapse navbar-collapse" id="nav-left">
-        <ul class="nav navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'MtypeRanking' %}">M-type 랭킹</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'KeywordRanking' %}">키워드 랭킹</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'product:NormalSearch' %}">제품검색</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'product:CompareSearch' %}">비교검색</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">월경이야기</a>
-            </li>
-        </ul>
-      </div>
-      
-      <a class="navbar-brand mx-auto" href="{% url 'IndexPage' %}"><div id="logo">DAL LOGO</div></a>
-  
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav ml-auto">
-        {% if user.is_authenticated %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              {{ user.username }}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="profile.html">마이페이지</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
-            </div>
-          </li>
-        {% else%}
-          <li class="nav-item">
-            <!-- Button to Open the Modal -->
-            <button class="like-link" type="button" data-toggle="modal" data-target="#loginModal">
-              로그인
-            </button>
-          </li>
+    {% load bootstrap4 %}
+    {% bootstrap_javascript jquery='slim'%}
+    {% bootstrap_css %}
+    <!-- load css/stylesheet -->
+    <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}" type="text/css" />
+    <script src="https://kit.fontawesome.com/6f1d36fa89.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/wow.min.js'%}"></script>
+    <script> new WOW().init(); </script>
+    <script type="text/javascript">
+      window.addEventListener('load', function(){
+        {% if request.session.cart %}
+        var cart = {{ request.session.cart| safe}};
+        cart.forEach(function (data) {
+        createCartList(data);
+        });
         {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="#">돋보기 픽토그램</a>
-          </li>
-        </ul>
-      </div>  
-    </nav>
-  </div>
-</header>
-{% endblock navbar %}
+      });
 
-{% block compare_cart %}
-<div id="compare-cart">
-  <span>비교하기</span>
-  <ul>
-  </ul>
-</div>
-{% endblock %}
-
-{% block login_modal%}
-<!-- The Modal -->
-<div class="modal fade" id="loginModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <input type="button" class="close" data-dismiss="modal" value="&times"></button>
-      {% include 'account/login.html'%}
-    </div>
-  </div>
-</div>
-
-{% endblock %}
-
-
-{% block content %}
-
-{% endblock %}
-
-
-{% block footer %}
-<footer>
-  <div class="container">
-    <div class="description-box row">
-      <div class="internal-link col-2">
-        <a href=""><span>개인정보 처리방침</span></a>
-      </div>
-      <div class="internal-link col-2">
-        <a href=""><span>자주 묻는 질문</span></a>
-      </div>
-      <div class="external-link col-1 offset-6">
-        <a href=""><img src="{% static 'images/footer-instagram.png'%}" alt="footer-instagram"></a>
-      </div>
-      <div class="external-link col-1">
-        <a href=""><img src="{% static 'images/footer-kakaotalk.png'%}" alt="footer-kakaotalk"></a>
-      </div>
-    </div>
+      // 비교함 카트 li 추가
+      function createCartList(data) {
+        var id = data.id;
+        var name = data.name;
+        var image_url = '{{ MEDIA_URL }}' + data.image;
     
-    <div class="description-box row">
-      <div class="description col-6">
-        <span>
-          (주)D.A.L. | 대표 대표명 | 이메일 주소 contact@dal.com<br/>
-          서비스 및 기업 문의 000-0000-0000 | 전자우편주소 000 0000 0000
-        </span>
-      </div>
-      <div class="col-2 offset-4">
-        여기에 로고
-      </div>
-    </div>
-  </div>
-</footer>
-{% endblock footer %}
+        var ul = document.querySelector('#compare-cart ul');
+        var li = document.createElement("li");
+        li.setAttribute("data-product-id", id);
+        var a_close = document.createElement("a");
+        a_close.innerHTML = "&times;";
+        a_close.setAttribute("href", "javascript:void(0);");
+        a_close.addEventListener("click", deleteCart);
+        var img = document.createElement("img");
+        img.setAttribute("src", image_url);
+        var a_name = document.createElement("a");
+        a_name.innerText = name;
+    
+        li.appendChild(a_close);
+        li.appendChild(img);
+        li.appendChild(a_name);
+        ul.appendChild(li);
+      }
+      
+      // 비교함 카트 담는 ajax
+      function insertCart(product_id) {
+        var xhr = new XMLHttpRequest();
+        var url = "/product/cart/insert/" + product_id;
+        xhr.open('GET', url);
+        xhr.onload = function () {
+          if (xhr.status === 200) { // 정상
+            var response = xhr.responseText;
+            if( response == 'overlap'){
+              alert("이미 비교함에 담긴 상품입니다");
+            }else{
+              var data = JSON.parse( response );
+              createCartList(data);
+            }
+          } else { // 에러 발생
+            alert('비교함 담기에 실패했습니다');
+          }
+        };
+        xhr.send();
+      }
 
-</body>
+      function deleteCart() {
+        var self = this;
+        var product_id = self.parentElement.getAttribute("data-product-id");
+        var xhr = new XMLHttpRequest();
+        var url = "/product/cart/delete/" + product_id;
+        xhr.open('GET', url);
+        xhr.onload = function () {
+          if (xhr.status === 200) { // 정상
+            self.parentElement.remove();
+          } else { // 에러 발생
+            alert('비교함 삭제에 실패했습니다');
+          }
+        };
+        xhr.send();
+      }
+
+        // 비교함 카트에서 삭제하는 ajax
+
+        // 비교하기 버튼 클릭 이벤트 리스너
+    </script>
+  </head>
+  <body>
+
+    {% block navbar %}
+    <header>
+      <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light bg-faded" style="margin: 0 auto;">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="collapse navbar-collapse" id="nav-left">
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'MtypeRanking' %}">M-type 랭킹</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'KeywordRanking' %}">키워드 랭킹</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'product:NormalSearch' %}">제품검색</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'product:CompareSearch' %}">비교검색</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">월경이야기</a>
+                </li>
+            </ul>
+          </div>
+          
+          <a class="navbar-brand mx-auto" href="{% url 'IndexPage' %}"><div id="logo">DAL LOGO</div></a>
+      
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{ user.username }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="profile.html">마이페이지</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
+                </div>
+              </li>
+            {% else%}
+              <li class="nav-item">
+                <!-- Button to Open the Modal -->
+                <button class="like-link" type="button" data-toggle="modal" data-target="#loginModal">
+                  로그인
+                </button>
+              </li>
+            {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'product:NormalSearch'%}"><i class="fas fa-search"></i></a>
+              </li>
+            </ul>
+          </div>  
+        </nav>
+      </div>
+    </header>
+    {% endblock navbar %}
+
+    {% block compare_cart %}
+    <div id="compare-cart">
+      <span>비교하기</span>
+      <ul>
+      </ul>
+    </div>
+    {% endblock %}
+
+    {% block login_modal%}
+    <!-- The Modal -->    
+    <div class="modal left fade" id="loginModal" tabindex="" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">        
+          <div class="modal-header d-flex align-items-end flex-column">
+            <label for="close-button">
+              <input type="button" id="close-button" data-dismiss="modal" value="&times">
+              <i class="fas fa-3x fa-times"></i>
+            </label>
+          </div>
+          <div class="modal-body">
+            {% include 'account/login.html'%}            
+          </div>
+        </div>
+      </div>
+    </div>  
+    {% endblock %}
+
+
+    {% block content %}
+
+    {% endblock %}
+
+
+    {% block footer %}
+    <footer>
+      <div class="container">
+        <div class="description-box row">
+          <div class="internal-link col-2">
+            <a href=""><span>개인정보 처리방침</span></a>
+          </div>
+          <div class="internal-link col-2">
+            <a href=""><span>자주 묻는 질문</span></a>
+          </div>
+          <div class="external-link col-1 offset-6">
+            <a href=""><img src="{% static 'images/footer-instagram.png'%}" alt="footer-instagram"></a>
+          </div>
+          <div class="external-link col-1">
+            <a href=""><img src="{% static 'images/footer-kakaotalk.png'%}" alt="footer-kakaotalk"></a>
+          </div>
+        </div>
+        
+        <div class="description-box row">
+          <div class="description col-6">
+            <span>
+              (주)D.A.L. | 대표 대표명 | 이메일 주소 contact@dal.com<br/>
+              서비스 및 기업 문의 000-0000-0000 | 전자우편주소 000 0000 0000
+            </span>
+          </div>
+          <div class="col-2 offset-4">
+            여기에 로고
+          </div>
+        </div>
+      </div>
+    </footer>
+    {% endblock footer %}
+
+  </body>
 
 </html>
