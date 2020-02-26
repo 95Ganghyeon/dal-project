@@ -35,6 +35,7 @@ class Product(models.Model):
     )  # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
     one_line = models.CharField(max_length=100)
     brand_fk = models.ForeignKey("Brand", on_delete=models.CASCADE)
+    count = models.PositiveIntegerField()
     hashtag_fk = models.ManyToManyField("Hashtag")
     price = models.PositiveIntegerField()
     price_per_piece = models.PositiveIntegerField()
