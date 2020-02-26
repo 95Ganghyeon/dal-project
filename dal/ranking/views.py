@@ -54,9 +54,9 @@ def calculateWeight(userMtype, reviewMtype):
         return 1
     elif cnt == 3: 
         return 0.75
-    elif cnt == 2: 
+    elif cnt ==2: 
         return 0.5
-    else: 
+    else:
         return 0
 
 def updateView(request):

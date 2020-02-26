@@ -1,54 +1,6 @@
 
-.navbar {
-  width: 100%;
-  max-width: 1280px;
-  height: 5%;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-}
-
-#compare-cart {
-  text-align: center;
-  position: fixed;
-  right: 0;
-  top: 20%;
-  z-index: 100;
-
-  background-color: pink;
-  width: 150px;
-  padding: 10px;
-
-  ul {
-    li {
-      background-color: slategray;
-      border: 2px solid black;
-      border-radius: 5px;
-      padding: 2px;
-
-      display: flex;
-      flex-direction: column;
-      position: relative;
-
-      &:not(:last-child) {
-        margin-bottom: 5px;
-      }
-
-      a:first-child {
-        background-color: red;
-        font-size: 1.5rem;
-
-        position: absolute;
-        right: 0px;
-        top: 0px;
-      }
-
-      img {
-        background-color: green;
-        width: 100%;
-        height: fit-content;
-      }
-    }
-  }
-}
+// 이 scss는 사용하지 않는 scss입니다.
+// base.html 이 필요하지 않다고 판단되면 그때 같이 지우면 됩니다. 
 
 .base-page{
 

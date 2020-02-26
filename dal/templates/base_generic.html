@@ -97,53 +97,64 @@
 <body>
 
 {% block navbar %}
-<nav class="navbar navbar-expand-md navbar-light bg-faded" style="margin: 0 auto;">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="nav-left">
-    <ul class="nav navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="#">M-type (랭킹)</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">비교하기</a>
-        </li>
-    </ul>
-  </div>
+<header>
+  <div class="container">
+    <nav class="navbar navbar-expand-md navbar-light bg-faded" style="margin: 0 auto;">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
   
-  <a class="navbar-brand mx-auto" href=""><div id="logo">DAL LOGO</div></a>
-
-  <div class="collapse navbar-collapse">
-    <ul class="nav navbar-nav ml-auto">
-    {% if user.is_authenticated %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          {{ user.username }}
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="profile.html">마이페이지</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
-        </div>
-      </li>
-    {% else%}
-      <li class="nav-item">
-        <!-- Button to Open the Modal -->
-        <button class="like-link" type="button" data-toggle="modal" data-target="#loginModal">
-          로그인
-        </button>
-      </li>
-    {% endif %}
-      <li class="nav-item">
-        <a class="nav-link" href="#">돋보기 픽토그램</a>
-      </li>
-    </ul>
-  </div>
+      <div class="collapse navbar-collapse" id="nav-left">
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'MtypeRanking' %}">M-type 랭킹</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'KeywordRanking' %}">키워드 랭킹</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'product:NormalSearch' %}">제품검색</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'product:CompareSearch' %}">비교검색</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">월경이야기</a>
+            </li>
+        </ul>
+      </div>
+      
+      <a class="navbar-brand mx-auto" href="{% url 'IndexPage' %}"><div id="logo">DAL LOGO</div></a>
   
-</nav>
-
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav ml-auto">
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              {{ user.username }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="profile.html">마이페이지</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
+            </div>
+          </li>
+        {% else%}
+          <li class="nav-item">
+            <!-- Button to Open the Modal -->
+            <button class="like-link" type="button" data-toggle="modal" data-target="#loginModal">
+              로그인
+            </button>
+          </li>
+        {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="#">돋보기 픽토그램</a>
+          </li>
+        </ul>
+      </div>  
+    </nav>
+  </div>
+</header>
 {% endblock navbar %}
 
 {% block compare_cart %}
@@ -174,7 +185,36 @@
 
 
 {% block footer %}
-
+<footer>
+  <div class="container">
+    <div class="description-box row">
+      <div class="internal-link col-2">
+        <a href=""><span>개인정보 처리방침</span></a>
+      </div>
+      <div class="internal-link col-2">
+        <a href=""><span>자주 묻는 질문</span></a>
+      </div>
+      <div class="external-link col-1 offset-6">
+        <a href=""><img src="{% static 'images/footer-instagram.png'%}" alt="footer-instagram"></a>
+      </div>
+      <div class="external-link col-1">
+        <a href=""><img src="{% static 'images/footer-kakaotalk.png'%}" alt="footer-kakaotalk"></a>
+      </div>
+    </div>
+    
+    <div class="description-box row">
+      <div class="description col-6">
+        <span>
+          (주)D.A.L. | 대표 대표명 | 이메일 주소 contact@dal.com<br/>
+          서비스 및 기업 문의 000-0000-0000 | 전자우편주소 000 0000 0000
+        </span>
+      </div>
+      <div class="col-2 offset-4">
+        여기에 로고
+      </div>
+    </div>
+  </div>
+</footer>
 {% endblock footer %}
 
 </body>
