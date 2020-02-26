@@ -5,31 +5,38 @@
 
 <div class="product-detail-page container-fluid">
     <div class="product-info row">
-        <div class="search-path col-8"> 
+        <div class="search-path col-8">
             <span>상품검색 > {{product.name}}</span>
         </div>
-        <div class="main-content col-xl-9">
-            <div class="col-lg-6"> 
+        <div class="main-content col-xl-9 container">
+            <div class="col-lg-5">
                 <div>
                     <img src="{{product.image.url}}" alt="" />
                 </div>
             </div>
-            <div class="right-container col-lg-6">     
-                <div class="product-introduction">
-                    <div class="font-weight-bold">{{product.name}}</div>
-                    <div class="product-price">- 정가 {{product.price}} / {{product.count}}개입</div>
-                    <div>{{ user.type }} 타입에게, 추천지수 {{ 추천지수 }}</div>
+            <div class="right-container col-xl-5 col-lg-5 col-md-10 col-xs-12">
+                <div class="product-introduction container">
                     <div>
-                        <span>
-                            딱 한줄로 설명하자면, {{ product.content }}<br/>
-                            {% for hashtag in product.hashtag_fk.all %}
-                                #{{ hashtag }} 
-                            {% endfor %}
-                        </span>
+                        <span class="font-weight-bold">{{product.name}}</span>
+                        <span>정가 {{product.price}} / {{product.count}}개입</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <span>IHSP 타입에게{{user.type}}</span>
+                            <span>딱 한 줄로 설명하자면,</span>
+                        </div>
+                        <div class="col-7">
+                            <span class="font-weight-bold">추천지수 4.5</span>
+                            <span>{{product.content}}양 많은 날 딱인, 흡수력이 좋은 생리대</span>
+                            <span>
+                                {% for hashtag in product.hashtag_fk.all %}
+                                    #{{ hashtag }}
+                                {% endfor %}
+                            </span>
+                        </div>
                     </div>
                 </div>
-
-                <div class="product-button">
+                <div class="product-button w-10">
                     <div>
                         <button class="button1" type="button">비교함 담기</button>
                         <button class="button2" type="button">내 생리대 등록</button>
@@ -44,9 +51,9 @@
 
     </div>
 
-    <div class="product-detail">
-        <ul class="product-detail-list col-9 container-fluid">
-            <li class="col-12"> 
+    <div class="product-detail row">
+        <ul class="product-detail-list col-xl-9 col-lg-11 col-md-11">
+            <li class="col-11">
                 <input id="tab1" type="radio" name="tabs">
                 <label class="col-md-3" for="tab1">제품정보</label>
                 <input id="tab2" type="radio" name="tabs">
@@ -69,27 +76,39 @@
                         <div>
                             {% comment %} <div class="row progress">
                                 <div class="col-3">흡수력</div>
-                                <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.absorbency|mul:20 }}%" aria-valuenow="{{type_based_review_summary.absorbency}}" aria-valuemin="0" aria-valuemax="5"></div>
+                                <div class="col-8 progress-bar" role="progressbar"
+                                    style="width: {{ type_based_review_summary.absorbency|mul:20 }}%"
+                                    aria-valuenow="{{type_based_review_summary.absorbency}}" aria-valuemin="0"
+                                    aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.absorbency}}/5</div>
                             </div>
                             <div class="row progress">
                                 <div class="col-3">탈취성</div>
-                                <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.anti_odour|mul:20 }}%" aria-valuenow="{{type_based_review_summary.anti_odour}}" aria-valuemin="0" aria-valuemax="5"></div>
+                                <div class="col-8 progress-bar" role="progressbar"
+                                    style="width: {{ type_based_review_summary.anti_odour|mul:20 }}%"
+                                    aria-valuenow="{{type_based_review_summary.anti_odour}}" aria-valuemin="0"
+                                    aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.anti_odour}}/5</div>
                             </div>
                             <div class="row progress">
                                 <div class="col-3">촉감/착용감</div>
-                                <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.comfort|mul:20 }}%" aria-valuenow="{{type_based_review_summary.comfort}}" aria-valuemin="0" aria-valuemax="5"></div>
+                                <div class="col-8 progress-bar" role="progressbar"
+                                    style="width: {{ type_based_review_summary.comfort|mul:20 }}%"
+                                    aria-valuenow="{{type_based_review_summary.comfort}}" aria-valuemin="0"
+                                    aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.comfort}}/5</div>
                             </div>
                             <div class="row progress">
                                 <div class="col-3">피부 친화도</div>
-                                <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.sensitivity|mul:20 }}%" aria-valuenow="{{type_based_review_summary.sensitivity}}" aria-valuemin="0" aria-valuemax="5"></div>
+                                <div class="col-8 progress-bar" role="progressbar"
+                                    style="width: {{ type_based_review_summary.sensitivity|mul:20 }}%"
+                                    aria-valuenow="{{type_based_review_summary.sensitivity}}" aria-valuemin="0"
+                                    aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.sensitivity}}/5</div>
                             </div> {% endcomment %}
                         </div>
                     </div>
-                    
+
                     <!-- <div class="bestreview">
                         <div class="bestreview-title">
                             BEST REVIEW
@@ -138,92 +157,94 @@
                             </div>
                         </div>
                         {% endfor %}
-                        
+
                         <!-- pagination -->
                         <div>
                             <ul class="my-pagination">
                                 <!-- 이전 페이지로 이동 -->
                                 {% if paginator.has_prev %}
-                                    <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
+                                <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a>
+                                </li>
                                 {% else %}
-                                    <!-- <li class="nav disabled">&laquo;</li> -->
+                                <!-- <li class="nav disabled">&laquo;</li> -->
                                 {% endif %}
                                 <!-- [1] [2] [3] -->
-                                {% for i in paginator.page_range %}     
-                                    {% if paginator.page_obj.number == i %}
-                                        <li class="disabled">&#91; {{ i }} &#93;</li>
-                                    {% else %}
-                                        <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
-                                    {% endif %}
+                                {% for i in paginator.page_range %}
+                                {% if paginator.page_obj.number == i %}
+                                <li class="disabled">&#91; {{ i }} &#93;</li>
+                                {% else %}
+                                <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
+                                {% endif %}
                                 {% endfor %}
                                 <!-- 다음 페이지로 이동 -->
                                 {% if paginator.has_next %}
-                                    <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
+                                <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a>
+                                </li>
                                 {% else %}
-                                    <!-- <li class="nav disabled">&raquo;</li> -->
+                                <!-- <li class="nav disabled">&raquo;</li> -->
                                 {% endif %}
                             </ul>
                         </div>
-                        
+
                         {% comment %} <div>
                             {% if page_obj.has_previous %}
-                                <a href="?page=1">맨 앞으로</a>
-                                <a href="?page={{page_obj.previous_page_number}}">이전으로</a>
+                            <a href="?page=1">맨 앞으로</a>
+                            <a href="?page={{page_obj.previous_page_number}}">이전으로</a>
                             {% endif %}
                             <!-- [1] [2] [3] -->
-                            {% for i in paginator.page_range %}     
-                                {% if paginator.page_obj.number == i %}
-                                    <li class="disabled">&#91; {{ i }} &#93;</li>
-                                {% else %}
-                                    <li><a href="?page={{ i }}">&#91; {{ i }} &#93;</a></li>
-                                {% endif %}
-                            {% endfor %}
-                            <!-- 다음 페이지로 이동 -->
-                            {% if paginator.has_next %}
-                                <li class="nav"><a href="?page={{ paginator.next_page }}">&raquo;</a></li>
-                            {% else %}
-                                <!-- <li class="nav disabled">&raquo;</li> -->
-                            {% endif %}
-                        </div> {% endcomment %}
+                            {% for i in paginator.page_range %}
+                            {% if paginator.page_obj.number == i %}
+            <li class="disabled">&#91; {{ i }} &#93;</li>
+            {% else %}
+            <li><a href="?page={{ i }}">&#91; {{ i }} &#93;</a></li>
+            {% endif %}
+            {% endfor %}
+            <!-- 다음 페이지로 이동 -->
+            {% if paginator.has_next %}
+            <li class="nav"><a href="?page={{ paginator.next_page }}">&raquo;</a></li>
+            {% else %}
+            <!-- <li class="nav disabled">&raquo;</li> -->
+            {% endif %}
+    </div> {% endcomment %}
 
-                    </div>
-                </section>
-            </li>
-        </ul>
-    </div>
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">REVIEW</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-div="close">
-                        <span aria-hidden="true">X</span>
-                    </button>
+</div>
+</section>
+</li>
+</ul>
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">REVIEW</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-div="close">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="modal-body d-flex justify-content-center ">
+                <div>
+                    <form action="" , method="POST">
+                        {% csrf_token %}
+                        {{product.name}} 을(를) 사용해보니, 내 타입 사람들에게 추천지수는 {{form.score}} 점이다.</br></br></br>
+                        구체적으로는 흡수력이 {{form.absorbency}},</br></br></br>
+                        월경혈 냄새를 {{form.anti_odour}}.</br></br></br>
+                        그리고 사용할 때 촉감/착용감이 {{form.sensitivity}},</br></br></br>
+                        마지막으로, 장시간 사용했을 때 내 Y존 피부에 {{form.comfort}}.</br></br></br></br>
+                        <div>{{form.content}}</div>
+                        <div class="d-flex justify-content-center">
+                            <input type="submit" value="의견보내기">
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-body d-flex justify-content-center ">
-                    <div>
-                        <form action="" , method="POST">
-                            {% csrf_token %}
-                            {{product.name}} 을(를) 사용해보니, 내 타입 사람들에게 추천지수는 {{form.score}} 점이다.</br></br></br>
-                            구체적으로는 흡수력이 {{form.absorbency}},</br></br></br>
-                            월경혈 냄새를 {{form.anti_odour}}.</br></br></br>
-                            그리고 사용할 때 촉감/착용감이 {{form.sensitivity}},</br></br></br>
-                            마지막으로, 장시간 사용했을 때 내 Y존 피부에 {{form.comfort}}.</br></br></br></br>
-                            <div>{{form.content}}</div>
-                            <div class="d-flex justify-content-center">
-                                <input type="submit" value="의견보내기">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                </div>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>
 </div>
+</div>
 <script type="text/javascript">
-    document.getElementsByClassName("button1")[0].addEventListener("click", function(){
+    document.getElementsByClassName("button1")[0].addEventListener("click", function () {
         insertCart({{ product.id }});
     });
 </script>
