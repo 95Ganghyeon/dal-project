@@ -5,7 +5,7 @@
 
 <div class="mtype-ranking-page container">
     <!-- 상단 탭 -->
-    <div class="ranking-pannel row">
+    {% comment %} <div class="ranking-pannel row">
         <div class="mtype-ranking col-sm-6 selected">
             <h2>Mtype 랭킹</h2>
             <span>내 타입과 같은 사람들이 평가한 랭킹을 보여드려요</span>
@@ -14,7 +14,7 @@
             <h2>keyword 랭킹</h2>
             <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     <div class="d-flex ranking-top">
         <div class="p-2 ranking-header">
@@ -37,8 +37,8 @@
                     <div class="p-2">{{ forloop.counter }}위</div>
                     <div class="p-2"><img src="{{product.image.url}}" alt=""/></div>
                     <div class="p-2 product-info">
-                        {{ product.name }}<br/>
-                        {{ product.price }}원 / {{ product.count }}개<br/>
+                        <h3>{{ product.name }}</h3>
+                        {{ product.price }}원 / {{ product.count }}개
                         <h5>자연유래도 {{ nature_friendly }}%</h5>
                     </div>
                     <div class="ml-auto p-2 score">{{ product.reviewsummary.total_score }}</div>

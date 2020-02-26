@@ -18,3 +18,7 @@ admin.site.register(ProductIngredient, ProductIngredientAdmin)
 class ReviewAdmin(ImportExportModelAdmin):
     list_display = ('id','image','user_fk','m_type','product_fk','content','score','absorbency','anti_odour','sensitivity', 'comfort')
 admin.site.register(Review, ReviewAdmin)
+
+class BrandAdmin(ImportExportModelAdmin):
+    pass
+admin.site.register(Brand, BrandAdmin)

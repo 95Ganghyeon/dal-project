@@ -53,17 +53,17 @@
 
     .ranking-result {
         .d-flex {
-            
+    
             img {
                 width: 150px;
                 height: 150px;
             }
             
             .product-info {
-                // float: left;
-            }
-            .score {
-                // float: right;
+                h3 {
+                    font-size: 22px;
+                    font-weight: bold;
+                }
             }
         }
     }

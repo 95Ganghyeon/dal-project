@@ -15,6 +15,12 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
+class Brand(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    content = RichTextUploadingField()  
+
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -29,7 +35,7 @@ class Product(models.Model):
         max_length=30
     )  # 같은 회사의 생리대라고 하더라도 [팬티라인, 소, 중, 대, ...]의 카테고리가 있음
     one_line = models.CharField(max_length=100)
-    info = RichTextUploadingField()
+    brand_fk = models.ForeignKey("Brand", on_delete=models.CASCADE)
     hashtag_fk = models.ManyToManyField("Hashtag")
 
     def __str__(self):
@@ -156,4 +162,3 @@ class Hashtag(models.Model):
 
     def __str__(self):
         return self.name
-
