@@ -3,51 +3,50 @@
 
 {% block content %}
 
-<div class="product-detail-page container">
-    <div class="search-path"> 
-        <span>상품검색 > {{product.name}}</span>
-    </div>
-    <div class="main-content row">
-        <div class="left-container col-lg-4">
-            <img src="{{product.image.url}}" alt="" />
+<div class="product-detail-page container-fluid">
+    <div class="product-info row">
+        <div class="search-path col-8"> 
+            <span>상품검색 > {{product.name}}</span>
         </div>
-        <div class="right-container col-lg-5">
-            <div class="product-introduction">
+        <div class="main-content col-xl-9">
+            <div class="col-lg-6"> 
                 <div>
+                    <img src="{{product.image.url}}" alt="" />
+                </div>
+            </div>
+            <div class="right-container col-lg-6">     
+                <div class="product-introduction">
                     <div class="font-weight-bold">{{product.name}}</div>
                     <div class="product-price">- 정가 {{product.price}} / {{product.count}}개입</div>
+                    <div>{{ user.type }} 타입에게, 추천지수 {{ 추천지수 }}</div>
+                    <div>
+                        <span>
+                            딱 한줄로 설명하자면, {{ product.content }}<br/>
+                            {% for hashtag in product.hashtag_fk.all %}
+                                #{{ hashtag }} 
+                            {% endfor %}
+                        </span>
+                    </div>
                 </div>
-                <div>
-                    {{ user.type }} 타입에게, 추천지수 {{ 추천지수 }}
-                </div>
-                <div>
-                    <span>
-                        딱 한줄로 설명하자면, {{ product.content }}<br/>
-                        {% for hashtag in product.hashtag_fk.all %}
-                            #{{ hashtag }} 
-                        {% endfor %}
-                    </span>
-                </div>
-            </div>
 
-            <div class="product-button">
-                <div>
-                    <button class="button1" type="button">비교함 담기</button>
-                    <button class="button2" type="button">내 생리대 등록</button>
+                <div class="product-button">
+                    <div>
+                        <button class="button1" type="button">비교함 담기</button>
+                        <button class="button2" type="button">내 생리대 등록</button>
+                    </div>
+                    <div>
+                        <button class="button3" type="button" data-toggle="modal" data-target="#myModal">리뷰 남기기</button>
+                    </div>
+                    {% comment %} 여기의 '리뷰 남기러가기' 버튼을 클릭할 때, 로그인이 안되어있으면 아예 안넘어가도록 설정해놓아야 함 {% endcomment %}
                 </div>
-                <div>
-                    <button class="button3" type="button" data-toggle="modal" data-target="#myModal">리뷰 남기기</button>
-                </div>
-                {% comment %} 여기의 '리뷰 남기러가기' 버튼을 클릭할 때, 로그인이 안되어있으면 아예 안넘어가도록 설정해놓아야 함 {% endcomment %}
             </div>
         </div>
+
     </div>
 
-    <div class="product-detail row">
-        <ul class="product-detail-list col-9">
-            <li>
-            </li>
-            <li class="col-12">
+    <div class="product-detail">
+        <ul class="product-detail-list col-9 container-fluid">
+            <li class="col-12"> 
                 <input id="tab1" type="radio" name="tabs">
                 <label class="col-md-3" for="tab1">제품정보</label>
                 <input id="tab2" type="radio" name="tabs">
@@ -55,20 +54,20 @@
                 <input id="tab3" type="radio" name="tabs" checked>
                 <label class="col-md-3" for="tab3">리뷰({{review_list|length}})</label>
 
-                <section class="col-xl-12" id="content1">
+                <section class="col-xs-12" id="content1">
                     여기는 '제품정보' 탭 // 지마켓처럼 제품 소개 이미지 통짜로 박을 것임
                 </section>
-                <section class="col-xl-12" id="content2">
+                <section class="col-xs-12" id="content2">
                     여기는 '성분정보' 탭 // 생리대 구조 그래프와 성분 기재 + 자연 유래도 퍼센트와 그래프 포함
                 </section>
-                <section class="col-xl-12" id="content3">
+                <section class="col-xs-12" id="content3">
                     <div class="type-based-summary-box">
                         <div>
                             <div>{{user.type}} 타입 {{user.name}}에게, 이 제품의 예상 만족도는?</div>
                             <div>{{type_based_review_summary.score}}/5</div>
                         </div>
                         <div>
-                            <div class="row progress">
+                            {% comment %} <div class="row progress">
                                 <div class="col-3">흡수력</div>
                                 <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.absorbency|mul:20 }}%" aria-valuenow="{{type_based_review_summary.absorbency}}" aria-valuemin="0" aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.absorbency}}/5</div>
@@ -87,7 +86,7 @@
                                 <div class="col-3">피부 친화도</div>
                                 <div class="col-8 progress-bar" role="progressbar" style="width: {{ type_based_review_summary.sensitivity|mul:20 }}%" aria-valuenow="{{type_based_review_summary.sensitivity}}" aria-valuemin="0" aria-valuemax="5"></div>
                                 <div class="col-1">{{type_based_review_summary.sensitivity}}/5</div>
-                            </div>
+                            </div> {% endcomment %}
                         </div>
                     </div>
                     
@@ -197,7 +196,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel">REVIEW</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                    <button type="button" class="close" data-dismiss="modal" aria-div="close">
                         <span aria-hidden="true">X</span>
                     </button>
                 </div>
