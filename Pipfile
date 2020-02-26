@@ -17,6 +17,7 @@ django-sass-processor = "*"
 django-bootstrap4 = "*"
 django-import-export = "*"
 django-debug-toolbar = "*"
+django-ckeditor = "*"
 
 [requires]
 python_version = "3.6"
