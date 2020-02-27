@@ -6,13 +6,14 @@ from product.models import Product
 from datetime import datetime
 
 class Profile(models.Model):
+    id = models.AutoField(primary_key=True)
     user_fk = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ghost_user = models.BooleanField(default=False)
     nickname = models.CharField(max_length=20, unique=True,)
     birth_date = models.DateField()
     survey_fk = models.OneToOneField(Survey,on_delete=models.CASCADE,null = True, blank=True)
-    myProduct_fk = models.ManyToManyField(Product,on_delete=models.CASCADE,null = True, blank=True)
-    zzimProduct_fk = models.ManyToManyField(Product,on_delete=models.CASCADE,null = True, blank=True)
+    myProduct_fk = models.ManyToManyField(Product, related_name="myProduct")
+    zzimProduct_fk = models.ManyToManyField(Product, related_name="zzimProduct")
 
 
     # 유저 나이 계산함수 (리뷰에 삽입됩니다.)

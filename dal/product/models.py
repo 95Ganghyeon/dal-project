@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from user.models import Profile, User
+from user.models import User
 
 # from django.contrib.auth.models import User
 from django.utils import timezone
