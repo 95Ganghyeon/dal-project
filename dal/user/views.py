@@ -10,7 +10,7 @@ def profile(request):
   
   try:
     profile = request.user.profile
-    m_type = profile.m_type
+    m_type = profile.survey_fk.mtype
   except:
     m_type = "검사하러 가기"
   
@@ -24,6 +24,7 @@ def profile(request):
   context = {'m_type':m_type, 'n_result':n_result, 'products':products}
   return render(request,'user/profile.html',context=context)
 
+
 def edit_profile(request):
   if request.method == 'POST':
     return HttpResponseRedirect('')
@@ -32,4 +33,4 @@ def edit_profile(request):
     placeholder = {'nickname':profile.nickname,'email':request.user.email}
     warning = {'nickname':"변경할 닉네임 입력해주세요","email":"변경할 이메일 입력해주세요"}
     context = {'placeholder':placeholder,'warning':warning}
-    return render(request,'user/profile_change.html',context=context)
+    return render(request,'user/profile_edit.html',context=context)
