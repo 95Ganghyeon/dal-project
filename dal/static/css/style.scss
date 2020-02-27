@@ -149,14 +149,13 @@ ul.my-pagination {
 
 @import "base_generic.scss";
 @import "index.scss";
-@import "accounts.scss";
-@import "user.scss";
-@import "product-details.scss";
-@import "compare-search.scss";
-@import "normal-search.scss";
-@import "keyword-ranking.scss";
-@import "mtype-ranking.scss";
 
+@import "./product/_product.scss";
+@import "./ranking/_ranking.scss";
+@import "./user/_user.scss";
+@import "./account/_accounts.scss";
+@import "./socialaccount/_socialaccount.scss";
+@import "./openid/_openid.scss";
 
 
 
