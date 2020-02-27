@@ -121,6 +121,8 @@
 
     // 공통 검색결과 나열 박스
     .result-box {
+        margin: auto;
+
         >p {
             border-bottom: solid 2px #d4d4d4;
             padding-bottom: 15px;

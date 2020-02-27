@@ -1,6 +1,51 @@
 .profile-page{
+    .menu-bar{
+        padding: 3em 0em;
+    }
 
+    .mtype-box{
+        .title{
+            padding: 1.3em;
+            text-align: center;        
+            font-size: 1.3em;
+            color: #1e1e1e;
+            border-bottom: solid 1px #1e1e1e;
+        }
+        .content{
+            margin: auto;
+            text-align: center;
+            
+            >div{
+                padding: 2.5em;
+            }
+            
+            #mtype{
+                font-weight: bold;
+                font-size: 2em;                
+            }
+            #mtype-button{                
+                margin: 3em auto;
+                height: 3em;
+                width: 12em;
+                line-height: 3em;
+                border: solid 1px #1e1e1e;
+            }
+        }
+    }
 
+    .myProduct-box{
+        .title{
+            padding: 1.3em;
+            text-align: center;        
+            font-size: 1.3em;
+            color: #1e1e1e;
+            border-bottom: solid 1px #1e1e1e;
+        }
+    }
+
+    .zzimProduct-box{
+
+    }
 
 
 }

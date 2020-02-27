@@ -79,7 +79,7 @@ ChaeBi | 비교검색
         </div>
 
         {% if first_page == False %}
-        <div class="result-box row">
+        <div class="result-box d-flex flex-column">
             <p class="col-12">총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
             <div class="col-12">
                 <!-- 드롭다운 옵션 선택 div -->
@@ -158,7 +158,7 @@ ChaeBi | 비교검색
                     <p>일치하는 검색결과가 없습니다.</p>
                     {% endfor %}
                 </ul>
-            </div>
+            </div>            
         </div>
 
         <!-- pagination -->

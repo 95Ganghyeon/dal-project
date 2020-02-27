@@ -9,7 +9,7 @@ ChaeBi | 마이페이지
 <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}">
 
 <div class="container profile-page">
-  <div class="row justify-content-between">
+  <div class="row justify-content-between menu-bar">
     <div class="col-2 text-left">
       마이페이지
     </div>
@@ -18,45 +18,115 @@ ChaeBi | 마이페이지
     </div>
   </div>
 
-  <div class=""> <!-- ISTP display-->    
-    <div class="row justify-content-center">
-      <span>나의 M type</span><span id="user-mtype">{{ m_type }}</span>
+  <div class="row">
+    <div class="col-6 mtype-box">
+      <div class="title">
+        나의 M-type
+      </div>
+      <div class="content">
+        <div id="mtype">
+          {{ m_type }}
+        </div>
+        <a href="">
+          <div id="mtype-button">
+            자세히 알아보기
+          </div>
+        </a>
+        <a href="">
+          <div id="mtype-button">
+            재검사하기
+          </div>
+        </a>
+      </div>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-3">
-        내 생리대 등록하기
+    <div class="col-6 myProduct-box">
+      <div class="title">
+        등록된 내 생리대
       </div>
-      <div class="col-3">
-        자세히 알아보기
+      <div class="content">
+        {% if profile.myProduct_fk.count == 0 %}
+        <div>
+          등록된 내 생리대가 없습니다.
+        </div>
+        {% else %}        
+        <ul class="row">
+          {% for myProduct in profile.myProduct_fk.all %}
+          <li class="col-6">
+            <div>
+              <div class="image-box">
+                <img src="{{ myProduct.image.url }}" alt="내 생리대 사진">
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
       </div>
-      <div class="col-3">
-        재검사하기
-      </div>
-    </div>    
-  </div> <!-- end ISTP display -->
-  
-  <!-- 찜한 아이템 -->
-
-  <div class="underline">
-    찜한 아이템
+    </div>
   </div>
 
   <div class="row">
-    <div class="col text-left">
-      총 {{ n_result }} 개의 상품
+    <div class="col-12 zzimProduct-box">
+      <div class="" id="zzim-title">
+        찜한 아이템<br/>
+        총 {{ profile.zzimProduct_fk.count }}개의 상품
+      </div>
+      <div class="content">
+        {% if profile.myProduct_fk.count == 0 %}
+        <div>
+          찜한 생리대가 없습니다.
+        </div>
+        {% else %} 
+        <ul class="row">
+          {% for zzimProduct in paginator.page_obj %}
+          <li class="col-4">
+            <div>
+              <div class="image-box">
+                <img src="{{ zzimProduct.image.url }}" alt="찜한 생리대 사진">                
+              </div>
+              <div class="description-box">
+                <span>
+                  {{ zzimProduct.name }} <br>
+                  <hr>
+                  전체순위 ???위 <br>
+                  전체평점 ???점
+                </span>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
     </div>
-    <div class="col text-right">
-      전체별점 <i class="fas fa-angle-down"></i>
-    </div>
+
+    <!-- pagination -->
+    <div>
+      <ul class="my-pagination">
+          <!-- 이전 페이지로 이동 -->
+          {% if paginator.has_prev %}
+          <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
+          {% else %}
+          <!-- <li class="nav disabled">&laquo;</li> -->
+          {% endif %}
+          <!-- [1] [2] [3] -->
+          {% for i in paginator.page_range %}
+          {% if paginator.page_obj.number == i %}
+          <li class="disabled">&#91; {{ i }} &#93;</li>
+          {% else %}
+          <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
+          {% endif %}
+          {% endfor %}
+          <!-- 다음 페이지로 이동 -->
+          {% if paginator.has_next %}
+          <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
+          {% else %}
+          <!-- <li class="nav disabled">&raquo;</li> -->
+          {% endif %}
+      </ul>
+  </div>
   </div>
 
-  <div class="row">
-    {% if products  %}
-      {% for product in products %}
-        {{ product.name }}
-      {% endfor %}
-    {% endif %}
-  </div>
 </div>
 
 

@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .models import Profile
+from product.views import get_paginator
+
 # Create your views here.
 
 @login_required
@@ -12,16 +14,19 @@ def profile(request):
     profile = request.user.profile
     m_type = profile.survey_fk.mtype
   except:
-    m_type = "검사하러 가기"
+    m_type = "M-type 없음! 검사를 실시해주세요."
   
-  try:
-    n_result = request.user.cart.product_set.count()
-    products = request.user.cart.product
-  except:
-    n_result = 0
-    products = False
 
-  context = {'m_type':m_type, 'n_result':n_result, 'products':products}
+  zzimProduct_list = profile.zzimProduct_fk.all()
+  page = request.GET.get("page")
+  paginator = get_paginator(zzimProduct_list, page, 1, 2)
+  
+
+  context = {
+    'm_type': m_type, 
+    'profile': profile,
+    "paginator": paginator,
+  }
   return render(request,'user/profile.html',context=context)
 
 
