@@ -8,34 +8,31 @@ ChaeBi | 마이페이지
 {% load sass_tags %}
 <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}">
 
-<div class="container background">
-  <div class="row">
-    <div class="col text-left">
+<div class="container profile-page">
+  <div class="row justify-content-between">
+    <div class="col-2 text-left">
       마이페이지
     </div>
-    <div class="col text-right">
-      <a href='{% url 'edit_profile' %}'>개인정보 변경</a>
+    <div class="col-2 text-right">
+      <a href='{% url 'edit_profile' %}'>개인정보 변경&nbsp;&nbsp;&nbsp;<i class="fas fa-chevron-right"></i></a>
     </div>
   </div>
 
-  <div class="row"> <!-- ISTP display-->
-    <div class="col">
+  <div class=""> <!-- ISTP display-->    
+    <div class="row justify-content-center">
+      <span>나의 M type</span><span id="user-mtype">{{ m_type }}</span>
     </div>
-    <div class="col pink"> <!-- ISTP DISPLY COL-->
-      <div class="row">
-        <div class="col 12 text-center">나의 M type {{ m_type }}</div>
+    <div class="row justify-content-center">
+      <div class="col-3">
+        내 생리대 등록하기
       </div>
-      <div class="row">
-        <div class="col">
-          자세히 알아보기
-        </div>
-        <div class="col">
-          재검사하기
-        </div>
+      <div class="col-3">
+        자세히 알아보기
       </div>
-    </div> <!-- END ISTP DISPLY COL-->
-    <div class="col">
-    </div>
+      <div class="col-3">
+        재검사하기
+      </div>
+    </div>    
   </div> <!-- end ISTP display -->
   
   <!-- 찜한 아이템 -->
