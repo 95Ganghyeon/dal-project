@@ -27,6 +27,7 @@ urlpatterns = [
     path('product/', include('product.urls')),
     path('user/', include('user.urls')),
     path('ranking/', include('ranking.urls')),
+    path('board/', include('board.urls')),
     path('', RedirectView.as_view(url='/survey/', permanent=True)),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
