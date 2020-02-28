@@ -1,6 +1,6 @@
 .profile-page{
-    .menu-bar{
-        padding: 3em 0em;
+    .row{
+        padding: 3em 0em;        
     }
 
     .mtype-box{
@@ -16,17 +16,19 @@
             text-align: center;
             
             >div{
-                padding: 2.5em;
+                padding: 1em 0em;
             }
             
             #mtype{
+                padding: 2.5em 0em;
                 font-weight: bold;
                 font-size: 2em;                
             }
             #mtype-button{                
-                margin: 3em auto;
+                padding: 3em auto;
                 height: 3em;
                 width: 12em;
+                max-width: 12em;
                 line-height: 3em;
                 border: solid 1px #1e1e1e;
             }
@@ -41,10 +43,106 @@
             color: #1e1e1e;
             border-bottom: solid 1px #1e1e1e;
         }
+        .content{
+            ul.row{
+                padding: 1.3em;
+                margin: auto;
+            }       
+            li{
+                padding: 0em;
+            }     
+            .image-box{                
+                position: relative;
+                width: 100%;
+                border: solid 1px #bebebe;
+                text-align: center;
+                img{                                        
+                    display: block;
+                    width: 100%;
+                    height: auto;                                                                      
+                }                
+                .overlay{                    
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 100%;
+                    width: 100%;
+                    opacity: 0;
+                    transition: .5s ease;
+                    background-color: #2f2f2f;
+                    text-align: center;
+                    .text{
+                        color: white;
+                        font-size: 20px;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        -webkit-transform: translate(-50%, -50%);
+                        -ms-transform: translate(-50%, -50%);
+                        transform: translate(-50%, -50%);
+                        text-align: center;
+                        background-color: #1f1f1f;
+                    }
+                }
+                
+                &:hover{                    
+                    .overlay{
+                        opacity: 0.8;
+                    }
+                }
+            }
+
+        }
     }
 
-    .zzimProduct-box{
+    .zzimProduct-box{        
+        .title{
+            padding: 1.3em 0em;
+            border-bottom: solid 1px #1e1e1e;
+            font-size: 1.3em;
+            text-align: left;
+            color: #1e1e1e;
+            line-height: 1.2em;
+            #zzim-count{
+                font-size: 0.7em;
+            }            
+        }
+        .content{
+            ul.row{
+                padding: 1.3em;
+                margin: auto;
+            }       
+            li{
+                padding: 0em;
+                cursor: pointer;
+            }    
 
+            .product-box{                
+                #image-area{
+                    width: 100%;
+                    border: solid 1px #bebebe;
+                    text-align: center;                    
+                    img{
+                        width: 100%;
+                        height: auto;
+
+                    }
+                }
+                #description-area{
+                    padding: 1.5em 0em;
+                    line-height: 1.5em;
+                    span.highlight{
+                        font-weight: bold;
+                    }
+                }
+            }
+            
+            
+
+        }
+        
     }
 
 
