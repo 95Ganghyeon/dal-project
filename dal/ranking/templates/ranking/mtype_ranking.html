@@ -14,8 +14,13 @@ ChaeBi | M-type 랭킹
             <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.<br>
             당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
             <div class="button">
-                <a href="#">타입별 랭킹찾기</a>
+                <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    타입별 랭킹찾기
+                </a>
                 <a href="#">M-Type 재검사</a>
+            </div>
+            <div class="collapse" id="collapseExample">
+                다른 타입의 제품랭킹은?
             </div>
         </div>
         <div>
@@ -40,9 +45,9 @@ ChaeBi | M-type 랭킹
             <li>
                 <div class="d-flex">                    
                     <div class="p-2">{{ forloop.counter }}위</div>
-                    <div class="p-2"><img src="{{product.image.url}}" alt=""/></div>
+                    <div class="p-2"><a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" alt=""/></a></div>
                     <div class="p-2 product-info">
-                        <h4>{{ product.brand }}</h4>
+                        <h4>{{ product.brand_fk }}</h4>
                         <h3>{{ product.name }}</h3>
                         <h5>예상만족도 {{ product.reviewsummary.total_score }}</h5>
                         <h5>자연유래도 {{ product.productingredient.nature_friendly_score }}%</h5>
