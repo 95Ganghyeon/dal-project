@@ -8,19 +8,21 @@ ChaeBi | M-type 랭킹
 {% block content %}
 
 <div class="mtype-ranking-page container">
-    <!-- 상단 탭 -->
-    {% comment %} <div class="ranking-pannel row">
-        <div class="mtype-ranking col-sm-6 selected">
-            <h2>Mtype 랭킹</h2>
-            <span>내 타입과 같은 사람들이 평가한 랭킹을 보여드려요</span>
+    <div class="ranking-top">
+        <div class="ranking-header">
+            <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
+            <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.<br>
+            당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
+            <div class="button">
+                <a href="#">타입별 랭킹찾기</a>
+                <a href="#">M-Type 재검사</a>
+            </div>
         </div>
-        <div class="keyword-ranking col-sm-6">
-            <h2>keyword 랭킹</h2>
-            <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
+        <div>
+            <img src="#">
         </div>
-    </div> {% endcomment %}
-
-    <div class="d-flex ranking-top">
+    </div>
+    {% comment %} <div class="d-flex ranking-top">
         <div class="p-2 ranking-header">
             <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
             <span>나와 같은 월경타입의 사람들이 평가한 순위</span><br>
@@ -30,8 +32,7 @@ ChaeBi | M-type 랭킹
             <div class="col"><a href="#">타입별 랭킹찾기</a></div>
             <div class="col"><a href="#">M-Type 재검사</a></div>
         </div>
-        
-    </div>
+    </div> {% endcomment %}
 
     <div class="ranking-result">
         <ul style="list-style-type:none";>
@@ -41,11 +42,17 @@ ChaeBi | M-type 랭킹
                     <div class="p-2">{{ forloop.counter }}위</div>
                     <div class="p-2"><img src="{{product.image.url}}" alt=""/></div>
                     <div class="p-2 product-info">
+                        <h4>{{ product.brand }}</h4>
                         <h3>{{ product.name }}</h3>
-                        {{ product.price }}원 / {{ product.count }}개
-                        <h5>자연유래도 {{ nature_friendly }}%</h5>
+                        <h5>예상만족도 {{ product.reviewsummary.total_score }}</h5>
+                        <h5>자연유래도 {{ product.productingredient.nature_friendly_score }}%</h5>
                     </div>
-                    <div class="ml-auto p-2 score">{{ product.reviewsummary.total_score }}</div>
+                    <div class="ml-auto p-2 score">
+                        <span>흡수력 {{ product.reviewsummary.absorbency_avg }}</span>
+                        <span>탈취성 {{ product.reviewsummary.anti_odour_avg }}</span>
+                        <span>촉감/착용감 {{ product.reviewsummary.comfort_avg }}</span>
+                        <span>피부친화도 {{ product.reviewsummary.sensitivity_avg }}</span>
+                    </div>
                 </div>
             </li>
         {% empty %}
