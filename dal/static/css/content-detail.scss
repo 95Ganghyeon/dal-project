@@ -48,45 +48,49 @@
         }
 
         >div {
-            padding: 10px 0;
+            padding: 15px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
 
             >div {
-                >span {                
-                    &:not(:last-child) {
-                        margin-right: 40px;
-                    }
-
-                    strong {
-                        font-weight: bolder;
-                        margin-left: 7px;
-                    }                    
-
-                    &#like {
-                        cursor: pointer;
-
-                        i {
-                            transition: all 0.3s;
-
-                            &.active {
-                                color: red;
+                &.left-side {
+                    >span {                
+                        &:not(:last-child) {
+                            margin-right: 40px;
+                        }
+    
+                        strong {
+                            font-weight: bolder;
+                            margin-left: 7px;
+                        }                    
+    
+                        &#like {
+                            cursor: pointer;
+    
+                            i {
+                                transition: all 0.3s;
+    
+                                &.active {
+                                    color: red;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            >a {
-                border-radius: 20.5px;
-                border: solid 1px #979797;
-                padding: 6px 11px;
-                color: inherit;
-
-                i {
-                    color: #979797;
-                    margin-right: 7px;
+                &.right-side {
+                    >a {
+                        border-radius: 20.5px;
+                        border: solid 1px #979797;
+                        padding: 3px 11px;
+                        color: inherit;
+        
+                        i {
+                            color: #979797;
+                            margin-right: 7px;
+                        }
+                    }
                 }
             }
         }

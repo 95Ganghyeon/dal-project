@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from product.views import get_paginator
 from user.models import *
-from board.models import *
+from .models import *
+from .forms import User_story_origin_form 
 
 def notice_list(request):
     return render(request, "notice_list.html", context={})
@@ -12,11 +13,11 @@ def notice_list(request):
 
 def notice_detail(request, pk):
     return render(request, "notice_detail.html", context={})
+    
 
 
 def user_story_list(request):
     return render(request, "user_story_list.html", context={})
-
 
 def user_story_detail(request, pk):
     user_story = get_object_or_404(User_story, id=pk)
@@ -32,10 +33,10 @@ def user_story_detail(request, pk):
     else:
         return render(request, "user_story_detail.html", context={'user_story': user_story})    
 
-
 # 사연 작성 페이지
 def user_story_form(request):
-    return render(request, "user_story_form.html", context={})
+    form = User_story_origin_form()
+    return render(request, "user_story_form.html", context={'form': form})
 
 
 # 콘텐츠 좋아요

@@ -2,5 +2,38 @@
 {% load static %}
 
 {% block content %}
-글작성 폼 넣기
+
+<div class="user-story-form-page container">
+    <div class="title-box">
+        <h2>당신의 경험을 들려주세요</h2>
+        <span>나의 작은 이야기가 누군가에게는 큰 도움이 될 수 있다는 것</span>
+    </div>
+    
+    <div class="content-box">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="나의 이야기 보내기"/>
+        </form>
+    </div>
+
+    <div class="send-box">
+        <p>
+            써주신 소중한 내용의 채비 사이트 업로드 여부는</br>
+            채비의 관리자의 심사를 통해 결정됩니다.</br>
+            심사 결과는 일주일 내로 등록하신 이메일로 알려드릴게요!</br>
+            </br>
+            혹여나 기재가 되지 않더라도,</br>
+            서비스 퀄리티 향상에 아주 큰 도움이 됩니다!</br>
+            </br>
+            늘 감사드립니다 :)
+        </p>
+        <div>
+            <a href="{% url 'user-story-form' %}">나의 이야기 보내기</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
