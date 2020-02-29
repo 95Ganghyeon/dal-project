@@ -13,4 +13,4 @@ class User_story_origin_admin(ImportExportModelAdmin):
 
 @admin.register(User_story)
 class User_story_admin(ImportExportModelAdmin):
-    list_display = ('id', 'user_story_origin', 'title', 'hits', 'total_likes', 'created_at')
+    list_display = ('id', 'user_story_origin', 'mtype', 'title', 'hits', 'total_likes', 'created_at')

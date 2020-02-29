@@ -52,6 +52,7 @@ class User_story_origin(models.Model):
 class User_story(models.Model):
     id = models.AutoField(primary_key=True)
     user_story_origin = models.OneToOneField("User_story_origin", verbose_name=_("원본"), on_delete=models.PROTECT)
+    mtype = models.CharField(_("M-Type"), max_length=10)
     title = models.CharField(_("제목"), max_length=200)
     content = RichTextUploadingField(_("내용"))
     image = models.ImageField(_("썸네일"), upload_to='uploads/')
