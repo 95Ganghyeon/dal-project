@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from product.views import get_paginator
 from user.models import *
 from .models import *
-from .forms import User_story_origin_form 
+from .forms import UserStroyForm
 
 def notice_list(request):
     return render(request, "notice_list.html", context={})
@@ -35,7 +35,19 @@ def user_story_detail(request, pk):
 
 # 사연 작성 페이지
 def user_story_form(request):
-    form = User_story_origin_form()
+    form = UserStroyForm(label_suffix='')
+
+    if request.method == 'POST':
+        user = request.user
+        form = UserStroyForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save(commit=False)
+            form.instance.user = request.user
+            form.save()
+        
+        return HttpResponse('success')
+
     return render(request, "user_story_form.html", context={'form': form})
 
 
