@@ -79,13 +79,11 @@
                     color: #818181;
                     margin-bottom: 20px;
                     
-                    * {
-                        display: block;
-                        text-overflow: ellipsis;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        word-wrap: normal;
-                    }
+                    display: block;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    word-wrap: normal;                    
                 }
 
                 .card-info {
