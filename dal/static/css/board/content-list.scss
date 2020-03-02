@@ -1,0 +1,147 @@
+.user-story-list-page {
+    .link-box {
+        padding: 30px 0;
+        border-bottom: solid 2px #bebebe;
+
+        >div {
+            text-align: center;
+
+            &:first-child {
+                padding: 40px 0;
+
+                h2 {
+                    font-size: 1.5rem;
+                    font-weight: bolder;
+                    margin-bottom: 15px;
+                }
+            }
+
+            &:last-child {
+                padding: 20px 0;
+
+                a {
+                    color: #FFFFFF;
+                    background-color: #303030;
+                    border-radius: 28px;
+                    padding: 5px 15px;
+                }
+            }
+
+        }
+    }
+
+    .content-box {
+        padding: 40px 0;
+
+        ul {
+            // &.card-columns {
+            //     @include media-breakpoint-only(xl) {
+            //       column-count: 3;
+            //     }
+            //     @include media-breakpoint-only(lg) {
+            //       column-count: 3;
+            //     }
+            //     @include media-breakpoint-only(md) {
+            //       column-count: 2;
+            //     }
+            //     @include media-breakpoint-only(sm) {
+            //       column-count: 1;
+            //     }
+            // }  
+
+            li.card {
+                cursor: pointer;
+
+                padding: 20px;
+                border: solid 1px #bebebe;
+                background-color: #ffffff;
+                border-radius: 0;
+
+                margin-bottom: 40px;
+
+                img {
+                    width: 100%;
+                }
+
+                .card-title {
+                    font-size: 1.2rem;
+                    font-weight: 500;
+                    padding: 15px 0 20px;
+                    margin: 0;
+
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    word-wrap: normal;
+                }
+
+                .card-text {
+                    color: #818181;
+                    margin-bottom: 20px;
+                    
+                    * {
+                        display: block;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        word-wrap: normal;
+                    }
+                }
+
+                .card-info {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-weight: normal;
+
+                    span {
+                        color: #818181;
+                        font-size: 0.9rem;
+
+                        &.like {
+                            border-radius: 18.5px;
+                            border: solid 1px #bebebe;
+                            padding: 6px 15px;
+
+                            i {
+                                color: inherit;
+
+                                &.active {
+                                    color: red;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+@media (min-width: 576px) {
+    .card-columns {
+        column-count: 1;
+    }
+}
+
+@media (min-width: 768px) {
+    .card-columns {
+        column-count: 2;
+        column-gap: 40px;
+    }
+}
+
+@media (min-width: 992px) {
+    .card-columns {
+        column-count: 3;
+        column-gap: 40px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card-columns {
+        column-count: 3;
+        column-gap: 40px;
+    }
+}
