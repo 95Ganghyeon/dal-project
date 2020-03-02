@@ -9,7 +9,7 @@ ChaeBi | 제품상세
 
 <div class="product-detail-page container-fluid">
     <div class="product-info row">
-        <div class="search-path col-8">
+        <div class="search-path col-7">
             <span>상품검색 > {{product.name}}</span>
         </div>
         <div class="main-content col-xl-9 container">
@@ -61,7 +61,7 @@ ChaeBi | 제품상세
                 <input id="tab1" type="radio" name="tabs">
                 <label class="col-md-3" for="tab1">제품정보</label>
                 <input id="tab2" type="radio" name="tabs">
-                <label class="col-md-4" for="tab2">성분정보</label>
+                <label class="test col-md-4" for="tab2">성분정보</label>
                 <input id="tab3" type="radio" name="tabs" checked>
                 <label class="col-md-3" for="tab3">리뷰({{review_list|length}})</label>
 
@@ -113,31 +113,6 @@ ChaeBi | 제품상세
                         </div>
                     </div>
 
-                    <!-- <div class="bestreview">
-                        <div class="bestreview-title">
-                            BEST REVIEW
-                        </div>
-                        <div class="bestreview-content">
-                            <div class="bestreview-upper">
-                                <div class="user-image">유저 사진</div>
-                                <div class="user-info">
-                                    <div>유전 정보{{bestReview.user_fk.username}} / {{bestReview.user_fk.profile.age}}세 / 여성
-                                    </div>
-                                    <div>2020.2.11{{bestReview.created}}</div>
-                                </div>
-                                <div class="user-score-box">
-                                    <div class="user-score">{{bestReview.score_str}}</div>
-                                </div>
-                            </div>
-                            <div class="user-content">{{bestReview.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은
-                                날에는 아무리 자주
-                                바꿔도 새곤 했는데, 질경이 마음은 흡수력이 좋아서 전혀 새지 않더라구요 !
-                                친구들 중에도 저랑 비슷한 고민하는 친구들한테 추천할 정도였어요. 다만 가격이 조금 아쉬운데,
-                                투자할만한 가치가 충분하다고는 생각합니다 ! 첫째날, 둘째날 양 진짜 많으신 분들 강추드려요 : )
-                            </div>
-                        </div>
-                    </div> -->
-
                     <div class="review">
                         <div class="review-title">
                             전체리뷰({{review_list|length}})
@@ -146,18 +121,27 @@ ChaeBi | 제품상세
 
                         <div class="review-content">
                             <div class="bestreview-upper">
-                                <div class="user-image">유저 사진</div>
-                                <div class="user-info">
-                                    <div>이 리뷰 mtype: {{review.m_type}}</div>
-                                    <div>유전 정보{{review.user_fk.username}} / {{review.user_fk.profile.age}}세 / 여성</div>
-                                    <div>2020.2.11{{review.created}}</div>
+                                <div class="review-content__top">
+                                    <div>
+                                        <div>추천지수</div>
+                                        <div>{{review.score}}</div>
+                                    </div>
+                                    <div>
+                                        <div>{{review.user_fk.username}} / {{review.user_fk.profile.age}}세 / 여성</div>
+                                        <div>{{review.created.year}}.{{review.created.month}}.{{review.created.day}}</div>
+                                    </div>
                                 </div>
-                                <div class="user-score-box">
-                                    <div class="user-score">대박{{review.star_Str}}</div>
-                                </div>
+                                <div class="review-content__middle">
+                                    <div>{{review.m_type}}</div>
+                                    <button>항목별 세부평가</button>
+                                </div>  
                             </div>
                             <div class="user-content">
-                                {{review.content}}
+                                {{review.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은
+                                날에는 아무리 자주
+                                바꿔도 새곤 했는데, 질경이 마음은 흡수력이 좋아서 전혀 새지 않더라구요 !
+                                친구들 중에도 저랑 비슷한 고민하는 친구들한테 추천할 정도였어요. 다만 가격이 조금 아쉬운데,
+                                투자할만한 가치가 충분하다고는 생각합니다 ! 첫째날, 둘째날 양 진짜 많으신 분들 강추드려요 : )
                             </div>
                         </div>
                         {% endfor %}
@@ -189,33 +173,11 @@ ChaeBi | 제품상세
                                 {% endif %}
                             </ul>
                         </div>
-
-                        {% comment %} <div>
-                            {% if page_obj.has_previous %}
-                            <a href="?page=1">맨 앞으로</a>
-                            <a href="?page={{page_obj.previous_page_number}}">이전으로</a>
-                            {% endif %}
-                            <!-- [1] [2] [3] -->
-                            {% for i in paginator.page_range %}
-                            {% if paginator.page_obj.number == i %}
-            <li class="disabled">&#91; {{ i }} &#93;</li>
-            {% else %}
-            <li><a href="?page={{ i }}">&#91; {{ i }} &#93;</a></li>
-            {% endif %}
-            {% endfor %}
-            <!-- 다음 페이지로 이동 -->
-            {% if paginator.has_next %}
-            <li class="nav"><a href="?page={{ paginator.next_page }}">&raquo;</a></li>
-            {% else %}
-            <!-- <li class="nav disabled">&raquo;</li> -->
-            {% endif %}
-    </div> {% endcomment %}
-
-</div>
-</section>
-</li>
-</ul>
-</div>
+                    </div>
+                </section>
+            </li>
+        </ul>
+    </div>
 <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -255,3 +217,28 @@ ChaeBi | 제품상세
 
 {% comment %} '리뷰 남기러 가기'를 클릭하면 CSS로 가려져 있다가 보일 창 {% endcomment %}
 {% endblock %}
+
+                    <!-- <div class="bestreview">
+                        <div class="bestreview-title">
+                            BEST REVIEW
+                        </div>
+                        <div class="bestreview-content">
+                            <div class="bestreview-upper">
+                                <div class="user-image">유저 사진</div>
+                                <div class="user-info">
+                                    <div>유전 정보{{bestReview.user_fk.username}} / {{bestReview.user_fk.profile.age}}세 / 여성
+                                    </div>
+                                    <div>2020.2.11{{bestReview.created}}</div>
+                                </div>
+                                <div class="user-score-box">
+                                    <div class="user-score">{{bestReview.score_str}}</div>
+                                </div>
+                            </div>
+                            <div class="user-content">{{bestReview.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은
+                                날에는 아무리 자주
+                                바꿔도 새곤 했는데, 질경이 마음은 흡수력이 좋아서 전혀 새지 않더라구요 !
+                                친구들 중에도 저랑 비슷한 고민하는 친구들한테 추천할 정도였어요. 다만 가격이 조금 아쉬운데,
+                                투자할만한 가치가 충분하다고는 생각합니다 ! 첫째날, 둘째날 양 진짜 많으신 분들 강추드려요 : )
+                            </div>
+                        </div>
+                    </div> -->
