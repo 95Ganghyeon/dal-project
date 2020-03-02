@@ -1,11 +1,15 @@
 {% extends "base_generic.html" %}
 {% load static %}
 
+{% block title %}
+ChaeBi | 키워드 랭킹
+{% endblock %}
+
 {% block content %}
     
 <div class="keyword-ranking-page container">
     <!-- 상단 탭 -->
-    <div class="ranking-pannel row">
+    {% comment %} <div class="ranking-pannel row">
         <div class="mtype-ranking col-sm-6">
             <h2>mtype 랭킹</h2>
             <span>내 타입과 같은 사람들이 평가한 랭킹을 보여드려요</span>
@@ -14,7 +18,7 @@
             <h2>keyword 랭킹</h2>
             <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     <form action="{% url 'KeywordRanking' %}" method="GET" id="keywordSearchForm">
         

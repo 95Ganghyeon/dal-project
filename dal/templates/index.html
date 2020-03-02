@@ -1,4 +1,9 @@
 {% extends "base_generic.html" %}
+
+{% block title %}
+ChaeBi
+{% endblock %}
+
 {% block content %}
     <div class="index container">
         <div class="main">
@@ -127,159 +132,156 @@
         <div id="surveyModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
+                    <input type="button" class="close" data-dismiss="modal" value="&times">
                     <form action="" method="POST" id="surveyForm">{% csrf_token %}
-                        <input type="button" class="close" data-dismiss="modal" value="&times"></button>
                         {% if mtype %}
-                        <div class="text-center">
-                            <span class="mini">수고하셨습니다 :)</span>
-                        </div>
-                        <div class="surveyResult">
-                            <div class="Q">
-                                <p>당신의 월경타입은<br><b>{{ mtype }}</b>입니다!</p>
+                        <div class="survey-result-container">
+                            <div class="text-center">
+                                <span class="mini">수고하셨습니다 :)</span>
                             </div>
-                            <div class="survey-result">
-                                ISTP타입은 조사자 중 25%를 차지하고 있습니다. ISTP설명글.<br>
-                                ISTP타입은 조사자 중 25%를 차지하고 있습니다. ISTP설명글.<br>
-                                ISTP타입은 조사자 중 25%를 차지하고 있습니다. ISTP설명글.<br>
-                                ISTP타입은 조사자 중 25%를 차지하고 있습니다. ISTP설명글.<br>
-                                ISTP타입은 조사자 중 25%를 차지하고 있습니다. ISTP설명글.<br>
-                                ISTP타입은 조사자 중 25%를 차지하고 있습니다. ISTP설명글.<br>
-                                ISTP타입은 조사자 중 25%를 차지하고 있습니다. ISTP설명글.<br>
-                                ISTP타입은 조사자 중 25%를 차지하고 있습니다. ISTP설명글.<br>
-                                ISTP타입은 조사자 중 25%를 차지하고 있습니다. ISTP설명글.<br>
-                            </div>
-                            <div>
-                                <h4>{{ mtype }}타입 <b>BEST3</b> 제품</h4>
-                            </div>
-                            <div class="best-product">
-                                <div class="row">
-                                    <div class="col"><img src="" alt="1위추천제품"></div>
-                                    <div class="col"><img src="" alt="2위추천제품"></div>
-                                    <div class="col"><img src="" alt="3위추천제품"></div>
+                            <div class="surveyResult">
+                                <div class="Q">
+                                    <p>당신의 월경타입은<br><b>{{ mtype }}</b>입니다!</p>
+                                    <p>survey id = {% if survey_id %}{{ survey_id }}{% else %} cant find{% endif %}</p>
                                 </div>
-                            </div>
-                            <div class="more-info">
-                                 <span>더 자세한 정보를 알고 싶다면?</span>
-                                 <a href="#" class="sign-up">회원가입</a>
-                                 <div class="text-center">
-                                     <p><br>이미 가입하셨다면,<a href="#"><b>로그인하기</b></a></p>
-                                 </div>
+                                <div class="survey-result">
+                                  <p></p>
+                                </div>
+                                <div>
+                                    <h4>{{ mtype }}타입 <b>BEST3</b> 제품</h4>
+                                </div>
+                                <div class="best-product">
+                                    <div class="row">
+                                        <div class="col"><img src="" alt="1위추천제품"></div>
+                                        <div class="col"><img src="" alt="2위추천제품"></div>
+                                        <div class="col"><img src="" alt="3위추천제품"></div>
+                                    </div>
+                                </div>
+                                <div class="more-info">
+                                     <span>더 자세한 정보를 알고 싶다면?</span>
+                                     <a href="#" class="sign-up">회원가입</a>
+                                     <div class="text-center">
+                                         <p><br>이미 가입하셨다면,<a href="#"><b>로그인하기</b></a></p>
+                                     </div>
+                                </div>
                             </div>
                         </div>
                        
                         {% else %}
-                        <div class="text-center">
-                            <span class="mini">나만의 월경타입 찾아보기</span>
+                        <div class="questionnaire">
+                            <div class="text-center">
+                                <span class="mini">나만의 월경타입 찾아보기</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="mySlides fadein">
+                                    <div class="Q">
+                                        <p>Q1<br><b>월경 시 활동량</b>은 어떤가요?</p>
+                                    </div>
+                                    <div class="Q1">
+                                        <label for="id_activity_score_0"><div class="ChoiceBox q1ChoiceBox">
+                                            <img src="" class="image" alt="image">
+                                            {{ form.activity_score.0 }}
+                                        </div></label>
+                                        <label for="id_activity_score_1"><div class="ChoiceBox q1ChoiceBox">
+                                            <img src="" class="image" alt="image">
+                                            {{ form.activity_score.1 }}
+                                        </div></label>
+                                        <label for="id_activity_score_2"><div class="ChoiceBox q1ChoiceBox">
+                                            <img src="" class="image" alt="image">
+                                            {{ form.activity_score.2 }}
+                                        </div></label>
+                                        <label for="id_activity_score_3"><div class="ChoiceBox q1ChoiceBox">
+                                            <img src="" class="image" alt="image">
+                                            {{ form.activity_score.3 }}
+                                        </div></label>
+                                        <label for="id_activity_score_4"><div class="ChoiceBox q1ChoiceBox">
+                                            <img src="" class="image" alt="image">
+                                            {{ form.activity_score.4 }}
+                                        </div></label>
+                                        <label for="id_activity_score_5"><div class="ChoiceBox q1ChoiceBox">
+                                            <img src="" class="image" alt="image">
+                                            {{ form.activity_score.5 }}
+                                        </div></label>
+                                    </div>
+                                </div>
+                                <div class="mySlides fadein">
+                                    <div class="Q">
+                                        <p>Q2<br>주로 사용하는<br><b>월경용품</b>은 무엇인가요?</p>
+                                    </div>
+                                    <div class="Q2">
+                                        <label for="id_volume_choice_0"><div class="ChoiceBox q2ChoiceBox">
+                                            <img src="" class="image" alt="image">
+                                            {{ form.volume_choice.0 }}</div></label>
+                                        <label for="id_volume_choice_1"><div class="ChoiceBox q2ChoiceBox">
+                                            <img src="" class="image" alt="image">
+                                            {{ form.volume_choice.1 }}</div></label>
+                                        <label for="id_volume_choice_2"><div class="ChoiceBox q2ChoiceBox">
+                                            <img src="" class="image" alt="image">
+                                            {{ form.volume_choice.2 }}</div></label>
+                                    </div>
+                                </div>
+                                <div class="mySlides fadein">
+                                    <div class="Q">
+                                        <p>Q3<br><b>양이 가장 많은 날</b>, 생리대를<br><b>몇시간에 한 번</b> 갈아주시나요?</p>
+                                    </div>
+                                    <div class="Q3">
+                                        <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.0 }}</div>
+                                        <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.1 }}</div>
+                                        <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.2 }}</div>
+                                        <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.3 }}</div>
+                                        <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.4 }}</div>
+                                    </div>
+                                </div>
+                                <div class="mySlides fadein">
+                                    <div>{{ form.volume_extra_score.0 }}</div>
+                                    <div>{{ form.volume_extra_score.1 }}</div>
+                                    <div>{{ form.volume_extra_score.2 }}</div>
+                                    <div>{{ form.volume_extra_score.3 }}</div>
+                                    <div>{{ form.volume_extra_score.4 }}</div>
+                                    <div>{{ form.volume_extra_score.5 }}</div>
+                                </div>
+                                <div class="mySlides fadein">
+                                    <div class="Q">
+                                        <p>Q5<br>바디 민감도를 측정합니다.<br>해당 사항에 모두 체크해 주세요.</p>
+                                    </div>
+                                    <div>
+                                        <div>{{ form.sensitivity_score.0 }}</div>
+                                        <div>{{ form.sensitivity_score.1 }}</div>
+                                        <div>{{ form.sensitivity_score.2 }}</div>
+                                        <div>{{ form.sensitivity_score.3 }}</div>
+                                        <div>{{ form.sensitivity_score.4 }}</div>
+                                        <div>{{ form.sensitivity_score.5 }}</div>
+                                        <div>{{ form.sensitivity_score.6 }}</div>
+                                    </div>
+                                </div>
+                                <div class="mySlides fadein">
+                                    <div class="Q">
+                                        <p>Q6<br>월 경질환 정도를 측정합니다.<br>해당 사항에 모두 체크해주세요.</p>
+                                    </div>
+                                    <div>
+                                        <div>{{ form.disease_score.0 }}</div>
+                                        <div>{{ form.disease_score.1 }}</div>
+                                        <div>{{ form.disease_score.2 }}</div>
+                                        <div>{{ form.disease_score.3 }}</div>
+                                        <div>{{ form.disease_score.4 }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <a class="prev" onclick="plusSlides(-1)">&#10094; 이전</a>
+                                <a class="next" onclick="plusSlides(1)">다음 &#10095;</a>
+                                <div class="text-center bars">
+                                    <span class="slide-bar" onclick="currentbar(1)"></span> 
+                                    <span class="slide-bar" onclick="currentbar(2)"></span> 
+                                    <span class="slide-bar" onclick="currentbar(3)"></span> 
+                                    <span class="slide-bar" onclick="currentbar(4)"></span> 
+                                    <span class="slide-bar" onclick="currentbar(5)"></span> 
+                                    <span class="slide-bar" onclick="currentbar(6)"></span> 
+                                </div>
+                            </div>
+                            <input id="submit" class="next" type="submit" value="제출">
                         </div>
-                        <div class="text-center">
-                            <div class="mySlides fadein">
-                                <div class="Q">
-                                    <p>Q1<br><b>월경 시 활동량</b>은 어떤가요?</p>
-                                </div>
-                                <div class="Q1">
-                                    <label for="id_activity_score_0"><div class="ChoiceBox q1ChoiceBox">
-                                        <img src="" class="image" alt="image">
-                                        {{ form.activity_score.0 }}
-                                    </div></label>
-                                    <label for="id_activity_score_1"><div class="ChoiceBox q1ChoiceBox">
-                                        <img src="" class="image" alt="image">
-                                        {{ form.activity_score.1 }}
-                                    </div></label>
-                                    <label for="id_activity_score_2"><div class="ChoiceBox q1ChoiceBox">
-                                        <img src="" class="image" alt="image">
-                                        {{ form.activity_score.2 }}
-                                    </div></label>
-                                    <label for="id_activity_score_3"><div class="ChoiceBox q1ChoiceBox">
-                                        <img src="" class="image" alt="image">
-                                        {{ form.activity_score.3 }}
-                                    </div></label>
-                                    <label for="id_activity_score_4"><div class="ChoiceBox q1ChoiceBox">
-                                        <img src="" class="image" alt="image">
-                                        {{ form.activity_score.4 }}
-                                    </div></label>
-                                    <label for="id_activity_score_5"><div class="ChoiceBox q1ChoiceBox">
-                                        <img src="" class="image" alt="image">
-                                        {{ form.activity_score.5 }}
-                                    </div></label>
-                                </div>
-                            </div>
-                            <div class="mySlides fadein">
-                                <div class="Q">
-                                    <p>Q2<br>주로 사용하는<br><b>월경용품</b>은 무엇인가요?</p>
-                                </div>
-                                <div class="Q2">
-                                    <label for="id_volume_choice_0"><div class="ChoiceBox q2ChoiceBox">
-                                        <img src="" class="image" alt="image">
-                                        {{ form.volume_choice.0 }}</div></label>
-                                    <label for="id_volume_choice_1"><div class="ChoiceBox q2ChoiceBox">
-                                        <img src="" class="image" alt="image">
-                                        {{ form.volume_choice.1 }}</div></label>
-                                    <label for="id_volume_choice_2"><div class="ChoiceBox q2ChoiceBox">
-                                        <img src="" class="image" alt="image">
-                                        {{ form.volume_choice.2 }}</div></label>
-                                </div>
-                            </div>
-                            <div class="mySlides fadein">
-                                <div class="Q">
-                                    <p>Q3<br><b>양이 가장 많은 날</b>, 생리대를<br><b>몇시간에 한 번</b> 갈아주시나요?</p>
-                                </div>
-                                <div class="Q3">
-                                    <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.0 }}</div>
-                                    <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.1 }}</div>
-                                    <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.2 }}</div>
-                                    <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.3 }}</div>
-                                    <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.4 }}</div>
-                                </div>
-                            </div>
-                            <div class="mySlides fadein">
-                                <div>{{ form.volume_extra_score.0 }}</div>
-                                <div>{{ form.volume_extra_score.1 }}</div>
-                                <div>{{ form.volume_extra_score.2 }}</div>
-                                <div>{{ form.volume_extra_score.3 }}</div>
-                                <div>{{ form.volume_extra_score.4 }}</div>
-                                <div>{{ form.volume_extra_score.5 }}</div>
-                            </div>
-                            <div class="mySlides fadein">
-                                <div class="Q">
-                                    <p>Q5<br>바디 민감도를 측정합니다.<br>해당 사항에 모두 체크해 주세요.</p>
-                                </div>
-                                <div>
-                                    <div>{{ form.sensitivity_score.0 }}</div>
-                                    <div>{{ form.sensitivity_score.1 }}</div>
-                                    <div>{{ form.sensitivity_score.2 }}</div>
-                                    <div>{{ form.sensitivity_score.3 }}</div>
-                                    <div>{{ form.sensitivity_score.4 }}</div>
-                                    <div>{{ form.sensitivity_score.5 }}</div>
-                                    <div>{{ form.sensitivity_score.6 }}</div>
-                                </div>
-                            </div>
-                            <div class="mySlides fadein">
-                                <div class="Q">
-                                    <p>Q6<br>월 경질환 정도를 측정합니다.<br>해당 사항에 모두 체크해주세요.</p>
-                                </div>
-                                <div>
-                                    <div>{{ form.disease_score.0 }}</div>
-                                    <div>{{ form.disease_score.1 }}</div>
-                                    <div>{{ form.disease_score.2 }}</div>
-                                    <div>{{ form.disease_score.3 }}</div>
-                                    <div>{{ form.disease_score.4 }}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <a class="prev" onclick="plusSlides(-1)">&#10094; 이전</a>
-                            <a class="next" onclick="plusSlides(1)">다음 &#10095;</a>
-                            <div class="text-center bars">
-                                <span class="slide-bar" onclick="currentbar(1)"></span> 
-                                <span class="slide-bar" onclick="currentbar(2)"></span> 
-                                <span class="slide-bar" onclick="currentbar(3)"></span> 
-                                <span class="slide-bar" onclick="currentbar(4)"></span> 
-                                <span class="slide-bar" onclick="currentbar(5)"></span> 
-                                <span class="slide-bar" onclick="currentbar(6)"></span> 
-                            </div>
-                        </div>
-                        <input id="submit" class="next" type="submit" value="제출" data-toggle="modal" data-target="surveyResult">
-                        
+
                         {% endif %}
                         
                     </form>
@@ -291,13 +293,11 @@
 
     </div>
 
-    <!--<a href="javascript:void(0);">검사하기</a>-->
-
+    
     <script type="text/javascript">
 
         var slideIndex = 1;
         showSlides (slideIndex);
-        var surveyForm = document.getElementById("surveyForm");
 
 
         function plusSlides(n) {showSlides(slideIndex += n);}
@@ -310,7 +310,9 @@
             var slides = document.getElementsByClassName("mySlides");
             var submit = document.querySelector("#submit");
             var lastpage = slides.length;
-            
+            if ( n == -1) {
+                slides.style.display = "none";
+            }
             for (i = 0; i < lastpage; i++) {
                 slides[i].style.display = "none";
                 submit.style.display="none"; 
@@ -325,7 +327,7 @@
             if (n == 1 ){
                 prev.style.display = "none";
             }
-            if (n == lastpage-1){
+            if (n == lastpage){
                 next.style.display = "none";
                 submit.style.display = "block";
             }
@@ -338,9 +340,28 @@
             $('#surveyModal').find('form').trigger('reset');
         })
 
+        $('#submit').click(function(event){
+            event.preventDefault();
+            $('#submit').prop('disabled', true);
+            $.ajax({
+                type: "POST",
+                url: "/survey/",
+                data: $('#surveyForm').serialize(),
+                success: function (response) {
+                    alert("성공");
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                    alert("다시 시도해 주세요.");
+                }
+            });
+        });
+       
+
     </script>
 
-    <!-- {% if mtype %}
+<!--<a href="javascript:void(0);">검사하기</a>
+    {% if mtype %}
     <p>당신 타입은 {{ mtype }}입니다 이거 가져와라</p>
     <p>survey id = {% if survey_id %}{{ survey_id }}{% else %} cant find{% endif %}</p>
     {% endif %}
