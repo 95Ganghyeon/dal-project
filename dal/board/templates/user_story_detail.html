@@ -3,6 +3,7 @@
 
 {% block title %}{{ user_story.title }}{% endblock %}
 {% block description %}{{ user_story.content|safe|truncatechars:30 }}{% endblock %}
+{% block ogdescription %}{{ user_story.content|safe|truncatechars:30 }}{% endblock %}
 {% block ogimage %}http://{{ request.get_host }}{{ user_story.image.url }}{% endblock %}
 
 {% block content %} 
