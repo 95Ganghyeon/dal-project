@@ -55,12 +55,12 @@ ChaeBi | 마이페이지
         {% else %}        
         <ul class="row justify-content-between">
           {% for myProduct in profile.myProduct_fk.all %}
-          <li class="col-5">
+          <li class="col-6">
             <div class="image-box">
               <img src="{{ myProduct.image.url }}" alt="내 생리대 사진">
               <div class="overlay">
                 <div class="text">
-                  생리대 삭제
+                  <p><a href="{% url 'delete_myProduct' myProduct.id %}">생리대 삭제</a></p>                         
                 </div>
               </div>
             </div>
@@ -86,16 +86,16 @@ ChaeBi | 마이페이지
         {% else %} 
         <ul class="row">
           {% for zzimProduct in paginator.page_obj %}
-          <li class="col-4" onclick="location.href='{{zzimProduct.get_absolute_url}}'">
+          <li class="col-4" onclick="location.href='{{ zzimProduct.product_fk.get_absolute_url }}'">
             <div class="product-box">
               <div id="image-area">
-                <img src="{{ zzimProduct.image.url }}" alt="찜한 생리대 사진">                
+                <img src="{{ zzimProduct.product_fk.image.url }}" alt="찜한 생리대 사진">                
               </div>
               <div id="description-area">                
-                <span class="highlight">{{ zzimProduct.name }}</span><br/>
+                <span class="highlight">{{ zzimProduct.product_fk.name }}</span><br/>
                 <hr/>
-                전체순위 <span class="highlight">???위</span><br/>
-                전체평점 <span class="highlight">???점</span>                
+                전체순위 <span class="highlight">{{ zzimProduct.rank }}위</span><br/>
+                전체평점 <span class="highlight">{{ zzimProduct.total_score }}점</span>                
               </div>
             </div>
           </li>

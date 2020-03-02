@@ -9,20 +9,32 @@ ChaeBi | 마이페이지 수정
 <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}">
 
 <div class="container profile-edit-page">
-  <div class="row">
-    <div class="col text-left">
-      마이페이지
+  <div class="row menu-bar">
+    <div class="col-2 text-left">
+      <a href='{% url 'profile' %}'><i class="fas fa-chevron-left"></i>&nbsp;&nbsp;&nbsp;마이페이지로</a>
     </div>
-    <div class="col text-center">
-      개인정보 변경
-    </div>
-    <div class="col">
+    <div class="col-2 offset-3 text-center">
+      개인정보
     </div>
   </div>
 
   <!--프로필 변경 -->
+  <div class="d-flex flex-column">
+    <div class="p-2">
+      하이하잇
+    </div>
+    <div class="p-2">
+      하이하잇
+    </div>
+    <div class="p-2">
+      하이하잇
+    </div>
+    <div class="p-2">
+      하이하잇
+    </div>
 
-  <form method="POST" action='{% url 'edit_profile' %}' class="edit_profile">
+  </div>
+  <form method="POST" action="{% url 'edit_profile' %}" class="edit_profile">
     {% csrf_token %}
 
     <div class="form-group">
