@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.db.models import Avg
 from django.contrib.auth.decorators import login_required
 from product.models import Review, Product
+
 # from product.views import get_paginator
 from ranking.models import *
 
@@ -88,20 +89,48 @@ def mtypeRanking(request):
         
         return result
     
-    currentUser = request.user
-    currentUserType = currentUser.profile.survey_fk.mtype # 현재유저의 타입을 나타내는 "OOOO"스트링 값임
-    
-    productRanking = makeUserTypeRankingBoard(currentUserType)
-    sorted_productRanking = {k: v for k, v in sorted(productRanking.items(), key=lambda item: item[1])}
+    def returnRankingBoardResult(m_type):
+        productRanking = makeUserTypeRankingBoard(m_type)
+        sorted_productRanking = {k: v for k, v in sorted(productRanking.items(), key=lambda item: item[1])}
 
-    products = []
-    for id in sorted_productRanking:
-        products += Product.objects.filter(id=id)
-    
-    context = {
-        'currentUser': currentUser,
-        'products': products,
-    }
+        products = []
+        for id in sorted_productRanking:
+            products += Product.objects.filter(id=id)
+        
+        context = {
+            'm_type': m_type, # 유저 통쨰로 뷰에 넘기는건 좀..에러도나고..
+            'products': products,
+        }
+        return context
+
+    # 첨에 들어갔을 때(유저 첫 클릭시)
+    if request.method == 'GET':
+        currentUser = request.user
+        try:
+            currentUser.profile.survey_fk.mtype
+            currentUserType = currentUser.profile.survey_fk.mtype # 현재유저의 타입을 나타내는 "OOOO"스트링 값임
+        except:
+            currentUserType = 'AHTP'
+            #에러나서 일단 예외문 넣어줫음 수정필(mtype 검사 안한놈이 들어갔을때) @@@@@@@@@#@#!#!#!#!#!#!
+        
+        #검색결과 가져옴 
+        context = returnRankingBoardResult(currentUserType)
+        
+    if request.method == 'POST':
+        m_type = 'NULL'
+        print(request.POST)
+        try:
+
+            m_1 = 'A' if request.POST['toggle-1'] else 'I'
+            m_2 = 'H' if request.POST['toggle-2'] else 'L'
+            m_3 = 'S' if request.POST['toggle-3'] else 'T'
+            m_4 = 'P' if request.POST['toggle-4'] else 'F'
+            m_type = m_1+m_2+m_3+m_4
+            print(m_type[:4])
+        except:
+            pass
+        context = returnRankingBoardResult(m_type[:4])
+
     return render(request, 'ranking/mtype_ranking.html', context=context)
 
 
