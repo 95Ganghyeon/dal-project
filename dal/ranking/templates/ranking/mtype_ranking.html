@@ -10,7 +10,7 @@ ChaeBi | M-type 랭킹
 <div class="mtype-ranking-page container">
     <div class="ranking-top">
         <div class="ranking-header">
-            <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
+            <h2>내 타입({{m_type}})의 최적 생리대는?</h2>
             <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.<br>
             당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
             <div class="button">
@@ -20,12 +20,51 @@ ChaeBi | M-type 랭킹
                 <a href="#">M-Type 재검사</a>
             </div>
             <div class="collapse" id="collapseExample">
-                다른 타입의 제품랭킹은?
+                <p>다른 타입의 제품랭킹은?</p>
+
             </div>
         </div>
         <div>
             <img src="#">
         </div>
+    </div>
+
+    <div class="container col-12">
+        <form action = "{% url 'MtypeRanking' %}" method = "POST">
+            {% csrf_token %}            
+            <button type="submit" class="btn btn-primary">Submit</button>
+            {% comment %} A or I {% endcomment %}
+            <div class="switch switch--vertical">
+            <input id="radio-a" type="radio" name="toggle-1" {% if 'A' in m_type%}checked="checked"{% endif %}/> 
+            <label for="radio-a">A</label>
+            <input id="radio-i" type="radio" name="toggle-1"/>
+            <label for="radio-i">I</label><span class="toggle-outside"><span class="toggle-inside"></span></span>
+
+        
+            {% comment %} H or L {% endcomment %}
+
+            <div class="switch switch--vertical">
+            <input id="radio-h" type="radio" name="toggle-2" {% if 'H' in m_type%}checked="checked"{% endif %}/>
+            <label for="radio-h">H</label>
+            <input id="radio-l" type="radio" name="toggle-2"/>
+            <label for="radio-l">L</label><span class="toggle-outside"><span class="toggle-inside"></span></span>
+            
+            {% comment %} S or T {% endcomment %}
+            <div class="switch switch--vertical">
+            <input id="radio-s" type="radio" name="toggle-3" {% if 'S' in m_type%}checked="checked"{% endif %}/>
+            <label for="radio-s">S</label>
+            <input id="radio-t" type="radio" name="toggle-3"/>
+            <label for="radio-t">T</label><span class="toggle-outside"><span class="toggle-inside"></span></span>
+
+            {% comment %} P or F {% endcomment %}
+            <div class="switch switch--vertical">
+            <input id="radio-p" type="radio" name="toggle-4" {% if 'P' in m_type%}checked="checked"{% endif %}/>
+            <label for="radio-p">P</label>
+            <input id="radio-f" type="radio" name="toggle-4"/>
+            <label for="radio-f">F</label><span class="toggle-outside"><span class="toggle-inside"></span></span>
+
+
+        </form>
     </div>
     {% comment %} <div class="d-flex ranking-top">
         <div class="p-2 ranking-header">
