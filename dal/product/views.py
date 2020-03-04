@@ -10,40 +10,40 @@ from ranking.models import ReviewSummary
 from ranking.views import calculateWeight
 from user.models import Profile, User
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import json
 import urllib
 
 # Create your views here.
 
-# 비교함에 상품 담기
-def insert_cart(request, product_id):
-    cart_list = request.session.get("cart", [])
+# 비교함 관리
+@csrf_exempt
+def cart(request, product_id):
+    if request.method == 'GET':
+        cart_list = request.session.get("cart", [])
 
-    for idx, val in enumerate(cart_list):
-        if val["id"] == product_id:
-            return HttpResponse("overlap")
+        for idx, val in enumerate(cart_list):
+            if val['id'] == product_id:
+                return HttpResponse("overlap")    
 
-    data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
-    cart_list.append(data[0])
-    request.session["cart"] = cart_list
+        data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
+        cart_list.append(data[0])
+        request.session["cart"] = cart_list
 
-    # return 할때 HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json") 를 사용해도 결과는 동일합니다
-    return JsonResponse(data[0], safe=False)
+        # return 할때 HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json") 를 사용해도 결과는 동일합니다
+        return JsonResponse(data[0], safe=False)
 
+    if request.method == 'DELETE':
+        cart_list = request.session.get("cart")
 
-# 비교함에서 삭제하기 (미완성)
-def delete_cart(request, product_id):
-    cart_list = request.session.get("cart")
+        for idx, val in enumerate(cart_list):
+            if val['id'] == product_id:
+                del cart_list[idx]
+                break
 
-    for idx, val in enumerate(cart_list):
-        if val["id"] == product_id:
-            del cart_list[idx]
-            break
+        request.session["cart"] = cart_list
 
-    request.session["cart"] = cart_list
-
-    return HttpResponse("delete success!")
-
+        return HttpResponse("delete success!")
 
 # 공용 paginator
 def get_paginator(obj, page, obj_per_page, page_range):

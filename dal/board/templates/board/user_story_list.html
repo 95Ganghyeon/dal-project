@@ -20,8 +20,8 @@
             <li class="card" onclick="location.href='{% url 'user-story-detail' user_story.id %}'">
                 {{ user_story.id }}
                 <img class="card-img" src="{{ user_story.image.url }}"/>
-                <h3 class="card-title">{{ user_story.title|truncatechars:30 }}</h3>
-                <div class="card-text">{{ user_story.content|safe|truncatechars:30 }}</div>
+                <h3 class="card-title">{{ user_story.title|truncatechars:50 }}</h3>
+                <div class="card-text">{{ user_story.content|striptags|truncatechars:50 }}</div>
                 <div class="card-info">
                     <span>{{ user_story.created_at|date:"Y.m.d" }}</span>
                     <span class="like"><i class="fas fa-heart{% if request.user in user_story.likes.all %} active{% endif %}"></i>&nbsp;&nbsp;{{ user_story.total_likes }}</span>

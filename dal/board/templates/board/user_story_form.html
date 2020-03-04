@@ -65,6 +65,11 @@
     // 파일 선택 완료 이벤트
     document.getElementById('files').addEventListener('change', function() {
         const self = this;
+        if(image_file_buffer.length + self.files.length > 2) {
+            alert('파일은 최대 2개까지만 업로드 가능합니다');
+            return;
+        }
+
         if(image_file_buffer.length == 0 && self.files.length > 0) {
             document.getElementById('file-list-box').innerText = '';
         }
@@ -122,11 +127,6 @@
     document.querySelector('.user-story-form-page form').addEventListener('submit', function() {
         const self = this;
 
-        if(image_file_buffer.length > 2) {
-            alert('파일은 최대 2개까지만 업로드 가능합니다');
-            return;
-        }
-        
         var form_data = new FormData(self);
         for(var i = 0; i < image_file_buffer.length; i++) {
             var name = 'image' + (i + 1);

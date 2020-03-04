@@ -1,5 +1,6 @@
 from django import forms
 from .models import Profile
+from survey.models import Survey
 
 import datetime
 class SignupForm(forms.Form):
