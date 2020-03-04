@@ -29,39 +29,62 @@ ChaeBi | M-type 랭킹
         </div>
     </div>
 
-    {% comment %} <div class="container col-12">
-        <form action = "{% url 'MtypeRanking' %}" method = "POST">
+    <div class="container col-12">
+        <form id="toggle-form" action = "{% url 'MtypeRanking' %}" method = "POST">
             {% csrf_token %}            
             <button type="submit" class="btn btn-primary">Submit</button>
             {# A or I #}
             <div class="switch switch--vertical">
-            <input id="radio-a" type="radio" name="toggle-1" {% if 'A' in m_type%}checked="checked"{% endif %}/> 
-            <label for="radio-a">A</label>
-            <input id="radio-i" type="radio" name="toggle-1"/>
-            <label for="radio-i">I</label><span class="toggle-outside"><span class="toggle-inside"></span></span>
+                <div class="toggle-outside">
+                    <input id="radio-a" type="radio" name="toggle-1" {% if 'A' in m_type%}checked="checked" {% endif %} />
+                    <label for="radio-a">A</label>
+                    <input id="radio-i" type="radio" name="toggle-1" />
+                    <label for="radio-i" class="second">I</label>
+                    <div class="toggle-inside">
+                    </div>
+                    <p>활동량</p>
+                </div>
+            </div>
 
         
-            {# H or L #}
+            {% comment %} H or L {% endcomment %}
+            <div class="switch switch--vertical">
+                <div class="toggle-outside">
+                    <input id="radio-h" type="radio" name="toggle-2" {% if 'H' in m_type%}checked="checked" {% endif %} />
+                    <label for="radio-h">H</label>
+                    <input id="radio-l" type="radio" name="toggle-2" />
+                    <label for="radio-l" class="second">L</label>
+                    <div class="toggle-inside">
+                    </div>
+                    <p>월경량</p>
+                </div>
+            </div>
 
+            {% comment %} S or T {% endcomment %}
             <div class="switch switch--vertical">
-            <input id="radio-h" type="radio" name="toggle-2" {% if 'H' in m_type%}checked="checked"{% endif %}/>
-            <label for="radio-h">H</label>
-            <input id="radio-l" type="radio" name="toggle-2"/>
-            <label for="radio-l">L</label><span class="toggle-outside"><span class="toggle-inside"></span></span>
-            
-            {# S or T #}
-            <div class="switch switch--vertical">
-            <input id="radio-s" type="radio" name="toggle-3" {% if 'S' in m_type%}checked="checked"{% endif %}/>
-            <label for="radio-s">S</label>
-            <input id="radio-t" type="radio" name="toggle-3"/>
-            <label for="radio-t">T</label><span class="toggle-outside"><span class="toggle-inside"></span></span>
+                <div class="toggle-outside">
+                    <input id="radio-s" type="radio" name="toggle-3" {% if 'S' in m_type%}checked="checked" {% endif %} />
+                    <label for="radio-s">S</label>
+                    <input id="radio-t" type="radio" name="toggle-3" />
+                    <label for="radio-t" class="second">T</label>
+                    <div class="toggle-inside">
+                    </div>
+                    <p>바디민감도</p>
+                </div>
+            </div>
 
             {# P or F #}
             <div class="switch switch--vertical">
-            <input id="radio-p" type="radio" name="toggle-4" {% if 'P' in m_type%}checked="checked"{% endif %}/>
-            <label for="radio-p">P</label>
-            <input id="radio-f" type="radio" name="toggle-4"/>
-            <label for="radio-f">F</label><span class="toggle-outside"><span class="toggle-inside"></span></span>
+                <div class="toggle-outside">
+                    <input id="radio-p" type="radio" name="toggle-4" {% if 'P' in m_type%}checked="checked" {% endif %} />
+                    <label for="radio-p">P</label>
+                    <input id="radio-f" type="radio" name="toggle-4" />
+                    <label for="radio-f" class="second">F</label>
+                    <div class="toggle-inside">
+                    </div>
+                    <p>월경질환</p>
+                </div>
+            </div>
 
 
         </form>
