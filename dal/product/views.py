@@ -20,8 +20,8 @@ def insert_cart(request, product_id):
     cart_list = request.session.get("cart", [])
 
     for idx, val in enumerate(cart_list):
-        if val['id'] == product_id:
-            return HttpResponse("overlap")    
+        if val["id"] == product_id:
+            return HttpResponse("overlap")
 
     data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
     cart_list.append(data[0])
@@ -36,7 +36,7 @@ def delete_cart(request, product_id):
     cart_list = request.session.get("cart")
 
     for idx, val in enumerate(cart_list):
-        if val['id'] == product_id:
+        if val["id"] == product_id:
             del cart_list[idx]
             break
 
@@ -107,42 +107,46 @@ def productDetail(request, pk):
         temp_anti_odour = 0
         temp_sensitivity = 0
         temp_comfort = 0
-        denominator = 0     
-        
+        denominator = 0
+
         for record in review_list:
             weight = calculateWeight(userMtype, record.m_type)
-            
+
             temp_score += record.score * weight
             temp_absorbency += record.absorbency * weight
             temp_anti_odour += record.anti_odour * weight
             temp_comfort += record.comfort * weight
             temp_sensitivity += record.sensitivity * weight
             denominator += weight
-        
-        type_based_review_summary['score'] = temp_score / denominator
-        type_based_review_summary['absorbency'] = temp_absorbency / denominator
-        type_based_review_summary['anti_odour'] = temp_anti_odour / denominator
-        type_based_review_summary['comfort'] = temp_comfort / denominator
-        type_based_review_summary['sensitivity'] = temp_sensitivity / denominator
+
+        type_based_review_summary["score"] = temp_score / denominator
+        type_based_review_summary["absorbency"] = temp_absorbency / denominator
+        type_based_review_summary["anti_odour"] = temp_anti_odour / denominator
+        type_based_review_summary["comfort"] = temp_comfort / denominator
+        type_based_review_summary["sensitivity"] = temp_sensitivity / denominator
 
         return type_based_review_summary
-
 
     if request.method == "POST":
         makeReview(request=request, pk=pk)
         return redirect(product)
     else:
         best_review = product.best_review_fk
-        same_type_reviews = Review.objects.filter(product_fk=product, m_type=request.user.profile.survey_fk.mtype)
-        other_type_reviews = Review.objects.filter(product_fk=product).exclude(m_type=request.user.profile.survey_fk.mtype)
-        
+        same_type_reviews = Review.objects.filter(
+            product_fk=product, m_type=request.user.profile.survey_fk.mtype
+        )
+        other_type_reviews = Review.objects.filter(product_fk=product).exclude(
+            m_type=request.user.profile.survey_fk.mtype
+        )
+
         review_list = same_type_reviews | other_type_reviews
-        type_based_review_summary = makeTypeBasedReviewSummary(review_list, request.user.profile.survey_fk.mtype)
+        type_based_review_summary = makeTypeBasedReviewSummary(
+            review_list, request.user.profile.survey_fk.mtype
+        )
 
         page = request.GET.get("page")
         paginator = get_paginator(review_list, page, 5, 3)
         form = GetReviewResponseForm()
-
         context = {
             "product": product,
             "type_based_review_summary": type_based_review_summary,
