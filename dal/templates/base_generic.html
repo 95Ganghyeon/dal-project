@@ -58,7 +58,7 @@
       // 비교함 카트 담는 ajax
       function insertCart(product_id) {
         var xhr = new XMLHttpRequest();
-        var url = "/product/cart/insert/" + product_id;
+        var url = "/product/cart/" + product_id;
         xhr.open('GET', url);
         xhr.onload = function () {
           if (xhr.status === 200) { // 정상
@@ -76,12 +76,13 @@
         xhr.send();
       }
 
+      // 비교함 삭제 ajax
       function deleteCart() {
         var self = this;
         var product_id = self.parentElement.getAttribute("data-product-id");
         var xhr = new XMLHttpRequest();
-        var url = "/product/cart/delete/" + product_id;
-        xhr.open('GET', url);
+        var url = "/product/cart/" + product_id;
+        xhr.open('DELETE', url);
         xhr.onload = function () {
           if (xhr.status === 200) { // 정상
             self.parentElement.remove();
@@ -91,10 +92,6 @@
         };
         xhr.send();
       }
-
-        // 비교함 카트에서 삭제하는 ajax
-
-        // 비교하기 버튼 클릭 이벤트 리스너
     </script>
   </head>
   <body>
@@ -122,7 +119,7 @@
                   <a class="nav-link" href="{% url 'product:CompareSearch' %}">비교검색</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">월경이야기</a>
+                  <a class="nav-link" href="{% url 'user-story-list' %}">월경이야기</a>
                 </li>
             </ul>
           </div>
