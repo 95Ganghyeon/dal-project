@@ -63,7 +63,8 @@
 
     .ranking-result {
         margin-top: 80px;
-        .d-flex {
+        display: block;
+        .product {
             border-bottom: ridge;
             img {
                 width: 150px;
@@ -81,12 +82,6 @@
                 }
                 div {
                     margin-top: 50px;
-                }
-            }
-            .score {
-                span {
-                    margin: 15px 0px;
-                    display: block;
                 }
             }
         }
