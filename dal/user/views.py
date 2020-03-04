@@ -59,5 +59,9 @@ def edit_profile(request):
     profile = request.user.profile
     placeholder = {'nickname':profile.nickname,'email':request.user.email}
     warning = {'nickname':"변경할 닉네임 입력해주세요","email":"변경할 이메일 입력해주세요"}
-    context = {'placeholder':placeholder,'warning':warning}
+    context = {
+      'profile':profile,
+      'placeholder':placeholder,
+      'warning':warning
+    }
     return render(request,'user/profile_edit.html',context=context)

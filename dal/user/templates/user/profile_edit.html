@@ -19,52 +19,78 @@ ChaeBi | 마이페이지 수정
   </div>
 
   <!--프로필 변경 -->
-  <div class="d-flex flex-column">
-    <div class="p-2">
-      하이하잇
-    </div>
-    <div class="p-2">
-      하이하잇
-    </div>
-    <div class="p-2">
-      하이하잇
-    </div>
-    <div class="p-2">
-      하이하잇
-    </div>
-
-  </div>
-  <form method="POST" action="{% url 'edit_profile' %}" class="edit_profile">
+  <form method="POST" action="{% url 'edit_profile' %}" class="edit-form">
     {% csrf_token %}
-
-    <div class="form-group">
-      <label for="nickname">닉네임</label>
-      <input type="text" class="form-control" name="nickname" id="nickname" aria-describedby="helpId" placeholder="{{ placeholder.nickname }}">
-      <small id="helpId" class="form-text text-muted">{{ warning.nickname }}</small>
-    </div>
-
-    <div class="form-group">
-      <label for="email">이메일</label>
-      <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelpId" placeholder="{{ placeholder.email }}">
-      <small id="emailHelpId" class="form-text text-muted">{{ warning.email }}</small>
+    <div class="d-flex flex-column">
+      <div class="p-3 form-title">
+        프로필 변경
+      </div>
+      <div class="p-3 row justify-content-center form-content">
+        <div class="col-2 text-center">
+          닉네임
+        </div>
+        <div class="col-6">
+          {{ profile.nickname }}
+        </div>
+        <div class="col-2 text-center">
+          <i class="far fa-edit"></i>
+        </div>
+      </div>
+      <div class="p-3 row justify-content-center form-content">
+        <div class="col-2 text-center">
+          이메일
+        </div>
+        <div class="col-6">
+          {{ profile.user_fk.email }}
+        </div>
+        <div class="col-2 text-center">
+          <i class="far fa-check-circle"></i>
+        </div>
+      </div>
     </div>
   </form>
-
-  <div class="underline">
-    비밀번호 변경
-  </div>
-
-  <!-- 비밀번호 변경 -->
-
-  <form method="POST" action="{% url 'account_change_password' %}" class="password_change">
+  
+  <!--비밀번호 변경 -->
+  <form method="POST" action="{% url 'account_change_password' %}" class="edit-form">
     {% csrf_token %}
-    <p><label for="id_oldpassword">현재 비밀번호:</label> <input type="password" name="oldpassword" placeholder="현재 비밀번호"
-        required id="id_oldpassword"></p>
-    <p><label for="id_password1">새 비밀번호:</label> <input type="password" name="password1" placeholder="새 비밀번호" required
-        id="id_password1"></p>
-    <p><label for="id_password2">새 비밀번호 (확인):</label> <input type="password" name="password2" placeholder="새 비밀번호 (확인)"
-        required id="id_password2"></p>
-    <button type="submit" name="action">변경하기</button>
+    <div class="d-flex flex-column">
+      <div class="p-3 form-title">
+        비밀번호 변경
+      </div>
+      <div class="p-3 row justify-content-center form-content">
+        <div class="col-2 text-center">
+          <label for="id_oldpassword">현재 비밀번호</label>
+        </div>
+        <div class="col-6">
+          <input type="password" name="oldpassword" required id="id_oldpassword">
+        </div>
+        <div class="col-2 text-center">
+          
+        </div>
+      </div>
+      <div class="p-3 row justify-content-center form-content">
+        <div class="col-2 text-center">
+          <label for="id_password1">새 비밀번호</label>
+        </div>
+        <div class="col-6">
+          <input type="password" name="password1" required id="id_password1">
+        </div>
+        <div class="col-2 text-center">
+          
+        </div>
+      </div>
+      <div class="p-3 row justify-content-center form-content">
+        <div class="col-2 text-center">
+          <label for="id_password2">새 비밀번호 재입력</label>
+        </div>
+        <div class="col-6">
+          <input type="password" name="password2" required id="id_password2">
+        </div>
+        <div class="col-2 text-center">
+          <button type="submit" name="action">변경하기</button>
+        </div>
+      </div>
+    </div>
   </form>
 
 </div>
