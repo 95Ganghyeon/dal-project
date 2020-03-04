@@ -92,89 +92,114 @@
     // 이건 라디오 테스트
 
 }
+#toggle-form {
+    display: flex;
 
-.switch {
-    margin: 4rem auto;
-    }
+    >div {
+        margin-right: 10px;
 
-    .switch {
-    width: 24rem;
-    position: relative;
+        p {
+            position: absolute;
+            top: 6rem;
+
+            &::after {
+                content: '평균이상';
+                display: block;
+            }
+        }
+        
     }
-    .switch input {
-    position: absolute;
-    top: 0;
-    z-index: 2;
-    opacity: 0;
-    cursor: pointer;
-    }
-    .switch input:checked {
-    z-index: 1;
-    }
-    .switch input:checked + label {
+}
+.switch--vertical #radio-i:checked~p::after,
+.switch--vertical #radio-l:checked~p::after,
+.switch--vertical #radio-t:checked~p::after,
+.switch--vertical #radio-f:checked~p::after {
+    content: '평균이하';
+}
+
+.switch input {
+    display: none;
+}
+
+.switch input:checked+label {
     opacity: 1;
     cursor: default;
-    }
-    .switch input:not(:checked) + label:hover {
+}
+
+.switch input:not(:checked)+label:hover {
     opacity: 0.5;
-    }
-    .switch label {
+}
+
+.switch label {
     color: black;
+    font-size: 1.5rem;
+    text-align: center;
+    position: absolute;
+    top: 0.25rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 10;
+    
+    display: inline-block;
+    width: 2.3rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    vertical-align: middle;
+    
     opacity: 0.33;
     transition: opacity 0.25s ease;
     cursor: pointer;
+
+    &.second {
+        top: 3.0rem;
     }
-    .switch .toggle-outside {
+}
+
+.switch .toggle-outside {
     height: 100%;
     border-radius: 2rem;
     padding: 0.25rem;
-    overflow: hidden;
     transition: 0.25s ease all;
     box-shadow: 5px 5px 2px grey;
-    }
-    .switch .toggle-inside {
+}
+
+.switch .toggle-inside {
     border-radius: 5rem;
     background: #d2d2d2;
     position: absolute;
     transition: 0.25s ease all;
-    }
+}
 
-    .switch--vertical {
-    width: 12rem;
+.switch--vertical {
     height: 6rem;
-    }
-    .switch--vertical input {
+}
+
+.switch--vertical input {
     height: 100%;
     width: 3rem;
     right: 0;
     margin: 0;
-    }
-    .switch--vertical label {
-    font-size: 1.5rem;
-    line-height: 3rem;
-    display: block;
-    width: 8rem;
-    height: 50%;
-    margin: 0;
-    text-align: center;
-    }
-    .switch--vertical .toggle-outside {
+}
+
+.switch--vertical .toggle-outside {
     background: #fff;
-    position: absolute;
+    position: relative;
     width: 3rem;
     height: 100%;
-    right: 0;
-    top: 0;
-    }
-    .switch--vertical .toggle-inside {
+}
+
+.switch--vertical .toggle-inside {
     height: 2.5rem;
+    position: absolute;
     left: 0.25rem;
     top: 0.25rem;
-    width: 2.5rem;
-    }
-    .switch--vertical input:checked ~ .toggle-outside .toggle-inside {
+    width: 2.3rem;
+}
+
+.switch--vertical input:first-child:checked~.toggle-inside {
     top: 0.25rem;
-    }
-    .switch--vertical input ~ input:checked ~ .toggle-outside .toggle-inside {
-    top: 3.25rem;
-    }
+}
+
+.switch--vertical input:not(:first-child):checked~.toggle-inside {
+    top: 3.0rem;
+}
