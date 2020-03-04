@@ -21,4 +21,5 @@ class ReviewSummary(models.Model):
     sensitivity_avg = models.FloatField(default=0)
 
     def __str__(self):
-        return self.product_fk.name + "에 대한 ReviewSummary"
+        return self.product_fk.name + "에 대한 ReviewSummary"    
+
