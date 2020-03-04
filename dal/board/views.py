@@ -6,16 +6,14 @@ from product.views import get_paginator
 from user.models import *
 from .models import *
 from .forms import UserStroyForm
-from django.db.models import Case, When, Value, BooleanField, Exists
+from django.db.models import Case, When, Value, BooleanField, Exists 
 
 def notice_list(request):
     return render(request, "board/notice_list.html", context={})
 
-
 def notice_detail(request, pk):
     return render(request, "board/notice_detail.html", context={})
     
-
 # 콘텐츠 리스트 페이지
 def user_story_list(request):
     user_story_list = User_story.objects.all().order_by('-created_at')

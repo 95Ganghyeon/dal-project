@@ -29,10 +29,23 @@ def index(request):
                 'survey_id': request.session.get('survey_id','none')
             }
 
+            # 유저로그인상태면 유저프로필에 서베이 등록해서 mtype 연결 
+
+            try:
+                profile = request.user.profile
+                profile.survey_fk = survey_result
+                profile.save()
+            except:
+                pass
             return render(request, 'index.html', context)
-            
-    form = GetSurveyResponseForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'index.html', context)
+    else:
+
+        #이미 검사를 했다면 
+        if request.session['survey_id']:
+            pass
+
+        form = GetSurveyResponseForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'index.html', context)
