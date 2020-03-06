@@ -10,13 +10,13 @@ ChaeBi | 제품상세
 <div class="product-detail-page container">
     <div class="product-intro">
         <div class="product-intro__path">
-            상품검색 > {{product.name}}
+            <span>상품검색 > </span>{{product.name}}
         </div>
         <div class="product-intro__main row">
-            <div class="product-intro__img col-6">
+            <div class="product-intro__img col-xl-6 col-lg-5 col-md-12 col-xs-12">
                 <img src="{{product.image.url}}" alt="" />
             </div>
-            <div class="product-intro__content col-6">
+            <div class="product-intro__content col-xl-6 col-lg-7 col-md-12 col-xs-12">
                 <div class="product-intro__top-box">
                     <div class="top-box__left">
                         <span>{{product.name}}</span>
@@ -63,7 +63,7 @@ ChaeBi | 제품상세
     </div>
 
     <div class="product-detail">
-        <ul class="product-detail__list container">
+        <ul class="product-detail__list">
             <li class="row">
                 <input id="tab1" type="radio" name="tabs">
                 <label class="col-4" for="tab1">제품정보</label>
@@ -73,14 +73,12 @@ ChaeBi | 제품상세
                 <label class="col-4" for="tab3">리뷰({{review_list|length}})</label>
 
                 <section class="col-xs-12" id="content1">
-                    여기는 '제품정보' 탭 // 지마켓처럼 제품 소개 이미지 통짜로 박을 것임
                 </section>
                 <section class="col-xs-12" id="content2">
-                    여기는 '성분정보' 탭 // 생리대 구조 그래프와 성분 기재 + 자연 유래도 퍼센트와 그래프 포함
                 </section>
-                <section class="col-xs-12" id="content3">
+                <section class="container p-0" id="content3">
                     <div class="review-summary row">
-                        <div class="review-summary__left-column col-6">
+                        <div class="review-summary__left-column col-xl-6 col-lg-5 col-md-12 col-xs-12">
                             <div>
                                 <span class="font-weight-bold">{{user.profile.survey_fk.mtype}}</span> 타입 {{user.username}}님에게,</span>
                             </div>
@@ -89,17 +87,41 @@ ChaeBi | 제품상세
                             </div>
                             <div><span class="font-weight-bold">{{type_based_review_summary.score}}</span> / 5</div>
                         </div>
-                        <div class="review-summary__right-column col-6">
-                            <div>
+                        <div class="review-summary__right-column col-xl-6 col-lg-7 col-md-12 col-xs-12">
+                            <div class="col-4">
                                 <span>탈취성</span>
                                 <span>촉감 / 착용감</span>
                                 <span>흡수력</span>
                                 <span>피부친화도</span>
                             </div>
-                            <div>
-                                <div>
-                                    <div> <!--여기는 그래프 바가 들어갈 자리!--></div>
-                                    <span><!--여기는 숫자가 들어갈자리!--></span>
+                            <div class="right-column__eva-list col-8">
+                                <div class="right-column__eva-list-item row">
+                                    <div class="progress d-flex col-8 p-0">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{type_based_review_summary.anti_odour}}"
+                                        aria-valuemin="0" aria-valuemax="5" style="width: {% widthratio type_based_review_summary.anti_odour 5 100 %}%"></div>
+                                    </div>
+                                    <span><span>{{type_based_review_summary.anti_odour}}</span> / 5</span>
+                                </div>
+                                <div class="right-column__eva-list-item row">
+                                    <div class="progress d-flex col-8 p-0">
+                                        <div class="progress-bar " role="progressbar" aria-valuenow="{{type_based_review_summary.comfort}}"
+                                        aria-valuemin="0" aria-valuemax="5" style="width: {% widthratio type_based_review_summary.comfort 5 100 %}%"></div>
+                                    </div>
+                                    <span><span>{{type_based_review_summary.comfort}}</span> / 5</span>
+                                </div>
+                                <div class="right-column__eva-list-item row">
+                                    <div class="progress d-flex col-8 p-0">
+                                        <div class="progress-bar " role="progressbar" aria-valuenow="{{type_based_review_summary.absorbency}}"
+                                        aria-valuemin="0" aria-valuemax="5" style="width: {% widthratio type_based_review_summary.absorbency 5 100 %}%"></div>
+                                    </div>
+                                    <span><span>{{type_based_review_summary.absorbency}}</span> / 5</span>
+                                </div>
+                                <div class="right-column__eva-list-item row">
+                                    <div class="progress d-flex col-8 p-0">
+                                        <div class="progress-bar " role="progressbar" aria-valuenow="{{type_based_review_summary.sensitivity}}"
+                                        aria-valuemin="0" aria-valuemax="5" style="width: {% widthratio type_based_review_summary.sensitivity 5 100 %}%"></div>
+                                    </div>
+                                    <span><span>{{type_based_review_summary.sensitivity}}</span> / 5</span>
                                 </div>
                             </div>
                         </div>
@@ -107,52 +129,95 @@ ChaeBi | 제품상세
 
                     <div class="review">
                         <div class="review-title">
-                            <span><span class="font-weight-bold">당신의 타입 {{user.profile.survey_fk.mtype}}</span> 에 도움 되는 리뷰순으로 정렬하였습니다:)<span>
+                            <span><span class="font-weight-bold">당신의 타입 {{user.profile.survey_fk.mtype}}</span> 에 도움 되는 리뷰순으로 정렬하였습니다 :)<span>
                         </div>
                         {% for review in paginator.page_obj %}
                             <div class="review-content">
                                 <div class="review-content__info">
-                                    <div class="review-content__top">
-                                        <div>
-                                            <div>추천지수</div>
-                                            <div>{{review.score}}</div>
+                                    <div class="review-content__top row">
+                                        <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-2">
+                                            {% if review.score == 1 %}
+                                                <img src="{% static "images/review-emoticon/1.png" %}" style="width:100%; height: 100%">
+                                                <div style="color: #282020;">최악</div>
+                                            {% elif review.score == 2 %}
+                                                <img src="{% static "images/review-emoticon/2.png" %}" style="width:100%; height: 100%">
+                                                <div style="color: #66615C;">별로</div>
+                                            {% elif review.score == 3 %}
+                                                <img src="{% static "images/review-emoticon/3.png" %}" style="width:100%; height: 100%">
+                                                <div style="color: #EFAD2B;">쏘쏘</div>
+                                            {% elif review.score == 4 %}
+                                                <img src="{% static "images/review-emoticon/4.png" %}" style="width:100%; height: 100%">
+                                                <div style="color: #FF6510;">굿굿</div>
+                                            {% elif review.score == 5 %}
+                                                <img src="{% static "images/review-emoticon/5.png" %}" style="width:100%; height: 100%">
+                                                <div style="color: #C90A0A;">대박</div>
+                                            {% endif %} 
                                         </div>
-                                        <div>
+                                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-5">
                                             <div>{{review.user_fk.username}} / {{review.user_fk.profile.age}}세 / 여성</div>
                                             <div>{{review.created.year}}.{{review.created.month}}.{{review.created.day}}</div>
                                         </div>
                                         <input type="radio" id="open-button{{forloop.counter}}" name="button{{forloop.counter}}" />
                                         <input type="radio" id="close-button{{forloop.counter}}" name="button{{forloop.counter}}">
-                                        <label for="open-button{{forloop.counter}}">
+                                        <label class="col-md-4" for="open-button{{forloop.counter}}">
                                             <span>항목별 세부평가</span>
                                             <i class="fas fa-chevron-down"></i>
                                         </label>
-                                        <label for="close-button{{forloop.counter}}">
+                                        <label class="col-md-4" for="close-button{{forloop.counter}}">
                                             <span>항목별 세부평가</span>
                                             <i class="fas fa-chevron-up"></i>
-                                        </label>
-                                        
-                                        {% comment %} <div class="clicked-box row">
-                                            <div class="clicked-box__left-column col-5">
-                                                <span>흡수력</span>
-                                                <span>통기성</span>
-                                                <span>촉감 / 착용감</span>
-                                                <span>피부친화도</span>
+                                            <div class="clicked-box row">
+                                                <div class="clicked-box__left-column col-5">
+                                                    <span>흡수력</span>
+                                                    <span>통기성</span>
+                                                    <span>촉감 / 착용감</span>
+                                                    <span>피부친화도</span>
+                                                </div>
+                                                <div class="clicked-box__right-column col-7">
+                                                    <div class="">
+                                                        <div class="progress">
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="{{review.absorbency}}"
+                                                            aria-valuemin="0" aria-valuemax="5" style="width: {% widthratio review.absorbency 5 100 %}%"></div>   
+                                                        </div>
+                                                        <span><span>{{review.absorbency}}</span> / 5</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="{{review.anti_odour}}"
+                                                            aria-valuemin="0" aria-valuemax="5" style="width: {% widthratio review.anti_odour 5 100 %}%"></div>   
+                                                        </div>
+                                                        <span><span>{{review.anti_odour}}</span> / 5</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="{{review.comfort}}"
+                                                            aria-valuemin="0" aria-valuemax="5" style="width: {% widthratio review.comfort 5 100 %}%"></div>   
+                                                        </div>
+                                                        <span><span>{{review.comfort}}</span> / 5</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="{{review.sensitivity}}"
+                                                            aria-valuemin="0" aria-valuemax="5" style="width: {% widthratio review.sensitivity 5 100 %}%"></div>   
+                                                        </div>
+                                                        <span><span>{{review.sensitivity}}</span> / 5</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="clicked-box__right-column col-7"></div>
-                                        </div> {% endcomment %}
-                                        
+                                        </label>                
                                     </div>
-                                    <div class="review-content__bottom">
-                                        <div>{{review.m_type}}</div>
-                                    </div>  
-                                </div>
-                                <div class="review__review">
-                                    {{review.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은
-                                    날에는 아무리 자주
-                                    바꿔도 새곤 했는데, 질경이 마음은 흡수력이 좋아서 전혀 새지 않더라구요 !
-                                    친구들 중에도 저랑 비슷한 고민하는 친구들한테 추천할 정도였어요. 다만 가격이 조금 아쉬운데,
-                                    투자할만한 가치가 충분하다고는 생각합니다 ! 첫째날, 둘째날 양 진짜 많으신 분들 강추드려요 
+                                    <div class="review-content__bottom row">
+                                        <div class="mtype col-xl-1 col-lg-1 col-md-2 col-sm-1">
+                                            <span>{{review.m_type}}</span>
+                                        </div> 
+                                        <div class="review__review col-xl-11 col-lg-11 col-md-11 col-sm-11 col-xs-10">
+                                            {{review.content}}기대한 것보다 흡수력이 더 강했던 것 같아요. 이때까지 썼던 생리대는 양이 많은
+                                            날에는 아무리 자주
+                                            바꿔도 새곤 했는데, 질경이 마음은 흡수력이 좋아서 전혀 새지 않더라구요 !
+                                            친구들 중에도 저랑 비슷한 고민하는 친구들한테 추천할 정도였어요. 다만 가격이 조금 아쉬운데,
+                                            투자할만한 가치가 충분하다고는 생각합니다 ! 첫째날, 둘째날 양 진짜 많으신 분들 강추드려요 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}

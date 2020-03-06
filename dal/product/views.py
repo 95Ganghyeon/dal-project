@@ -19,12 +19,12 @@ import urllib
 # 비교함 관리
 @csrf_exempt
 def cart(request, product_id):
-    if request.method == 'GET':
+    if request.method == "GET":
         cart_list = request.session.get("cart", [])
 
         for idx, val in enumerate(cart_list):
-            if val['id'] == product_id:
-                return HttpResponse("overlap")    
+            if val["id"] == product_id:
+                return HttpResponse("overlap")
 
         data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
         cart_list.append(data[0])
@@ -33,17 +33,18 @@ def cart(request, product_id):
         # return 할때 HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json") 를 사용해도 결과는 동일합니다
         return JsonResponse(data[0], safe=False)
 
-    if request.method == 'DELETE':
+    if request.method == "DELETE":
         cart_list = request.session.get("cart")
 
         for idx, val in enumerate(cart_list):
-            if val['id'] == product_id:
+            if val["id"] == product_id:
                 del cart_list[idx]
                 break
 
         request.session["cart"] = cart_list
 
         return HttpResponse("delete success!")
+
 
 # 공용 paginator
 def get_paginator(obj, page, obj_per_page, page_range):
@@ -119,11 +120,17 @@ def productDetail(request, pk):
             temp_sensitivity += record.sensitivity * weight
             denominator += weight
 
-        type_based_review_summary["score"] = temp_score / denominator
-        type_based_review_summary["absorbency"] = temp_absorbency / denominator
-        type_based_review_summary["anti_odour"] = temp_anti_odour / denominator
-        type_based_review_summary["comfort"] = temp_comfort / denominator
-        type_based_review_summary["sensitivity"] = temp_sensitivity / denominator
+        type_based_review_summary["score"] = round(temp_score / denominator, 1)
+        type_based_review_summary["absorbency"] = round(
+            temp_absorbency / denominator, 1
+        )
+        type_based_review_summary["anti_odour"] = round(
+            temp_anti_odour / denominator, 1
+        )
+        type_based_review_summary["comfort"] = round(temp_comfort / denominator, 1)
+        type_based_review_summary["sensitivity"] = round(
+            temp_sensitivity / denominator, 1
+        )
 
         return type_based_review_summary
 
