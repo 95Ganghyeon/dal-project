@@ -10,7 +10,7 @@ ChaeBi | M-type 랭킹
 <div class="mtype-ranking-page container">
     <div class="ranking-top">
         <div class="ranking-header">
-            <h2>내 타입({{m_type}})의 최적 생리대는?</h2>
+            <h2><mark>내 타입({{m_type}})</mark>의 최적생리대는?</h2>
             <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.<br>
             당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
             <div class="button">
@@ -20,74 +20,72 @@ ChaeBi | M-type 랭킹
                 <a href="#">M-Type 재검사</a>
             </div>
             <div class="collapse" id="collapseExample">
-                <p>다른 타입의 제품랭킹은?</p>
+                <div class="card card-body">
+                    <p><strong>다른 타입</strong>의 제품랭킹은?</p>
+                    <div class="container col-12">
+                        <form id="toggle-form" action = "{% url 'MtypeRanking' %}" method = "POST">
+                            {% csrf_token %}           
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            {# A or I #}
+                            <div class="switch switch--vertical">
+                                <div class="toggle-outside">
+                                    <input id="radio-a" type="radio" name="toggle-1" {% if 'A' in m_type%}checked="checked" {% endif %} />
+                                    <label for="radio-a">A</label>
+                                    <input id="radio-i" type="radio" name="toggle-1" />
+                                    <label for="radio-i" class="second">I</label>
+                                    <div class="toggle-inside">
+                                    </div>
+                                    <p>활동량</p>
+                                </div>
+                            </div>
 
+                        
+                            {% comment %} H or L {% endcomment %}
+                            <div class="switch switch--vertical">
+                                <div class="toggle-outside">
+                                    <input id="radio-h" type="radio" name="toggle-2" {% if 'H' in m_type%}checked="checked" {% endif %} />
+                                    <label for="radio-h">H</label>
+                                    <input id="radio-l" type="radio" name="toggle-2" />
+                                    <label for="radio-l" class="second">L</label>
+                                    <div class="toggle-inside">
+                                    </div>
+                                    <p>월경량</p>
+                                </div>
+                            </div>
+
+                            {% comment %} S or T {% endcomment %}
+                            <div class="switch switch--vertical">
+                                <div class="toggle-outside">
+                                    <input id="radio-s" type="radio" name="toggle-3" {% if 'S' in m_type%}checked="checked" {% endif %} />
+                                    <label for="radio-s">S</label>
+                                    <input id="radio-t" type="radio" name="toggle-3" />
+                                    <label for="radio-t" class="second">T</label>
+                                    <div class="toggle-inside">
+                                    </div>
+                                    <p>바디민감도</p>
+                                </div>
+                            </div>
+
+                            {# P or F #}
+                            <div class="switch switch--vertical">
+                                <div class="toggle-outside">
+                                    <input id="radio-p" type="radio" name="toggle-4" {% if 'P' in m_type%}checked="checked" {% endif %} />
+                                    <label for="radio-p">P</label>
+                                    <input id="radio-f" type="radio" name="toggle-4" />
+                                    <label for="radio-f" class="second">F</label>
+                                    <div class="toggle-inside">
+                                    </div>
+                                    <p>월경질환</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         <div>
             <img src="#">
         </div>
-    </div>
-
-    <div class="container col-12">
-        <form id="toggle-form" action = "{% url 'MtypeRanking' %}" method = "POST">
-            {% csrf_token %}            
-            <button type="submit" class="btn btn-primary">Submit</button>
-            {# A or I #}
-            <div class="switch switch--vertical">
-                <div class="toggle-outside">
-                    <input id="radio-a" type="radio" name="toggle-1" {% if 'A' in m_type%}checked="checked" {% endif %} />
-                    <label for="radio-a">A</label>
-                    <input id="radio-i" type="radio" name="toggle-1" />
-                    <label for="radio-i" class="second">I</label>
-                    <div class="toggle-inside">
-                    </div>
-                    <p>활동량</p>
-                </div>
-            </div>
-
-        
-            {% comment %} H or L {% endcomment %}
-            <div class="switch switch--vertical">
-                <div class="toggle-outside">
-                    <input id="radio-h" type="radio" name="toggle-2" {% if 'H' in m_type%}checked="checked" {% endif %} />
-                    <label for="radio-h">H</label>
-                    <input id="radio-l" type="radio" name="toggle-2" />
-                    <label for="radio-l" class="second">L</label>
-                    <div class="toggle-inside">
-                    </div>
-                    <p>월경량</p>
-                </div>
-            </div>
-
-            {% comment %} S or T {% endcomment %}
-            <div class="switch switch--vertical">
-                <div class="toggle-outside">
-                    <input id="radio-s" type="radio" name="toggle-3" {% if 'S' in m_type%}checked="checked" {% endif %} />
-                    <label for="radio-s">S</label>
-                    <input id="radio-t" type="radio" name="toggle-3" />
-                    <label for="radio-t" class="second">T</label>
-                    <div class="toggle-inside">
-                    </div>
-                    <p>바디민감도</p>
-                </div>
-            </div>
-
-            {# P or F #}
-            <div class="switch switch--vertical">
-                <div class="toggle-outside">
-                    <input id="radio-p" type="radio" name="toggle-4" {% if 'P' in m_type%}checked="checked" {% endif %} />
-                    <label for="radio-p">P</label>
-                    <input id="radio-f" type="radio" name="toggle-4" />
-                    <label for="radio-f" class="second">F</label>
-                    <div class="toggle-inside">
-                    </div>
-                    <p>월경질환</p>
-                </div>
-            </div>
-
-
-        </form>
     </div>
     <div class="ranking-result">
         <ul style="list-style-type:none";>
@@ -99,9 +97,17 @@ ChaeBi | M-type 랭킹
                     <div class="mr-auto p-2 product-info">
                         <h4>{{ product.brand_fk }}</h4>
                         <h3>{{ product.name }}</h3>
-                        <div>
-                            예상만족도 {{ product.reviewsummary.total_score|floatformat:1 }}
-                            자연유래도 {{ product.productingredient.nature_friendly_score|floatformat }}%
+                        <div class="score d-flex row">
+                            <div class="satisfaction p-2">
+                                <div>예상만족도</div>
+                                <div class="badge badge-pill badge-primary">★{{ product.reviewsummary.total_score|floatformat:1 }}</div>
+                            </div>
+                            <div class="nature p-2">
+                                <div>자연유래도</div>
+                                <div class="badge badge-pill badge-primary">
+                                    <i class="fas fa-leaf"></i>{{ product.productingredient.nature_friendly_score|floatformat }}%
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row status w-25">
@@ -160,7 +166,7 @@ ChaeBi | M-type 랭킹
 </div>
 
 
-<script type="text/javascript">
+{% comment %} <script type="text/javascript">
 
     window.onload = function(){
         var pre_selected_item = document.querySelector('.ranking-pannel .mtype-ranking');                                        
@@ -195,7 +201,7 @@ ChaeBi | M-type 랭킹
         selected_item.classList.add('selected');
     }
 
-</script>
+</script> {% endcomment %}
 
 
 
