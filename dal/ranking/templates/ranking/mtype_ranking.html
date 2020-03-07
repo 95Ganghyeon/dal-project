@@ -96,7 +96,7 @@ ChaeBi | M-type 랭킹
                 <div class="d-flex flex-row product">
                     <div class="p-2">{{ forloop.counter }}위</div>
                     <div class="p-2"><a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" alt=""/></a></div>
-                    <div class="p-2 product-info">
+                    <div class="mr-auto p-2 product-info">
                         <h4>{{ product.brand_fk }}</h4>
                         <h3>{{ product.name }}</h3>
                         <div>
@@ -104,32 +104,48 @@ ChaeBi | M-type 랭킹
                             자연유래도 {{ product.productingredient.nature_friendly_score|floatformat }}%
                         </div>
                     </div>
-                    <div class="p-2 d-flex flex-column">
-                        <span class="p-2">흡수력 {{ product.reviewsummary.absorbency_avg|floatformat:1 }}</span>
-                        <span class="p-2">탈취성 {{ product.reviewsummary.anti_odour_avg|floatformat:1 }}</span>
-                        <span class="p-2">촉감/착용감 {{ product.reviewsummary.comfort_avg|floatformat:1 }}</span> 
-                        <span class="p-2">피부친화도 {{ product.reviewsummary.sensitivity_avg|floatformat:1 }}</span>
-                    </div>
-                    <div class="p-2 d-flex flex-column w-100">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.absorbency_avg }}" 
-                            style="width: {% widthratio product.reviewsummary.absorbency_avg 5 100 %}%" 
-                            aria-valuemin="0" aria-valuemax="5"></div>
+                    <div class="row status w-25">
+                        <div class="col-sm-6 d-flex flex-column">
+                            <div class="p-2">흡수력</div>
+                            <div class="p-2">탈취성</div>
+                            <div class="p-2">촉감/착용감</div>
+                            <div class="p-2">피부친화도</div>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.anti_odour_avg }}"
-                            style="width: {% widthratio product.reviewsummary.anti_odour_avg 5 100 %}%" 
-                            aria-valuemin="0" aria-valuemax="5"></div>
+                        <div class="col-sm-4 d-flex flex-column">
+                            <div class="p-2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.absorbency_avg }}" 
+                                    style="width: {% widthratio product.reviewsummary.absorbency_avg 5 100 %}%" 
+                                    aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.anti_odour_avg }}"
+                                    style="width: {% widthratio product.reviewsummary.anti_odour_avg 5 100 %}%" 
+                                    aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.comfort_avg }}"
+                                    style="width: {% widthratio product.reviewsummary.comfort_avg 5 100 %}%" 
+                                    aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.sensitivity_avg }}"
+                                    style="width: {% widthratio product.reviewsummary.sensitivity_avg 5 100 %}%" 
+                                    aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.comfort_avg }}"
-                            style="width: {% widthratio product.reviewsummary.comfort_avg 5 100 %}%" 
-                            aria-valuemin="0" aria-valuemax="5"></div>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.sensitivity_avg }}"
-                            style="width: {% widthratio product.reviewsummary.sensitivity_avg 5 100 %}%" 
-                            aria-valuemin="0" aria-valuemax="5"></div>
+                        <div class="col-sm-2 d-flex flex-column">
+                            <div class="p-2">{{ product.reviewsummary.absorbency_avg|floatformat:1 }}</div>
+                            <div class="p-2">{{ product.reviewsummary.anti_odour_avg|floatformat:1 }}</div>
+                            <div class="p-2">{{ product.reviewsummary.comfort_avg|floatformat:1 }}</div>
+                            <div class="p-2">{{ product.reviewsummary.sensitivity_avg|floatformat:1 }}</div>
                         </div>
                     </div>
                 </div>

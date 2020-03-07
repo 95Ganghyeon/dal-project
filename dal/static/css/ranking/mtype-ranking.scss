@@ -63,16 +63,14 @@
 
     .ranking-result {
         margin-top: 80px;
-        display: block;
         .product {
+            margin-top: 20px;
             border-bottom: ridge;
             img {
                 width: 150px;
                 height: 150px;
             }
-            
             .product-info {
-                margin-top: 20px;
                 h3 {
                     font-size: 22px;
                     font-weight: bold;
@@ -82,6 +80,16 @@
                 }
                 div {
                     margin-top: 50px;
+                }
+            }
+            .status {
+                font-size: 14px;
+                .progress {
+                    height: 14px;
+                    width: 80px;
+                    .progress-bar {
+                        background-color: #005700;
+                    }
                 }
             }
         }
