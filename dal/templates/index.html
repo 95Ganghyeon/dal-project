@@ -10,7 +10,9 @@ ChaeBi
             <div class="box row wow fadeInUp" data-wow-delay="0.4s">
                 <div class="col-xs-12 col-md-6 text-center">
                     <h6>검사하기 관련 설명글 및 이미지</h6>
-                    <div class="btn-cover"><a class="btn-more" id="surveyButton" data-toggle="modal" data-target="#surveyModal">검사하기</a></div>
+                    <div class="btn-cover"><a class="btn-more" id="surveyButton" data-toggle="modal" data-target="#surveyModal">
+                        {% if recheck %}재검사하기{% else %}검사하기{% endif %}
+                    </a></div>
                 </div>
                 <div class="col-xs-12 col-md-6 text-center">
                     <h6>비교하기 관련 설명글 및 이미지</h6>

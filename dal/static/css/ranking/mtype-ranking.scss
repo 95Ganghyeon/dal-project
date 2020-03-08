@@ -110,10 +110,10 @@
         
     }
 }
-.switch--vertical #radio-i:checked~p::after,
-.switch--vertical #radio-l:checked~p::after,
-.switch--vertical #radio-t:checked~p::after,
-.switch--vertical #radio-f:checked~p::after {
+.switch--vertical #radio-a:not(:checked)~p::after,
+.switch--vertical #radio-h:not(:checked)~p::after,
+.switch--vertical #radio-s:not(:checked)~p::after,
+.switch--vertical #radio-p:not(:checked)~p::after {
     content: '평균이하';
 }
 
@@ -128,6 +128,10 @@
 
 .switch input:not(:checked)+label:hover {
     opacity: 0.5;
+}
+
+.switch input:first-child:not(:checked)~label.second {
+    opacity: 1;
 }
 
 .switch label {
@@ -200,6 +204,6 @@
     top: 0.25rem;
 }
 
-.switch--vertical input:not(:first-child):checked~.toggle-inside {
+.switch--vertical .toggle-inside {
     top: 3.0rem;
 }
