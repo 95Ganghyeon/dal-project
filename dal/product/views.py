@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, resolve_url, redirect
 from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg, Q
-from django.contrib.auth.decorators import login_required
 from product.models import *
 from ranking.models import *
 from product.forms import GetReviewResponseForm
@@ -13,6 +12,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import urllib
+from django.contrib.auth.decorators import login_required
+from .decorators import user_survey_exist
 
 # Create your views here.
 
@@ -73,10 +74,11 @@ def get_paginator(obj, page, obj_per_page, page_range):
     }
 
 
+@login_required # 디테일 페이지는 로그인 해야만 들어갈 수 있음
+@user_survey_exist # 디테일 페이지는 설문조사를 해서 user.mtype을 가지고 있어야 들어갈 수 있음
 def productDetail(request, pk):
     product = get_object_or_404(Product, id=pk)
 
-    @login_required
     def makeReview(request, pk):
         """
         사용자가 리뷰 입력 폼에 맞게 입력하여 POST protocol로 넘어온 데이터를 바탕으로 새로운 Review Object를 만들어서 저장하는 함수임.
@@ -134,6 +136,7 @@ def productDetail(request, pk):
 
         return type_based_review_summary
 
+    
     if request.method == "POST":
         makeReview(request=request, pk=pk)
         return redirect(product)
@@ -167,7 +170,7 @@ def productDetail(request, pk):
 
 def normalSearch(request):
 
-    first_page = True
+    # first_page = True
     ReviewSummary_list = None
     paginator = None
     query_string = ""
@@ -182,7 +185,7 @@ def normalSearch(request):
                 query_string += "&" + item
 
     if "q" in request.GET:
-        first_page = False
+        # first_page = False
         query = request.GET.get("q")
         query = query.replace(" ", "")
         ReviewSummary_list = ReviewSummary.objects.all()
@@ -216,9 +219,13 @@ def normalSearch(request):
 
         page = request.GET.get("page")
         paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+    else:
+        ReviewSummary_list = ReviewSummary.objects.all()
+        page = request.GET.get("page")
+        paginator = get_paginator(ReviewSummary_list, page, 1, 2)
 
     context = {
-        "first_page": first_page,
+        # "first_page": first_page,
         "product_list": ReviewSummary_list,
         "paginator": paginator,
         "all_products": all_products,

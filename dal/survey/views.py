@@ -39,13 +39,13 @@ def index(request):
                 pass
             return render(request, 'index.html', context)
     else:
-
-        #이미 검사를 했다면 
-        if request.session['survey_id']:
-            pass
-
         form = GetSurveyResponseForm()
         context = {
             'form': form,
         }
+
+        #이미 검사를 했다면 
+        if 'survey_id' in request.session:
+            context['recheck'] = True
+
         return render(request, 'index.html', context)

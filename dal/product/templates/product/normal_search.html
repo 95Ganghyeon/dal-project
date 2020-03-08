@@ -43,7 +43,7 @@ ChaeBi | 일반검색
             </div>
         </div>
     
-        {% if first_page == False %}
+        {% comment %} {% if first_page == False %} {% endcomment %}
         <div class="result-box row">
             <p class="col-12">총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
             {% comment %} <div class="col-12">
@@ -149,7 +149,7 @@ ChaeBi | 일반검색
                 {% endif %}
             </ul>
         </div>
-        {% endif %}
+        {% comment %} {% endif %} {% endcomment %}
     </form>
 </div>
 

@@ -54,12 +54,14 @@
             .image-box{                
                 position: relative;
                 width: 100%;
+                height: auto;                
                 border: solid 1px #bebebe;
-                text-align: center;
+                text-align: center;                
                 img{                                        
+                    
                     display: block;
                     width: 100%;
-                    height: auto;                                                                      
+                    height: 100%;                                                                      
                 }                
                 .overlay{                    
                     position: absolute;
@@ -126,7 +128,7 @@
                     text-align: center;                    
                     img{
                         width: 100%;
-                        height: auto;
+                        height: 100%;
 
                     }
                 }

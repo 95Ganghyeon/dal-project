@@ -9,7 +9,7 @@ class Profile(models.Model):
     id = models.AutoField(primary_key=True)
     user_fk = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ghost_user = models.BooleanField(default=False)
-    nickname = models.CharField(max_length=20, unique=True,)
+    nickname = models.CharField(max_length=20, unique=True)
     birth_date = models.DateField()
     survey_fk = models.OneToOneField(Survey,on_delete=models.CASCADE,null = True, blank=True)
     myProduct_fk = models.ManyToManyField(Product, related_name="myProduct")
