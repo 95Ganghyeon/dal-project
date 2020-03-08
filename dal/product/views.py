@@ -7,42 +7,46 @@ from ranking.models import *
 from product.forms import GetReviewResponseForm
 from product.models import *
 from ranking.models import ReviewSummary
+from ranking.views import calculateWeight
 from user.models import Profile, User
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import json
 import urllib
 
 # Create your views here.
 
-# 비교함에 상품 담기
-def insert_cart(request, product_id):
-    cart_list = request.session.get("cart", [])
+# 비교함 관리
+@csrf_exempt
+def cart(request, product_id):
+    if request.method == "GET":
+        cart_list = request.session.get("cart", [])
 
-    for idx, val in enumerate(cart_list):
-        if val['id'] == product_id:
-            return HttpResponse("overlap")    
+        for idx, val in enumerate(cart_list):
+            if val["id"] == product_id:
+                return HttpResponse("overlap")
 
-    data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
-    cart_list.append(data[0])
-    request.session["cart"] = cart_list
+        data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
+        cart_list.append(data[0])
+        request.session["cart"] = cart_list
 
-    # return 할때 HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json") 를 사용해도 결과는 동일합니다
-    return JsonResponse(data[0], safe=False)
+        # return 할때 HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json") 를 사용해도 결과는 동일합니다
+        return JsonResponse(data[0], safe=False)
+
+    if request.method == "DELETE":
+        cart_list = request.session.get("cart")
+
+        for idx, val in enumerate(cart_list):
+            if val["id"] == product_id:
+                del cart_list[idx]
+                break
+
+        request.session["cart"] = cart_list
+
+        return HttpResponse("delete success!")
 
 
-# 비교함에서 삭제하기 (미완성)
-def delete_cart(request, product_id):
-    cart_list = request.session.get("cart")
-
-    for idx, val in enumerate(cart_list):
-        if val['id'] == product_id:
-            del cart_list[idx]
-            break
-
-    request.session["cart"] = cart_list
-
-    return HttpResponse("delete success!")
-
+# 공용 paginator
 def get_paginator(obj, page, obj_per_page, page_range):
     """
     한 페이지에 보일 paginator 숫자 범위 제한하는 함수임.
@@ -97,35 +101,71 @@ def productDetail(request, pk):
                 content=content,
             )
 
+    def makeTypeBasedReviewSummary(review_list, userMtype):
+        type_based_review_summary = {}
+        temp_score = 0
+        temp_absorbency = 0
+        temp_anti_odour = 0
+        temp_sensitivity = 0
+        temp_comfort = 0
+        denominator = 0
+
+        for record in review_list:
+            weight = calculateWeight(userMtype, record.m_type)
+
+            temp_score += record.score * weight
+            temp_absorbency += record.absorbency * weight
+            temp_anti_odour += record.anti_odour * weight
+            temp_comfort += record.comfort * weight
+            temp_sensitivity += record.sensitivity * weight
+            denominator += weight
+
+        type_based_review_summary["score"] = round(temp_score / denominator, 1)
+        type_based_review_summary["absorbency"] = round(
+            temp_absorbency / denominator, 1
+        )
+        type_based_review_summary["anti_odour"] = round(
+            temp_anti_odour / denominator, 1
+        )
+        type_based_review_summary["comfort"] = round(temp_comfort / denominator, 1)
+        type_based_review_summary["sensitivity"] = round(
+            temp_sensitivity / denominator, 1
+        )
+
+        return type_based_review_summary
+
     if request.method == "POST":
         makeReview(request=request, pk=pk)
         return redirect(product)
     else:
-        bestReview = product.best_review_fk
-        review_list = Review.objects.filter(product_fk=product)
-        # paginator = Paginator(review_list, 3)
-        # page_number = request.GET.get("page")
-        # page_obj = paginator.get_page(page_number)
+        best_review = product.best_review_fk
+        same_type_reviews = Review.objects.filter(
+            product_fk=product, m_type=request.user.profile.survey_fk.mtype
+        )
+        other_type_reviews = Review.objects.filter(product_fk=product).exclude(
+            m_type=request.user.profile.survey_fk.mtype
+        )
+
+        review_list = same_type_reviews | other_type_reviews
+        type_based_review_summary = makeTypeBasedReviewSummary(
+            review_list, request.user.profile.survey_fk.mtype
+        )
+
         page = request.GET.get("page")
         paginator = get_paginator(review_list, page, 5, 3)
-
         form = GetReviewResponseForm()
         context = {
             "product": product,
-            "bestReview": bestReview,
+            "type_based_review_summary": type_based_review_summary,
+            "best_review": best_review,
             "review_list": review_list,
-            "form": form,
             "paginator": paginator,
-            # "page_obj": page_obj,
+            "form": form,
         }
         return render(request, "product/product_detail.html", context=context)
 
 
 def normalSearch(request):
-    
-    temp = ProductIngredient.objects.get(product_fk=1).product_fk.category
-    print(type(temp))
-
 
     first_page = True
     ReviewSummary_list = None
@@ -226,7 +266,7 @@ def compareSearch(request):
             compareCondition = request.GET.get("compareConditionList").split(",")
             if "price" in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(
-                    product_fk__price__lt=criterionReviewSummary.product_fk.price
+                    product_fk__price_per_piece__lt=criterionReviewSummary.product_fk.price_per_piece
                 )
             if "nature_friendly" in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(

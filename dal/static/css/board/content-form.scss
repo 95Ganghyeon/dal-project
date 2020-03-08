@@ -1,0 +1,112 @@
+.user-story-form-page {
+    .title-box {
+        padding: 30px 0;
+        text-align: center;
+        
+        >h2 {
+            font-size: 1.5rem;
+            font-weight: bolder;
+            margin-bottom: 15px;
+        }
+    }
+
+    .content-box {
+        padding: 50px 0;
+        table {
+            width: 100%;
+            tr {
+                display: flex;
+                margin: 25px 0;
+
+                th {
+                    font-weight: 500;
+                    vertical-align: top;
+                    flex-basis: 100px;
+                    flex-shrink: 0;
+
+                    label {
+                        font-weight: 500;
+                    }
+                }
+                
+                td {
+                    flex-grow: 1;
+                    
+                    input, textarea {
+                        width: 100%;
+                        line-height: 1.5rem;
+                        background-color: transparent;
+
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+
+                    input[type='text'] {
+                        border: none;
+                        padding: 7px;
+                        border-bottom: solid 1px black;
+                    }
+
+                    textarea {
+                        padding: 12px 10px;
+                        border: solid 1px black;
+
+                        &::placeholder {
+                            color: #bebebe;
+                        }
+                    }
+
+                    input[type='file'] {
+                        display: none;
+                    }
+
+                    label {
+                        border: solid 1px #303030;
+                        padding: 5px 15px;
+                        cursor: pointer;
+                    }
+
+                    ul {
+                        border: solid 1px black;
+                        padding: 12px 10px;
+                        color: #bebebe;
+                        height: 70px;
+
+                        li {
+                            span {
+                                margin-right: 12px;
+                            }
+
+                            a {
+                                color: #bebebe;
+                                font-weight: 500px;
+                                font-size: 0.9rem;
+                            }
+
+                            &:not(:last-child) {
+                                margin-bottom: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .send-box {
+        text-align: center;
+        line-height: 1.5rem;
+        >div {
+            input[type='submit'] {
+                border: 1px solid #303030;
+                color: #FFFFFF;
+                background-color: #303030;
+                border-radius: 28px;
+                padding: 5px 15px;
+                margin: 50px 0;
+                cursor: pointer;
+            }
+        }
+    }
+}

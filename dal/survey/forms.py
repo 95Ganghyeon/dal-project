@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+
 class GetSurveyResponseForm(forms.Form):
     # 활동량
     ACTIVITY_SCORE = [

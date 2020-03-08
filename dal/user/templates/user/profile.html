@@ -1,61 +1,137 @@
 {% extends 'base_generic.html' %}
 
+{% block title %}
+ChaeBi | 마이페이지
+{% endblock %}
+
 {% block content %}
 {% load sass_tags %}
 <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}">
 
-<div class="container background">
-  <div class="row">
-    <div class="col text-left">
+<div class="container profile-page">
+  <div class="row justify-content-between menu-bar">
+    <div class="col-2 text-left">
       마이페이지
     </div>
-    <div class="col text-right">
-      <a href='{% url 'edit_profile' %}'>개인정보 변경</a>
-    </div>
-  </div>
-
-  <div class="row"> <!-- ISTP display-->
-    <div class="col">
-    </div>
-    <div class="col pink"> <!-- ISTP DISPLY COL-->
-      <div class="row">
-        <div class="col 12 text-center">나의 M type {{ m_type }}</div>
-      </div>
-      <div class="row">
-        <div class="col">
-          자세히 알아보기
-        </div>
-        <div class="col">
-          재검사하기
-        </div>
-      </div>
-    </div> <!-- END ISTP DISPLY COL-->
-    <div class="col">
-    </div>
-  </div> <!-- end ISTP display -->
-  
-  <!-- 찜한 아이템 -->
-
-  <div class="underline">
-    찜한 아이템
-  </div>
-
-  <div class="row">
-    <div class="col text-left">
-      총 {{ n_result }} 개의 상품
-    </div>
-    <div class="col text-right">
-      전체별점 <i class="fas fa-angle-down"></i>
+    <div class="col-2 text-right">
+      <a href='{% url 'edit_profile' %}'>개인정보 변경&nbsp;&nbsp;&nbsp;<i class="fas fa-chevron-right"></i></a>
     </div>
   </div>
 
   <div class="row">
-    {% if products  %}
-      {% for product in products %}
-        {{ product.name }}
-      {% endfor %}
-    {% endif %}
+    <div class="col-6 mtype-box">
+      <div class="title">
+        나의 M-type
+      </div>
+      <div class="content">
+        <div id="mtype">
+          {{ m_type }}
+        </div>        
+        <div class="row justify-content-center">
+          <a href="">
+            <div class="col-2" id="mtype-button">
+              자세히 알아보기
+            </div>
+          </a>          
+        </div>
+        <div class="row justify-content-center">
+          <a href="">
+            <div class="col-2" id="mtype-button">
+              <a href=''>재검사하기</a>
+            </div>
+          </a>          
+        </div>
+      </div>
+    </div>
+    <div class="col-6 myProduct-box">
+      <div class="title">
+        등록된 내 생리대
+      </div>
+      <div class="content">
+        {% if profile.myProduct_fk.count == 0 %}
+        <div>
+          등록된 내 생리대가 없습니다.
+        </div>
+        {% else %}        
+        <ul class="row justify-content-between">
+          {% for myProduct in profile.myProduct_fk.all %}
+          <li class="col-6">
+            <div class="image-box">
+              <img src="{{ myProduct.image.url }}" alt="내 생리대 사진">
+              <div class="overlay">
+                <div class="text">
+                  <p><a href="{% url 'delete_myProduct' myProduct.id %}">생리대 삭제</a></p>                         
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
   </div>
+
+  <div class="row">
+    <div class="col-12 zzimProduct-box">
+      <div class="title">
+        <span>찜한 아이템</span><br/>
+        <span id="zzim-count">총 {{ profile.zzimProduct_fk.count }}개의 상품</span>
+      </div>
+      <div class="content">
+        {% if profile.myProduct_fk.count == 0 %}
+        <div>
+          찜한 생리대가 없습니다.
+        </div>
+        {% else %} 
+        <ul class="row">
+          {% for zzimProduct in paginator.page_obj %}
+          <li class="col-4" onclick="location.href='{{ zzimProduct.product_fk.get_absolute_url }}'">
+            <div class="product-box">
+              <div id="image-area">
+                <img src="{{ zzimProduct.product_fk.image.url }}" alt="찜한 생리대 사진">                
+              </div>
+              <div id="description-area">                
+                <span class="highlight">{{ zzimProduct.product_fk.name }}</span><br/>
+                <hr/>
+                전체순위 <span class="highlight">{{ zzimProduct.rank }}위</span><br/>
+                전체평점 <span class="highlight">{{ zzimProduct.total_score }}점</span>                
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- pagination -->
+    <div class="col-12">
+      <ul class="my-pagination">
+          <!-- 이전 페이지로 이동 -->
+          {% if paginator.has_prev %}
+          <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
+          {% else %}
+          <!-- <li class="nav disabled">&laquo;</li> -->
+          {% endif %}
+          <!-- [1] [2] [3] -->
+          {% for i in paginator.page_range %}
+          {% if paginator.page_obj.number == i %}
+          <li class="disabled">&#91; {{ i }} &#93;</li>
+          {% else %}
+          <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
+          {% endif %}
+          {% endfor %}
+          <!-- 다음 페이지로 이동 -->
+          {% if paginator.has_next %}
+          <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
+          {% else %}
+          <!-- <li class="nav disabled">&raquo;</li> -->
+          {% endif %}
+        </ul>
+    </div>
+  </div>
+
 </div>
 
 

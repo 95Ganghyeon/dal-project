@@ -1,0 +1,128 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}{{ user_story.title }}{% endblock %}
+{% block description %}{{ user_story.content|striptags|truncatechars:200 }}{% endblock %}
+{% block ogdescription %}{{ user_story.content|striptags|truncatechars:200 }}{% endblock %}
+{% block ogimage %}http://{{ request.get_host }}{{ user_story.image.url }}{% endblock %}
+
+{% block content %} 
+<div class="contents-detail-page container">
+
+    <div class="link-box">
+        <div>
+            <h2>공유하고 싶은 나만의 이야기가 있다면?</h2>
+            <span>나의 작은 이야기가 누군가에게는 큰 도움이 될 수 있다는 것</span>
+        </div>
+        <div>
+            <a href="{% url 'user-story-form' %}">나의 이야기 나누러가기</a>
+        </div>
+    </div>
+
+    <div class="contents-box">
+        <img src="{{ user_story.image.url }}"/>
+        <h2>{{ user_story.title }}</h2>
+        <span>{{ user_story.created_at|date:"Y.m.d" }}</span>
+        
+        <div style="display:block; text-align:left;">
+            <a id="kakao-link-btn" href="javascript:;">
+                <img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
+            </a>            	
+            <span>
+                <script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+                <script type="text/javascript">
+                    new ShareNaver.makeButton({"type": "f" , "title":"{{ user_story.title }}", "url":"{{ request.build_absolute_uri }}"});
+                </script>
+            </span>
+            <a href="javascript:void(0);" onclick="copy_url()">url 복사</a>
+            <textarea id="url_link"></textarea>
+                <script type="text/javascript">
+                    function copy_url() {
+                        var url_link = document.getElementById('url_link');
+                        url_link.value = document.location.href;
+                        
+                        url_link.select();
+                        document.execCommand("copy");
+                        url_link.blur();
+
+                        alert('url 복사 완료! 원하는 곳에 붙여넣기 하세요');
+                    }
+                </script>
+        </div>
+
+        <div>
+            <div class="left-side">
+                <span>조회수<strong>{{ user_story.hits }}</strong></span>
+                <span id="like"><i class="fas fa-heart{% if is_like %} active{% endif %}"></i><strong>{{ user_story.total_likes }}</strong></span>
+                <span>M-Type<strong>{{ user_story.mtype }}</strong></span>
+            </div>
+            <div class="right-side">
+                <a href="javascript:void(0);"><i class="fas fa-share-alt"></i>공유하기</a>
+            </div>
+        </div>
+
+        <p>{{ user_story.content|safe }}</p>
+    </div>
+
+</div>
+
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script type="text/javascript">
+    Kakao.init('667e4c72f58e91e2fc6536956568afda');
+    // 카카오 링크 버튼 생성
+    Kakao.Link.createDefaultButton({
+      container: '#kakao-link-btn',
+      objectType: 'feed',
+      content: {
+        title: '{{ user_story.title }}',
+        imageUrl: 'http://{{ request.get_host }}{{ user_story.image.url }}',
+        link: {
+          mobileWebUrl: '{{ request.build_absolute_uri }}',
+          webUrl: '{{ request.build_absolute_uri }}'
+        }
+      },
+      social: {
+        likeCount: {{ user_story.total_likes }},
+        viewCount: {{ user_story.hits }}
+      },
+      buttons: [
+        {
+          title: '웹으로 보기',
+          link: {
+            mobileWebUrl: '{{ request.build_absolute_uri }}',
+            webUrl: '{{ request.build_absolute_uri }}'
+          }
+        },
+      ]
+    });
+</script>
+<script type="text/javascript">
+    document.getElementById('like').addEventListener('click', check_like);
+    // 좋아요 체크
+    function check_like() {
+        {% if request.user.is_active %}
+            var self = this;
+
+            var xhr = new XMLHttpRequest();
+            var url = "/board/contents/{{ user_story.id }}/like";
+            xhr.open('GET', url);
+            xhr.onload = function() {
+                if(xhr.status === 200) {
+                    var total_likes = xhr.responseText;
+                    var i = self.childNodes[0];
+                    var strong = self.childNodes[1];
+                    
+                    i.classList.toggle('active');
+                    strong.innerHTML = total_likes;
+                } else {
+                    alert('좋아요 실패');
+                }
+            }
+            xhr.send();
+        {% else %}
+            alert('로그인이 필요합니다');
+        {% endif %}
+    }
+</script>
+    
+{% endblock %}

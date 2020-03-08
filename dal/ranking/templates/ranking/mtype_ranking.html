@@ -1,47 +1,159 @@
 {% extends "base_generic.html"%}
 {% load static %}
 
+{% block title %}
+ChaeBi | M-type 랭킹
+{% endblock %}
+
 {% block content %}
 
 <div class="mtype-ranking-page container">
-    <!-- 상단 탭 -->
-    <div class="ranking-pannel row">
-        <div class="mtype-ranking col-sm-6 selected">
-            <h2>Mtype 랭킹</h2>
-            <span>내 타입과 같은 사람들이 평가한 랭킹을 보여드려요</span>
+    <div class="ranking-top">
+        <div class="ranking-header">
+            <h2><mark>내 타입({{m_type}})</mark>의 최적생리대는?</h2>
+            <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.<br>
+            당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
+            <div class="button">
+                <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    타입별 랭킹찾기
+                </a>
+                <a href="#">M-Type 재검사</a>
+            </div>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <p><strong>다른 타입</strong>의 제품랭킹은?</p>
+                    <div class="container col-12">
+                        <form id="toggle-form" action = "{% url 'MtypeRanking' %}" method = "POST">
+                            {% csrf_token %}           
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            {# A or I #}
+                            <div class="switch switch--vertical">
+                                <div class="toggle-outside">
+                                    <input id="radio-a" type="radio" name="toggle-1" {% if 'A' in m_type%}checked="checked" {% endif %} />
+                                    <label for="radio-a">A</label>
+                                    <input id="radio-i" type="radio" name="toggle-1" />
+                                    <label for="radio-i" class="second">I</label>
+                                    <div class="toggle-inside">
+                                    </div>
+                                    <p>활동량</p>
+                                </div>
+                            </div>
+
+                        
+                            {% comment %} H or L {% endcomment %}
+                            <div class="switch switch--vertical">
+                                <div class="toggle-outside">
+                                    <input id="radio-h" type="radio" name="toggle-2" {% if 'H' in m_type%}checked="checked" {% endif %} />
+                                    <label for="radio-h">H</label>
+                                    <input id="radio-l" type="radio" name="toggle-2" />
+                                    <label for="radio-l" class="second">L</label>
+                                    <div class="toggle-inside">
+                                    </div>
+                                    <p>월경량</p>
+                                </div>
+                            </div>
+
+                            {% comment %} S or T {% endcomment %}
+                            <div class="switch switch--vertical">
+                                <div class="toggle-outside">
+                                    <input id="radio-s" type="radio" name="toggle-3" {% if 'S' in m_type%}checked="checked" {% endif %} />
+                                    <label for="radio-s">S</label>
+                                    <input id="radio-t" type="radio" name="toggle-3" />
+                                    <label for="radio-t" class="second">T</label>
+                                    <div class="toggle-inside">
+                                    </div>
+                                    <p>바디민감도</p>
+                                </div>
+                            </div>
+
+                            {# P or F #}
+                            <div class="switch switch--vertical">
+                                <div class="toggle-outside">
+                                    <input id="radio-p" type="radio" name="toggle-4" {% if 'P' in m_type%}checked="checked" {% endif %} />
+                                    <label for="radio-p">P</label>
+                                    <input id="radio-f" type="radio" name="toggle-4" />
+                                    <label for="radio-f" class="second">F</label>
+                                    <div class="toggle-inside">
+                                    </div>
+                                    <p>월경질환</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="keyword-ranking col-sm-6">
-            <h2>keyword 랭킹</h2>
-            <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
+        <div>
+            <img src="#">
         </div>
     </div>
-
-    <div class="d-flex ranking-top">
-        <div class="p-2 ranking-header">
-            <h2>내 타입({{currentUser.profile.survey_fk.mtype}})의 최적 생리대는?</h2>
-            <span>나와 같은 월경타입의 사람들이 평가한 순위</span><br>
-        </div>
-
-        <div class="ml-auto p-2 row ranking-sub">
-            <div class="col"><a href="#">타입별 랭킹찾기</a></div>
-            <div class="col"><a href="#">M-Type 재검사</a></div>
-        </div>
-        
-    </div>
-
     <div class="ranking-result">
         <ul style="list-style-type:none";>
         {% for product in products %}
             <li>
-                <div class="d-flex">                    
+                <div class="d-flex flex-row product">
                     <div class="p-2">{{ forloop.counter }}위</div>
-                    <div class="p-2"><img src="{{product.image.url}}" alt=""/></div>
-                    <div class="p-2 product-info">
-                        {{ product.name }}<br/>
-                        {{ product.price }}원 / {{ product.count }}개<br/>
-                        <h5>자연유래도 {{ nature_friendly }}%</h5>
+                    <div class="p-2"><a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" alt=""/></a></div>
+                    <div class="mr-auto p-2 product-info">
+                        <h4>{{ product.brand_fk }}</h4>
+                        <h3>{{ product.name }}</h3>
+                        <div class="score d-flex row">
+                            <div class="satisfaction p-2">
+                                <div>예상만족도</div>
+                                <div class="badge badge-pill badge-primary">★{{ product.reviewsummary.total_score|floatformat:1 }}</div>
+                            </div>
+                            <div class="nature p-2">
+                                <div>자연유래도</div>
+                                <div class="badge badge-pill badge-primary">
+                                    <i class="fas fa-leaf"></i>{{ product.productingredient.nature_friendly_score|floatformat }}%
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="ml-auto p-2 score">{{ product.reviewsummary.total_score }}</div>
+                    <div class="row status w-25">
+                        <div class="col-sm-6 d-flex flex-column">
+                            <div class="p-2">흡수력</div>
+                            <div class="p-2">탈취성</div>
+                            <div class="p-2">촉감/착용감</div>
+                            <div class="p-2">피부친화도</div>
+                        </div>
+                        <div class="col-sm-4 d-flex flex-column">
+                            <div class="p-2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.absorbency_avg }}" 
+                                    style="width: {% widthratio product.reviewsummary.absorbency_avg 5 100 %}%" 
+                                    aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.anti_odour_avg }}"
+                                    style="width: {% widthratio product.reviewsummary.anti_odour_avg 5 100 %}%" 
+                                    aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.comfort_avg }}"
+                                    style="width: {% widthratio product.reviewsummary.comfort_avg 5 100 %}%" 
+                                    aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.sensitivity_avg }}"
+                                    style="width: {% widthratio product.reviewsummary.sensitivity_avg 5 100 %}%" 
+                                    aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 d-flex flex-column">
+                            <div class="p-2">{{ product.reviewsummary.absorbency_avg|floatformat:1 }}</div>
+                            <div class="p-2">{{ product.reviewsummary.anti_odour_avg|floatformat:1 }}</div>
+                            <div class="p-2">{{ product.reviewsummary.comfort_avg|floatformat:1 }}</div>
+                            <div class="p-2">{{ product.reviewsummary.sensitivity_avg|floatformat:1 }}</div>
+                        </div>
+                    </div>
                 </div>
             </li>
         {% empty %}
@@ -54,7 +166,7 @@
 </div>
 
 
-<script type="text/javascript">
+{% comment %} <script type="text/javascript">
 
     window.onload = function(){
         var pre_selected_item = document.querySelector('.ranking-pannel .mtype-ranking');                                        
@@ -89,7 +201,7 @@
         selected_item.classList.add('selected');
     }
 
-</script>
+</script> {% endcomment %}
 
 
 

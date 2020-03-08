@@ -14,11 +14,12 @@ class RankingBoard(models.Model):
 
 class ReviewSummary(models.Model):
     product_fk = models.OneToOneField(Product, on_delete=models.CASCADE)
-    total_score = models.FloatField(default=0) # Review 모델의 star 필드로 계산되는 제품 평점
+    total_score = models.FloatField(default=0)  # Review 모델의 star 필드로 계산되는 제품 평점
     absorbency_avg = models.FloatField(default=0)
     anti_odour_avg = models.FloatField(default=0)
     comfort_avg = models.FloatField(default=0)
     sensitivity_avg = models.FloatField(default=0)
 
     def __str__(self):
-        return self.product_fk.name + "에 대한 ReviewSummary"
+        return self.product_fk.name + "에 대한 ReviewSummary"    
+

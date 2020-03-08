@@ -5,5 +5,5 @@ from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 @admin.register(Survey)
 class SurveyAdmin(ImportExportModelAdmin):
-    pass
+    list_display = ('id', 'mtype')
 

@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="user-story-list-page container gallery">
+    <div class="link-box">
+        <div>
+            <h2>공유하고 싶은 나만의 이야기가 있다면?</h2>
+            <span>나의 작은 이야기가 누군가에게는 큰 도움이 될 수 있다는 것</span>
+        </div>
+        <div>
+            <a href="{% url 'user-story-form' %}">나의 이야기 나누러가기</a>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <ul class="card-columns">
+            {% for user_story in user_story_list %}
+            <li class="card" onclick="location.href='{% url 'user-story-detail' user_story.id %}'">
+                {{ user_story.id }}
+                <img class="card-img" src="{{ user_story.image.url }}"/>
+                <h3 class="card-title">{{ user_story.title|truncatechars:50 }}</h3>
+                <div class="card-text">{{ user_story.content|striptags|truncatechars:50 }}</div>
+                <div class="card-info">
+                    <span>{{ user_story.created_at|date:"Y.m.d" }}</span>
+                    <span class="like"><i class="fas fa-heart{% if request.user in user_story.likes.all %} active{% endif %}"></i>&nbsp;&nbsp;{{ user_story.total_likes }}</span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+</div>
+
+{% endblock %}

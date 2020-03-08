@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'survey.apps.SurveyConfig',
     'product.apps.ProductConfig',
-    'ranking.apps.RankingConfig',    
+    'ranking.apps.RankingConfig',
+    'board.apps.BoardConfig',    
     'debug_toolbar',
     'allauth',
     'allauth.account',
@@ -51,6 +52,8 @@ INSTALLED_APPS = [
     'sass_processor',
     'bootstrap4',
     'import_export',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 #sass_processor
@@ -139,20 +142,22 @@ AUTHENTICATION_BACKENDS = (
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+# turn off validator 
+
+# AUTH_PASSWORD_VALIDATORS = [
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+#     },
+# ]
 
 
 # Internationalization
@@ -175,7 +180,6 @@ USE_TZ = True
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ STATIC_DIR, ]
-
 
 # 이미지 파일 업로드
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -269,3 +273,5 @@ BOOTSTRAP4 = {
         'inline': 'bootstrap4.renderers.InlineFieldRenderer',
     },
 }
+
+CKEDITOR_UPLOAD_PATH = "uploads/"

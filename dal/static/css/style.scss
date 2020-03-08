@@ -10,15 +10,7 @@ $breakpoint-tablet: 768px - 1px;
 $breakpoint-desktop: 992px - 1px;
 $breakpoint-largedesktop: 1200px - 1px;
 
-body {
-    animation: fadein 1s;
-    -moz-animation: fadein 1s;
-    /* Firefox */
-    -webkit-animation: fadein 1s;
-    /* Safari and Chrome */
-    -o-animation: fadein 1s;
-    /* Opera */
-}
+
 
 @keyframes fadein {
     from {
@@ -147,17 +139,14 @@ ul.my-pagination {
 
 
 
-
+@import "base_generic.scss";
 @import "index.scss";
-@import "base.scss";
-@import "accounts.scss";
-@import "user.scss";
-@import "product-details.scss";
-@import "compare-search.scss";
-@import "normal-search.scss";
-@import "keyword-ranking.scss";
-@import "mtype-ranking.scss";
 
-
-
+@import "./product/_product.scss";
+@import "./ranking/_ranking.scss";
+@import "./user/_user.scss";
+@import "./account/_accounts.scss";
+@import "./socialaccount/_socialaccount.scss";
+@import "./openid/_openid.scss";
+@import "./board/_board.scss";
 
