@@ -6,6 +6,16 @@ header{
     
     .navbar {
         background-color: white;
+        .nav-row{
+            width: 100%;
+        }
+        #navbarLogo{
+            margin-right: auto;
+        }
+        #navbarUser{
+            margin-left: auto;
+            text-align: right;            
+        }
     }
 }
 
