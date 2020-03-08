@@ -1,6 +1,45 @@
 .profile-edit-page{
-    .row{
-        padding: 3em 0em;        
+    .menu-bar{
+        padding: 3em 0em;
+    }
+
+    .edit-form{
+        padding-bottom: 3em;
+        max-width: 80%;
+        margin: auto;        
+
+        .form-title{
+            margin: 2em;
+            border-bottom: solid 1px #1e1e1e;
+        }
+        .form-content{            
+            font-size: 0.9em;            
+            
+            &#password-form-waring-text{
+                font-size: 0.8em;                                                         
+                i, p{                    
+                    &.fas{
+                        padding-right: 1em;
+                    }
+                    color: #777777;
+                    line-height: 1.2em;
+                }
+                margin-bottom: 1em;
+            }
+            input{
+                width: 100%;
+                height: 100%;
+            }
+            button{
+                margin: 0px;
+                padding: 0px;
+                width: 100%;
+                height: 100%;
+                background-color: #000000;
+                color: #FFFFFF;
+                cursor: pointer;
+            }
+        }
     }
 
 }

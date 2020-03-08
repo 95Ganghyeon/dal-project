@@ -13,8 +13,9 @@
     <meta property="og:description" content="{% block ogdescription %}{% endblock %}">
 
     {% load bootstrap4 %}
-    {% bootstrap_javascript jquery='slim'%}
+    {% bootstrap_javascript jquery='full'%}
     {% bootstrap_css %}
+    
     <!-- load css/stylesheet -->
     <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}" type="text/css" />
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
@@ -184,6 +185,16 @@
     </div>  
     {% endblock %}
 
+    <!-- {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %} -->
 
     {% block content %}
 

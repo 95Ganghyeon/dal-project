@@ -9,6 +9,9 @@ from product.models import Product
 from ranking.models import ReviewSummary
 from product.views import get_paginator
 
+from allauth.account.views import *
+from allauth.account.forms import *
+
 # Create your views here.
 
 def delete_myProduct(request, product_id):
@@ -60,5 +63,21 @@ def edit_profile(request):
     profile = request.user.profile
     placeholder = {'nickname':profile.nickname,'email':request.user.email}
     warning = {'nickname':"변경할 닉네임 입력해주세요","email":"변경할 이메일 입력해주세요"}
-    context = {'placeholder':placeholder,'warning':warning}
+    context = {
+      'profile':profile,
+      'placeholder':placeholder,
+      'warning':warning
+    }
     return render(request,'user/profile_edit.html',context=context)
+
+
+# class CustomPasswordChangeView(PasswordChangeView):
+#   template_name = 'user/profile.html'
+#   success_url = reverse_lazy('edit_profile')
+
+# class CustomPasswordChangeForm(PasswordChangeForm):
+  
+#   def save(self):
+#     super(CustomPasswordChangeForm, self).save()
+
+
