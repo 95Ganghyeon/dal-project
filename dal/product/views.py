@@ -218,11 +218,12 @@ def normalSearch(request):
         ###
 
         page = request.GET.get("page")
-        paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+        paginator = get_paginator(ReviewSummary_list, page, 6, 5)
+    
     else:
         ReviewSummary_list = ReviewSummary.objects.all()
         page = request.GET.get("page")
-        paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+        paginator = get_paginator(ReviewSummary_list, page, 6, 5)
 
     context = {
         # "first_page": first_page,
@@ -317,7 +318,7 @@ def compareSearch(request):
             # ReviewSummary_list = ReviewSummary_list.order_by(option)
 
             page = request.GET.get("page")
-            paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+            paginator = get_paginator(ReviewSummary_list, page, 6, 5)
 
     context = {
         "first_page": first_page,
