@@ -21,6 +21,9 @@ import urllib
 def cart(request, product_id):
     if request.method == "GET":
         cart_list = request.session.get("cart", [])
+    
+        if len(cart_list) == 3:
+            return HttpResponse("excess")
 
         for idx, val in enumerate(cart_list):
             if val["id"] == product_id:
@@ -31,7 +34,7 @@ def cart(request, product_id):
         request.session["cart"] = cart_list
 
         # return 할때 HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json") 를 사용해도 결과는 동일합니다
-        return JsonResponse(data[0], safe=False)
+        return JsonResponse(cart_list, safe=False)
 
     if request.method == "DELETE":
         cart_list = request.session.get("cart")

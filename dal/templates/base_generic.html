@@ -25,10 +25,16 @@
     <script type="text/javascript">
       window.addEventListener('load', function(){
         {% if request.session.cart %}
-        var cart = {{ request.session.cart| safe}};
+        const cart = {{ request.session.cart| safe}};
         cart.forEach(function (data) {
-        createCartList(data);
+          createCartList(data);
         });
+
+        const ul = document.querySelector('#compare-cart ul');
+        for(var i=0; i<3-cart.length; i++) {
+          const li = document.createElement("li");
+          ul.appendChild(li);
+        }
         {% endif %}
       });
 
@@ -40,19 +46,24 @@
     
         var ul = document.querySelector('#compare-cart ul');
         var li = document.createElement("li");
+        li.classList.add("product");
         li.setAttribute("data-product-id", id);
         var a_close = document.createElement("a");
         a_close.innerHTML = "&times;";
+        a_close.classList.add("x-btn");
         a_close.setAttribute("href", "javascript:void(0);");
         a_close.addEventListener("click", deleteCart);
         var img = document.createElement("img");
         img.setAttribute("src", image_url);
-        var a_name = document.createElement("a");
-        a_name.innerText = name;
+        var a_img = document.createElement("a");
+        a_img.setAttribute("href", "/product/" + id);
+        a_img.appendChild(img);
+        //var a_name = document.createElement("a");
+        //a_name.innerText = name;
     
         li.appendChild(a_close);
-        li.appendChild(img);
-        li.appendChild(a_name);
+        li.appendChild(a_img);
+        //li.appendChild(a_name);
         ul.appendChild(li);
       }
       
@@ -66,9 +77,27 @@
             var response = xhr.responseText;
             if( response == 'overlap'){
               alert("이미 비교함에 담긴 상품입니다");
-            }else{
-              var data = JSON.parse( response );
-              createCartList(data);
+            }else if( response == 'excess'){
+              alert("상품을 3개 이상 담을 수 없습니다");
+            }else {
+              // ul 전체 삭제
+              const ul = document.querySelector('#compare-cart ul');
+              while(ul.firstChild) {
+                ul.removeChild(ul.lastChild);
+              }
+              
+              // session list 넣기
+              const cart = JSON.parse(response);
+              cart.forEach(function (data) {
+                createCartList(data);
+              });
+
+              // 남은 공간 채우기
+              for(var i=0; i<3-cart.length; i++) {
+                const li = document.createElement("li");
+                ul.appendChild(li);
+              }
+  
             }
           } else { // 에러 발생
             alert('비교함 담기에 실패했습니다');
@@ -87,6 +116,9 @@
         xhr.onload = function () {
           if (xhr.status === 200) { // 정상
             self.parentElement.remove();
+            const ul = document.querySelector('#compare-cart ul');
+            const li = document.createElement("li");
+            ul.append(li);
           } else { // 에러 발생
             alert('비교함 삭제에 실패했습니다');
           }
@@ -160,7 +192,7 @@
 
     {% block compare_cart %}
     <div id="compare-cart">
-      <span>비교하기</span>
+      <span>한 눈에 비교함</span>
       <ul>
       </ul>
     </div>
