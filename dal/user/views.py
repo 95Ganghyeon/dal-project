@@ -9,6 +9,9 @@ from product.models import Product
 from ranking.models import ReviewSummary
 from product.views import get_paginator
 
+from allauth.account.views import *
+from allauth.account.forms import *
+
 # Create your views here.
 
 def delete_myProduct(request, product_id):
@@ -66,3 +69,15 @@ def edit_profile(request):
       'warning':warning
     }
     return render(request,'user/profile_edit.html',context=context)
+
+
+# class CustomPasswordChangeView(PasswordChangeView):
+#   template_name = 'user/profile.html'
+#   success_url = reverse_lazy('edit_profile')
+
+# class CustomPasswordChangeForm(PasswordChangeForm):
+  
+#   def save(self):
+#     super(CustomPasswordChangeForm, self).save()
+
+

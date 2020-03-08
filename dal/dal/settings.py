@@ -81,6 +81,7 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 SOCIALACCOUNT_AUTO_SIGNUP = False
 ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
 
+
 #all-auth socialaccount credentials
 
 MIDDLEWARE = [

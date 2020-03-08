@@ -26,7 +26,7 @@ ChaeBi | 마이페이지 수정
         프로필 변경
       </div>
       <div class="p-3 row justify-content-center form-content">
-        <div class="col-2 text-center">
+        <div class="col-2 text-left">
           닉네임
         </div>
         <div class="col-6">
@@ -37,14 +37,27 @@ ChaeBi | 마이페이지 수정
         </div>
       </div>
       <div class="p-3 row justify-content-center form-content">
-        <div class="col-2 text-center">
+        <div class="col-2 text-left">
           이메일
         </div>
         <div class="col-6">
           {{ profile.user_fk.email }}
         </div>
         <div class="col-2 text-center">
-          <i class="far fa-check-circle"></i>
+          <i class="far fa-edit"></i>
+          <!-- <i class="far fa-check-circle"></i> -->
+        </div>
+      </div>
+      <div class="p-3 row justify-content-center form-content">
+        <div class="col-2 text-left">
+          연령
+        </div>
+        <div class="col-6">
+          {{ profile.age }}
+        </div>
+        <div class="col-2 text-center">
+          <i class="far fa-edit"></i>
+          <!-- <i class="far fa-check-circle"></i> -->
         </div>
       </div>
     </div>
@@ -57,30 +70,40 @@ ChaeBi | 마이페이지 수정
       <div class="p-3 form-title">
         비밀번호 변경
       </div>
-      <div class="p-3 row justify-content-center form-content">
-        <div class="col-2 text-center">
+      <div class="p-2 row justify-content-center form-content" id="password-form-waring-text">
+        <div class="col-10 d-flex justify-content-start">          
+          <i class="fas fa-exclamation-circle"></i>
+          <p>
+            비밀번호는 6~15자 이내로 영문 (대문자,소문자), 숫자, 특수 문자 3가지 조합중 2가지 이상을 조합하셔서 작성하시면 됩니다.
+            <br/>
+            단, 3가지 모두를 조합하실 경우 더욱 강력한 패스워드 구현이 가능합니다.
+          </p>
+        </div>
+      </div>
+      <div class="p-2 row justify-content-center form-content">
+        <div class="col-2 text-left my-auto">
           <label for="id_oldpassword">현재 비밀번호</label>
         </div>
         <div class="col-6">
           <input type="password" name="oldpassword" required id="id_oldpassword">
         </div>
         <div class="col-2 text-center">
-          
+          <!-- 빈칸 -->
         </div>
       </div>
-      <div class="p-3 row justify-content-center form-content">
-        <div class="col-2 text-center">
+      <div class="p-2 row justify-content-center form-content">
+        <div class="col-2 text-left my-auto">
           <label for="id_password1">새 비밀번호</label>
         </div>
         <div class="col-6">
           <input type="password" name="password1" required id="id_password1">
         </div>
         <div class="col-2 text-center">
-          
+          <!-- 빈칸 -->
         </div>
       </div>
-      <div class="p-3 row justify-content-center form-content">
-        <div class="col-2 text-center">
+      <div class="p-2 row justify-content-center form-content">
+        <div class="col-2 text-left my-auto">
           <label for="id_password2">새 비밀번호 재입력</label>
         </div>
         <div class="col-6">
