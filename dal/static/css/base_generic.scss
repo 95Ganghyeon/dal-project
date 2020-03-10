@@ -73,12 +73,11 @@ footer{
 
     background-color: #154800;
     width: 135px;
-    padding: 15px;
 
     span {
         color: #FFFFFF;
         display: inline-block;
-        margin-bottom: 10px;
+        margin: 15px 0;
         font-weight: 300;
     }
 
@@ -97,9 +96,10 @@ footer{
         display: flex;
         flex-direction: column;
         position: relative;
+        margin-bottom: 10px;
 
-            &:not(:last-child) {
-                margin-bottom: 8px;
+            &:last-child {
+                margin-bottom: 15px;
             }
 
             // x 버튼
@@ -128,6 +128,86 @@ footer{
             // 기본 li
             &:not(.product) {
                 background-color: #707070;
+            }
+        }
+    }
+
+    >a {
+        display: block;
+        width: 135px;
+        padding: 10px;
+        background-color: #FFFFFF;
+        border: solid 1px #707070;
+        text-align: center;
+        border-top: none;
+    }
+}
+
+#compare-cart-show-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: scroll;
+    z-index: 100000;
+
+    background-color: rgba(0,0,0,0.65);
+    width: 100%;
+    height: 100%;
+    
+    >div {
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        background-color: #f8f7f7;
+        
+        max-width: 620px;
+        position: relative;
+        top: 20px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        
+        >a {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 2rem;
+            display: block;
+            width: fit-content;
+        }
+
+        h3 {
+            background-color: #FFFFFF;
+            font-size: 1.5rem;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        >div {
+            padding: 15px;
+
+            table {
+                width: fit-content;
+                background-color: pink;
+                margin: 0 auto;
+
+                img {
+                    width: 128px;
+                    height: 102px;
+                }
+
+                th, td {
+                    vertical-align: middle;
+                    padding: 15px 0;
+                }
+
+                th {
+                    text-align: center;
+                    background-color: #e6e4e4;
+                    min-width: 100px;
+                }
+
+                td {
+                    min-width: 100px;
+                    border-left: solid 1px rgba(0, 0, 0, 0.65);
+                }
             }
         }
     }

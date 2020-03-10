@@ -29,13 +29,21 @@
         cart.forEach(function (data) {
           createCartList(data);
         });
+        {% endif %}
 
         const ul = document.querySelector('#compare-cart ul');
-        for(var i=0; i<3-cart.length; i++) {
+        const li_cnt = 3 - ul.childElementCount;
+        for(var i=0; i<li_cnt; i++) {
           const li = document.createElement("li");
           ul.appendChild(li);
         }
-        {% endif %}
+
+        document.getElementById('compare-cart-show').addEventListener('click', showCartModal);
+        document.getElementById('compare-cart-close-modal').addEventListener('click', function(){
+          document.getElementById('compare-cart-show-modal').style.display = 'none';
+          document.getElementsByTagName('body')[0].style = '';
+        });
+        document.getElementById('compare-cart-activate').addEventListener('click', activateCart);
       });
 
       // 비교함 카트 li 추가
@@ -125,6 +133,71 @@
         };
         xhr.send();
       }
+
+      // 비교함 모달 띄우기
+      function showCartModal() {
+        document.getElementById('compare-cart-show-modal').style.display = 'block';
+        document.getElementsByTagName('body')[0].style = 'position: fixed; width: 100%; overflow: hidden;';
+
+        const table = document.getElementById('compare-cart-table');
+        var tr = Array.from(table.children[0].children);
+
+        var cart = null;
+        
+        // 세션 값 가져오기
+        var xhr = new XMLHttpRequest();
+        var url = "/product/cart/0/";
+        xhr.open('GET', url);
+        xhr.onload = function () {
+          if (xhr.status === 200) { // 정상
+            var response = xhr.responseText;
+            cart = JSON.parse(response);
+
+            // td 전부 삭제
+            tr.forEach(function(item) {
+              var td = item.getElementsByTagName('td');
+              for(var i=td.length-1; i>=0; i--) {
+                td[i].remove();
+              }
+            });
+    
+            // 세션 값 td 로 넣기
+            tr.forEach(function(ele) {
+              const attr = ele.getAttribute('data-role')
+    
+              cart.forEach(function(data){
+                var td = document.createElement('td');
+    
+                if(attr == 'image') {
+                  var img = document.createElement('img');
+                  img.setAttribute('src', '{{ MEDIA_URL }}' + data.image);
+                  td.appendChild(img);
+                } else {
+                  td.innerText = data[attr];
+                }
+                
+                ele.appendChild(td);
+              });
+
+              for(var i=0; i<3-cart.length; i++) {
+                var td = document.createElement('td');
+                ele.appendChild(td);
+              }
+    
+            });
+
+          } else { // 에러 발생
+            alert('비교함 보기에 실패했습니다');
+          }
+        };
+        xhr.send();
+
+      }
+
+      // 비교함 담기 활성화
+      function activateCart() {
+        alert('비교함 담기 활성화');
+      }
     </script>
   </head>
   <body>
@@ -132,56 +205,18 @@
     {% block navbar %}
     <header>
       <div class="container">
-        <nav class="d-flex flex-column navbar navbar-expand-md navbar-light bg-faded">
-          
-          <div class="nav-row row">
-            <div class="col-4" id="navbarLogo">
-              <a class="navbar-brand mx-auto" href="{% url 'IndexPage' %}">
-                DAL LOGO
-              </a>
-            </div>
-            
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>          
-
-            <div class="col-4 collapse navbar-collapse" id="navbarUser">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">관리자 문의/contact</a>
-                </li>
-                
-                {% if user.is_authenticated %}
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                      {{ user.username }}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="profile.html">마이페이지</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
-                    </div>
-                  </li>
-                {% else%}
-                  <li class="nav-item">
-                    <!-- Button to Open the Modal -->
-                    <button class="like-link" type="button" data-toggle="modal" data-target="#loginModal">
-                      로그인
-                    </button>
-                  </li>
-                {% endif %}
-              </ul>
-            </div>
-          </div>
-
-          <div class="nav-row row">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
+        <nav class="navbar navbar-expand-md navbar-light bg-faded" style="margin: 0 auto;">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="collapse navbar-collapse" id="nav-left">
+            <ul class="nav navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MtypeRanking' %}">M-type 랭킹</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'KeywordRanking' %}">항목별 랭킹</a>
+                  <a class="nav-link" href="{% url 'KeywordRanking' %}">키워드 랭킹</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'product:NormalSearch' %}">제품검색</a>
@@ -192,68 +227,37 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'user-story-list' %}">월경이야기</a>
                 </li>
-              </ul>
-            </div>
+            </ul>
           </div>
-
-          {% comment %} <div class="row">
-            <div class="col-3">
-              <a class="navbar-brand mx-auto" href="{% url 'IndexPage' %}">
-                <div id="logo">DAL LOGO</div>
-              </a>
-            </div>
-            <div class="col-9">
-              <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav ml-auto">
-                {% if user.is_authenticated %}
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                      {{ user.username }}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="profile.html">마이페이지</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
-                    </div>
-                  </li>
-                {% else%}
-                  <li class="nav-item">
-                    <!-- Button to Open the Modal -->
-                    <button class="like-link" type="button" data-toggle="modal" data-target="#loginModal">
-                      로그인
-                    </button>
-                  </li>
-                {% endif %}
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'product:NormalSearch'%}"><i class="fas fa-search"></i></a>
-                  </li>
-                </ul>
-              </div>  
-            </div>
           
-            <div class="row">
-              <div class="col-12 collapse navbar-collapse" id="nav-left">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'MtypeRanking' %}">M-type 랭킹</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'KeywordRanking' %}">항목별 랭킹</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'product:NormalSearch' %}">제품검색</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'product:CompareSearch' %}">비교검색</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'user-story-list' %}">월경이야기</a>
-                    </li>
-                </ul>
-              </div>
-            </div>
-          </div> {% endcomment %}
-          
+          <a class="navbar-brand mx-auto" href="{% url 'IndexPage' %}"><div id="logo">DAL LOGO</div></a>
+      
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{ user.username }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="profile.html">마이페이지</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
+                </div>
+              </li>
+            {% else%}
+              <li class="nav-item">
+                <!-- Button to Open the Modal -->
+                <button class="like-link" type="button" data-toggle="modal" data-target="#loginModal">
+                  로그인
+                </button>
+              </li>
+            {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'product:NormalSearch'%}"><i class="fas fa-search"></i></a>
+              </li>
+            </ul>
+          </div>  
         </nav>
       </div>
     </header>
@@ -264,6 +268,45 @@
       <span>한 눈에 비교함</span>
       <ul>
       </ul>
+      <a href="javascript:void(0);" id="compare-cart-activate">비교함 담기</a>
+      <a href="javascript:void(0);" id="compare-cart-show">비교함 보기</a>
+    </div>
+
+    <div id="compare-cart-show-modal" style="display: none;">
+      <div>
+        <a href="javascript:void(0);" id="compare-cart-close-modal">&times;</a>
+        <h3>한 눈에 비교함 보기</h3>
+        <div>
+          <table id="compare-cart-table">
+            <tr data-role="image">
+              <th rowspan="3"></th>
+            </tr>
+            <tr data-role="brand_fk_id__name"></tr>
+            <tr data-role="name"></tr>
+            <tr data-role="reviewsummary__total_score">
+              <th>예상만족도</th>
+            </tr>
+            <tr data-role="price">
+              <th>가격</th>
+            </tr>
+            <tr data-role="reviewsummary__absorbency_avg">
+              <th>흡수력</th>
+            </tr>
+            <tr data-role="reviewsummary__anti_odour_avg">
+              <th>탈취성</th>
+            </tr>
+            <tr data-role="reviewsummary__sensitivity_avg">
+              <th>피부친화도</th>
+            </tr>
+            <tr data-role="reviewsummary__comfort_avg">
+              <th>촉감/착용감</th>
+            </tr>
+            <tr data-role="productingredient__nature_friendly_score">
+              <th>자연유래도</th>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
     {% endblock %}
 
@@ -284,8 +327,18 @@
         </div>
       </div>
     </div>  
-    {% endblock %} 
+    {% endblock %}
 
+    <!-- {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %} -->
 
     {% block content %}
 

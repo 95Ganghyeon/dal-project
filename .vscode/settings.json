@@ -1,6 +1,6 @@
 {
-  "python.pythonPath": "/Users/kwonganghyeon/.pyenv/versions/3.8.1/bin/python",
-  "python.linting.pylintEnabled": true,
+  "python.pythonPath": "/home/mingbly/.local/share/virtualenvs/dal-project-9wnUOi9P/bin/python",
+  "python.linting.pylintEnabled": false,
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": false,
   "python.formatting.provider": "black",

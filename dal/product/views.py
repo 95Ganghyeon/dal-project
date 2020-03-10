@@ -22,6 +22,9 @@ from .decorators import user_survey_exist
 def cart(request, product_id):
     if request.method == "GET":
         cart_list = request.session.get("cart", [])
+
+        if(product_id == 0):
+            return JsonResponse(cart_list, safe=False)
     
         if len(cart_list) == 3:
             return HttpResponse("excess")
@@ -30,7 +33,7 @@ def cart(request, product_id):
             if val["id"] == product_id:
                 return HttpResponse("overlap")
 
-        data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
+        data = list(Product.objects.filter(id=product_id).values('id', 'name', 'brand_fk_id__name', 'image', 'price', 'reviewsummary__total_score', 'reviewsummary__absorbency_avg', 'reviewsummary__anti_odour_avg', 'reviewsummary__comfort_avg', 'reviewsummary__sensitivity_avg', 'productingredient__nature_friendly_score'))
         cart_list.append(data[0])
         request.session["cart"] = cart_list
 
