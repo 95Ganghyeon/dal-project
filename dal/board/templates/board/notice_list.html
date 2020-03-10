@@ -3,4 +3,119 @@
 
 {% block content %}
 
+<div class="notice-list-page container">
+    <div>
+        공지사항
+    </div>
+
+    <form action="{% url 'notice-list' %}" method="GET" id="noticeListForm">
+        <div class="row">
+            <div class="col-1">
+                <label class="selected" id="category-entire" onclick="noticeListSubmit()">
+                    <input type="radio" name="category" value="entire">
+                    <span>
+                        전체
+                    </span>
+                </label>
+            </div>
+            <div class="col-1">
+                <label class="selected" id="category-notice" onclick="noticeListSubmit()">
+                    <input type="radio" name="category" value="notice">
+                    <span>
+                        공지사항
+                    </span>
+                </label>
+            </div>
+            <div class="col-1">
+                <label class="selected" id="event" onclick="noticeListSubmit()">
+                    <input type="radio" name="category" value="event">
+                    <span>
+                        이벤트
+                    </span>
+                </label>
+            </div>
+            <div class="col-1 offset-4">드랍다운 박스</div>
+            <div class="col-4">
+                <input type="text" id="normalSearchText" name="q"
+                value="{% if request.GET.q %}{{request.GET.q}}{% endif %}"
+                autocomplete="off" placeholder="검색어를 입력하세요">
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">글번호</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">날짜</th>
+                <th scope="col">조회수</th>
+            </tr>
+        </thead>
+
+        <tbody id="fixed_notice">
+            {% for notice in fixed_notice_list %}
+            <tr>
+                <th scope="row">{{ forloop.revcounter }}</th>
+                <td>{{ notice.title }}</td>
+                <td>관리자</td>
+                <td>{{ notice.created_at }}</td>
+                <td>{{ notice.hits }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+        <tbody id="normal_notice">
+            {% for notice in notice_list %}
+            <tr>
+                <th scope="row">{{ forloop.revcounter }}</th>
+                <td>{{ notice.title }}</td>
+                <td>관리자</td>
+                <td>{{ notice.created_at }}</td>
+                <td>{{ notice.hits }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    
+
+    <!-- pagination -->
+    <div>
+        <ul class="my-pagination">
+            <!-- 이전 페이지로 이동 -->
+            {% if paginator.has_prev %}
+                <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
+            {% else %}
+                <!-- <li class="nav disabled">&laquo;</li> -->
+            {% endif %}
+            <!-- [1] [2] [3] -->
+            {% for i in paginator.page_range %}     
+                {% if paginator.page_obj.number == i %}
+                    <li class="disabled">&#91; {{ i }} &#93;</li>
+                {% else %}
+                    <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
+                {% endif %}
+            {% endfor %}
+            <!-- 다음 페이지로 이동 -->
+            {% if paginator.has_next %}
+                <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
+            {% else %}
+                <!-- <li class="nav disabled">&raquo;</li> -->
+            {% endif %}
+        </ul>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    
+    function noticeListSubmit(){
+        document.getElementById('noticeListForm').submit();
+    }
+</script>
+
+
 {% endblock %}

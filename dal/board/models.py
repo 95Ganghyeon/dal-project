@@ -17,9 +17,13 @@ class Notice(models.Model):
     category = models.CharField(_("카테고리"), max_length=20, choices=CATEGORY)
     is_fixed = models.BooleanField(_("상단고정"))
     created_at = models.DateTimeField(_("작성일"), auto_now_add=True)
+    hits = models.PositiveIntegerField(_("조회수"), default=0)
     
     def get_absolute_url(self):
         return reverse("notice-detail", kwargs={"pk": self.id})
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = _("공지 게시판")
