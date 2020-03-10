@@ -27,7 +27,7 @@
             }
             .buttons {
                 margin-top: 50px;
-                a {
+                button {
                     margin-right: 40px;
                     border: solid 1px #bebebe;
                     padding: 6px 20px;
@@ -117,10 +117,50 @@
             }
         }
     }
-
-    // 이건 라디오 테스트
-
 }
+
+.popover {
+    border: none;
+    margin-top: 20px;
+    margin-left: 80px;
+    box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.16);
+    .arrow {
+        left: 0 !important;
+    }
+}
+// .popover {
+//     .arrow {
+//         position: unset;
+//         left: 0px !important;
+//         margin: 0;
+//         z-index: 1;
+        
+//         &::after,
+//         &::before {
+//             border: none;
+//             content: '';
+//             width: 0px;
+//             height: 0px;
+//             position: absolute;
+//             top: 0;
+
+//             border: 10px solid #FFFFFF;
+
+//             border-right: 10px solid transparent;
+//             border-top: 10px solid transparent;
+//         }
+
+//         &::after {
+//             box-shadow: -3px 3px 3px 0px rgba(0, 0, 0, 0.16);
+//         }
+//     }
+
+//     border: none;
+//     top:0 !important;
+//     margin-top: 20px;
+//     box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.16);
+// }
+
 #toggle-form {
     display: flex;
 
@@ -136,7 +176,10 @@
                 display: block;
             }
         }
-        
+    }
+    button {
+        width: 70px;
+        height: 38px;
     }
 }
 .switch--vertical #radio-a:not(:checked)~p::after,
