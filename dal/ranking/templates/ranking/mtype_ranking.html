@@ -6,7 +6,6 @@ ChaeBi | M-type 랭킹
 {% endblock %}
 
 {% block content %}
-
 <div class="mtype-ranking-page container">
     <div class="ranking-top">
         <div class="ranking-header">
@@ -14,16 +13,12 @@ ChaeBi | M-type 랭킹
             <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.<br>
             당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
             <div class="buttons">
-                <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">타입별 랭킹찾기</a>
-                <a href="#">M-Type 재검사</a>
-            </div>
-            <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    <p><strong>다른 타입</strong>의 제품랭킹은?</p>
-                    <div class="container col-12">
+                <button type="button" data-container="body" data-toggle="popover" data-html="true"
+                data-placement="bottom" data-content=
+                '다른 타입의 제품랭킹은?
+                <div class="container col-12">
                         <form id="toggle-form" action = "{% url 'MtypeRanking' %}" method = "POST">
                             {% csrf_token %}           
-                            <button type="submit" class="btn btn-primary">Submit</button>
                             {# A or I #}
                             <div class="switch switch--vertical">
                                 <div class="toggle-outside">
@@ -76,9 +71,12 @@ ChaeBi | M-type 랭킹
                                     <p>월경질환</p>
                                 </div>
                             </div>
+                            <button type="submit">찾기</button>
                         </form>
-                    </div>
-                </div>
+                    </div>'>
+                타입별 랭킹찾기
+                </a>
+                <button>M-Type 재검사</button>
             </div>
         </div>
         {% comment %} <div class="image">
@@ -161,5 +159,10 @@ ChaeBi | M-type 랭킹
         {% endfor %}
         </ul>
     </div>
+    <script>
+    $(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+    });
+    </script>
 </div>
 {% endblock %}
