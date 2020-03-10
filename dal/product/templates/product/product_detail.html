@@ -22,10 +22,12 @@ ChaeBi | 제품상세
                         <span>{{product.name}}</span>
                         <span>정가 {{product.price}} / {{product.count}}개입</span>
                     </div>
-                    <div class="top-box__right">
-                        <i class="fas fa-heart"></i>
-                        <span>찜하기</span>
-                    </div>
+                    <a href="{% url 'product:add_zzimProduct' product.id %}">
+                        <div class="top-box__right">
+                            <i class="fas fa-heart"></i>
+                            <span>찜하기</span>
+                        </div>
+                    </a>
                 </div>
                 <div class="product-intro__middle-box">
                     <div class="middle-box__top">
@@ -51,7 +53,9 @@ ChaeBi | 제품상세
                             <span>비교함 담기</span>
                             <i class="fas fa-question-circle"></i>
                         </button>
-                        <button class="button2" type="button">내 생리대 등록</button>
+                        <button class="button2" type="button" onclick="location.href='{% url 'product:add_myProduct' product.id %}'">                            
+                            내 생리대 등록
+                        </button>
                     </div>
                     <div>
                         <button class="button3" type="button" data-toggle="modal" data-target="#myModal">리뷰 남기기</button>
