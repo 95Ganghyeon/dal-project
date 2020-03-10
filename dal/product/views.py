@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, resolve_url, redirect
+from django.shortcuts import render, get_object_or_404, resolve_url, redirect, HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg, Q
 from product.models import *
@@ -75,6 +75,23 @@ def get_paginator(obj, page, obj_per_page, page_range):
         "prev_page": (start_page),
         "next_page": (end_page + 1),
     }
+
+
+def add_myProduct(request, pk):
+  myProduct = get_object_or_404(Product, id = pk)
+  profile = Profile.objects.get(user_fk__id=request.user.id)
+  profile.myProduct_fk.add(myProduct)
+  
+  return HttpResponseRedirect(reverse('product:ProductDetail', args=[pk]))
+
+
+def add_zzimProduct(request, pk):
+  zzimProduct = get_object_or_404(Product, id = pk)
+  profile = Profile.objects.get(user_fk__id=request.user.id)
+  profile.zzimProduct_fk.add(zzimProduct)
+  
+  return HttpResponseRedirect(reverse('product:ProductDetail', args=[pk]))
+
 
 
 @login_required # 디테일 페이지는 로그인 해야만 들어갈 수 있음

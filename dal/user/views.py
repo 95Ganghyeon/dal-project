@@ -45,7 +45,7 @@ def profile(request):
       result_zzimProduct_list.append(rs)
 
   page = request.GET.get("page")
-  paginator = get_paginator(result_zzimProduct_list, page, 3, 5)  
+  paginator = get_paginator(result_zzimProduct_list, page, 6, 5)  
 
   context = {
     'm_type': m_type, 
