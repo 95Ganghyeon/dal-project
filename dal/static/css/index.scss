@@ -1,36 +1,39 @@
-/*@media (min-width: $screen-sm-min) { //768px breakpoint
-    .modal-dialog {
-        max-width: 600px;
-        width: auto;
+#surveyModal {
+    @media(max-width: 540px) {
+        .modal-dialog {
+          width: 100%;
+        }
+      }
+    @media(min-width:540px) and (max-width: 1140px) {
+        .modal-dialog {
+            width: 80%;}
     }
-}
-
-@media (min-width: $screen-md-min) { //992px breakpoint
-    .modal-dialog { 
-        max-width: 800px;
+    @media(min-width:1140px) {
+        .modal-dialog {
+            width: 50%;}
     }
-}*/
-.index {
+    
     .modal {
         position: fixed; 
         margin: auto;
         width: 100%; 
         height: 100%;
     }
-
+    
     .modal-content {
         height: 100%;
         background-color: #f8f7f7;
         border: none;
         border-radius: 1px;
         & > input[type="button"] {
-            font-size: 40px;
+            line-height: 2rem;
+            font-size: 2.5rem;
             font-weight: 100;
             border: 0;
             background: none;
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 0.15rem;
+            right: 0.3rem;
             color: #aaa;
             transition-duration: 0.5s;
         }
@@ -40,8 +43,8 @@
             color: #000000;
         }
     }
-
-    #surveymodal.modal.fade {
+    
+    &.modal.fade {
         position: absolute;
         top: 50%;
         -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
@@ -49,13 +52,12 @@
         -o-transition: opacity 0.3s linear, left 0.3s ease-out;
         transition: opacity 0.3s linear, left 0.3s ease-out;
     }
-
-    #surveyModal.modal.fade.show {
+    
+    &.modal.fade.show {
         top: 0;
     }
-
-    #surveyModal .modal-dialog {
-        width: 90em;
+    
+    & .modal-dialog {
         height: 85%;
         margin: 5% auto; 
         padding: 10px;
@@ -63,16 +65,24 @@
         align-content: center;  
         
     }
-
-
+    
+    
     .mini {
+        margin-top: 1em;
         font-size: 0.7em;
         color: #242424;
     }
-    .survey-result-container{
-        //display: none;
+    .survey-loading, .survey-result-container{
+        display: none;
+        .loading-image {
+            margin: 6em 0 2em 0;
+        }
+        .loading-text {
+            font-size: 1.1em;
+            line-height: 1.3em;
+        }
     }
-    .surveyResult {
+    .survey-result {
         display: flex;
         justify-content: center;
         justify-items: center;
@@ -82,56 +92,67 @@
         b {
             font-weight: 500;
         }
-
-        /*.result-detial {
-            margin: 20px 0px 30px 0px;
-            text-align: center;
+    
+        .result-detial {
+            margin-top: 2em;
             padding: 10px;
             overflow-y: auto;
             background-color: #ffffff;
             font-size: 0.9em;
         }
         .Q {
-            margin: 25px 0px;
-            font-size: 20px;
+            margin: 1.8em;
+            font-size: 1em;
             text-align: center;
             line-height: 30px;
         }
-
+    
         .best-product {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
         .more-info {
-            width: 300px;
+            margin-top: 1em;
+            padding: 0 5.5em;
             font-size: 0.9em;
-
-            span {
-                font-size: 0.8em;
-            }
+    
             .sign-up {
+                margin: 0.7em 0;
+                width: 100%;
                 text-align: center;
-                background-color: rgba(0,0,0,0.16);
+                padding: 0.7em;
+                background-color: rgba(0,0,0,0.3);
                 transition: 0.4s ease;
-                color: white;
+
+                & > a {
+                    color: white;
+                }
             }
             .sign-up:hover {
                 cursor: pointer;
                 background-color: rgba(0,0,0,0.5);
             }
-        }*/
+            .login-button {
+                font-weight: 500;
+                transition: all 0.4s ease;
+            }
+            .login-button:hover {
+                transform: scale(1.2);
+            }
+        }
     }
-
+    
+    
     .mySlides {
         display: none;
-
-
+    
+    
         b {
             font-weight: 500;
         }
         .Q {
-            margin-top: 25px;
+            margin-top: 1.9em;
             font-size: 1.5em;
             text-align: center;
             line-height: 1.2em;
@@ -161,7 +182,7 @@
             font-size: 0.8em;
             box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
             &.q1ChoiceBox {
-
+    
                 .image {
                     margin-bottom: 5px;
                 }
@@ -171,19 +192,19 @@
                         //display: none;
                         
                         &:checked {
-
+    
                         }
                     }
                 }
             }
             &.q2ChoiceBox {
-
+    
                 .image {
                     margin-bottom: 10px;
                 }
             }
             &.q3ChoiceBox {
-
+    
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -191,8 +212,7 @@
                     
         }
     }
-
-
+    
     .prev, .next {
         min-width:70px;
         min-height:32px;
@@ -233,11 +253,13 @@
         display: inline-block;
         transition: background-color 0.6s ease;
     }
-
+    
     .active, .slide-bar:hover {
     background-color: #717171;
     }
+}
 
+.index {
     .main {
         .box {
             height: 500px;

@@ -1,4 +1,10 @@
-from django.shortcuts import render, get_object_or_404, resolve_url, redirect
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    resolve_url,
+    redirect,
+    HttpResponseRedirect,
+)
 from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg, Q
 from product.models import *
@@ -13,6 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import urllib
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from .decorators import user_survey_exist
 
 # Create your views here.
@@ -80,8 +87,33 @@ def get_paginator(obj, page, obj_per_page, page_range):
     }
 
 
-@login_required # 디테일 페이지는 로그인 해야만 들어갈 수 있음
-@user_survey_exist # 디테일 페이지는 설문조사를 해서 user.mtype을 가지고 있어야 들어갈 수 있음
+# def add_myProduct(request, pk):
+#     myProduct = get_object_or_404(Product, id=pk)
+#     profile = Profile.objects.get(user_fk__id=request.user.id)
+#     profile.myProduct_fk.add(myProduct)
+
+#     return HttpResponseRedirect(reverse("product:ProductDetail", args=[pk]))
+
+
+# def add_zzimProduct(request, pk):
+#     zzimProduct = get_object_or_404(Product, id=pk)
+#     profile = Profile.objects.get(user_fk__id=request.user.id)
+#     profile.zzimProduct_fk.add(zzimProduct)
+
+#     return HttpResponseRedirect(reverse("product:ProductDetail", args=[pk]))
+
+
+@csrf_exempt
+@require_POST
+def zzim(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    profile = Profile.objects.get(user_fk__id=request.user.id)
+    profile.zzimProduct_fk.add(product)
+    return HttpResponse("success")
+
+
+@login_required  # 디테일 페이지는 로그인 해야만 들어갈 수 있음
+@user_survey_exist  # 디테일 페이지는 설문조사를 해서 user.mtype을 가지고 있어야 들어갈 수 있음
 def productDetail(request, pk):
     product = get_object_or_404(Product, id=pk)
 
@@ -142,7 +174,6 @@ def productDetail(request, pk):
 
         return type_based_review_summary
 
-    
     if request.method == "POST":
         makeReview(request=request, pk=pk)
         return redirect(product)
@@ -224,11 +255,12 @@ def normalSearch(request):
         ###
 
         page = request.GET.get("page")
-        paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+        paginator = get_paginator(ReviewSummary_list, page, 6, 5)
+
     else:
         ReviewSummary_list = ReviewSummary.objects.all()
         page = request.GET.get("page")
-        paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+        paginator = get_paginator(ReviewSummary_list, page, 6, 5)
 
     context = {
         # "first_page": first_page,
@@ -323,7 +355,7 @@ def compareSearch(request):
             # ReviewSummary_list = ReviewSummary_list.order_by(option)
 
             page = request.GET.get("page")
-            paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+            paginator = get_paginator(ReviewSummary_list, page, 6, 5)
 
     context = {
         "first_page": first_page,

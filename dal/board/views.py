@@ -8,16 +8,58 @@ from .models import *
 from .forms import UserStroyForm
 from django.db.models import Case, When, Value, BooleanField, Exists 
 
+# 공지사항 리스트 페이지
 def notice_list(request):
-    return render(request, "board/notice_list.html", context={})
-
-def notice_detail(request, pk):
-    return render(request, "board/notice_detail.html", context={})
     
+    query_string = ""
+
+    # 쿼리스트링 생성 for paginator
+    if request.META["QUERY_STRING"]:
+        for item in request.META["QUERY_STRING"].split("&"):
+            if "page" not in item:
+                query_string += "&" + item
+
+    if request.GET.get("category") == "entire":
+        fixed_notice_list = Notice.objects.all().filter(is_fixed=True)
+        notice_list = Notice.objects.all().order_by('-created_at')
+    elif request.GET.get("category") == "notice":
+        fixed_notice_list = Notice.objects.all().filter(category="notice", is_fixed=True)
+        notice_list = Notice.objects.all().filter(category="notice").order_by('-created_at')
+    elif request.GET.get("category") == "event":
+        fixed_notice_list = Notice.objects.all().filter(category="event", is_fixed=True)
+        notice_list = Notice.objects.all().filter(category="event").order_by('-created_at')
+    else:
+        fixed_notice_list = Notice.objects.all().filter(is_fixed=True)
+        notice_list = Notice.objects.all().order_by('-created_at')
+
+    page = request.GET.get("page")
+    paginator = get_paginator(notice_list, page, 10, 5)
+    
+    context = {
+        'notice_list': notice_list,
+        'fixed_notice_list': fixed_notice_list,
+        "paginator": paginator,
+    }
+    return render(request, "board/notice_list.html", context=context)
+
+
+# 공지사항 게시글 상세 페이지
+def notice_detail(request, pk):
+
+
+
+
+    context = {
+
+    }
+    return render(request, "board/notice_detail.html", context=context)
+    
+
 # 콘텐츠 리스트 페이지
 def user_story_list(request):
     user_story_list = User_story.objects.all().order_by('-created_at')
     return render(request, "board/user_story_list.html", context={'user_story_list': user_story_list})    
+
 
 # 콘텐츠 게시글 상세 페이지
 def user_story_detail(request, pk):
@@ -33,6 +75,7 @@ def user_story_detail(request, pk):
         return render(request, "board/user_story_detail.html", context={'user_story': user_story, 'is_like': is_like})
     else:
         return render(request, "board/user_story_detail.html", context={'user_story': user_story})    
+
 
 # 사연 작성 페이지
 def user_story_form(request):

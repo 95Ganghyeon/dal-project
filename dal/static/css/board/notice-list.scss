@@ -1,0 +1,52 @@
+.notice-list-page{
+
+    #main-title{
+        text-align: center;
+        font-size: 2em;
+        padding: 3em;
+    }
+    #control-bar{
+        padding-bottom: 2em;
+        margin: auto;
+        text-align: center;
+        
+        .radio-tab{
+            font-size: 1em;
+            
+            label{
+                cursor: pointer;
+                input[type="radio"]{
+                    display: none;
+                }
+            }
+            &.selected{
+                span{
+                    border-bottom: solid 3px #2b5e2e;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    #notice-table{
+        thead{
+            background-color: #2b5e2e;
+            text-align: center;
+            th{
+                color: white;
+            }
+        }
+
+        tbody{
+            text-align: center;
+            >tr>td#notice-title{
+                text-align: left;
+            }
+            &#fixed_notice{
+                background-color: whitesmoke;
+            }
+            &#normal_notice{
+                
+            }
+        }
+    }
+}

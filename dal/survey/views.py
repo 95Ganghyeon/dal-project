@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from survey.forms import GetSurveyResponseForm
 from survey.models import Survey
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -37,7 +38,7 @@ def index(request):
                 profile.save()
             except:
                 pass
-            return render(request, 'index.html', context)
+            return HttpResponse(survey_result.mtype)
     else:
         form = GetSurveyResponseForm()
         context = {

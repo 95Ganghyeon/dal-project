@@ -78,15 +78,14 @@
                 }
             } 
     
-            #autoCompleteText {
-                // margin: 0 10px;
+            #autoCompleteText {                
+                position: absolute;
+                z-index: 100;
                 margin: 0px;
-                // position: absolute;                
                 border: solid 1px #bebebe;
                 border-top: none;
                 background-color: #f6f6f6;
                 width: 600px;
-                z-index: 10;
                 transition: all 0.5s;
                 visibility: hidden;
                 opacity: 0;

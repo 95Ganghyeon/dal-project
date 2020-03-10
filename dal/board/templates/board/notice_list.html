@@ -3,4 +3,152 @@
 
 {% block content %}
 
+<div class="notice-list-page container">
+    <div id="main-title">
+        공지사항
+    </div>
+    
+    <form action="{% url 'notice-list' %}" method="GET" id="noticeListForm">
+        <div class="row" id="control-bar">
+            <div class="col-1 radio-tab selected " id="category-entire">
+                <label class="" id="" onclick="noticeListSubmit()">
+                    <input type="radio" name="category" value="entire">
+                    <span>
+                        전체
+                    </span>
+                </label>
+            </div>
+            <div class="col-1 radio-tab" id="category-notice">
+                <label class="" id="" onclick="noticeListSubmit()">
+                    <input type="radio" name="category" value="notice">
+                    <span>
+                        Notice
+                    </span>
+                </label>
+            </div>
+            <div class="col-1 radio-tab" id="category-event">
+                <label class="" id="" onclick="noticeListSubmit()">
+                    <input type="radio" name="category" value="event">
+                    <span>
+                        Event
+                    </span>
+                </label>
+            </div>
+            <div class="col-1 offset-4">드랍다운 박스</div>
+            <div class="col-4">
+                <input type="text" id="normalSearchText" name="q"
+                value="{% if request.GET.q %}{{request.GET.q}}{% endif %}"
+                autocomplete="off" placeholder="검색어를 입력하세요">
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-hover" id="notice-table">
+        <thead>
+            <tr>
+                <th scope="col">글번호</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">날짜</th>
+                <th scope="col">조회수</th>
+            </tr>
+        </thead>
+
+        <tbody id="fixed_notice">
+            {% for notice in fixed_notice_list %}
+            <tr>
+                <th scope="row" style="width: 10%"><i class="fas fa-thumbtack"></i></th>
+                <td style="width: auto;" id="notice-title">
+                    <a href="{{ notice.get_absolute_url }}">
+                        {{ notice.title }}
+                    </a>
+                </td>
+                <td style="width: 10%">관리자</td>
+                <td style="width: 15%">{{ notice.created_at }}</td>
+                <td style="width: 10%">{{ notice.hits }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+        <tbody id="normal_notice">
+            {% for notice in paginator.page_obj %}
+            <tr>
+                <th scope="row" style="width: 10%">{{ notice.id }}</th>
+                <td style="width: auto;" id="notice-title">
+                    <a href="{{ notice.get_absolute_url }}">
+                        {{ notice.title }}
+                    </a>
+                </td>
+                <td style="width: 10%">관리자</td>
+                <td style="width: 15%">{{ notice.created_at }}</td>
+                <td style="width: 10%">{{ notice.hits }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    
+
+    <!-- pagination -->
+    <div>
+        <ul class="my-pagination">
+            <!-- 이전 페이지로 이동 -->
+            {% if paginator.has_prev %}
+                <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
+            {% else %}
+                <!-- <li class="nav disabled">&laquo;</li> -->
+            {% endif %}
+            <!-- [1] [2] [3] -->
+            {% for i in paginator.page_range %}     
+                {% if paginator.page_obj.number == i %}
+                    <li class="disabled">&#91; {{ i }} &#93;</li>
+                {% else %}
+                    <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
+                {% endif %}
+            {% endfor %}
+            <!-- 다음 페이지로 이동 -->
+            {% if paginator.has_next %}
+                <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
+            {% else %}
+                <!-- <li class="nav disabled">&raquo;</li> -->
+            {% endif %}
+        </ul>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    window.onload = function(){
+        var pre_selected_category;
+        if( window.location.href.indexOf('entire') > -1 ){                    
+            pre_selected_category = document.getElementById('category-entire');
+        }
+        else if( window.location.href.indexOf('notice') > -1 ){
+            pre_selected_category = document.getElementById('category-notice');
+        }
+        else if( window.location.href.indexOf('event') > -1 ){
+            pre_selected_category = document.getElementById('category-event');
+
+        }
+        else{
+            pre_selected_category = document.getElementById('category-entire');
+        }
+        select_category_div(pre_selected_category);
+        console.log(pre_selected_category);
+    }
+
+    function select_category_div(selected_item){
+        document.querySelectorAll('#control-bar div').forEach(function(item){
+            item.classList.remove('selected');
+        });
+        selected_item.classList.add('selected');    
+    }
+    
+    function noticeListSubmit(){
+        document.getElementById('noticeListForm').submit();
+    }
+</script>
+
+
 {% endblock %}
