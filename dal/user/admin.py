@@ -7,35 +7,49 @@ from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 class UserAdmin(ImportExportModelAdmin):
-  pass
+    pass
 
-#overide default user admin 
+
+# overide default user admin
 admin.site.unregister(User)
+
+
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-  list_per_page = 5
-  list_display = ('id','username','email','is_active','return_social')
-  #clickable
-  list_display_links = ('id','username','email')
-  #list_editable = ('permission')
-  list_filter = ('is_active',)
-  search_fields = ('username','email',)
-  ordering = ('-id','username','email',)
+    list_per_page = 5
+    list_display = ("id", "username", "email", "is_active", "return_social")
+    # clickable
+    list_display_links = ("id", "username", "email")
+    # list_editable = ('permission')
+    list_filter = ("is_active",)
+    search_fields = (
+        "username",
+        "email",
+    )
+    ordering = (
+        "-id",
+        "username",
+        "email",
+    )
 
-  fieldsets = (
-    (None, {'fields':('username','email','password')}),
-    #('프로필', {'fields':('')}),
+    fieldsets = (
+        (None, {"fields": ("username", "email", "password")}),
+        # ('프로필', {'fields':('')}),
+    )
 
-  )
-  def return_social(self,obj):
-    try:
-      return SocialAccount.objects.get(user=obj).provider
-    except:
-      return 'none'
+    def return_social(self, obj):
+        try:
+            return SocialAccount.objects.get(user=obj).provider
+        except:
+            return "none"
 
 
 class ProfileAdmin(ImportExportModelAdmin):
-  list_display = ('id', 'user_fk', 'ghost_user', 'survey_fk', 'age')
+    list_display = ("id", "user_fk", "ghost_user", "survey_fk", "age", "zzim")
+
+    def zzim(self, obj):
+        return obj.zzimProduct_fk.count()
+
 
 admin.site.register(Profile, ProfileAdmin)
 
