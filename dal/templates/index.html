@@ -130,7 +130,7 @@ ChaeBi
                 </div>
             </div>
         </div>
-        
+        <!--
         <div id="surveyModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -290,12 +290,12 @@ ChaeBi
                 </div>
             </div>
         </div>
-
+    -->
 
 
     </div>
 
-    
+    <!--
     <script type="text/javascript">
 
         var slideIndex = 1;
@@ -350,17 +350,24 @@ ChaeBi
                 url: "/survey/",
                 data: $('#surveyForm').serialize(),
                 success: function (response) {
-                    alert("성공");
+                    document.getElementById('survey-result-mtype').innerText = response;
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
                     alert("다시 시도해 주세요.");
                 }
+            }).done(function(){
+                $('.questionnaire').hide();
+                $('.survey-loading').show();
+                setTimeout(function(){
+                    $('.survey-loading').hide();
+                    $('.survey-result-container').show();}, 3000);
+        
             });
         });
        
 
-    </script>
+    </script>-->
 
 <!--<a href="javascript:void(0);">검사하기</a>
     {% if mtype %}

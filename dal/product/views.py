@@ -1,4 +1,10 @@
-from django.shortcuts import render, get_object_or_404, resolve_url, redirect, HttpResponseRedirect
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    resolve_url,
+    redirect,
+    HttpResponseRedirect,
+)
 from django.core.paginator import Paginator
 from django.db.models import F, Func, Value, Avg, Q
 from product.models import *
@@ -13,6 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import urllib
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from .decorators import user_survey_exist
 
 # Create your views here.
@@ -22,6 +29,9 @@ from .decorators import user_survey_exist
 def cart(request, product_id):
     if request.method == "GET":
         cart_list = request.session.get("cart", [])
+
+        if(product_id == 0):
+            return JsonResponse(cart_list, safe=False)
     
         if len(cart_list) == 3:
             return HttpResponse("excess")
@@ -30,7 +40,7 @@ def cart(request, product_id):
             if val["id"] == product_id:
                 return HttpResponse("overlap")
 
-        data = list(Product.objects.filter(id=product_id).values("id", "name", "image"))
+        data = list(Product.objects.filter(id=product_id).values('id', 'name', 'brand_fk_id__name', 'image', 'price', 'reviewsummary__total_score', 'reviewsummary__absorbency_avg', 'reviewsummary__anti_odour_avg', 'reviewsummary__comfort_avg', 'reviewsummary__sensitivity_avg', 'productingredient__nature_friendly_score'))
         cart_list.append(data[0])
         request.session["cart"] = cart_list
 
@@ -77,25 +87,33 @@ def get_paginator(obj, page, obj_per_page, page_range):
     }
 
 
-def add_myProduct(request, pk):
-  myProduct = get_object_or_404(Product, id = pk)
-  profile = Profile.objects.get(user_fk__id=request.user.id)
-  profile.myProduct_fk.add(myProduct)
-  
-  return HttpResponseRedirect(reverse('product:ProductDetail', args=[pk]))
+# def add_myProduct(request, pk):
+#     myProduct = get_object_or_404(Product, id=pk)
+#     profile = Profile.objects.get(user_fk__id=request.user.id)
+#     profile.myProduct_fk.add(myProduct)
+
+#     return HttpResponseRedirect(reverse("product:ProductDetail", args=[pk]))
 
 
-def add_zzimProduct(request, pk):
-  zzimProduct = get_object_or_404(Product, id = pk)
-  profile = Profile.objects.get(user_fk__id=request.user.id)
-  profile.zzimProduct_fk.add(zzimProduct)
-  
-  return HttpResponseRedirect(reverse('product:ProductDetail', args=[pk]))
+# def add_zzimProduct(request, pk):
+#     zzimProduct = get_object_or_404(Product, id=pk)
+#     profile = Profile.objects.get(user_fk__id=request.user.id)
+#     profile.zzimProduct_fk.add(zzimProduct)
+
+#     return HttpResponseRedirect(reverse("product:ProductDetail", args=[pk]))
 
 
+@csrf_exempt
+@require_POST
+def zzim(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    profile = Profile.objects.get(user_fk__id=request.user.id)
+    profile.zzimProduct_fk.add(product)
+    return HttpResponse("success")
 
-@login_required # 디테일 페이지는 로그인 해야만 들어갈 수 있음
-@user_survey_exist # 디테일 페이지는 설문조사를 해서 user.mtype을 가지고 있어야 들어갈 수 있음
+
+@login_required  # 디테일 페이지는 로그인 해야만 들어갈 수 있음
+@user_survey_exist  # 디테일 페이지는 설문조사를 해서 user.mtype을 가지고 있어야 들어갈 수 있음
 def productDetail(request, pk):
     product = get_object_or_404(Product, id=pk)
 
@@ -156,7 +174,6 @@ def productDetail(request, pk):
 
         return type_based_review_summary
 
-    
     if request.method == "POST":
         makeReview(request=request, pk=pk)
         return redirect(product)
@@ -239,7 +256,7 @@ def normalSearch(request):
 
         page = request.GET.get("page")
         paginator = get_paginator(ReviewSummary_list, page, 6, 5)
-    
+
     else:
         ReviewSummary_list = ReviewSummary.objects.all()
         page = request.GET.get("page")

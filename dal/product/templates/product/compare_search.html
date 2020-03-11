@@ -162,30 +162,8 @@ ChaeBi | 비교검색
         </div>
 
         <!-- pagination -->
-        <div>
-            <ul class="my-pagination">
-                <!-- 이전 페이지로 이동 -->
-                {% if paginator.has_prev %}
-                <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
-                {% else %}
-                <!-- <li class="nav disabled">&laquo;</li> -->
-                {% endif %}
-                <!-- [1] [2] [3] -->
-                {% for i in paginator.page_range %}
-                {% if paginator.page_obj.number == i %}
-                <li class="disabled">&#91; {{ i }} &#93;</li>
-                {% else %}
-                <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
-                {% endif %}
-                {% endfor %}
-                <!-- 다음 페이지로 이동 -->
-                {% if paginator.has_next %}
-                <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
-                {% else %}
-                <!-- <li class="nav disabled">&raquo;</li> -->
-                {% endif %}
-            </ul>
-        </div>
+        {% include 'pagination.html' with paginator=paginator %}
+        
         {% endif %}
     </form>
 </div>

@@ -11,6 +11,14 @@ from django.db.models import Case, When, Value, BooleanField, Exists
 # 공지사항 리스트 페이지
 def notice_list(request):
     
+    query_string = ""
+
+    # 쿼리스트링 생성 for paginator
+    if request.META["QUERY_STRING"]:
+        for item in request.META["QUERY_STRING"].split("&"):
+            if "page" not in item:
+                query_string += "&" + item
+
     if request.GET.get("category") == "entire":
         fixed_notice_list = Notice.objects.all().filter(is_fixed=True)
         notice_list = Notice.objects.all().order_by('-created_at')
@@ -25,7 +33,7 @@ def notice_list(request):
         notice_list = Notice.objects.all().order_by('-created_at')
 
     page = request.GET.get("page")
-    paginator = get_paginator(notice_list, page, 5, 10)
+    paginator = get_paginator(notice_list, page, 10, 5)
     
     context = {
         'notice_list': notice_list,
