@@ -36,6 +36,7 @@ def profile(request):
   zzimProduct_list = list(profile.zzimProduct_fk.all().values_list('id', flat=True))
   
   # ReviewSummary 테이블을 total_score 순으로 내림차순 정렬한뒤, annotate를 통해 순위를 나타내는 rank 주석을 달아줌
+  ReviewSummary_list = ReviewSummary.objects.all()
   ReviewSummary_list = ReviewSummary.objects.all().annotate(rank=Window(expression=DenseRank(), order_by=F('total_score').desc()))
 
   # ReviewSummary 테이블을 돌면서 사용자가 찜한 제품들을 골라서 최종 리스트(result_zzimProduct_list)에 담음
