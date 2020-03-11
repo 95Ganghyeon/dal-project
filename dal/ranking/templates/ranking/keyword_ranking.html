@@ -8,18 +8,6 @@ ChaeBi | 키워드 랭킹
 {% block content %}
     
 <div class="keyword-ranking-page container">
-    <!-- 상단 탭 -->
-    {% comment %} <div class="ranking-pannel row">
-        <div class="mtype-ranking col-sm-6">
-            <h2>mtype 랭킹</h2>
-            <span>내 타입과 같은 사람들이 평가한 랭킹을 보여드려요</span>
-        </div>
-        <div class="keyword-ranking col-sm-6 selected">
-            <h2>keyword 랭킹</h2>
-            <span>각 키워드에서 가장 인기 높은 상품을 보여드려요</span>
-        </div>
-    </div> {% endcomment %}
-
     <form action="{% url 'KeywordRanking' %}" method="GET" id="keywordSearchForm">
         
         <div class="search-condition-box row justify-content-md-center">                
@@ -72,29 +60,70 @@ ChaeBi | 키워드 랭킹
 
         <div class="ranking-result">
             <ul style="list-style-type:none";>
-            {% for reviewSummary in product_list %}
+            {% for product in product_list %}
                 <li>
-                    <div class="d-flex">                    
-                        <div class="p-2">{{ forloop.counter }}위</div>
-                        <div class="p-2"><img src="{{reviewSummary.product_fk.image.url}}" alt=""/></div>
-                        <div class="p-2 product-info">
-                            {{ reviewSummary.product_fk.name }}<br/>
-                            {{ reviewSummary.product_fk.price }}원 / {{ reviewSummary.product_fk.count }}개<br/>                                
+                    <div class="d-flex flex-row product">
+                        <div class="p-2" style="font-size: 24px; font-weight: 500;">{{ forloop.counter }}위</div>
+                        <div class="p-2"><a href="{{ product.get_absolute_url }}"><img src="{{ product.product_fk.image.url }}" alt=""/></a></div>
+                        <div class="mr-auto p-2 product-info">
+                            <h4>{{ product.product_fk.brand_fk }}</h4>
+                            <h3>{{ product.product_fk.name }}</h3>
+                            <div class="score d-flex row">
+                                <div class="satisfaction p-2">
+                                    <div style="color: #154800; margin-bottom: 3px;">예상만족도</div>
+                                    <div class="badge badge-pill badge-primary">★{{ product.total_score|floatformat:1 }}</div>
+                                </div>
+                                <div class="nature p-2">
+                                    <div style="margin-bottom: 3px;">자연유래도</div>
+                                    <div class="badge badge-pill badge-primary">
+                                        <i class="fas fa-leaf"></i>{{ product.product_fk.productingredient.nature_friendly_score|floatformat }}%
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="ml-auto p-2 score">                                
-                            {% if 'score' in query_string %}
-                            종합점수 {{ reviewSummary.total_score }}점
-                            {% elif 'absorbency' in query_string %}
-                            흡수력 {{ reviewSummary.absorbency_avg }}점
-                            {% elif 'anti_odour' in query_string %}
-                            탈취성 {{ reviewSummary.anti_odour_avg }}점
-                            {% elif 'comfort' in query_string %}
-                            촉감/착용감 {{ reviewSummary.comfort_avg }}점                                    
-                            {% elif 'sensitivity' in query_string %}
-                            민감도 {{ reviewSummary.sensitivity_avg }}점
-                            {% else %}
-                            종합점수 {{ reviewSummary.total_score }}점
-                            {% endif %}                                
+                        <div class="row status w-25">
+                            <div class="col-sm-6 d-flex flex-column justify-content-around">
+                                <div class="p-2">흡수력</div>
+                                <div class="p-2">탈취성</div>
+                                <div class="p-2">촉감/착용감</div>
+                                <div class="p-2">피부친화도</div>
+                            </div>
+                            <div class="col-sm-4 d-flex flex-column justify-content-around">
+                                <div class="p-2">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.absorbency_avg }}" 
+                                        style="width: {% widthratio product.absorbency_avg 5 100 %}%" 
+                                        aria-valuemin="0" aria-valuemax="5"></div>
+                                    </div>
+                                </div>
+                                <div class="p-2">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.anti_odour_avg }}"
+                                        style="width: {% widthratio product.anti_odour_avg 5 100 %}%" 
+                                        aria-valuemin="0" aria-valuemax="5"></div>
+                                    </div>
+                                </div>
+                                <div class="p-2">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.comfort_avg }}"
+                                        style="width: {% widthratio product.comfort_avg 5 100 %}%" 
+                                        aria-valuemin="0" aria-valuemax="5"></div>
+                                    </div>
+                                </div>
+                                <div class="p-2">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.sensitivity_avg }}"
+                                        style="width: {% widthratio product.sensitivity_avg 5 100 %}%" 
+                                        aria-valuemin="0" aria-valuemax="5"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 d-flex flex-column justify-content-around">
+                                <div class="p-2">{{ product.absorbency_avg|floatformat:1 }}</div>
+                                <div class="p-2">{{ product.anti_odour_avg|floatformat:1 }}</div>
+                                <div class="p-2">{{ product.comfort_avg|floatformat:1 }}</div>
+                                <div class="p-2">{{ product.sensitivity_avg|floatformat:1 }}</div>
+                            </div>
                         </div>
                     </div>
                 </li>
@@ -102,81 +131,14 @@ ChaeBi | 키워드 랭킹
                 <div class="no-result">
                     <p> 검색 결과가 없습니다.</p>
                 </div>
-            </ul>
             {% endfor %}
-        </div>
-
-        
-        {% comment %} <div class="result-box row">
-            <p class="col-12">총 {{ product_list|length }}개의 상품이 검색되었습니다</p>
-            <div class="product-box col-12">                
-                <ul class="row">
-                    {% for reviewSummary in paginator.page_obj %}
-                    <li class="col-lg-4 col-md-6 col-xs-12 my-4"
-                        onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
-                        <div>
-                            <div class="">
-                                <div class="">
-                                    {% if paginator.page_obj.number == 1 %}
-                                    {% if forloop.counter0 < 3 %}
-                                    <span class="rank">{{ forloop.counter }}위</span>
-                                    {% endif %}
-                                    {% endif %}
-                                    <span>
-                                        {% if 'score' in query_string %}
-                                        종합점수 {{ reviewSummary.total_score }}점
-                                        {% elif 'absorbency' in query_string %}
-                                        흡수력 {{ reviewSummary.absorbency_avg }}점
-                                        {% elif 'anti_odour' in query_string %}
-                                        탈취성 {{ reviewSummary.anti_odour_avg }}점
-                                        {% elif 'comfort' in query_string %}
-                                        촉감/착용감 {{ reviewSummary.comfort_avg }}점                                    
-                                        {% elif 'sensitivity' in query_string %}
-                                        민감도 {{ reviewSummary.sensitivity_avg }}점
-                                        {% else %}
-                                        종합점수 {{ reviewSummary.total_score }}점
-                                        {% endif %}
-                                    </span>
-                                </div>
-                                <img class="" src="{{ reviewSummary.product_fk.image.url }}" alt="" />
-                            </div c>
-                            <span>{{ reviewSummary.product_fk.hashtag_fk.name }}</span>
-                            <h2>{{ reviewSummary.product_fk.name }}({{ reviewSummary.product_fk.category }})</h2>
-                        </div>
-                    </li>
-                    {% empty %}
-                    <p>일치하는 검색결과가 없습니다.</p>
-                    {% endfor %}
-                </ul>
-            </div>
-
-
-        <!-- pagination -->
-        <div>
-            <ul class="my-pagination">
-                <!-- 이전 페이지로 이동 -->
-                {% if paginator.has_prev %}
-                    <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
-                {% else %}
-                    <!-- <li class="nav disabled">&laquo;</li> -->
-                {% endif %}
-                <!-- [1] [2] [3] -->
-                {% for i in paginator.page_range %}     
-                    {% if paginator.page_obj.number == i %}
-                        <li class="disabled">&#91; {{ i }} &#93;</li>
-                    {% else %}
-                        <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
-                    {% endif %}
-                {% endfor %}
-                <!-- 다음 페이지로 이동 -->
-                {% if paginator.has_next %}
-                    <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a></li>
-                {% else %}
-                    <!-- <li class="nav disabled">&raquo;</li> -->
-                {% endif %}
             </ul>
-        </div> {% endcomment %}
-
+        </div>
+        <script>
+        $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+        });
+        </script>
     </form>
 </div>    
 

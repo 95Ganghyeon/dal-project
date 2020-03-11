@@ -1,6 +1,6 @@
 .mtype-ranking-page {
     .ranking-top {
-        height: 400px;
+        height: 450px;
 
         background-color: #fafbf7;
         .ranking-header {
@@ -120,6 +120,8 @@
 }
 
 .popover {
+    max-width: 400px;
+    height: 200px;
     border: none;
     margin-top: 20px;
     margin-left: 80px;

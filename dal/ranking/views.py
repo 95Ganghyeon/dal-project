@@ -120,12 +120,11 @@ def mtypeRanking(request):
         m_type = 'NULL'
         print(request.POST)
         try:
-
-            m_1 = 'A' if request.POST['toggle-1'] else 'I'
-            m_2 = 'H' if request.POST['toggle-2'] else 'L'
-            m_3 = 'S' if request.POST['toggle-3'] else 'T'
-            m_4 = 'P' if request.POST['toggle-4'] else 'F'
-            m_type = m_1+m_2+m_3+m_4
+            m_1 = 'A' if 'toggle-1' in request.POST else 'I'
+            m_2 = 'H' if 'toggle-2' in request.POST else 'L'
+            m_3 = 'S' if 'toggle-3' in request.POST else 'T'
+            m_4 = 'P' if 'toggle-4' in request.POST else 'F'
+            m_type = m_1 + m_2 + m_3 + m_4
             print(m_type[:4])
         except:
             pass
