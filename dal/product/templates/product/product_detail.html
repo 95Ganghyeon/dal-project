@@ -10,7 +10,7 @@ ChaeBi | 제품상세
 <div class="product-detail-page container">
     <div class="product-intro">
         <div class="product-intro__path">
-            <span>상품검색 > </span>{{product.name}}
+            <a href="{% url 'product:NormalSearch' %}"><span>상품검색 > </span></a>{{product.name}}
         </div>
         <div class="product-intro__main row">
             <div class="product-intro__img col-xl-6 col-lg-5 col-md-12 col-xs-12">
@@ -23,7 +23,7 @@ ChaeBi | 제품상세
                         <span>정가 {{product.price}} / {{product.count}}개입</span>
                     </div>
                     {% comment %} <a href="{% url 'product:add_zzimProduct' product.id %}"> {% endcomment %}
-                        <div class="top-box__right" id="ajax">
+                        <div class="top-box__right" id="zzim">
                             <i class="fas fa-heart"></i>
                             <span>찜하기</span>
                         </div>
@@ -53,7 +53,7 @@ ChaeBi | 제품상세
                             <span>비교함 담기</span>
                             <i class="fas fa-question-circle"></i>
                         </button>
-                        <button class="button2" type="button">                            
+                        <button id="my_product" class="button2" type="button">                            
                             내 생리대 등록
                         </button>
                         {% comment %} <button class="button2" type="button" onclick="location.href='{% url 'product:add_myProduct' product.id %}'">                            
@@ -301,16 +301,31 @@ ChaeBi | 제품상세
         insertCart({{ product.id }});
     });
 
-    $("#ajax").click(function() {
+    $("#zzim").click(function() {
         $.ajax({
             type: "POST",
-            url: "{% url "product:zzim" product.id %}",
-            success: function(data) {
-                alert(data);
+            url: "{% url 'product:zzim' product.id %}",
+            success:function(data) {
+                if (data == "exist")
+                    alert("이미 찜한 상품입니다.");
+                
+                else if (data == "success")
+                    alert("찜하셨습니다.");
             },
-            failure: function(data) {
-                alert("fail");
-            }
+        });
+    })
+
+    $("#my_product").click(function() {
+        $.ajax({
+            type: "POST",
+            url: "{% url 'product:my_product' product.id %}",
+            success:function(data) {
+                if (data == "exist")
+                    alert("이미 등록하셨습니다.");
+                
+                else if (data == "success")
+                    alert("내 생리대로 등록완료했습니다.");
+            },
         });
     })
   

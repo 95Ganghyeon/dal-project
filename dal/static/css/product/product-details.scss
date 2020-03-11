@@ -9,9 +9,11 @@
     width: 100%;
     color: #1e1e1e;
     font-size: 20px; 
-    >span {
-      color: #bebebe;
-      font-size: 20px;
+    >a {
+      >span {
+        color: #bebebe;
+        font-size: 20px;
+        }
     }
   }
   
@@ -19,7 +21,7 @@
     display: flex;      
     justify-content: space-between;
     align-items: center;
-    padding-left: 15px;
+    padding: 0 15px;
     }
 
   .product-intro__img {
@@ -71,6 +73,7 @@
     width: 85px;
     height: 85px;
     background-color: #edadad;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -316,6 +319,12 @@
       &:nth-child(3) {
         font-size: 35px;
       }
+    }
+  }
+
+  @media (max-width: 991px) {
+    .review-summary__left-column {
+      border: none;
     }
   }
 

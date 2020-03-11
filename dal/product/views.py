@@ -105,7 +105,24 @@ def get_paginator(obj, page, obj_per_page, page_range):
 def zzim(request, pk):
     product = get_object_or_404(Product, id=pk)
     profile = Profile.objects.get(user_fk__id=request.user.id)
+
+    if profile.zzimProduct_fk.filter(id=pk).exists():  # exists() 캐시를 저장하지 않으므로 더 효율적이다.
+        return HttpResponse("exist")
+
     profile.zzimProduct_fk.add(product)
+    return HttpResponse("success")
+
+
+@csrf_exempt
+@require_POST
+def my_product(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    profile = Profile.objects.get(user_fk__id=request.user.id)
+
+    if profile.myProduct_fk.filter(id=pk).exists():  # exists() 캐시를 저장하지 않으므로 더 효율적이다.
+        return HttpResponse("exist")
+
+    profile.myProduct_fk.add(product)
     return HttpResponse("success")
 
 
