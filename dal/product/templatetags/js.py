@@ -22,3 +22,7 @@ def divide(value, arg):
 @register.filter(is_safe=True)
 def divide2(value, arg):
     return value * arg
+
+@register.filter(is_safe=True)
+def get_current_page(page, count):
+    return (page - 1) * 10 + count
