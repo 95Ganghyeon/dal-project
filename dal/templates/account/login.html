@@ -9,9 +9,10 @@
 {% block title %}
 ChaeBi | 로그인
 {% endblock %}
-
+{% block messages %}
+{% endblock messages %}
 {% block content %} 
-<div class="container login-modal col-xs-12 col-md-8 col-3">
+<div class="container login-modal">
   
   <div class="" id="account-header">로그인하기</div>
   {% get_providers as socialaccount_providers %}
