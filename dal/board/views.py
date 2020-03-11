@@ -11,6 +11,26 @@ from django.db.models import (
     F, Func, Value, Q
 )
 
+def get_paginator(obj, page, obj_per_page, page_range):
+    page = int(page) if page else 1
+
+    paginator = Paginator(obj, obj_per_page)
+    max_page = paginator.num_pages  # 마지막 페이지
+    start_page = int((page - 1) / page_range) * page_range
+    end_page = start_page + page_range
+    if end_page >= max_page:
+        end_page = max_page
+
+    return {
+        "page_obj": paginator.get_page(page),
+        "page_range": paginator.page_range[start_page:end_page],
+        "has_prev": True if start_page > 1 else False,
+        "has_next": True if end_page < max_page else False,
+        "prev_page": (start_page),
+        "next_page": (end_page + 1),
+    }
+
+
 # 공지사항 리스트 페이지
 def notice_list(request):
     
@@ -95,8 +115,37 @@ def notice_detail(request, pk):
 
 # 콘텐츠 리스트 페이지
 def user_story_list(request):
-    user_story_list = User_story.objects.all().order_by('-created_at')
-    return render(request, "board/user_story_list.html", context={'user_story_list': user_story_list})    
+    user_story_list = None
+    query_string = ''
+    option = ''
+
+    if 'option' in request.GET:
+        option = request.GET.get('option')
+        if option == 'created_at':
+            user_story_list = User_story.objects.all().order_by('-created_at')
+        else:
+            user_story_list = sorted(User_story.objects.all(), key=lambda t: t.total_likes, reverse=True)
+    else:
+        user_story_list = User_story.objects.all().order_by('-created_at')
+
+
+    # 쿼리스트링 생성 for paginator
+    if request.META["QUERY_STRING"]:
+        for item in request.META["QUERY_STRING"].split("&"):
+            if "page" not in item:
+                query_string += "&" + item
+
+
+    page = request.GET.get("page")
+    paginator = get_paginator(user_story_list, page, 3, 2)
+
+    context = {
+        'user_story_list': user_story_list,
+        'paginator': paginator,
+        'query_string': query_string,
+    }
+
+    return render(request, "board/user_story_list.html", context=context)    
 
 
 # 콘텐츠 게시글 상세 페이지
