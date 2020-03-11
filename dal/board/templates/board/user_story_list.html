@@ -15,8 +15,28 @@
     </div>
 
     <div class="content-box">
+        <form method="GET" id="option-form">
+            <!-- 드롭다운 옵션 선택 div -->
+            <div class="drop-down-box">
+                <a href="javascript:void(0);">
+                    {% if request.GET.option == 'created_at' %}
+                    최신순
+                    {% elif request.GET.option == 'total_likes' %}
+                    좋아요순
+                    {% else %}
+                    최신순
+                    {% endif %}
+                </a>
+                <input type="hidden" value="{% if request.GET.option %}{{ request.GET.option }}{% endif %}" name="option">
+                <ul>
+                    <li data-option="created_at">최신순</li>
+                    <li data-option="total_likes">좋아요순</li>
+                </ul>
+            </div>
+        </form>
+
         <ul class="card-columns">
-            {% for user_story in user_story_list %}
+            {% for user_story in paginator.page_obj %}
             <li class="card" onclick="location.href='{% url 'user-story-detail' user_story.id %}'">
                 {{ user_story.id }}
                 <img class="card-img" src="{{ user_story.image.url }}"/>
@@ -30,7 +50,40 @@
             {% endfor %}
         </ul>
     </div>
-    
 </div>
+{% include 'pagination.html' with paginator=paginator %}
+
+<script type="text/javascript">
+    var div = document.querySelector('.drop-down-box a');
+    var ul = document.querySelector('.drop-down-box ul');
+    var is_cursor_in_drop_down = false;
+    var option_form = document.getElementsByName('option')[0];
+
+    ul.addEventListener('mouseenter', function () {
+        is_cursor_in_drop_down = true;
+    });
+    ul.addEventListener('mouseleave', function () {
+        is_cursor_in_drop_down = false;
+    });
+    div.addEventListener('click', function () {
+        ul.classList.toggle('focusin');
+        div.classList.toggle('focusin');
+    });
+    div.addEventListener('focusout', function () {
+        if (is_cursor_in_drop_down == false) {
+            ul.classList.remove('focusin');
+            div.classList.remove('focusin');
+        }
+    });
+    document.querySelectorAll('.drop-down-box ul li').forEach(function (item, num) {
+        item.addEventListener('click', function () {
+            ul.classList.remove('focusin');
+            div.classList.remove('focusin');
+            div.innerHTML = item.innerHTML;
+            option_form.value = item.getAttribute('data-option');
+            document.getElementById('option-form').submit();
+        });
+    });
+</script>
 
 {% endblock %}

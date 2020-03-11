@@ -63,6 +63,8 @@ $breakpoint-largedesktop: 1200px - 1px;
 */
 .drop-down-box {
     padding: 10px 10px;
+    text-align: right;
+    position: relative;
 
     a {
         display: inline-flex;
@@ -70,19 +72,18 @@ $breakpoint-largedesktop: 1200px - 1px;
         align-items: center;
         padding: 10px 0;
 
-        /*
-        &.focusin::after {
-            content: '∧';
-        }
-        */
-
         &::after {
             content: '∨';
             font-size: 14px;
             display: inline-block;
             margin-left: 10px;
         }
+
+        &.focusin::after {
+            content: '∧';
+        }
     }
+
 
     ul {
         margin: 0 10px;

@@ -64,6 +64,8 @@
 
     // 파일 선택 완료 이벤트
     document.getElementById('files').addEventListener('change', function() {
+        console.log(this.files);
+
         const self = this;
         if(image_file_buffer.length + self.files.length > 2) {
             alert('파일은 최대 2개까지만 업로드 가능합니다');
@@ -80,6 +82,8 @@
             create_files(file);
         });
         self.value = '';
+
+        console.log(image_file_buffer);
     });
 
     // 파일 리스트 생성
