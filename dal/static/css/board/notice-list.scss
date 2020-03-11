@@ -9,7 +9,8 @@
         padding-bottom: 2em;
         margin: auto;
         text-align: center;
-        
+        line-height: 2.5em;
+
         .radio-tab{
             font-size: 1em;
             
@@ -26,11 +27,20 @@
                 }
             }
         }
+
+        #notice-text-search-box{
+            padding-right: 0px;
+            input[type="text"]{
+                width: 100%;
+                border: solid 1px #bebebe;
+            }
+        }
     }
+
     #notice-table{
         thead{
             background-color: #2b5e2e;
-            text-align: center;
+            text-align: center;       
             th{
                 color: white;
             }
@@ -38,14 +48,19 @@
 
         tbody{
             text-align: center;
-            >tr>td#notice-title{
-                text-align: left;
-            }
+
             &#fixed_notice{
                 background-color: whitesmoke;
             }
             &#normal_notice{
                 
+            }
+
+            >tr>th,td{
+                vertical-align: middle;
+                &#notice-title{
+                    text-align: left;
+                }
             }
         }
     }

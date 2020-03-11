@@ -6,51 +6,89 @@ from product.views import get_paginator
 from user.models import *
 from .models import *
 from .forms import UserStroyForm
-from django.db.models import Case, When, Value, BooleanField, Exists 
+from django.db.models import (
+    Case, When, Value, BooleanField, Exists,
+    F, Func, Value, Q
+)
 
 # 공지사항 리스트 페이지
 def notice_list(request):
     
-    query_string = ""
-
+    def makeNoticeList(**kwargs):
+        # 카테코리 탭을 누른 경우
+        if 'category' in kwargs.keys():
+            if kwargs['category'] == "entire":
+                fixed_notice_list = Notice.objects.all().filter(is_fixed=True).order_by('-created_at')
+                notice_list = Notice.objects.all().order_by('-created_at')
+            elif kwargs['category'] == "notice":
+                fixed_notice_list = Notice.objects.all().filter(category="notice", is_fixed=True).order_by('-created_at')
+                notice_list = Notice.objects.all().filter(category="notice").order_by('-created_at')
+            elif kwargs['category'] == "event":
+                fixed_notice_list = Notice.objects.all().filter(category="event", is_fixed=True).order_by('-created_at')
+                notice_list = Notice.objects.all().filter(category="event").order_by('-created_at')
+        # 검색어를 입력한 경우
+        if 'query' in kwargs.keys():
+            fixed_notice_list = Notice.objects.all().filter(is_fixed=True).order_by('-created_at')
+            query = kwargs['query']
+            notice_list = Notice.objects.all().annotate(
+            rename1=Func(
+                F("title"), Value(" "), Value(""), function="REPLACE"
+            ),
+            rename2=Func(
+                F("content"), Value(" "), Value(""), function="REPLACE"
+            )
+            ).filter(Q(rename1__icontains=query)|Q(rename2__icontains=query))
+        # 최초에 페이지를 랜더링할 경우(디폴트)
+        if 'default' in kwargs.keys():
+            fixed_notice_list = Notice.objects.all().filter(is_fixed=True).order_by('-created_at')
+            notice_list = Notice.objects.all().order_by('-created_at')
+        
+        return fixed_notice_list, notice_list
+        
+        
     # 쿼리스트링 생성 for paginator
+    query_string = ""
     if request.META["QUERY_STRING"]:
         for item in request.META["QUERY_STRING"].split("&"):
             if "page" not in item:
                 query_string += "&" + item
 
-    if request.GET.get("category") == "entire":
-        fixed_notice_list = Notice.objects.all().filter(is_fixed=True)
-        notice_list = Notice.objects.all().order_by('-created_at')
-    elif request.GET.get("category") == "notice":
-        fixed_notice_list = Notice.objects.all().filter(category="notice", is_fixed=True)
-        notice_list = Notice.objects.all().filter(category="notice").order_by('-created_at')
-    elif request.GET.get("category") == "event":
-        fixed_notice_list = Notice.objects.all().filter(category="event", is_fixed=True)
-        notice_list = Notice.objects.all().filter(category="event").order_by('-created_at')
+    # notice_list 생성
+    if request.GET.get("category"):
+        fixed_notice_list, notice_list = makeNoticeList(category=request.GET.get("category"))
+    elif request.GET.get("q"):
+        fixed_notice_list, notice_list = makeNoticeList(query=request.GET.get("q").replace(" ", ""))
     else:
-        fixed_notice_list = Notice.objects.all().filter(is_fixed=True)
-        notice_list = Notice.objects.all().order_by('-created_at')
-
+        fixed_notice_list, notice_list = makeNoticeList(default="")
+    
     page = request.GET.get("page")
     paginator = get_paginator(notice_list, page, 10, 5)
-    
     context = {
         'notice_list': notice_list,
         'fixed_notice_list': fixed_notice_list,
         "paginator": paginator,
+        'query_string': query_string,
     }
     return render(request, "board/notice_list.html", context=context)
 
 
 # 공지사항 게시글 상세 페이지
 def notice_detail(request, pk):
+    notice = get_object_or_404(Notice, id=pk)
+    
+    # 조회수 증가
+    notice.hits += 1
+    notice.save()
 
-
-
+    # 이전글/다음글
+    prev_notice = Notice.objects.filter(created_at__lt=notice.created_at).order_by('-created_at').first()
+    next_notice = Notice.objects.filter(created_at__gt=notice.created_at).order_by('created_at').first()
+    
 
     context = {
-
+        'notice': notice,
+        'prev_notice': prev_notice,
+        'next_notice': next_notice,
     }
     return render(request, "board/notice_detail.html", context=context)
     

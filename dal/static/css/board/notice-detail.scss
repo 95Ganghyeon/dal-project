@@ -1,3 +1,77 @@
 .notice-detail-page{
+    #main-title{
+        text-align: center;
+        font-size: 2em;
+        padding: 3em;
+    }
+
+    #notice-header-box{
+        line-height: 2.5em;
+        border-top: solid 2px #bebebe;
+        border-bottom: solid 1px #bebebe;
+
+        #notice-title{
+            background-color: #2b5e2e;
+            .title-subbox{
+                color: white;
+                font-size: 1.3em;
+                font-weight: bold;
+                &#category{
+                    padding: 0em 1em;
+                    font-size: 1em;
+                }
+
+            }
+        }
+        #notice-information{
+            background-color: whitesmoke;
+            .information-subbox{
+                padding: 0em 1em;
+                font-size: 0.9em;
+            }
+        }
     
+    }
+    #notice-body-box{
+        padding: 2em 1em;
+
+    }
+    #notice-footer-box{
+        border-top: solid 2px #bebebe;
+        
+
+        button{   
+            margin: 1em 0em;
+            width: 90px;
+            height: 45px;
+            cursor: pointer;
+        }
+        
+
+        #next-prev{
+            border-top: solid 2px #bebebe;
+            border-bottom: solid 2px #bebebe;
+            .row{
+                margin: auto;
+                line-height: 1em;
+                &#next{
+                    padding: 1em 1em 0.5em 1em;
+                }
+                &#prev{
+                    padding: 0.5em 1em 1em 1em;
+                }
+                
+                .next-prev-head{
+                    padding-right: 1em;
+                    font-size: 0.8em;
+                    font-weight: bold;
+                }
+                .next-prev-body{
+
+                }
+            }
+            
+        }
+    }
+
 }

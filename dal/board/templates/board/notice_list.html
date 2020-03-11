@@ -22,7 +22,7 @@
                 <label class="" id="" onclick="noticeListSubmit()">
                     <input type="radio" name="category" value="notice">
                     <span>
-                        Notice
+                        공지
                     </span>
                 </label>
             </div>
@@ -30,13 +30,12 @@
                 <label class="" id="" onclick="noticeListSubmit()">
                     <input type="radio" name="category" value="event">
                     <span>
-                        Event
+                        이벤트
                     </span>
                 </label>
             </div>
-            <div class="col-1 offset-4">드랍다운 박스</div>
-            <div class="col-4">
-                <input type="text" id="normalSearchText" name="q"
+            <div class="col-4 offset-5" id="notice-text-search-box">
+                <input type="text" id="search-text" name="q"
                 value="{% if request.GET.q %}{{request.GET.q}}{% endif %}"
                 autocomplete="off" placeholder="검색어를 입력하세요">
             </div>
@@ -49,7 +48,7 @@
                 <th scope="col">글번호</th>
                 <th scope="col">제목</th>
                 <th scope="col">작성자</th>
-                <th scope="col">날짜</th>
+                <th scope="col">등록일</th>
                 <th scope="col">조회수</th>
             </tr>
         </thead>
@@ -64,7 +63,7 @@
                     </a>
                 </td>
                 <td style="width: 10%">관리자</td>
-                <td style="width: 15%">{{ notice.created_at }}</td>
+                <td style="width: 15%">{{ notice.created_at|date:"Y.m.d" }}</td>
                 <td style="width: 10%">{{ notice.hits }}</td>
             </tr>
             {% endfor %}
@@ -80,8 +79,12 @@
                     </a>
                 </td>
                 <td style="width: 10%">관리자</td>
-                <td style="width: 15%">{{ notice.created_at }}</td>
+                <td style="width: 15%">{{ notice.created_at|date:"Y.m.d" }}</td>
                 <td style="width: 10%">{{ notice.hits }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">결과가 없습니다</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -134,20 +137,24 @@
         else{
             pre_selected_category = document.getElementById('category-entire');
         }
+        
         select_category_div(pre_selected_category);
-        console.log(pre_selected_category);
     }
 
     function select_category_div(selected_item){
         document.querySelectorAll('#control-bar div').forEach(function(item){
             item.classList.remove('selected');
         });
-        selected_item.classList.add('selected');    
+        selected_item.classList.add('selected');
     }
     
+    // 카테고리 라디오 버튼 클릭만으로 form을 submit함
     function noticeListSubmit(){
+        document.getElementById('search-text').value=null; 
         document.getElementById('noticeListForm').submit();
     }
+
+
 </script>
 
 
