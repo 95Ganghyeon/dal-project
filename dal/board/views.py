@@ -57,7 +57,7 @@ def notice_list(request):
             rename2=Func(
                 F("content"), Value(" "), Value(""), function="REPLACE"
             )
-            ).filter(Q(rename1__icontains=query)|Q(rename2__icontains=query))
+            ).filter(Q(rename1__icontains=query)|Q(rename2__icontains=query)).order_by('-created_at')
         # 최초에 페이지를 랜더링할 경우(디폴트)
         if 'default' in kwargs.keys():
             fixed_notice_list = Notice.objects.all().filter(is_fixed=True).order_by('-created_at')
