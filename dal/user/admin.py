@@ -45,10 +45,21 @@ class CustomUserAdmin(UserAdmin):
 
 
 class ProfileAdmin(ImportExportModelAdmin):
-    list_display = ("id", "user_fk", "ghost_user", "survey_fk", "age", "zzim")
+    list_display = (
+        "id",
+        "user_fk",
+        "ghost_user",
+        "survey_fk",
+        "age",
+        "zzim",
+        "my_product",
+    )
 
     def zzim(self, obj):
         return obj.zzimProduct_fk.count()
+
+    def my_product(self, obj):
+        return obj.myProduct_fk.count()
 
 
 admin.site.register(Profile, ProfileAdmin)
