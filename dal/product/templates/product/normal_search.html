@@ -79,7 +79,7 @@ ChaeBi | 일반검색
             </div> {% endcomment %}
 
             <div class="product-box col-12">
-                <ul class="row">
+                <ul class="row m-0">
                     {% for reviewSummary in paginator.page_obj %}
                     <li class="col-lg-4 col-md-6 col-xs-12 my-4"
                         onclick="location.href='{{reviewSummary.product_fk.get_absolute_url}}'">
@@ -126,7 +126,8 @@ ChaeBi | 일반검색
 
         <!-- pagination -->
         <div>
-            <ul class="my-pagination">
+            {% include 'pagination.html' with paginator=paginator %}
+            {% comment %} <ul class="my-pagination">
                 <!-- 이전 페이지로 이동 -->
                 {% if paginator.has_prev %}
                     <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a></li>
@@ -147,7 +148,7 @@ ChaeBi | 일반검색
                 {% else %}
                     <!-- <li class="nav disabled">&raquo;</li> -->
                 {% endif %}
-            </ul>
+            </ul> {% endcomment %}
         </div>
         {% comment %} {% endif %} {% endcomment %}
     </form>
