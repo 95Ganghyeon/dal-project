@@ -20,7 +20,7 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
-
+from .views import CustomPasswordChangeView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('survey/', include('survey.urls')),
@@ -31,6 +31,9 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/survey/', permanent=True), name='IndexPage'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
+    #custom redirect on password-change
+    url(r"^accounts/password/change/$", CustomPasswordChangeView.as_view(), name="account_password_change"),
+    
     #all-auth
     # path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')), 
