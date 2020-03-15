@@ -10,20 +10,20 @@ ChaeBi | 제품상세
 <div class="product-detail-page container">
     <div class="product-intro">
         <div class="product-intro__path">
-            <span>상품검색 > </span>{{product.name}}
+            <a href="{% url 'product:NormalSearch' %}"><span>상품검색 > </span></a>{{product.name}}
         </div>
         <div class="product-intro__main row">
-            <div class="product-intro__img col-xl-6 col-lg-5 col-md-12 col-xs-12">
+            <div class="product-intro__img col-xl-6 col-lg-5 col-md-12 col-xs-12 mb-xl-0 mb-lg-0 mb-md-3 mb-sm-3 mb-3">
                 <img src="{{product.image.url}}" alt="" />
             </div>
-            <div class="product-intro__content col-xl-6 col-lg-7 col-md-12 col-xs-12">
+            <div class="product-intro__content col-xl-6 col-lg-7 col-md-12 col-xs-12 pl-0 pl-lg-5 pl-md-0 pl-sm-0 pl-xs-0 pr-0">
                 <div class="product-intro__top-box">
                     <div class="top-box__left">
                         <span>{{product.name}}</span>
                         <span>정가 {{product.price}} / {{product.count}}개입</span>
                     </div>
                     {% comment %} <a href="{% url 'product:add_zzimProduct' product.id %}"> {% endcomment %}
-                        <div class="top-box__right" id="ajax">
+                        <div class="top-box__right" id="zzim">
                             <i class="fas fa-heart"></i>
                             <span>찜하기</span>
                         </div>
@@ -53,7 +53,7 @@ ChaeBi | 제품상세
                             <span>비교함 담기</span>
                             <i class="fas fa-question-circle"></i>
                         </button>
-                        <button class="button2" type="button">                            
+                        <button id="my_product" class="button2" type="button">                            
                             내 생리대 등록
                         </button>
                         {% comment %} <button class="button2" type="button" onclick="location.href='{% url 'product:add_myProduct' product.id %}'">                            
@@ -90,9 +90,27 @@ ChaeBi | 제품상세
                                 <span class="font-weight-bold">{{user.profile.survey_fk.mtype}}</span> 타입 {{user.username}}님에게,</span>
                             </div>
                             <div>
-                                <span>이 제품의 <span class="text font-weight-bold">예상 만족도</span>는?</span>
+                                <span class="h-100">이 제품의 <span class="text font-weight-bold">예상 만족도</span>는?</span>
                             </div>
-                            <div><span class="font-weight-bold">{{type_based_review_summary.score}}</span> / 5</div>
+                            <div class="row d-flex justify-content-around align-items-center w-100"> 
+                                <div>
+                                {% if 3 <= type_based_review_summary.score <= 4 %}
+                                    <span>★</span><span>★</span><span>★</span>
+                                    <span style="
+                                            background: linear-gradient(
+                                                to right,
+                                                blue,
+                                                blue 80%,
+                                                white 20%,
+                                                white
+                                                
+                                            );
+                                            -webkit-background-clip: text;
+                                            -webkit-text-fill-color: transparent;">★</span>
+                                {% endif %}
+                                </div>
+                                <div><span class="font-weight-bold">{{type_based_review_summary.score}}</span> / 5</div>
+                            </div>
                         </div>
                         <div class="review-summary__right-column col-xl-6 col-lg-7 col-md-12 col-xs-12">
                             <div class="col-4">
@@ -229,6 +247,7 @@ ChaeBi | 제품상세
                             </div>
                         {% endfor %}
 
+<<<<<<< HEAD
                     </div>
                     <!-- pagination -->
                     <div>
@@ -256,6 +275,10 @@ ChaeBi | 제품상세
                             <!-- <li class="nav disabled">&raquo;</li> -->
                             {% endif %}
                         </ul>
+=======
+                        <!-- pagination -->
+                        {% include 'pagination.html' with paginator=paginator %}
+>>>>>>> 47ed6dd04a1bfd3a910ec753439d604916cecc4e
                     </div>
                 </section>
             </li>
@@ -301,16 +324,31 @@ ChaeBi | 제품상세
         insertCart({{ product.id }});
     });
 
-    $("#ajax").click(function() {
+    $("#zzim").click(function() {
         $.ajax({
             type: "POST",
-            url: "{% url "product:zzim" product.id %}",
-            success: function(data) {
-                alert(data);
+            url: "{% url 'product:zzim' product.id %}",
+            success:function(data) {
+                if (data == "exist")
+                    alert("이미 찜한 상품입니다.");
+                
+                else if (data == "success")
+                    alert("찜하셨습니다.");
             },
-            failure: function(data) {
-                alert("fail");
-            }
+        });
+    })
+
+    $("#my_product").click(function() {
+        $.ajax({
+            type: "POST",
+            url: "{% url 'product:my_product' product.id %}",
+            success:function(data) {
+                if (data == "exist")
+                    alert("이미 등록하셨습니다.");
+                
+                else if (data == "success")
+                    alert("내 생리대로 등록했습니다.");
+            },
         });
     })
   
