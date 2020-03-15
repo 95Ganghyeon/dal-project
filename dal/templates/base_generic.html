@@ -576,7 +576,6 @@
             url: "/survey/",
             data: $('#surveyForm').serialize(),
             success: function (response) {
-                alert("성공");
                 document.getElementById('survey-result-mtype').innerText = response;
             },
             error: function (e) {
