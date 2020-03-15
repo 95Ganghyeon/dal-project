@@ -351,10 +351,10 @@ def compareSearch(request):
                 ReviewSummary_list = ReviewSummary_list.filter(
                     product_fk__price_per_piece__lt=criterionReviewSummary.product_fk.price_per_piece
                 )
-            if "nature_friendly" in compareCondition:
-                ReviewSummary_list = ReviewSummary_list.filter(
-                    product_fk__productingredient__nature_friendly_score__gt=criterionReviewSummary.product_fk.productingredient.nature_friendly_score
-                )
+            # if "nature_friendly" in compareCondition:
+            #     ReviewSummary_list = ReviewSummary_list.filter(
+            #         product_fk__productingredient__nature_friendly_score__gt=criterionReviewSummary.product_fk.productingredient.nature_friendly_score
+            #     )
             if "absorbency" in compareCondition:
                 ReviewSummary_list = ReviewSummary_list.filter(
                     absorbency_avg__gt=criterionReviewSummary.absorbency_avg
@@ -385,8 +385,8 @@ def compareSearch(request):
             # orm 에 알맞게 변형
             if option == "price":
                 option = "product_fk__" + option
-            elif option == "nature_friendly":
-                option = "-product_fk__productingredient__" + option + "_score"
+            # elif option == "nature_friendly":
+            #     option = "-product_fk__productingredient__" + option + "_score"
             else:
                 option = "-" + option + "_avg"
 

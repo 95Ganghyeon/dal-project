@@ -201,6 +201,7 @@
         align-items: center;
         text-align: center;
         height: 60px;
+        line-height: 60px;
         font-size: 20px;
         color: #bebebe;
         position: relative;
@@ -223,7 +224,7 @@
         border-right: 1px solid #bebebe;
         position: absolute;
         left: 0;
-        top: 5px;
+        top: 25px;
       }
 
       .test::after {
@@ -232,7 +233,7 @@
         border-right: 1px solid #bebebe;
         position: absolute;
         right: 0;
-        top: 5px;
+        top: 25px;
       }
 
       // label:nth-child(3)::before {
@@ -240,13 +241,6 @@
       //   height: 100%;
       //   border: 1px solid #bebebe;
       //  }
-    }
-  }
-
-  label {
-    &:hover {
-      // cursor: pointer;
-      
     }
   }
 
