@@ -21,6 +21,7 @@ import urllib
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .decorators import user_survey_exist
+import math
 
 # Create your views here.
 
@@ -30,9 +31,9 @@ def cart(request, product_id):
     if request.method == "GET":
         cart_list = request.session.get("cart", [])
 
-        if(product_id == 0):
+        if product_id == 0:
             return JsonResponse(cart_list, safe=False)
-    
+
         if len(cart_list) == 3:
             return HttpResponse("excess")
 
@@ -40,7 +41,21 @@ def cart(request, product_id):
             if val["id"] == product_id:
                 return HttpResponse("overlap")
 
-        data = list(Product.objects.filter(id=product_id).values('id', 'name', 'brand_fk_id__name', 'image', 'price', 'reviewsummary__total_score', 'reviewsummary__absorbency_avg', 'reviewsummary__anti_odour_avg', 'reviewsummary__comfort_avg', 'reviewsummary__sensitivity_avg', 'productingredient__nature_friendly_score'))
+        data = list(
+            Product.objects.filter(id=product_id).values(
+                "id",
+                "name",
+                "brand_fk_id__name",
+                "image",
+                "price",
+                "reviewsummary__total_score",
+                "reviewsummary__absorbency_avg",
+                "reviewsummary__anti_odour_avg",
+                "reviewsummary__comfort_avg",
+                "reviewsummary__sensitivity_avg",
+                "productingredient__nature_friendly_score",
+            )
+        )
         cart_list.append(data[0])
         request.session["cart"] = cart_list
 
@@ -105,6 +120,7 @@ def get_paginator(obj, page, obj_per_page, page_range):
 
 @csrf_exempt
 @require_POST
+@login_required
 def zzim(request, pk):
     product = get_object_or_404(Product, id=pk)
     profile = Profile.objects.get(user_fk__id=request.user.id)
@@ -118,6 +134,7 @@ def zzim(request, pk):
 
 @csrf_exempt
 @require_POST
+@login_required
 def my_product(request, pk):
     product = get_object_or_404(Product, id=pk)
     profile = Profile.objects.get(user_fk__id=request.user.id)
@@ -211,6 +228,8 @@ def productDetail(request, pk):
         page = request.GET.get("page")
         paginator = get_paginator(review_list, page, 5, 3)
         form = GetReviewResponseForm()
+        test = (type_based_review_summary['score'] - math.floor(type_based_review_summary['score'])) * 100
+        test1 = 100 - test
         context = {
             "product": product,
             "type_based_review_summary": type_based_review_summary,
@@ -218,6 +237,8 @@ def productDetail(request, pk):
             "review_list": review_list,
             "paginator": paginator,
             "form": form,
+            "test": test,
+            'test1': test1,
         }
         return render(request, "product/product_detail.html", context=context)
 

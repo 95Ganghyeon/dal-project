@@ -90,9 +90,27 @@ ChaeBi | 제품상세
                                 <span class="font-weight-bold">{{user.profile.survey_fk.mtype}}</span> 타입 {{user.username}}님에게,</span>
                             </div>
                             <div>
-                                <span>이 제품의 <span class="text font-weight-bold">예상 만족도</span>는?</span>
+                                <span class="h-100">이 제품의 <span class="text font-weight-bold">예상 만족도</span>는?</span>
                             </div>
-                            <div><span class="font-weight-bold">{{type_based_review_summary.score}}</span> / 5</div>
+                            <div class="row d-flex justify-content-around align-items-center w-100"> 
+                                <div>
+                                {% if 3 <= type_based_review_summary.score <= 4 %}
+                                    <span>★</span><span>★</span><span>★</span>
+                                    <span style="
+                                            background: linear-gradient(
+                                                to right,
+                                                blue,
+                                                blue 80%,
+                                                white 20%,
+                                                white
+                                                
+                                            );
+                                            -webkit-background-clip: text;
+                                            -webkit-text-fill-color: transparent;">★</span>
+                                {% endif %}
+                                </div>
+                                <div><span class="font-weight-bold">{{type_based_review_summary.score}}</span> / 5</div>
+                            </div>
                         </div>
                         <div class="review-summary__right-column col-xl-6 col-lg-7 col-md-12 col-xs-12">
                             <div class="col-4">
@@ -230,32 +248,7 @@ ChaeBi | 제품상세
                         {% endfor %}
 
                         <!-- pagination -->
-                        <div>
-                            <ul class="my-pagination">
-                                <!-- 이전 페이지로 이동 -->
-                                {% if paginator.has_prev %}
-                                <li class="nav"><a href="?page={{ paginator.prev_page }}{{ query_string }}">&laquo;</a>
-                                </li>
-                                {% else %}
-                                <!-- <li class="nav disabled">&laquo;</li> -->
-                                {% endif %}
-                                <!-- [1] [2] [3] -->
-                                {% for i in paginator.page_range %}
-                                {% if paginator.page_obj.number == i %}
-                                <li class="disabled">&#91; {{ i }} &#93;</li>
-                                {% else %}
-                                <li><a href="?page={{ i }}{{ query_string }}">&#91; {{ i }} &#93;</a></li>
-                                {% endif %}
-                                {% endfor %}
-                                <!-- 다음 페이지로 이동 -->
-                                {% if paginator.has_next %}
-                                <li class="nav"><a href="?page={{ paginator.next_page }}{{ query_string }}">&raquo;</a>
-                                </li>
-                                {% else %}
-                                <!-- <li class="nav disabled">&raquo;</li> -->
-                                {% endif %}
-                            </ul>
-                        </div>
+                        {% include 'pagination.html' with paginator=paginator %}
                     </div>
                 </section>
             </li>
