@@ -1,12 +1,35 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.db.models import Avg
 from django.contrib.auth.decorators import login_required
 from product.models import Review, Product
-
-# from product.views import get_paginator
 from ranking.models import *
 
 # Create your views here.
+def get_paginator(obj, page, obj_per_page, page_range):
+    """
+    한 페이지에 보일 paginator 숫자 범위 제한하는 함수임.
+    이 함수는 paginator에 대한 dictionary 자료형을 반환함.
+    이 dictonary를 context 변수 하나와 연결하여 넣은 뒤, 
+    template에서 "변수명.page_obj", "변수명.page_range" 등등의 방식으로 사용하면 됨.
+    """
+    page = int(page) if page else 1
+
+    paginator = Paginator(obj, obj_per_page)
+    max_page = paginator.num_pages  # 마지막 페이지
+    start_page = int((page - 1) / page_range) * page_range
+    end_page = start_page + page_range
+    if end_page >= max_page:
+        end_page = max_page
+
+    return {
+        "page_obj": paginator.get_page(page),
+        "page_range": paginator.page_range[start_page:end_page],
+        "has_prev": True if start_page > 1 else False,
+        "has_next": True if end_page < max_page else False,
+        "prev_page": (start_page),
+        "next_page": (end_page + 1),
+    }
 
 def updateRankingBoard():
     """
@@ -120,12 +143,11 @@ def mtypeRanking(request):
         m_type = 'NULL'
         print(request.POST)
         try:
-
-            m_1 = 'A' if request.POST['toggle-1'] else 'I'
-            m_2 = 'H' if request.POST['toggle-2'] else 'L'
-            m_3 = 'S' if request.POST['toggle-3'] else 'T'
-            m_4 = 'P' if request.POST['toggle-4'] else 'F'
-            m_type = m_1+m_2+m_3+m_4
+            m_1 = 'A' if 'toggle-1' in request.POST else 'I'
+            m_2 = 'H' if 'toggle-2' in request.POST else 'L'
+            m_3 = 'S' if 'toggle-3' in request.POST else 'T'
+            m_4 = 'P' if 'toggle-4' in request.POST else 'F'
+            m_type = m_1 + m_2 + m_3 + m_4
             print(m_type[:4])
         except:
             pass
@@ -159,13 +181,13 @@ def keywordRanking(request):
     else:
         ReviewSummary_list = ReviewSummary_list.order_by('-total_score')[:10]    
 
-    # page = request.GET.get('page')
-    # paginator = get_paginator(ReviewSummary_list, page, 1, 2)
+    page = request.GET.get('page')
+    paginator = get_paginator(ReviewSummary_list, page, 10, 5)
 
     context = {    
         'product_list': ReviewSummary_list,
         'query_string': query_string,
-        # 'paginator': paginator,
+        'paginator': paginator,
     }
     return render(request, "ranking/keyword_ranking.html", context=context)  
 

@@ -4,9 +4,92 @@
 {% block content %}
 
 <div class="notice-detail-page container">
-    안녕하세요
+    <div id="main-title">
+        공지사항
+    </div>
 
+    <div id="notice-header-box">
+        <div class="d-flex" id="notice-title">
+            <div class="title-subbox" id="category">
+                {% if notice.category == 'notice' %}
+                [공지]
+                {% else %}
+                [이벤트]
+                {% endif %}
+            </div>
+            <div class="title-subbox">
+                {{ notice.title }}
+            </div>
+        </div>
+        <div class="d-flex justify-content-end" id="notice-information">
+            <div class="information-subbox">
+                관리자
+            </div>
+            <div class="information-subbox">
+                {{ notice.created_at|date:"Y.m.d" }}
+            </div>
+            <div class="information-subbox">
+                조회수 {{ notice.hits }}
+            </div>
+        </div>
+    </div>
 
+    <div id="notice-body-box">    
+        {{ notice.content|safe }}
+    </div>
+
+    <div id="notice-footer-box">
+        <div class="d-flex justify-content-end">
+            <button type="button" onclick="location.href='{% url 'notice-list' %}'">목록으로</button>
+        </div>
+        
+        <div id="next-prev">
+            <div class="row" id="next">
+                <div class="next-prev-head">
+                    다음글
+                </div>
+                <div class="next-prev-body">
+                {% if next_notice == None %}
+                    <span>
+                        다음글이 없습니다
+                    </span>    
+                {% else %}
+                    <a href="{{ next_notice.get_absolute_url }}">
+                        {% if next_notice.category == 'notice' %}
+                            [공지] {{ next_notice.title }}
+                        {% else %}
+                            [이벤트] {{ next_notice.title }}
+                        {% endif %}
+                    </a>
+                {% endif %}
+                </div>
+            </div>
+
+            <div class="row" id="prev">
+                <div class="next-prev-head">
+                    이전글                
+                </div>
+                <div class="next-prev-body">
+                {% if prev_notice == None %}
+                    <span>
+                        다음글이 없습니다
+                    </span>
+                {% else %}
+                    <a href="{{ prev_notice.get_absolute_url }}">
+                        {% if prev_notice.category == 'notice' %}
+                            [공지] {{ prev_notice.title }}
+                        {% else %}
+                            [이벤트] {{ prev_notice.title }}
+                        {% endif %}
+                    </a>
+                {% endif %}
+                </div>
+            </div>
+
+            
+
+        </div>
+    </div>
 
 </div>
 

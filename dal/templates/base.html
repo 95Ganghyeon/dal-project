@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 
-
-  {% load bootstrap4 %}
-
-  {% bootstrap_javascript jquery='full'%}
-  {% bootstrap_css %}
+    {% load static%}
+    <!--load bootstrap-->
+    <script rel ="stylesheet" href={% static 'css/bootstrap/bootstrap.min.css' %}></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
   {% load sass_tags %}
   <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}">
 <html>
@@ -16,17 +15,19 @@
   <body>
     <div class="base-page">
       {% block body %}
-
-      {% if messages %}
-      <div>
-        <strong>Messages:</strong>
-        <ul>
-          {% for message in messages %}
-          <li>{{message}}</li>
-          {% endfor %}
-        </ul>
-      </div>
+      {% block messages%}
+        {% if messages %}
+        <div>
+          <strong>Messages:</strong>
+          <ul>
+            {% for message in messages %}
+            <li>{{message}}</li>
+            {% endfor %}
+          </ul>
+        </div>
       {% endif %}
+      {% endblock messages%}
+      
       {% block content %}
       {% endblock %}
       {% endblock %}
