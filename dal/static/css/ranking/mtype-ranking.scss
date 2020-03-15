@@ -1,11 +1,14 @@
 .mtype-ranking-page {
-    .ranking-top {
+    .ranking-top.jumbotron {
         height: 450px;
-
         background-color: #fafbf7;
+        
+        display: flex;
+        align-items: center;
+
         .ranking-header {
-            margin-top: 50px;
-            float: left;
+
+            // float: left;
             h2 {
                 width: 390px;
                 height: 45px;

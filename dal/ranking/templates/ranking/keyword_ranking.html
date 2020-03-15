@@ -7,58 +7,60 @@ ChaeBi | 키워드 랭킹
 
 {% block content %}
     
-<div class="keyword-ranking-page container">
+<div class="keyword-ranking-page">
     <form action="{% url 'KeywordRanking' %}" method="GET" id="keywordSearchForm">
         
-        <div class="search-condition-box row justify-content-md-center">                
-            <div class="condition-keyword col-md-2">                    
-                <label class="selected" id="keyword-score" onclick="keywordSearchFormSubmit()">
-                    <input type="radio" name="keyword" value="score">
-                    <span>
-                        <i class="fas fa-3x fa-trophy"></i><br/>                            
-                        종합
-                    </span>
-                </label>
+        <div class="jumbotron jumbotron-fluid search-condition-box justify-content-center">                
+            <div class="container keyword-header row justify-content-md-center">
+                <div class="condition-keyword col-md-2">
+                    <label class="selected" id="keyword-score" onclick="keywordSearchFormSubmit()">
+                        <input type="radio" name="keyword" value="score">
+                        <span>
+                            <i class="fas fa-3x fa-trophy"></i><br/>                            
+                            종합
+                        </span>
+                    </label>
+                </div>
+                <div class="condition-keyword col-md-2">
+                    <label class="" id="keyword-absorbency" onclick="keywordSearchFormSubmit()">
+                        <input type="radio" name="keyword" value="absorbency" id="absorbency">
+                        <span>
+                            <i class="fas fa-3x fa-tint"></i><br/>                            
+                            흡수력
+                        </span>
+                    </label>
+                </div>
+                <div class="condition-keyword col-md-2">
+                    <label class="" id="keyword-anti_odour" onclick="keywordSearchFormSubmit()">
+                        <input type="radio" name="keyword" value="anti_odour" id="anti_odour">
+                        <span>
+                            <i class="fas fa-3x fa-wind"></i><br/>                            
+                            탈취력
+                        </span>
+                    </label>
+                </div>
+                <div class="condition-keyword col-md-2">
+                    <label class="" id="keyword-comfort" onclick="keywordSearchFormSubmit()">
+                        <input type="radio" name="keyword" value="comfort" id="comfort">
+                        <span>
+                            <i class="fas fa-3x fa-water"></i><br/>                            
+                            촉감/착용감
+                        </span>
+                    </label>
+                </div>
+                <div class="condition-keyword col-md-2">
+                    <label class="" id="keyword-sensitivity" onclick="keywordSearchFormSubmit()">
+                        <input type="radio" name="keyword" value="sensitivity" id="sensitivity">
+                        <span>
+                            <i class="fas fa-3x fa-allergies"></i><br/>                       
+                            피부 친화도
+                        </span>
+                    </label>
+                </div>                        
             </div>
-            <div class="condition-keyword col-md-2">
-                <label class="" id="keyword-absorbency" onclick="keywordSearchFormSubmit()">
-                    <input type="radio" name="keyword" value="absorbency" id="absorbency">
-                    <span>
-                        <i class="fas fa-3x fa-tint"></i><br/>                            
-                        흡수력
-                    </span>
-                </label>
-            </div>
-            <div class="condition-keyword col-md-2">
-                <label class="" id="keyword-anti_odour" onclick="keywordSearchFormSubmit()">
-                    <input type="radio" name="keyword" value="anti_odour" id="anti_odour">
-                    <span>
-                        <i class="fas fa-3x fa-wind"></i><br/>                            
-                        탈취력
-                    </span>
-                </label>
-            </div>
-            <div class="condition-keyword col-md-2">
-                <label class="" id="keyword-comfort" onclick="keywordSearchFormSubmit()">
-                    <input type="radio" name="keyword" value="comfort" id="comfort">
-                    <span>
-                        <i class="fas fa-3x fa-water"></i><br/>                            
-                        촉감/착용감
-                    </span>
-                </label>
-            </div>
-            <div class="condition-keyword col-md-2">
-                <label class="" id="keyword-sensitivity" onclick="keywordSearchFormSubmit()">
-                    <input type="radio" name="keyword" value="sensitivity" id="sensitivity">
-                    <span>
-                        <i class="fas fa-3x fa-allergies"></i><br/>                       
-                        피부 친화도
-                    </span>
-                </label>
-            </div>                        
         </div>
 
-        <div class="ranking-result">
+        <div class="container ranking-result">
             <ul style="list-style-type:none";>
             {% for product in paginator.page_obj %}
                 <li>
