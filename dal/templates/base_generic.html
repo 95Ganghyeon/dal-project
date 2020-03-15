@@ -12,11 +12,13 @@
     <meta property="og:image" content="{% block ogimage %}{% endblock %}">
     <meta property="og:description" content="{% block ogdescription %}{% endblock %}">
     
+    <!--jquery-->
+    <script src={% static 'js/jquery-3.4.1.min.js' %}></script>
+
     <!--load bootstrap-->
     <link rel ="stylesheet" href={% static 'css/bootstrap/bootstrap.min.css' %}></link>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <!--jquery-->
-    <script src={% static 'js/jquery-3.4.1.slim.min.js' %}></script>
+
 
     <!-- load css/stylesheet -->
     <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}" type="text/css" />
@@ -209,7 +211,7 @@
       <!--nav top -->
       <div class="container">
         <nav class="navbar-light bg-faded ml-auto">
-          <div class="ml-auto">
+          <div class="">
             <ul class="nav navbar-nav">
               {% if user.is_authenticated %}
                 <li class="nav-item dropdown">

@@ -9,5 +9,6 @@ urlpatterns = [
     path("cart/<int:product_id>/", views.cart, name="cart"),
     # path("<int:pk>/addmyproduct", views.add_myProduct, name="add_myProduct"),
     # path("<int:pk>/addzzimproduct", views.add_zzimProduct, name="add_zzimProduct"),
-    path("zzim/<int:pk>", views.zzim, name="zzim"),
+    path("<int:pk>/zzim", views.zzim, name="zzim"),
+    path("<int:pk>/my_product", views.my_product, name="my_product"),
 ]

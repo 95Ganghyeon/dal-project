@@ -55,10 +55,10 @@ ChaeBi | 비교검색
                         {% endif %}{% endif %}>
                     <label for="compareCondition3">촉감/착용감 좋은</label>
 
-                    <input type="checkbox" id="compareCondition4" value="nature_friendly"
+                    <!-- <input type="checkbox" id="compareCondition4" value="nature_friendly"
                         {% if request.GET.compareConditionList %}{% if 'nature_friendly' in request.GET.compareConditionList %}checked="true"
                         {% endif %}{% endif %}>
-                    <label for="compareCondition4">자연유래정도 높은</label>
+                    <label for="compareCondition4">자연유래정도 높은</label> -->
 
                     <input type="checkbox" id="compareCondition5" value="anti_odour"
                         {% if request.GET.compareConditionList %}{% if 'anti_odour' in request.GET.compareConditionList %}checked="true"
@@ -91,8 +91,8 @@ ChaeBi | 비교검색
                         흡수력 순
                         {% elif option == 'comfort' %}
                         촉감/착용감 순
-                        {% elif option == 'nature_friendly' %}
-                        자연유래정도 순
+                        <!-- {% elif option == 'nature_friendly' %}
+                        자연유래정도 순 -->
                         {% elif option == 'anti_odour' %}
                         탈취성 순
                         {% elif option == 'sensitivity' %}
@@ -106,7 +106,7 @@ ChaeBi | 비교검색
                         <li data-option="price">저렴한 순</li>
                         <li data-option="absorbency">흡수력 순</li>
                         <li data-option="comfort">촉감/착용감 순</li>
-                        <li data-option="nature_friendly">자연유래정도 순</li>
+                        <!-- <li data-option="nature_friendly">자연유래정도 순</li> -->
                         <li data-option="anti_odour">탈취성 순</li>
                         <li data-option="sensitivity">민감도 순</li>
                     </ul>

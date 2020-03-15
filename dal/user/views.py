@@ -48,6 +48,7 @@ def profile(request):
         if rs.product_fk.id in zzimProduct_list:
             result_zzimProduct_list.append(rs)
 
+    print(result_zzimProduct_list)
     page = request.GET.get("page")
     paginator = get_paginator(result_zzimProduct_list, page, 6, 5)
 
