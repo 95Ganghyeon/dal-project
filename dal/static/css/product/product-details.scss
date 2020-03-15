@@ -193,6 +193,9 @@
       >input {
         display: none;
       }
+      >input:checked + label{
+        color: black;
+      }
       >input + label {
         align-items: center;
         text-align: center;
@@ -200,7 +203,10 @@
         font-size: 20px;
         color: #bebebe;
         position: relative;
-
+        &:hover {
+          cursor: pointer;
+          color: black;
+        }
         // &:nth-child(2n):not(:nth-child(3n))::after {
         //   content: '|';
         //   color: inherit;
@@ -238,7 +244,8 @@
 
   label {
     &:hover {
-      cursor: pointer;
+      // cursor: pointer;
+      
     }
   }
 
