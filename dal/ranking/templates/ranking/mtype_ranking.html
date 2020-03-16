@@ -13,19 +13,75 @@ ChaeBi | M-type 랭킹
             <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.<br>
             당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
             <div class="buttons">
-                <button type="button" data-container="body" data-toggle="popover" data-html="true"
-                data-placement="bottom" data-content=
-                '<div>다른 타입의 제품랭킹은?</div>'>
-                타입별 랭킹찾기
+                <button id="popover" type="button">
+                    타입별 랭킹찾기
                 </button>
                 <button data-toggle="modal" data-target="#surveyModal">
                     M-Type 재검사
                 </button>
+                <div id="popover-head" class="hide">
+                    다른 타입의 제품랭킹은?
+                </div>
+                <div id="popover-content" class="hide">
+                    <form id="toggle-form" action = "{% url 'MtypeRanking' %}" method = "POST">
+                        {% csrf_token %}           
+                        {# A or I #}
+                        <div class="switch switch--vertical">
+                            <div class="toggle-outside">
+                                <input id="radio-a" type="radio" name="toggle-1" {% if "A" in m_type%}checked="checked" {% endif %} />
+                                <label for=	"radio-a">A</label>
+                                <input id="radio-i" type="radio" name="toggle-1" />
+                                <label for="radio-i" class="second">I</label>
+                                <div class="toggle-inside">
+                                </div>
+                                <p>활동량</p>
+                            </div>
+                        </div>
+
+                    
+                        {% comment %} H or L {% endcomment %}
+                        <div class="switch switch--vertical">
+                            <div class="toggle-outside">
+                                <input id="radio-h" type="radio" name="toggle-2" {% if "H" in m_type%}checked="checked" {% endif %} />
+                                <label for="radio-h">H</label>
+                                <input id="radio-l" type="radio" name="toggle-2" />
+                                <label for="radio-l" class="second">L</label>
+                                <div class="toggle-inside">
+                                </div>
+                                <p>월경량</p>
+                            </div>
+                        </div>
+
+                        {% comment %} S or T {% endcomment %}
+                        <div class="switch switch--vertical">
+                            <div class="toggle-outside">
+                                <input id="radio-s" type="radio" name="toggle-3" {% if "S" in m_type%}checked="checked" {% endif %} />
+                                <label for="radio-s">S</label>
+                                <input id="radio-t" type="radio" name="toggle-3" />
+                                <label for="radio-t" class="second">T</label>
+                                <div class="toggle-inside">
+                                </div>
+                                <p>바디민감도</p>
+                            </div>
+                        </div>
+
+                        {# P or F #}
+                        <div class="switch switch--vertical">
+                            <div class="toggle-outside">
+                                <input id="radio-p" type="radio" name="toggle-4" {% if "P" in m_type %}checked="checked" {% endif %} />
+                                <label for="radio-p">P</label>
+                                <input id="radio-f" type="radio" name="toggle-4" />
+                                <label for="radio-f" class="second">F</label>
+                                <div class="toggle-inside">
+                                </div>
+                                <p>월경질환</p>
+                            </div>
+                        </div>
+                        <button type="submit">찾기</button>
+                    </form>
+                </div>     
             </div>
         </div>
-        {% comment %} <div class="image">
-            <img src="#">
-        </div> {% endcomment %}
     </div>
     <div class="ranking-result">
         <ul style="list-style-type:none";>
@@ -104,9 +160,21 @@ ChaeBi | M-type 랭킹
         </ul>
     </div>
     <script>
-    $(document).ready(function(){
-    $('[data-toggle="popover"]').popover();
-    });
+        $('#popover').popover({ 
+            html : true,
+            title: function() {
+            return $("#popover-head").html();
+            },
+            content: function() {
+            return $("#popover-content").html();
+            }
+        });
     </script>
+    {% comment %} <script>
+        $('#but1').popover({
+            html: true,
+            content: $('#toggle-pop').html(),
+        });
+    </script> {% endcomment %}
 </div>
 {% endblock %}
