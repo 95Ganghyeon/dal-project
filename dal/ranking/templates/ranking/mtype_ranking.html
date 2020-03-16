@@ -6,9 +6,9 @@ ChaeBi | M-type 랭킹
 {% endblock %}
 
 {% block content %}
-<div class="mtype-ranking-page container">
-    <div class="ranking-top">
-        <div class="ranking-header">
+<div class="mtype-ranking-page">
+    <div class="jumbotron jumbotron-fluid ranking-top">
+        <div class="container ranking-header">
             <h2><mark>내 타입({{m_type}})</mark>의 최적생리대는?</h2>
             <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.<br>
             당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
@@ -83,7 +83,8 @@ ChaeBi | M-type 랭킹
             </div>
         </div>
     </div>
-    <div class="ranking-result">
+
+    <div class="container ranking-result">
         <ul style="list-style-type:none";>
         {% for product in products %}
             <li>
