@@ -85,6 +85,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 # all-auth socialaccount credentials
 
 MIDDLEWARE = [
+    # "livereload.middleware.LiveReloadScript",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -93,7 +94,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    "livereload.middleware.LiveReloadScript",
 ]
 
 ROOT_URLCONF = "dal.urls"

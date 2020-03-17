@@ -228,8 +228,11 @@ def productDetail(request, pk):
         page = request.GET.get("page")
         paginator = get_paginator(review_list, page, 5, 3)
         form = GetReviewResponseForm()
-        test = (type_based_review_summary['score'] - math.floor(type_based_review_summary['score'])) * 100
-        test1 = 100 - test
+        filled_star = (
+            type_based_review_summary["score"]
+            - math.floor(type_based_review_summary["score"])
+        ) * 100
+        empty_star = 100 - filled_star
         context = {
             "product": product,
             "type_based_review_summary": type_based_review_summary,
@@ -237,8 +240,8 @@ def productDetail(request, pk):
             "review_list": review_list,
             "paginator": paginator,
             "form": form,
-            "test": test,
-            'test1': test1,
+            "filled_star": filled_star,
+            "empty_star": empty_star,
         }
         return render(request, "product/product_detail.html", context=context)
 

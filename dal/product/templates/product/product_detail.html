@@ -31,7 +31,7 @@ ChaeBi | 제품상세
                 </div>
                 <div class="product-intro__middle-box">
                     <div class="middle-box__top">
-                        <span>나의 타입<span class="font-weight-bold"> {{user.profile.survey_fk.mtype}}</span>에게, <span class=font-weight-bold> 예상 만족도 {{type_based_review_summary.score}}</span></span>
+                        <span>나의 타입<span class="font-weight-bold"> {{user.profile.survey_fk.mtype}}</span>에게, <span class=font-weight-bold> 예상만족도는 {{type_based_review_summary.score}}</span></span>
                     </div>
                     <div class="middle-box__bottom row">
                         <div class="col-5">
@@ -77,7 +77,9 @@ ChaeBi | 제품상세
                 <input id="tab2" type="radio" name="tabs">
                 <label class="test col-4" for="tab2">성분정보</label>
                 <input id="tab3" type="radio" name="tabs" checked>
-                <label class="col-4" for="tab3">리뷰({{review_list|length}})</label>
+                <label class="col-4" for="tab3">
+                    <a href="#content3">리뷰({{review_list|length}})</a>
+                </label>
 
                 <section class="col-xs-12" id="content1">
                 </section>
@@ -92,24 +94,110 @@ ChaeBi | 제품상세
                             <div>
                                 <span class="h-100">이 제품의 <span class="text font-weight-bold">예상 만족도</span>는?</span>
                             </div>
-                            <div class="row d-flex justify-content-around align-items-center w-100"> 
+                            <div class="row d-flex justify-content-center align-items-center w-100"> 
                                 <div>
-                                {% if 3 <= type_based_review_summary.score <= 4 %}
-                                    <span>★</span><span>★</span><span>★</span>
+                                {% comment %} 별 점수를 그라데이션으로 표현한 로직 {% endcomment %}
+                                {% if type_based_review_summary.score == 0 %}
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+
+                                {% elif type_based_review_summary.score < 1 %}
                                     <span style="
                                             background: linear-gradient(
                                                 to right,
-                                                blue,
-                                                blue 80%,
-                                                white 20%,
-                                                white
+                                                #212020,
+                                                #212020 {{filled_star}}%,
+                                                #E5E4E2 -{{empty_star}}%,
+                                                #E5E4E2
                                                 
                                             );
                                             -webkit-background-clip: text;
                                             -webkit-text-fill-color: transparent;">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+
+                                {% elif type_based_review_summary.score < 2 %}
+                                    <span style="color: #212020">★</span>
+                                    <span style="
+                                            background: linear-gradient(
+                                                to right,
+                                                #212020,
+                                                #212020 {{filled_star}}%,
+                                                #E5E4E2 -{{empty_star}}%,
+                                                #E5E4E2
+                                                
+                                            );
+                                            -webkit-background-clip: text;
+                                            -webkit-text-fill-color: transparent;">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+
+                                {% elif type_based_review_summary.score < 3 %}
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
+                                    <span style="
+                                            background: linear-gradient(
+                                                to right,
+                                                #212020,
+                                                #212020 {{filled_star}}%,
+                                                #E5E4E2 -{{empty_star}}%,
+                                                #E5E4E2
+                                                
+                                            );
+                                            -webkit-background-clip: text;
+                                            -webkit-text-fill-color: transparent;">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+
+                                {% elif type_based_review_summary.score < 4 %}
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
+                                    <span style="
+                                            background: linear-gradient(
+                                                to right,
+                                                #212020,
+                                                #212020 {{filled_star}}%,
+                                                #E5E4E2 -{{empty_star}}%,
+                                                #E5E4E2
+                                                
+                                            );
+                                            -webkit-background-clip: text;
+                                            -webkit-text-fill-color: transparent;">★</span>
+                                    <span style="color: #E5E4E2">★</span>
+
+                                {% elif type_based_review_summary.score < 5 %}
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
+                                    <span style="
+                                            background: linear-gradient(
+                                                to right,
+                                                #212020,
+                                                #212020 {{filled_star}}%,
+                                                #E5E4E2 -{{empty_star}}%,
+                                                #E5E4E2
+                                                
+                                            );
+                                            -webkit-background-clip: text;
+                                            -webkit-text-fill-color: transparent;">★</span>
+
+                                {% elif type_based_review_summary.score == 5 %}
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
+                                    <span style="color: #212020">★</span>
                                 {% endif %}
                                 </div>
-                                <div><span class="font-weight-bold">{{type_based_review_summary.score}}</span> / 5</div>
+                                <div class="ml-4"><span class="font-weight-bold">{{type_based_review_summary.score}}</span> / 5</div>
                             </div>
                         </div>
                         <div class="review-summary__right-column col-xl-6 col-lg-7 col-md-12 col-xs-12">
@@ -288,6 +376,7 @@ ChaeBi | 제품상세
 </div>
 </div>
 
+<script type="text/javascript" src="http://127.0.0.1:35729/livereload.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
     document.getElementsByClassName("button1")[0].addEventListener("click", function () {
