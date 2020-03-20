@@ -34,7 +34,7 @@ def get_paginator(obj, page, obj_per_page, page_range):
 def updateRankingBoard():
     """
     RankingBoard 테이블을 UPDATE 하는 함수임(2~3일 주기로 실행될 것임)
-    """    
+    """
     entireTable = RankingBoard.objects.all()    
     for record in entireTable:
         matchingReviews = Review.objects.filter(product_fk=record.product_fk, m_type=record.m_type)
@@ -83,12 +83,6 @@ def calculateWeight(userMtype, reviewMtype):
     else:
         return 0
 
-def updateView(request):
-    if 'rb' in request.GET:
-        updateRankingBoard()
-    elif 'rs' in request.GET:
-        updateReviewSummary()
-    return render(request, 'ranking/update.html')
 
 @login_required
 def mtypeRanking(request):

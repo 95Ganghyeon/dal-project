@@ -58,31 +58,50 @@
     .ranking-result {
         margin-top: 80px;
         .product {
-            margin-top: 20px;
-            border-bottom: ridge;
+            border-bottom: 1px solid #d2d2d2;
+            padding: 15px 0;
+
             img {
                 width: 150px;
                 height: 150px;
             }
             .product-info {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            
                 h3 {
                     font-size: 22px;
                     font-weight: bold;
                 }
+
                 h4 {
                     font-size: 16px;
                     font-weight: bold;
                     color: #242424;
                 }
+            
+
                 .score {
-                    margin-top: 35px;
+                    justify-self: flex-end;
+                    justify-items: flex-end;
+
                     .satisfaction {
-                        text-align: center;
+                        text-align: left;
                         font-size: 14px;
                         color: #154800;
+                        display: flex;
+                        flex-direction: column;
+
+                        div {
+                            display: inline-block;
+                            width: 72px;
+                            text-align: center;
+                        }
+
                         .badge {
                             width: 72px;
-                            height: 30px;
+                            padding: 7px 0;
                             font-size: 18px;
                             font-weight: 500;
                             background-color: #184703;
@@ -110,10 +129,16 @@
                     }
                 }
             }
+            
             .status {
                 font-size: 14px;
-                height: 30px;
-                margin: 20px;
+
+                @media(min-width:768px) {
+                    >div {
+                        display: flex;
+                    }
+                }
+                
                 .progress {
                     height: 8px;
                     width: 80px;
