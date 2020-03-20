@@ -2,6 +2,7 @@
 
 @import url(_reset.css);
 @import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif:400,700&display=swap');
 @import url(https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700&display=swap&subset=korean);
 
 
@@ -9,7 +10,6 @@ $breakpoint-smalldevices: 576px - 1px;
 $breakpoint-tablet: 768px - 1px;
 $breakpoint-desktop: 992px - 1px;
 $breakpoint-largedesktop: 1200px - 1px;
-
 
 
 @keyframes fadein {

@@ -3,346 +3,353 @@
 {% load sass_tags %}
 <html lang="ko">
 
-  <head>
-    <title>{% block title %}{% endblock %}</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{% block description %}{% endblock %}">
-    <meta property="og:image" content="{% block ogimage %}{% endblock %}">
-    <meta property="og:description" content="{% block ogdescription %}{% endblock %}">
-    
-    <!--jquery-->
-    <script src={% static 'js/jquery-3.4.1.min.js' %}></script>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{% block description %}{% endblock %}">
+  <meta property="og:image" content="{% block ogimage %}{% endblock %}">
+  <meta property="og:description" content="{% block ogdescription %}{% endblock %}">
 
-    <!--load bootstrap-->
-    <link rel ="stylesheet" href={% static 'css/bootstrap/bootstrap.min.css' %}></link>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <!--jquery-->
+  <script src={% static 'js/jquery-3.4.1.min.js' %}></script>
+
+  <!--load bootstrap-->
+  <link rel="stylesheet" href={% static 'css/bootstrap/bootstrap.min.css' %}>
+  </link>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
 
-    <!-- load css/stylesheet -->
-    <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}" type="text/css" />
-    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
-    <script src="https://kit.fontawesome.com/6f1d36fa89.js" crossorigin="anonymous"></script>
-    <script src="{% static 'js/wow.min.js'%}"></script>
-    <script> new WOW().init(); </script>
-    <script type="text/javascript">
-      window.addEventListener('load', function(){
-        {% if request.session.cart %}
-        const cart = {{ request.session.cart| safe}};
-        cart.forEach(function (data) {
-          createCartList(data);
-        });
-        {% endif %}
+  <!-- load css/stylesheet -->
+  <link rel="stylesheet" href="{% sass_src 'css/style.scss'%}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+  <script src="https://kit.fontawesome.com/6f1d36fa89.js" crossorigin="anonymous"></script>
+  <script src="{% static 'js/wow.min.js'%}"></script>
+  <script> new WOW().init(); </script>
+  <script type="text/javascript">
+    window.addEventListener('load', function () {
+      {% if request.session.cart %}
+      const cart = {{ request.session.cart| safe
+    }};
+    cart.forEach(function (data) {
+      createCartList(data);
+    });
+    {% endif %}
 
-        const ul = document.querySelector('#compare-cart ul');
-        const li_cnt = 3 - ul.childElementCount;
-        for(var i=0; i<li_cnt; i++) {
-          const li = document.createElement("li");
-          ul.appendChild(li);
-        }
+    const ul = document.querySelector('#compare-cart ul');
+    const li_cnt = 3 - ul.childElementCount;
+    for (var i = 0; i < li_cnt; i++) {
+      const li = document.createElement("li");
+      ul.appendChild(li);
+    }
 
-        document.getElementById('compare-cart-show').addEventListener('click', showCartModal);
-        document.getElementById('compare-cart-close-modal').addEventListener('click', function(){
-          document.getElementById('compare-cart-show-modal').style.display = 'none';
-          document.getElementsByTagName('body')[0].style = '';
-        });
-        document.getElementById('compare-cart-activate').addEventListener('click', activateCart);
+    document.getElementById('compare-cart-show').addEventListener('click', showCartModal);
+    document.getElementById('compare-cart-close-modal').addEventListener('click', function () {
+      document.getElementById('compare-cart-show-modal').style.display = 'none';
+      document.getElementsByTagName('body')[0].style = '';
+    });
+    document.getElementById('compare-cart-activate').addEventListener('click', activateCart);
       });
 
-      // 비교함 카트 li 추가
-      function createCartList(data) {
-        var id = data.id;
-        var name = data.name;
-        var image_url = '{{ MEDIA_URL }}' + data.image;
-    
-        var ul = document.querySelector('#compare-cart ul');
-        var li = document.createElement("li");
-        li.classList.add("product");
-        li.setAttribute("data-product-id", id);
-        var a_close = document.createElement("a");
-        a_close.innerHTML = "&times;";
-        a_close.classList.add("x-btn");
-        a_close.setAttribute("href", "javascript:void(0);");
-        a_close.addEventListener("click", deleteCart);
-        var img = document.createElement("img");
-        img.setAttribute("src", image_url);
-        var a_img = document.createElement("a");
-        a_img.setAttribute("href", "/product/" + id);
-        a_img.appendChild(img);
-        //var a_name = document.createElement("a");
-        //a_name.innerText = name;
-    
-        li.appendChild(a_close);
-        li.appendChild(a_img);
-        //li.appendChild(a_name);
-        ul.appendChild(li);
-      }
-      
-      // 비교함 카트 담는 ajax
-      function insertCart(product_id) {
-        var xhr = new XMLHttpRequest();
-        var url = "/product/cart/" + product_id;
-        xhr.open('GET', url);
-        xhr.onload = function () {
-          if (xhr.status === 200) { // 정상
-            var response = xhr.responseText;
-            if( response == 'overlap'){
-              alert("이미 비교함에 담긴 상품입니다");
-            }else if( response == 'excess'){
-              alert("상품을 3개 이상 담을 수 없습니다");
-            }else {
-              // ul 전체 삭제
-              const ul = document.querySelector('#compare-cart ul');
-              while(ul.firstChild) {
-                ul.removeChild(ul.lastChild);
-              }
-              
-              // session list 넣기
-              const cart = JSON.parse(response);
-              cart.forEach(function (data) {
-                createCartList(data);
-              });
+    // 비교함 카트 li 추가
+    function createCartList(data) {
+      var id = data.id;
+      var name = data.name;
+      var image_url = '{{ MEDIA_URL }}' + data.image;
 
-              // 남은 공간 채우기
-              for(var i=0; i<3-cart.length; i++) {
-                const li = document.createElement("li");
-                ul.appendChild(li);
-              }
-  
-            }
-          } else { // 에러 발생
-            alert('비교함 담기에 실패했습니다');
-          }
-        };
-        xhr.send();
-      }
+      var ul = document.querySelector('#compare-cart ul');
+      var li = document.createElement("li");
+      li.classList.add("product");
+      li.setAttribute("data-product-id", id);
+      var a_close = document.createElement("a");
+      a_close.innerHTML = "&times;";
+      a_close.classList.add("x-btn");
+      a_close.setAttribute("href", "javascript:void(0);");
+      a_close.addEventListener("click", deleteCart);
+      var img = document.createElement("img");
+      img.setAttribute("src", image_url);
+      var a_img = document.createElement("a");
+      a_img.setAttribute("href", "/product/" + id);
+      a_img.appendChild(img);
+      //var a_name = document.createElement("a");
+      //a_name.innerText = name;
 
-      // 비교함 삭제 ajax
-      function deleteCart() {
-        var self = this;
-        var product_id = self.parentElement.getAttribute("data-product-id");
-        var xhr = new XMLHttpRequest();
-        var url = "/product/cart/" + product_id;
-        xhr.open('DELETE', url);
-        xhr.onload = function () {
-          if (xhr.status === 200) { // 정상
-            self.parentElement.remove();
+      li.appendChild(a_close);
+      li.appendChild(a_img);
+      //li.appendChild(a_name);
+      ul.appendChild(li);
+    }
+
+    // 비교함 카트 담는 ajax
+    function insertCart(product_id) {
+      var xhr = new XMLHttpRequest();
+      var url = "/product/cart/" + product_id;
+      xhr.open('GET', url);
+      xhr.onload = function () {
+        if (xhr.status === 200) { // 정상
+          var response = xhr.responseText;
+          if (response == 'overlap') {
+            alert("이미 비교함에 담긴 상품입니다");
+          } else if (response == 'excess') {
+            alert("상품을 3개 이상 담을 수 없습니다");
+          } else {
+            // ul 전체 삭제
             const ul = document.querySelector('#compare-cart ul');
-            const li = document.createElement("li");
-            ul.append(li);
-          } else { // 에러 발생
-            alert('비교함 삭제에 실패했습니다');
-          }
-        };
-        xhr.send();
-      }
+            while (ul.firstChild) {
+              ul.removeChild(ul.lastChild);
+            }
 
-      // 비교함 모달 띄우기
-      function showCartModal() {
-        document.getElementById('compare-cart-show-modal').style.display = 'block';
-        document.getElementsByTagName('body')[0].style = 'position: fixed; width: 100%; overflow: hidden;';
-
-        const table = document.getElementById('compare-cart-table');
-        var tr = Array.from(table.children[0].children);
-
-        var cart = null;
-        
-        // 세션 값 가져오기
-        var xhr = new XMLHttpRequest();
-        var url = "/product/cart/0/";
-        xhr.open('GET', url);
-        xhr.onload = function () {
-          if (xhr.status === 200) { // 정상
-            var response = xhr.responseText;
-            cart = JSON.parse(response);
-
-            // td 전부 삭제
-            tr.forEach(function(item) {
-              var td = item.getElementsByTagName('td');
-              for(var i=td.length-1; i>=0; i--) {
-                td[i].remove();
-              }
-            });
-    
-            // 세션 값 td 로 넣기
-            tr.forEach(function(ele) {
-              const attr = ele.getAttribute('data-role')
-    
-              cart.forEach(function(data){
-                var td = document.createElement('td');
-    
-                if(attr == 'image') {
-                  var img = document.createElement('img');
-                  img.setAttribute('src', '{{ MEDIA_URL }}' + data.image);
-                  td.appendChild(img);
-                } else {
-                  td.innerText = data[attr];
-                }
-                
-                ele.appendChild(td);
-              });
-
-              for(var i=0; i<3-cart.length; i++) {
-                var td = document.createElement('td');
-                ele.appendChild(td);
-              }
-    
+            // session list 넣기
+            const cart = JSON.parse(response);
+            cart.forEach(function (data) {
+              createCartList(data);
             });
 
-          } else { // 에러 발생
-            alert('비교함 보기에 실패했습니다');
+            // 남은 공간 채우기
+            for (var i = 0; i < 3 - cart.length; i++) {
+              const li = document.createElement("li");
+              ul.appendChild(li);
+            }
+
           }
-        };
-        xhr.send();
+        } else { // 에러 발생
+          alert('비교함 담기에 실패했습니다');
+        }
+      };
+      xhr.send();
+    }
 
-      }
+    // 비교함 삭제 ajax
+    function deleteCart() {
+      var self = this;
+      var product_id = self.parentElement.getAttribute("data-product-id");
+      var xhr = new XMLHttpRequest();
+      var url = "/product/cart/" + product_id;
+      xhr.open('DELETE', url);
+      xhr.onload = function () {
+        if (xhr.status === 200) { // 정상
+          self.parentElement.remove();
+          const ul = document.querySelector('#compare-cart ul');
+          const li = document.createElement("li");
+          ul.append(li);
+        } else { // 에러 발생
+          alert('비교함 삭제에 실패했습니다');
+        }
+      };
+      xhr.send();
+    }
 
-      // 비교함 담기 활성화
-      function activateCart() {
-        alert('비교함 담기 활성화');
-      }
-    </script>
-  </head>
-  <body>
+    // 비교함 모달 띄우기
+    function showCartModal() {
+      document.getElementById('compare-cart-show-modal').style.display = 'block';
+      document.getElementsByTagName('body')[0].style = 'position: fixed; width: 100%; overflow: hidden;';
 
-    {% block navbar %}
-    <header>
-      <!--nav top -->
-      <div class="container">
-        <nav class="navbar-light bg-faded ml-auto">
-          <div class="">
-            <ul class="nav navbar-nav">
-              {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    {{ user.username }}
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'profile' %}">마이페이지</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
-                  </div>
-                </li>
-              {% else%}
-                <li class="nav-item">
-                  <!-- Button to Open the Modal -->
-                  <a class="nav-link" data-toggle="modal" data-target="#loginModal">
-                    로그인
-                  </a>
-                </li>
-              {% endif %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'product:NormalSearch'%}"><i class="fas fa-search"></i></a>
-                </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-      
-      <!--nav bot-->
-      <div class="container">
-        <nav class="navbar navbar-expand-md navbar-light bg-faded" style="margin: 0 auto;">
-            <!--brand nav -->
-          <div class = ''>
-            <a class="navbar-brand" href="{% url 'IndexPage' %}"><div id="logo"><img src = "https://via.placeholder.com/200x100?text=chaebi+logo"></div></a>
-          </div>
-          <div class="ml-auto">
-            <!-- left nav -->
-            <ul class="nav navbar-nav">
-                <li class="nav-item {% if request.path == '/ranking/mtype/'%}active{% endif %}">
-                    <a class="nav-link " href="{% url 'MtypeRanking' %}">M-type 랭킹</a>
-                </li>
-                <li class="nav-item  {% if request.path == '/ranking/keyword/'%}active{% endif %}">
-                  <a class="nav-link" href="{% url 'KeywordRanking' %}">키워드 랭킹</a>
-                </li>
-                <li class="nav-item {% if request.path == '/product/normalsearch/'%}active{% endif %}">
-                  <a class="nav-link" href="{% url 'product:NormalSearch' %}">제품검색</a>
-                </li>
-                <li class="nav-item {% if request.path == '/product/comparesearch/'%}active{% endif %}">
-                  <a class="nav-link" href="{% url 'product:CompareSearch' %}">비교검색</a>
-                </li>
-                <li class="nav-item {% if request.path == '/board/contents/'%}active{% endif %}">
-                  <a class="nav-link" href="{% url 'user-story-list' %}">월경이야기</a>
-                </li>
-                <li class="nav-item {% if request.path == '/board/announcement/'%}active{% endif %}">
-                  <a class="nav-link" href="{% url 'notice-list' %}">공지사항</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </header>
-    {% endblock navbar %}
+      const table = document.getElementById('compare-cart-table');
+      var tr = Array.from(table.children[0].children);
 
-    {% block compare_cart %}
-    <div id="compare-cart">
-      <span>한 눈에 비교함</span>
-      <ul>
-      </ul>
-      <a href="javascript:void(0);" id="compare-cart-activate">비교함 담기</a>
-      <a href="javascript:void(0);" id="compare-cart-show">비교함 보기</a>
+      var cart = null;
+
+      // 세션 값 가져오기
+      var xhr = new XMLHttpRequest();
+      var url = "/product/cart/0/";
+      xhr.open('GET', url);
+      xhr.onload = function () {
+        if (xhr.status === 200) { // 정상
+          var response = xhr.responseText;
+          cart = JSON.parse(response);
+
+          // td 전부 삭제
+          tr.forEach(function (item) {
+            var td = item.getElementsByTagName('td');
+            for (var i = td.length - 1; i >= 0; i--) {
+              td[i].remove();
+            }
+          });
+
+          // 세션 값 td 로 넣기
+          tr.forEach(function (ele) {
+            const attr = ele.getAttribute('data-role')
+
+            cart.forEach(function (data) {
+              var td = document.createElement('td');
+
+              if (attr == 'image') {
+                var img = document.createElement('img');
+                img.setAttribute('src', '{{ MEDIA_URL }}' + data.image);
+                td.appendChild(img);
+              } else {
+                td.innerText = data[attr];
+              }
+
+              ele.appendChild(td);
+            });
+
+            for (var i = 0; i < 3 - cart.length; i++) {
+              var td = document.createElement('td');
+              ele.appendChild(td);
+            }
+
+          });
+
+        } else { // 에러 발생
+          alert('비교함 보기에 실패했습니다');
+        }
+      };
+      xhr.send();
+
+    }
+
+    // 비교함 담기 활성화
+    function activateCart() {
+      alert('비교함 담기 활성화');
+    }
+  </script>
+</head>
+
+<body>
+
+  {% block navbar %}
+  <header>
+    <!--nav top -->
+    <div class="container">
+      <nav class="navbar-light bg-faded ml-auto">
+        <div class="">
+          <ul class="nav navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+                {{ user.username }}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'profile' %}">마이페이지</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
+              </div>
+            </li>
+            {% else%}
+            <li class="nav-item">
+              <!-- Button to Open the Modal -->
+              <a class="nav-link" data-toggle="modal" data-target="#loginModal">
+                로그인
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'product:NormalSearch'%}"><i class="fas fa-search"></i></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </div>
 
-    <div id="compare-cart-show-modal" style="display: none;">
+    <!--nav bot-->
+    <div class="container">
+      <nav class="navbar navbar-expand-md navbar-light bg-faded" style="margin: 0 auto;">
+        <!--brand nav -->
+        <div class=''>
+          <a class="navbar-brand" href="{% url 'IndexPage' %}">
+            <div id="logo"><img src="https://via.placeholder.com/200x100?text=chaebi+logo"></div>
+          </a>
+        </div>
+        <div class="ml-auto">
+          <!-- left nav -->
+          <ul class="nav navbar-nav">
+            <li class="nav-item {% if request.path == '/ranking/mtype/'%}active{% endif %}">
+              <a class="nav-link " href="{% url 'MtypeRanking' %}">M-type 랭킹</a>
+            </li>
+            <li class="nav-item  {% if request.path == '/ranking/keyword/'%}active{% endif %}">
+              <a class="nav-link" href="{% url 'KeywordRanking' %}">키워드 랭킹</a>
+            </li>
+            <li class="nav-item {% if request.path == '/product/normalsearch/'%}active{% endif %}">
+              <a class="nav-link" href="{% url 'product:NormalSearch' %}">제품검색</a>
+            </li>
+            <li class="nav-item {% if request.path == '/product/comparesearch/'%}active{% endif %}">
+              <a class="nav-link" href="{% url 'product:CompareSearch' %}">비교검색</a>
+            </li>
+            <li class="nav-item {% if request.path == '/board/contents/'%}active{% endif %}">
+              <a class="nav-link" href="{% url 'user-story-list' %}">월경이야기</a>
+            </li>
+            <li class="nav-item {% if request.path == '/board/announcement/'%}active{% endif %}">
+              <a class="nav-link" href="{% url 'notice-list' %}">공지사항</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+    </nav>
+    </div>
+  </header>
+  {% endblock navbar %}
+
+  {% block compare_cart %}
+  <div id="compare-cart">
+    <span>한 눈에 비교함</span>
+    <ul>
+    </ul>
+    <a href="javascript:void(0);" id="compare-cart-activate">비교함 담기</a>
+    <a href="javascript:void(0);" id="compare-cart-show">비교함 보기</a>
+  </div>
+
+  <div id="compare-cart-show-modal" style="display: none;">
+    <div>
+      <a href="javascript:void(0);" id="compare-cart-close-modal">&times;</a>
+      <h3>한 눈에 비교함 보기</h3>
       <div>
-        <a href="javascript:void(0);" id="compare-cart-close-modal">&times;</a>
-        <h3>한 눈에 비교함 보기</h3>
-        <div>
-          <table id="compare-cart-table">
-            <tr data-role="image">
-              <th rowspan="3"></th>
-            </tr>
-            <tr data-role="brand_fk_id__name"></tr>
-            <tr data-role="name"></tr>
-            <tr data-role="reviewsummary__total_score">
-              <th>예상만족도</th>
-            </tr>
-            <tr data-role="price">
-              <th>가격</th>
-            </tr>
-            <tr data-role="reviewsummary__absorbency_avg">
-              <th>흡수력</th>
-            </tr>
-            <tr data-role="reviewsummary__anti_odour_avg">
-              <th>탈취성</th>
-            </tr>
-            <tr data-role="reviewsummary__sensitivity_avg">
-              <th>피부친화도</th>
-            </tr>
-            <tr data-role="reviewsummary__comfort_avg">
-              <th>촉감/착용감</th>
-            </tr>
-            <tr data-role="productingredient__nature_friendly_score">
-              <th>자연유래도</th>
-            </tr>
-          </table>
+        <table id="compare-cart-table">
+          <tr data-role="image">
+            <th rowspan="3"></th>
+          </tr>
+          <tr data-role="brand_fk_id__name"></tr>
+          <tr data-role="name"></tr>
+          <tr data-role="reviewsummary__total_score">
+            <th>예상만족도</th>
+          </tr>
+          <tr data-role="price">
+            <th>가격</th>
+          </tr>
+          <tr data-role="reviewsummary__absorbency_avg">
+            <th>흡수력</th>
+          </tr>
+          <tr data-role="reviewsummary__anti_odour_avg">
+            <th>탈취성</th>
+          </tr>
+          <tr data-role="reviewsummary__sensitivity_avg">
+            <th>피부친화도</th>
+          </tr>
+          <tr data-role="reviewsummary__comfort_avg">
+            <th>촉감/착용감</th>
+          </tr>
+          <tr data-role="productingredient__nature_friendly_score">
+            <th>자연유래도</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+  {% block login_modal%}
+  <!-- The Modal -->
+  <div class="modal left fade" id="loginModal" tabindex="" role="dialog" aria-labelledby="loginModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header d-flex align-items-end flex-column">
+          <label for="close-button">
+            <input type="button" id="close-button" data-dismiss="modal" value="&times">
+            <i class="fas fa-3x fa-times"></i>
+          </label>
+        </div>
+        <div class="modal-body">
+          {% include 'account/login.html'%}
         </div>
       </div>
     </div>
-    {% endblock %}
+  </div>
+  {% endblock %}
 
-    {% block login_modal%}
-    <!-- The Modal -->    
-    <div class="modal left fade" id="loginModal" tabindex="" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">        
-          <div class="modal-header d-flex align-items-end flex-column">
-            <label for="close-button">
-              <input type="button" id="close-button" data-dismiss="modal" value="&times">
-              <i class="fas fa-3x fa-times"></i>
-            </label>
-          </div>
-          <div class="modal-body">
-            {% include 'account/login.html'%}            
-          </div>
-        </div>
-      </div>
-    </div>  
-    {% endblock %}
-
-    <!-- {% if messages %}
+  <!-- {% if messages %}
     <div>
       <strong>Messages:</strong>
       <ul>
@@ -353,283 +360,304 @@
     </div>
     {% endif %} -->
 
-    {% block content %}
+  {% block content %}
 
-    {% endblock %}
-    {% block survey_modal %}
-    <div id="surveyModal" class="modal fade">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <input type="button" class="close" data-dismiss="modal" value="&times">
-              <form action="" method="POST" id="surveyForm">{% csrf_token %}
-                  <div class="questionnaire">
-                      <div class="text-center mini">
-                          <span>나만의 월경타입 찾아보기</span>
-                      </div>
-                      <div class="text-center">
-                          <div class="mySlides fadein">
-                              <div class="Q">
-                                  <p>Q1<br><b>월경 시 활동량</b>은 어떤가요?</p>
-                              </div>
-                              <div class="Q1">
-                                  <label for="id_activity_score_0"><div class="ChoiceBox q1ChoiceBox">
-                                      <img src="" class="image" alt="image">
-                                      {{ form.activity_score.0 }}
-                                  </div></label>
-                                  <label for="id_activity_score_1"><div class="ChoiceBox q1ChoiceBox">
-                                      <img src="" class="image" alt="image">
-                                      {{ form.activity_score.1 }}
-                                  </div></label>
-                                  <label for="id_activity_score_2"><div class="ChoiceBox q1ChoiceBox">
-                                      <img src="" class="image" alt="image">
-                                      {{ form.activity_score.2 }}
-                                  </div></label>
-                                  <label for="id_activity_score_3"><div class="ChoiceBox q1ChoiceBox">
-                                      <img src="" class="image" alt="image">
-                                      {{ form.activity_score.3 }}
-                                  </div></label>
-                                  <label for="id_activity_score_4"><div class="ChoiceBox q1ChoiceBox">
-                                      <img src="" class="image" alt="image">
-                                      {{ form.activity_score.4 }}
-                                  </div></label>
-                                  <label for="id_activity_score_5"><div class="ChoiceBox q1ChoiceBox">
-                                      <img src="" class="image" alt="image">
-                                      {{ form.activity_score.5 }}
-                                  </div></label>
-                              </div>
-                          </div>
-                          <div class="mySlides fadein">
-                              <div class="Q">
-                                  <p>Q2<br>주로 사용하는<br><b>월경용품</b>은 무엇인가요?</p>
-                              </div>
-                              <div class="Q2">
-                                  <label for="id_volume_choice_0"><div class="ChoiceBox q2ChoiceBox">
-                                      <img src="" class="image" alt="image">
-                                      {{ form.volume_choice.0 }}</div></label>
-                                  <label for="id_volume_choice_1"><div class="ChoiceBox q2ChoiceBox">
-                                      <img src="" class="image" alt="image">
-                                      {{ form.volume_choice.1 }}</div></label>
-                                  <label for="id_volume_choice_2"><div class="ChoiceBox q2ChoiceBox">
-                                      <img src="" class="image" alt="image">
-                                      {{ form.volume_choice.2 }}</div></label>
-                              </div>
-                          </div>
-                          <div class="mySlides fadein">
-                              <div class="Q">
-                                  <p>Q3<br><b>양이 가장 많은 날</b>, 생리대를<br><b>몇시간에 한 번</b> 갈아주시나요?</p>
-                              </div>
-                              <div class="Q3">
-                                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.0 }}</div>
-                                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.1 }}</div>
-                                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.2 }}</div>
-                                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.3 }}</div>
-                                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.4 }}</div>
-                              </div>
-                          </div>
-                          <div class="mySlides fadein">
-                              <div>{{ form.volume_extra_score.0 }}</div>
-                              <div>{{ form.volume_extra_score.1 }}</div>
-                              <div>{{ form.volume_extra_score.2 }}</div>
-                              <div>{{ form.volume_extra_score.3 }}</div>
-                              <div>{{ form.volume_extra_score.4 }}</div>
-                              <div>{{ form.volume_extra_score.5 }}</div>
-                          </div>
-                          <div class="mySlides fadein">
-                              <div class="Q">
-                                  <p>Q5<br>바디 민감도를 측정합니다.<br>해당 사항에 모두 체크해 주세요.</p>
-                              </div>
-                              <div>
-                                  <div>{{ form.sensitivity_score.0 }}</div>
-                                  <div>{{ form.sensitivity_score.1 }}</div>
-                                  <div>{{ form.sensitivity_score.2 }}</div>
-                                  <div>{{ form.sensitivity_score.3 }}</div>
-                                  <div>{{ form.sensitivity_score.4 }}</div>
-                                  <div>{{ form.sensitivity_score.5 }}</div>
-                                  <div>{{ form.sensitivity_score.6 }}</div>
-                              </div>
-                          </div>
-                          <div class="mySlides fadein">
-                              <div class="Q">
-                                  <p>Q6<br>월 경질환 정도를 측정합니다.<br>해당 사항에 모두 체크해주세요.</p>
-                              </div>
-                              <div>
-                                  <div>{{ form.disease_score.0 }}</div>
-                                  <div>{{ form.disease_score.1 }}</div>
-                                  <div>{{ form.disease_score.2 }}</div>
-                                  <div>{{ form.disease_score.3 }}</div>
-                                  <div>{{ form.disease_score.4 }}</div>
-                              </div>
-                          </div>
-                      </div>
-                      <div>
-                          <a class="prev" onclick="plusSlides(-1)">&#10094; 이전</a>
-                          <a class="next" onclick="plusSlides(1)">다음 &#10095;</a>
-                          <div class="text-center bars">
-                              <span class="slide-bar" onclick="currentbar(1)"></span> 
-                              <span class="slide-bar" onclick="currentbar(2)"></span> 
-                              <span class="slide-bar" onclick="currentbar(3)"></span> 
-                              <span class="slide-bar" onclick="currentbar(4)"></span> 
-                              <span class="slide-bar" onclick="currentbar(5)"></span> 
-                              <span class="slide-bar" onclick="currentbar(6)"></span> 
-                          </div>
-                      </div>
-                      <input id="submit" class="next" type="submit" value="제출">
-                  </div>
-                  <div class="survey-loading text-center">
-                      <div class="mini"><span>잠시만 기다려주세요.</span></div>
-                      <div class="loading-image"><img src="" alt="image" style="width: 200px; height: 200px;"></div>
-                      <div class="text-center loading-text"><p>
-                          당신에게 꼭 맞는<br>월경타입이 계산되고 있습니다!
-                      </p></div>
-                  </div>
-                  <div class="survey-result-container">
-                      <div class="text-center mini">
-                          <span>수고하셨습니다 :)</span>
-                      </div>
-                      <div class="survey-result">
-                          <div class="Q">
-                              <p>당신의 월경타입은<br><b id="survey-result-mtype"></b>입니다!</p>
-                          </div>
-                          <div class="survey-detail">
-                            <p>설명글~</p>
-                          </div>
-                          <div>
-                              <h4><span id="survey-result-mtype"></span>타입 <b>BEST3</b> 제품</h4>
-                          </div>
-                          <div class="best-product">
-                              <div class="row">
-                                  <div class="col"><img src="" alt="1위추천제품"></div>
-                                  <div class="col"><img src="" alt="2위추천제품"></div>
-                                  <div class="col"><img src="" alt="3위추천제품"></div>
-                              </div>
-                          </div>
-                          <div class="more-info">
-                               <div>
-                                  <p style="font-size: 0.8em; text-align:left;">더 자세한 정보를 알고 싶다면?</p>
-                               </div>
-                               <div class="sign-up">
-                                   <a href="#">회원가입</a>
-                               </div>
-                               <div class="text-center">
-                                   <p><br>이미 가입하셨다면,<a href="#"><b>로그인하기</b></a></p>
-                               </div>
-                          </div>
-                      </div>
-                  </div>
-                  
-              </form>
+  {% endblock %}
+  {% block survey_modal %}
+  <div id="surveyModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <input type="button" class="close" data-dismiss="modal" value="&times">
+        <form action="" method="POST" id="surveyForm">{% csrf_token %}
+          <div class="questionnaire">
+            <div class="text-center mini">
+              <span>나만의 월경타입 찾아보기</span>
+            </div>
+            <div class="text-center">
+              <div class="mySlides fadein">
+                <div class="Q">
+                  <p>Q1<br><b>월경 시 활동량</b>은 어떤가요?</p>
+                </div>
+                <div class="Q1">
+                  <label for="id_activity_score_0">
+                    <div class="ChoiceBox q1ChoiceBox">
+                      <img src="" class="image" alt="image">
+                      {{ form.activity_score.0 }}
+                    </div>
+                  </label>
+                  <label for="id_activity_score_1">
+                    <div class="ChoiceBox q1ChoiceBox">
+                      <img src="" class="image" alt="image">
+                      {{ form.activity_score.1 }}
+                    </div>
+                  </label>
+                  <label for="id_activity_score_2">
+                    <div class="ChoiceBox q1ChoiceBox">
+                      <img src="" class="image" alt="image">
+                      {{ form.activity_score.2 }}
+                    </div>
+                  </label>
+                  <label for="id_activity_score_3">
+                    <div class="ChoiceBox q1ChoiceBox">
+                      <img src="" class="image" alt="image">
+                      {{ form.activity_score.3 }}
+                    </div>
+                  </label>
+                  <label for="id_activity_score_4">
+                    <div class="ChoiceBox q1ChoiceBox">
+                      <img src="" class="image" alt="image">
+                      {{ form.activity_score.4 }}
+                    </div>
+                  </label>
+                  <label for="id_activity_score_5">
+                    <div class="ChoiceBox q1ChoiceBox">
+                      <img src="" class="image" alt="image">
+                      {{ form.activity_score.5 }}
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div class="mySlides fadein">
+                <div class="Q">
+                  <p>Q2<br>주로 사용하는<br><b>월경용품</b>은 무엇인가요?</p>
+                </div>
+                <div class="Q2">
+                  <label for="id_volume_choice_0">
+                    <div class="ChoiceBox q2ChoiceBox">
+                      <img src="" class="image" alt="image">
+                      {{ form.volume_choice.0 }}</div>
+                  </label>
+                  <label for="id_volume_choice_1">
+                    <div class="ChoiceBox q2ChoiceBox">
+                      <img src="" class="image" alt="image">
+                      {{ form.volume_choice.1 }}</div>
+                  </label>
+                  <label for="id_volume_choice_2">
+                    <div class="ChoiceBox q2ChoiceBox">
+                      <img src="" class="image" alt="image">
+                      {{ form.volume_choice.2 }}</div>
+                  </label>
+                </div>
+              </div>
+              <div class="mySlides fadein">
+                <div class="Q">
+                  <p>Q3<br><b>양이 가장 많은 날</b>, 생리대를<br><b>몇시간에 한 번</b> 갈아주시나요?</p>
+                </div>
+                <div class="Q3">
+                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.0 }}</div>
+                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.1 }}</div>
+                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.2 }}</div>
+                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.3 }}</div>
+                  <div class="ChoiceBox q3ChoiceBox">{{ form.volume_score.4 }}</div>
+                </div>
+              </div>
+              <div class="mySlides fadein">
+                <div>{{ form.volume_extra_score.0 }}</div>
+                <div>{{ form.volume_extra_score.1 }}</div>
+                <div>{{ form.volume_extra_score.2 }}</div>
+                <div>{{ form.volume_extra_score.3 }}</div>
+                <div>{{ form.volume_extra_score.4 }}</div>
+                <div>{{ form.volume_extra_score.5 }}</div>
+              </div>
+              <div class="mySlides fadein">
+                <div class="Q">
+                  <p>Q5<br>바디 민감도를 측정합니다.<br>해당 사항에 모두 체크해 주세요.</p>
+                </div>
+                <div>
+                  <div>{{ form.sensitivity_score.0 }}</div>
+                  <div>{{ form.sensitivity_score.1 }}</div>
+                  <div>{{ form.sensitivity_score.2 }}</div>
+                  <div>{{ form.sensitivity_score.3 }}</div>
+                  <div>{{ form.sensitivity_score.4 }}</div>
+                  <div>{{ form.sensitivity_score.5 }}</div>
+                  <div>{{ form.sensitivity_score.6 }}</div>
+                </div>
+              </div>
+              <div class="mySlides fadein">
+                <div class="Q">
+                  <p>Q6<br>월 경질환 정도를 측정합니다.<br>해당 사항에 모두 체크해주세요.</p>
+                </div>
+                <div>
+                  <div>{{ form.disease_score.0 }}</div>
+                  <div>{{ form.disease_score.1 }}</div>
+                  <div>{{ form.disease_score.2 }}</div>
+                  <div>{{ form.disease_score.3 }}</div>
+                  <div>{{ form.disease_score.4 }}</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <a class="prev" onclick="plusSlides(-1)">&#10094; 이전</a>
+              <a class="next" onclick="plusSlides(1)">다음 &#10095;</a>
+              <div class="text-center bars">
+                <span class="slide-bar" onclick="currentbar(1)"></span>
+                <span class="slide-bar" onclick="currentbar(2)"></span>
+                <span class="slide-bar" onclick="currentbar(3)"></span>
+                <span class="slide-bar" onclick="currentbar(4)"></span>
+                <span class="slide-bar" onclick="currentbar(5)"></span>
+                <span class="slide-bar" onclick="currentbar(6)"></span>
+              </div>
+            </div>
+            <input id="submit" class="next" type="submit" value="제출">
           </div>
+          <div class="survey-loading text-center">
+            <div class="mini"><span>잠시만 기다려주세요.</span></div>
+            <div class="loading-image"><img src="" alt="image" style="width: 200px; height: 200px;"></div>
+            <div class="text-center loading-text">
+              <p>
+                당신에게 꼭 맞는<br>월경타입이 계산되고 있습니다!
+              </p>
+            </div>
+          </div>
+          <div class="survey-result-container">
+            <div class="text-center mini">
+              <span>수고하셨습니다 :)</span>
+            </div>
+            <div class="survey-result">
+              <div class="Q">
+                <p>당신의 월경타입은<br><b id="survey-result-mtype"></b>입니다!</p>
+              </div>
+              <div class="survey-detail">
+                <p>설명글~</p>
+              </div>
+              <div>
+                <h4><span id="survey-result-mtype"></span>타입 <b>BEST3</b> 제품</h4>
+              </div>
+              <div class="best-product">
+                <div class="row">
+                  <div class="col"><img src="" alt="1위추천제품"></div>
+                  <div class="col"><img src="" alt="2위추천제품"></div>
+                  <div class="col"><img src="" alt="3위추천제품"></div>
+                </div>
+              </div>
+              <div class="more-info">
+                <div>
+                  <p style="font-size: 0.8em; text-align:left;">더 자세한 정보를 알고 싶다면?</p>
+                </div>
+                <div class="sign-up">
+                  <a href="#">회원가입</a>
+                </div>
+                <div class="text-center">
+                  <p><br>이미 가입하셨다면,<a href="#"><b>로그인하기</b></a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
       </div>
+    </div>
   </div>
 
   <script type="text/javascript">
 
     var slideIndex = 1;
-    showSlides (slideIndex);
+    showSlides(slideIndex);
 
 
-    function plusSlides(n) {showSlides(slideIndex += n);}
-    function currentSlide(n) {showSlides(slideIndex = n);}
+    function plusSlides(n) { showSlides(slideIndex += n); }
+    function currentSlide(n) { showSlides(slideIndex = n); }
     function showSlides(n) {
-        var i;
-        var prev = document.querySelector(".prev");
-        var next = document.querySelector(".next");
-        var bars = document.getElementsByClassName("slide-bar");
-        var slides = document.getElementsByClassName("mySlides");
-        var submit = document.querySelector("#submit");
-        var lastpage = slides.length;
-        if ( n == -1) {
-            slides.style.display = "none";
-        }
-        for (i = 0; i < lastpage; i++) {
-            slides[i].style.display = "none";
-            submit.style.display="none"; 
-            prev.style.display="block";
-            next.style.display="block";
-        }
-        for (i = 0; i < bars.length; i++) {
-            bars[i].className = bars[i].className.replace(" active", "");
-        }
-        slides[slideIndex-1].style.display = "block";  
-        bars[slideIndex-1].className += " active";
-        if (n == 1 ){
-            prev.style.display = "none";
-        }
-        if (n == lastpage){
-            next.style.display = "none";
-            submit.style.display = "block";
-        }
+      var i;
+      var prev = document.querySelector(".prev");
+      var next = document.querySelector(".next");
+      var bars = document.getElementsByClassName("slide-bar");
+      var slides = document.getElementsByClassName("mySlides");
+      var submit = document.querySelector("#submit");
+      var lastpage = slides.length;
+      if (n == -1) {
+        slides.style.display = "none";
+      }
+      for (i = 0; i < lastpage; i++) {
+        slides[i].style.display = "none";
+        submit.style.display = "none";
+        prev.style.display = "block";
+        next.style.display = "block";
+      }
+      for (i = 0; i < bars.length; i++) {
+        bars[i].className = bars[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      bars[slideIndex - 1].className += " active";
+      if (n == 1) {
+        prev.style.display = "none";
+      }
+      if (n == lastpage) {
+        next.style.display = "none";
+        submit.style.display = "block";
+      }
     }
     $('.close').on('click', function (e) {
-        slideIndex=1;
-        showSlides(1);
+      slideIndex = 1;
+      showSlides(1);
     })
     $('.close').on('click', function (e) {
-        $('#surveyModal').find('form').trigger('reset');
+      $('#surveyModal').find('form').trigger('reset');
     })
 
-    $('#submit').click(function(event){
-        event.preventDefault();
-        $('#submit').prop('disabled', true);
-        $.ajax({
-            type: "POST",
-            url: "/survey/",
-            data: $('#surveyForm').serialize(),
-            success: function (response) {
-                document.getElementById('survey-result-mtype').innerText = response;
-            },
-            error: function (e) {
-                console.log("ERROR : ", e);
-                alert("다시 시도해 주세요.");
-            }
-        }).done(function(){
-            $('.questionnaire').hide();
-            $('.survey-loading').show();
-            setTimeout(function(){
-                $('.survey-loading').hide();
-                $('.survey-result-container').show();}, 3000);
-    
-        });
+    $('#submit').click(function (event) {
+      event.preventDefault();
+      $('#submit').prop('disabled', true);
+      $.ajax({
+        type: "POST",
+        url: "/survey/",
+        data: $('#surveyForm').serialize(),
+        success: function (response) {
+          document.getElementById('survey-result-mtype').innerText = response;
+        },
+        error: function (e) {
+          console.log("ERROR : ", e);
+          alert("다시 시도해 주세요.");
+        }
+      }).done(function () {
+        $('.questionnaire').hide();
+        $('.survey-loading').show();
+        setTimeout(function () {
+          $('.survey-loading').hide();
+          $('.survey-result-container').show();
+        }, 3000);
+
+      });
     });
-   
+
 
   </script>
-    {% endblock %}
+  {% endblock %}
 
-    {% block footer %}
-    <footer>
-      <div class="container">
-        <div class="description-box row">
-          <div class="internal-link col-2">
-            <a href=""><span>개인정보 처리방침</span></a>
-          </div>
-          <div class="internal-link col-2">
-            <a href=""><span>자주 묻는 질문</span></a>
-          </div>
-          <div class="external-link col-1 offset-6">
-            <a href=""><img src="{% static 'images/footer-instagram.png'%}" alt="footer-instagram"></a>
-          </div>
-          <div class="external-link col-1">
-            <a href=""><img src="{% static 'images/footer-kakaotalk.png'%}" alt="footer-kakaotalk"></a>
-          </div>
+  {% block footer %}
+  <footer>
+    <div class="container">
+      <div class="description-box row">
+        <div class="internal-link col-2">
+          <a href=""><span>개인정보 처리방침</span></a>
         </div>
-        
-        <div class="description-box row">
-          <div class="description col-6">
-            <span>
-              (주)D.A.L. | 대표 대표명 | 이메일 주소 contact@dal.com<br/>
-              서비스 및 기업 문의 000-0000-0000 | 전자우편주소 000 0000 0000
-            </span>
-          </div>
-          <div class="col-2 offset-4">
-            여기에 로고
-          </div>
+        <div class="internal-link col-2">
+          <a href=""><span>자주 묻는 질문</span></a>
+        </div>
+        <div class="external-link col-1 offset-6">
+          <a href=""><img src="{% static 'images/footer-instagram.png'%}" alt="footer-instagram"></a>
+        </div>
+        <div class="external-link col-1">
+          <a href=""><img src="{% static 'images/footer-kakaotalk.png'%}" alt="footer-kakaotalk"></a>
         </div>
       </div>
-    </footer>
-    {% endblock footer %}
+
+      <div class="description-box row">
+        <div class="description col-6">
+          <span>
+            (주)D.A.L. | 대표 대표명 | 이메일 주소 contact@dal.com<br />
+            서비스 및 기업 문의 000-0000-0000 | 전자우편주소 000 0000 0000
+          </span>
+        </div>
+        <div class="col-2 offset-4">
+          여기에 로고
+        </div>
+      </div>
+    </div>
+  </footer>
+  {% endblock footer %}
 
   <script type="text/javascript" src="http://127.0.0.1:35729/livereload.js"></script>
-  </body>
+</body>
 
 </html>

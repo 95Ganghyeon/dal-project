@@ -217,7 +217,7 @@ footer .description-box span { vertical-align: middle; color: whitesmoke; line-h
 
 .index .main .btn-more:hover { text-decoration: none; color: #c59742; }
 
-.index .mtype-info .subject { height: 150px; display: flex; align-items: center; }
+.index .mtype-info .subject {}
 
 .index .mtype-info .subject .title-box { padding: 20px; text-align: center; }
 
