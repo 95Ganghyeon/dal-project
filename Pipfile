@@ -20,6 +20,7 @@ django-debug-toolbar = "*"
 django-ckeditor = "*"
 django-livereload-server = "*"
 rcssmin = "*"
+django-crontab = "*"
 
 [requires]
 python_version = "3.8"
