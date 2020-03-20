@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "import_export",
     "ckeditor",
     "ckeditor_uploader",
+    "django_crontab",
 ]
 
 # sass_processor
@@ -194,3 +195,8 @@ INTERNAL_IPS = [
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CRONJOBS = [
+    ('00 03 * * 7', 'ranking.views.updateRankingBoard'), # 매주 일요일 3시 랭킹보드 업데이트
+    ('00 03 * * 7', 'ranking.views.updateReviewSummary'), # 매주 일요일 3시 리뷰 서머리 업데이트
+]
