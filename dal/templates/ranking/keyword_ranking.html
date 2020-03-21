@@ -11,50 +11,50 @@ ChaeBi | 키워드 랭킹
     <form action="{% url 'KeywordRanking' %}" method="GET" id="keywordSearchForm">
 
         <div class="jumbotron jumbotron-fluidqqq search-condition-box justify-content-center">
-            <div class="keyword-header row col-xl-8 col-lg-7 col-md-8 col-sm-7 col-12 justify-content-between">
+            <div class="keyword-header row col-xl-8 col-lg-7 col-md-8 col-sm-8 col-8 justify-content-between">
                 <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
                     <label class="selected" id="keyword-score" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="score">
-                        <span>
-                            <i class="fas fa-3x fa-trophy"></i><br />
-                            종합
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-trophy"></i>
+                            <span class="text-nowrap">종합</span>
+                        </div>
                     </label>
                 </div>
                 <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
                     <label class="" id="keyword-absorbency" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="absorbency" id="absorbency">
-                        <span>
-                            <i class="fas fa-3x fa-tint"></i><br />
-                            흡수력
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-tint"></i>
+                            <span class="text-nowrap">흡수력</span>
+                        </div>
                     </label>
                 </div>
-                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
+                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6 pt-sm-0 pt-4">
                     <label class="" id="keyword-anti_odour" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="anti_odour" id="anti_odour">
-                        <span>
-                            <i class="fas fa-3x fa-wind"></i><br />
-                            탈취력
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-wind"></i>
+                            <span class="text-nowrap">탈취력</span>
+                        </div>
                     </label>
                 </div>
-                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
+                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6 pt-sm-0 pt-4">
                     <label class="" id="keyword-comfort" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="comfort" id="comfort">
-                        <span>
-                            <i class="fas fa-3x fa-water"></i><br />
-                            촉감/착용감
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-water"></i>
+                            <span class="text-nowrap">촉감/착용감</span>
+                        </div>
                     </label>
                 </div>
-                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
+                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6 pt-sm-0 pt-4">
                     <label class="" id="keyword-sensitivity" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="sensitivity" id="sensitivity">
-                        <span>
-                            <i class="fas fa-3x fa-allergies"></i><br />
-                            피부 친화도
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-allergies font"></i>
+                            <span class="text-nowrap">피부 친화도</span>
+                        </div>
                     </label>
                 </div>
             </div>
@@ -64,38 +64,45 @@ ChaeBi | 키워드 랭킹
             <ul style="list-style-type:none" ;>
                 {% for product in paginator.page_obj %}
                 <li>
-                    <div class="d-flex flex-row product">
-                        <div class="p-2" style="font-size: 24px; font-weight: 500;">
-                            {{ paginator.page_obj.number | get_current_page:forloop.counter }}위</div>
-                        <div class="p-2"><a href="{{ product.get_absolute_url }}"><img
-                                    src="{{ product.product_fk.image.url }}" alt="" /></a></div>
-                        <div class="mr-auto p-2 product-info">
-                            <h4>{{ product.product_fk.brand_fk }}</h4>
-                            <h3>{{ product.product_fk.name }}</h3>
-                            <div class="score d-flex row">
-                                <div class="satisfaction p-2">
-                                    <div style="color: #154800; margin-bottom: 3px;">예상만족도</div>
-                                    <div class="badge badge-pill badge-primary">★{{ product.total_score|floatformat:1 }}
+                    <div
+                        class="product row d-flex justify-md-content-between justify-content-sm-center justify-content-center ">
+                        <div
+                            class="col-xl-6 col-lg-7 col-md-6 col-sm-12 col-12 justify-content-md-start  justify-content-xl-start  justify-content-center justify-content-sm-center justify-content-center d-flex">
+                            <div class="text-nowrap p-2" style="font-size: 24px; font-weight: 500;">
+                                {{ paginator.page_obj.number | get_current_page:forloop.counter }}위</div>
+                            <div class="p-2"><a href="{{ product.get_absolute_url }}"><img
+                                        src="{{ product.product_fk.image.url }}" alt="" /></a></div>
+                            <div class="product-info d-flex flex-column align-items-start mr-sm-0 mr-0 p-2  ">
+                                <h4 class="m-0">{{ product.product_fk.brand_fk }}</h4>
+                                <h3 class="text-nowrap">{{ product.product_fk.name }}</h3>
+                                <div class="score d-flex flex-column align-items-center">
+                                    <span style=" color: #154800; margin-bottom: 3px;">예상만족도</span>
+                                    <div class="badge badge-pill d-flex align-items-center">
+                                        <span>★ {{ product.total_score|floatformat:1 }}</span>
                                     </div>
+
+                                    <!-- <div class="nature p-2">
+                                        <div style="margin-bottom: 3px;">자연유래도</div>
+                                        <div class="badge badge-pill badge-primary">
+                                            <i class="fas fa-leaf"></i>{{ product.product_fk.productingredient.nature_friendly_score|floatformat }}%
+                                        </div>
+                                    </div> -->
                                 </div>
-                                <!-- <div class="nature p-2">
-                                    <div style="margin-bottom: 3px;">자연유래도</div>
-                                    <div class="badge badge-pill badge-primary">
-                                        <i class="fas fa-leaf"></i>{{ product.product_fk.productingredient.nature_friendly_score|floatformat }}%
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
-                        <div class="row status w-25">
-                            <div class="col-sm-6 d-flex flex-column justify-content-around">
-                                <div class="p-2">흡수력</div>
-                                <div class="p-2">탈취성</div>
-                                <div class="p-2">촉감/착용감</div>
-                                <div class="p-2">피부친화도</div>
+                        <div
+                            class="status col-xl-6 col-lg-5 col-md-6 col-sm-10 col-10 row d-flex justify-content-md-end justify-content-center h-100 mt-4">
+                            <div
+                                class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-3 d-flex flex-column justify-content-around">
+                                <span class="text-nowrap p-2">흡수력</span>
+                                <span class="text-nowrap p-2">탈취성</span>
+                                <span class="text-nowrap p-2">촉감/착용감</span>
+                                <span class="text-nowrap p-2">피부친화도</span>
                             </div>
-                            <div class="col-sm-4 d-flex flex-column justify-content-around">
+                            <div
+                                class="col-xl-2 col-lg-3 col-md-3 col-sm-5 col-5 d-flex flex-column justify-content-around">
                                 <div class="p-2">
-                                    <div class="progress">
+                                    <div class="progress w-100">
                                         <div class="progress-bar" role="progressbar"
                                             aria-valuenow="{{ product.absorbency_avg }}"
                                             style="width: {% widthratio product.absorbency_avg 5 100 %}%"
@@ -103,7 +110,7 @@ ChaeBi | 키워드 랭킹
                                     </div>
                                 </div>
                                 <div class="p-2">
-                                    <div class="progress">
+                                    <div class="progress w-100">
                                         <div class="progress-bar" role="progressbar"
                                             aria-valuenow="{{ product.anti_odour_avg }}"
                                             style="width: {% widthratio product.anti_odour_avg 5 100 %}%"
@@ -111,7 +118,7 @@ ChaeBi | 키워드 랭킹
                                     </div>
                                 </div>
                                 <div class="p-2">
-                                    <div class="progress">
+                                    <div class="progress w-100">
                                         <div class="progress-bar" role="progressbar"
                                             aria-valuenow="{{ product.comfort_avg }}"
                                             style="width: {% widthratio product.comfort_avg 5 100 %}%" aria-valuemin="0"
@@ -119,7 +126,7 @@ ChaeBi | 키워드 랭킹
                                     </div>
                                 </div>
                                 <div class="p-2">
-                                    <div class="progress">
+                                    <div class="progress w-100">
                                         <div class="progress-bar" role="progressbar"
                                             aria-valuenow="{{ product.sensitivity_avg }}"
                                             style="width: {% widthratio product.sensitivity_avg 5 100 %}%"
@@ -127,11 +134,12 @@ ChaeBi | 키워드 랭킹
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-2 d-flex flex-column justify-content-around">
-                                <div class="p-2">{{ product.absorbency_avg|floatformat:1 }}</div>
-                                <div class="p-2">{{ product.anti_odour_avg|floatformat:1 }}</div>
-                                <div class="p-2">{{ product.comfort_avg|floatformat:1 }}</div>
-                                <div class="p-2">{{ product.sensitivity_avg|floatformat:1 }}</div>
+                            <div
+                                class="col-xl-1 col-lg-1 col-md-1 col-sm-3 col-2 d-flex flex-column justify-content-around">
+                                <div class="text-center p-2">{{ product.absorbency_avg|floatformat:1 }}</div>
+                                <div class="text-center p-2">{{ product.anti_odour_avg|floatformat:1 }}</div>
+                                <div class="text-center p-2">{{ product.comfort_avg|floatformat:1 }}</div>
+                                <div class="text-center p-2">{{ product.sensitivity_avg|floatformat:1 }}</div>
                             </div>
                         </div>
                     </div>
