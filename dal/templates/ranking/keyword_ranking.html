@@ -11,50 +11,50 @@ ChaeBi | 키워드 랭킹
     <form action="{% url 'KeywordRanking' %}" method="GET" id="keywordSearchForm">
 
         <div class="jumbotron jumbotron-fluidqqq search-condition-box justify-content-center">
-            <div class="keyword-header row col-xl-8 col-lg-7 col-md-8 col-sm-7 col-12 justify-content-between">
+            <div class="keyword-header row col-xl-8 col-lg-7 col-md-8 col-sm-8 col-8 justify-content-between">
                 <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
                     <label class="selected" id="keyword-score" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="score">
-                        <span>
-                            <i class="fas fa-3x fa-trophy"></i><br />
-                            종합
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-trophy"></i>
+                            <span class="text-nowrap">종합</span>
+                        </div>
                     </label>
                 </div>
                 <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
                     <label class="" id="keyword-absorbency" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="absorbency" id="absorbency">
-                        <span>
-                            <i class="fas fa-3x fa-tint"></i><br />
-                            흡수력
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-tint"></i>
+                            <span class="text-nowrap">흡수력</span>
+                        </div>
                     </label>
                 </div>
-                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
+                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6 pt-sm-0 pt-4">
                     <label class="" id="keyword-anti_odour" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="anti_odour" id="anti_odour">
-                        <span>
-                            <i class="fas fa-3x fa-wind"></i><br />
-                            탈취력
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-wind"></i>
+                            <span class="text-nowrap">탈취력</span>
+                        </div>
                     </label>
                 </div>
-                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
+                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6 pt-sm-0 pt-4">
                     <label class="" id="keyword-comfort" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="comfort" id="comfort">
-                        <span>
-                            <i class="fas fa-3x fa-water"></i><br />
-                            촉감/착용감
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-water"></i>
+                            <span class="text-nowrap">촉감/착용감</span>
+                        </div>
                     </label>
                 </div>
-                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6">
+                <div class="condition-keyword col-xl-1 col-lg-1 col-md-1 col-sm-1 col-6 pt-sm-0 pt-4">
                     <label class="" id="keyword-sensitivity" onclick="keywordSearchFormSubmit()">
                         <input type="radio" name="keyword" value="sensitivity" id="sensitivity">
-                        <span>
-                            <i class="fas fa-3x fa-allergies"></i><br />
-                            피부 친화도
-                        </span>
+                        <div class="d-flex flex-column">
+                            <i class="fas fa-3x fa-allergies font"></i>
+                            <span class="text-nowrap">피부 친화도</span>
+                        </div>
                     </label>
                 </div>
             </div>
