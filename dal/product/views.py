@@ -48,12 +48,12 @@ def cart(request, product_id):
                 "brand_fk_id__name",
                 "image",
                 "price",
+                "count",
                 "reviewsummary__total_score",
                 "reviewsummary__absorbency_avg",
                 "reviewsummary__anti_odour_avg",
                 "reviewsummary__comfort_avg",
                 "reviewsummary__sensitivity_avg",
-                "productingredient__nature_friendly_score",
             )
         )
         cart_list.append(data[0])

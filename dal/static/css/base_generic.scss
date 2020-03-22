@@ -45,7 +45,7 @@ footer{
         }
         .external-link{
             text-align: center;
-            img{
+            img {
                 width: auto;
                 height: auto;
                 max-width: 40px;
@@ -153,24 +153,31 @@ footer{
     background-color: rgba(0,0,0,0.65);
     width: 100%;
     height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     
     >div {
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
         background-color: #f8f7f7;
-        
-        max-width: 620px;
         position: relative;
-        top: 20px;
-        left: 50%;
-        transform: translate(-50%, 0);
-        
+        max-width: 620px;
+        // position: relative;
+        // top: 20px;
+        // left: 50%;
+        // transform: translate(-50%, 0);
+
         >a {
             position: absolute;
             top: 0;
             right: 0;
-            font-size: 2rem;
-            display: block;
+            font-size: 1.5rem;
+            display: inline-block;
+            height: 58px;
             width: fit-content;
+            padding: 15px;
         }
 
         h3 {
@@ -178,35 +185,48 @@ footer{
             font-size: 1.5rem;
             padding: 15px 0;
             text-align: center;
+            margin: 0;
         }
 
         >div {
-            padding: 15px;
+            margin: 0 auto;
+            padding: 3vw 0;
+            //overflow: scroll;
+            //overflow-y: hidden;
 
-            table {
-                width: fit-content;
-                background-color: pink;
+            #compare-cart-table {
+                width: 80%;
+                background-color: transparent;
                 margin: 0 auto;
 
                 img {
-                    width: 128px;
-                    height: 102px;
+                    width: 90%;
+                    height: auto;
                 }
 
                 th, td {
                     vertical-align: middle;
                     padding: 15px 0;
+                    text-align: center;
+                    border: solid 1px rgba(0, 0, 0, 0.16);
                 }
 
                 th {
                     text-align: center;
                     background-color: #e6e4e4;
-                    min-width: 100px;
+                    width: 100px;
+                    min-width: 80px;
                 }
 
                 td {
-                    min-width: 100px;
-                    border-left: solid 1px rgba(0, 0, 0, 0.65);
+                    max-width: 200px;
+                    min-width: 80px;
+                    padding: 5px;
+                    box-sizing: border-box;
+                }
+
+                tr:first-child th {
+                    background-color: transparent;
                 }
             }
         }

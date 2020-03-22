@@ -17,6 +17,7 @@ django-import-export = "*"
 django-debug-toolbar = "*"
 django-ckeditor = "*"
 django-livereload-server = "*"
+libsass = "*"
 
 [requires]
 python_version = "3.8"

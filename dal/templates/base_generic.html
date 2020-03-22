@@ -29,13 +29,12 @@
   <script> new WOW().init(); </script>
   <script type="text/javascript">
     window.addEventListener('load', function () {
-      {% if request.session.cart %}
-      const cart = {{ request.session.cart| safe
-    }};
-    cart.forEach(function (data) {
-      createCartList(data);
-    });
-    {% endif %}
+        {% if request.session.cart %}
+        const cart = {{ request.session.cart| safe }};
+        cart.forEach(function (data) {
+        createCartList(data);
+        });
+        {% endif %}
 
     const ul = document.querySelector('#compare-cart ul');
     const li_cnt = 3 - ul.childElementCount;
@@ -142,63 +141,72 @@
 
     // 비교함 모달 띄우기
     function showCartModal() {
-      document.getElementById('compare-cart-show-modal').style.display = 'block';
-      document.getElementsByTagName('body')[0].style = 'position: fixed; width: 100%; overflow: hidden;';
+            document.getElementById('compare-cart-show-modal').style.display = 'flex';
+            document.getElementsByTagName('body')[0].style = 'position: fixed; width: 100%; overflow: hidden;';
 
-      const table = document.getElementById('compare-cart-table');
-      var tr = Array.from(table.children[0].children);
+            const table = document.getElementById('compare-cart-table');
+            var tr = Array.from(table.children[0].children);
 
-      var cart = null;
+            var cart = null;
 
-      // 세션 값 가져오기
-      var xhr = new XMLHttpRequest();
-      var url = "/product/cart/0/";
-      xhr.open('GET', url);
-      xhr.onload = function () {
-        if (xhr.status === 200) { // 정상
-          var response = xhr.responseText;
-          cart = JSON.parse(response);
+            // 세션 값 가져오기
+            var xhr = new XMLHttpRequest();
+            var url = "/product/cart/0/";
+            xhr.open('GET', url);
+            xhr.onload = function () {
+                if (xhr.status === 200) { // 정상
+                    var response = xhr.responseText;
+                    cart = JSON.parse(response);
 
-          // td 전부 삭제
-          tr.forEach(function (item) {
-            var td = item.getElementsByTagName('td');
-            for (var i = td.length - 1; i >= 0; i--) {
-              td[i].remove();
-            }
-          });
+                    cart.forEach(function (item) {
+                        item.reviewsummary__total_score = '★ ' + parseFloat(item.reviewsummary__total_score).toFixed(1);
+                        item.reviewsummary__absorbency_avg = parseFloat(item.reviewsummary__absorbency_avg).toFixed(1);
+                        item.reviewsummary__anti_odour_avg = parseFloat(item.reviewsummary__anti_odour_avg).toFixed(1);
+                        item.reviewsummary__comfort_avg = parseFloat(item.reviewsummary__comfort_avg).toFixed(1);
+                        item.reviewsummary__sensitivity_avg = parseFloat(item.reviewsummary__sensitivity_avg).toFixed(1);
+                        item.price = parseFloat(item.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원 / ' + item.count + '개';
+                    });
 
-          // 세션 값 td 로 넣기
-          tr.forEach(function (ele) {
-            const attr = ele.getAttribute('data-role')
+                    // td 전부 삭제
+                    tr.forEach(function (item) {
+                        var td = item.getElementsByTagName('td');
+                        for (var i = td.length - 1; i >= 0; i--) {
+                            td[i].remove();
+                        }
+                    });
 
-            cart.forEach(function (data) {
-              var td = document.createElement('td');
+                    // 세션 값 td 로 넣기
+                    tr.forEach(function (ele) {
+                        const attr = ele.getAttribute('data-role')
 
-              if (attr == 'image') {
-                var img = document.createElement('img');
-                img.setAttribute('src', '{{ MEDIA_URL }}' + data.image);
-                td.appendChild(img);
-              } else {
-                td.innerText = data[attr];
-              }
+                        cart.forEach(function (data) {
+                            var td = document.createElement('td');
 
-              ele.appendChild(td);
-            });
+                            if (attr == 'image') {
+                                var img = document.createElement('img');
+                                img.setAttribute('src', '{{ MEDIA_URL }}' + data.image);
+                                td.appendChild(img);
+                            } else {
+                                td.innerText = data[attr];
+                            }
 
-            for (var i = 0; i < 3 - cart.length; i++) {
-              var td = document.createElement('td');
-              ele.appendChild(td);
-            }
+                            ele.appendChild(td);
+                        });
 
-          });
+                        for (var i = 0; i < 3 - cart.length; i++) {
+                            var td = document.createElement('td');
+                            ele.appendChild(td);
+                        }
 
-        } else { // 에러 발생
-          alert('비교함 보기에 실패했습니다');
+                    });
+
+                } else { // 에러 발생
+                    alert('비교함 보기에 실패했습니다');
+                }
+            };
+            xhr.send();
+
         }
-      };
-      xhr.send();
-
-    }
 
     // 비교함 담기 활성화
     function activateCart() {
@@ -293,7 +301,7 @@
 
   <div id="compare-cart-show-modal" style="display: none;">
     <div>
-      <a href="javascript:void(0);" id="compare-cart-close-modal">&times;</a>
+      <a href="javascript:void(0);" id="compare-cart-close-modal">X</a>
       <h3>한 눈에 비교함 보기</h3>
       <div>
         <table id="compare-cart-table">
@@ -319,9 +327,6 @@
           </tr>
           <tr data-role="reviewsummary__comfort_avg">
             <th>촉감/착용감</th>
-          </tr>
-          <tr data-role="productingredient__nature_friendly_score">
-            <th>자연유래도</th>
           </tr>
         </table>
       </div>
