@@ -13,7 +13,8 @@ from django.http import HttpResponseRedirect
 class RankingBoardAdmin(ImportExportModelAdmin):
     list_display = ('product_fk', 'm_type', 'score_avg')
     list_filter = ('m_type', 'product_fk')
-    change_list_template = 'ranking/rankingboard_update.html'
+    # 업데이트 버튼 나오게 하려면 아래 부분 활성화!!
+    # change_list_template = 'ranking/rankingboard_update.html'
 
     def get_urls(self):
         urls = super().get_urls()
@@ -30,7 +31,9 @@ class RankingBoardAdmin(ImportExportModelAdmin):
 
 class ReviewSummaryAdmin(ImportExportModelAdmin):
     list_display = ('id', 'product_fk', 'total_score', 'absorbency_avg', 'anti_odour_avg', 'comfort_avg', 'sensitivity_avg')
-    change_list_template = 'ranking/reviewsummary_update.html'
+    # 업데이트 버튼 나오게 하려면 아래 부분 활성화!!
+    # change_list_template = 'ranking/reviewsummary_update.html'
+
 
     def get_urls(self):
         urls = super().get_urls()

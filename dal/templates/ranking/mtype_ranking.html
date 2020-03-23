@@ -7,169 +7,135 @@ ChaeBi | M-type 랭킹
 
 {% block content %}
 <div class="mtype-ranking-page">
-    <div class="jumbotron jumbotron-fluid ranking-top">
-        <div class="container ranking-header">
-            <h2><mark>내 타입({{m_type}})</mark>의 최적생리대는?</h2>
-            <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.<br>
-            당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
-            <div class="buttons">
-                <button id="popover" type="button">
-                    타입별 랭킹찾기
-                </button>
-                <button data-toggle="modal" data-target="#surveyModal">
-                    M-Type 재검사
-                </button>
-                <div id="popover-head" class="hide">
-                    다른 타입의 제품랭킹은?
+    <div class="ranking-top jumbotron jumbotron-fluid ">
+        <div class="ranking-header container">
+            <div class="row">
+                <div class="ranking-header__left col-6">
+                    <h2><mark>내 타입({{m_type}})</mark>의 최적생리대는?</h2>
+                    <span>돈과 시간을 들여 생리대를 시험해보지 마세요. 채비가 그 과정을 대신합니다.</span>
+                    <span>당신의 타입에 딱 맞는 퍼스널 생리대가 랭킹별로 이곳에.</span>
+                    <div class="buttons">
+                        <button id="popover" type="button">
+                            타입별 랭킹찾기
+                        </button>
+                        <button data-toggle="modal" data-target="#surveyModal">
+                            M-Type 재검사
+                        </button>
+                    </div>
+                    <div id="popover-head" class="hide">
+                        다른 타입의 제품랭킹은?
+                    </div>
                 </div>
-                <div id="popover-content" class="hide">
-                    <form id="toggle-form" action = "{% url 'MtypeRanking' %}" method = "POST">
-                        {% csrf_token %}           
-                        {# A or I #}
-                        <div class="switch switch--vertical">
-                            <div class="toggle-outside">
-                                <input id="radio-a" type="radio" name="toggle-1" {% if "A" in m_type%}checked="checked" {% endif %} />
-                                <label for=	"radio-a">A</label>
-                                <input id="radio-i" type="radio" name="toggle-1" />
-                                <label for="radio-i" class="second">I</label>
-                                <div class="toggle-inside">
-                                </div>
-                                <p>활동량</p>
-                            </div>
-                        </div>
-
-                    
-                        {% comment %} H or L {% endcomment %}
-                        <div class="switch switch--vertical">
-                            <div class="toggle-outside">
-                                <input id="radio-h" type="radio" name="toggle-2" {% if "H" in m_type%}checked="checked" {% endif %} />
-                                <label for="radio-h">H</label>
-                                <input id="radio-l" type="radio" name="toggle-2" />
-                                <label for="radio-l" class="second">L</label>
-                                <div class="toggle-inside">
-                                </div>
-                                <p>월경량</p>
-                            </div>
-                        </div>
-
-                        {% comment %} S or T {% endcomment %}
-                        <div class="switch switch--vertical">
-                            <div class="toggle-outside">
-                                <input id="radio-s" type="radio" name="toggle-3" {% if "S" in m_type%}checked="checked" {% endif %} />
-                                <label for="radio-s">S</label>
-                                <input id="radio-t" type="radio" name="toggle-3" />
-                                <label for="radio-t" class="second">T</label>
-                                <div class="toggle-inside">
-                                </div>
-                                <p>바디민감도</p>
-                            </div>
-                        </div>
-
-                        {# P or F #}
-                        <div class="switch switch--vertical">
-                            <div class="toggle-outside">
-                                <input id="radio-p" type="radio" name="toggle-4" {% if "P" in m_type %}checked="checked" {% endif %} />
-                                <label for="radio-p">P</label>
-                                <input id="radio-f" type="radio" name="toggle-4" />
-                                <label for="radio-f" class="second">F</label>
-                                <div class="toggle-inside">
-                                </div>
-                                <p>월경질환</p>
-                            </div>
-                        </div>
-                        <button type="submit">찾기</button>
-                    </form>
-                </div>     
+                <div class="ranking-header__right">
+                    <div>사진들어갈거임 ㅇㅋ?</div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="container ranking-result">
-        <ul style="list-style-type:none";>
-        {% for product in products %}
+        <ul style="list-style-type:none" ;>
+            {% for product in products %}
             <li>
-                <div class="d-flex flex-row product">
-                    <div class="d-md-flex d-sm-block flex-row row mr-auto">
-                        <div class="p-2" style="font-size: 24px; font-weight: 500;">{{ forloop.counter }}위</div>
-                        <div class="p-2"><a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" alt=""/></a></div>
-                        <div class="p-2 product-info mr-auto d-flex flex-row flex-md-column">
-                            <div>
-                                <h4>{{ product.brand_fk }}</h4>
-                                <a href="{{ product.get_absolute_url }}"><h3>{{ product.name }}</h3></a>
-                            </div>
-                            <div class="score">
-                                <div class="satisfaction">
-                                    <div style="color: #154800; margin-bottom: 3px;">예상만족도</div>
-                                    <div class="badge badge-pill badge-primary">★{{ product.reviewsummary.total_score|floatformat:1 }}</div>
+                <div
+                    class="product row d-flex justify-md-content-between justify-content-sm-center justify-content-center ">
+                    <div
+                        class="col-xl-6 col-lg-7 col-md-6 col-sm-12 col-12 justify-content-md-start  justify-content-xl-start  justify-content-center justify-content-sm-center justify-content-center d-flex">
+                        <div class="text-nowrap p-2" style="font-size: 24px; font-weight: 500;">{{forloop.counter }}위
+                        </div>
+                        <div class="p-2"><a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}"
+                                    alt="" /></a></div>
+                        <div class="product-info d-flex flex-column align-items-start mr-sm-0 mr-0 p-2  ">
+                            <h4 class="m-0">{{ product.brand_fk }}</h4>
+                            <h3 class="text-nowrap">{{ product.name }}</h3>
+                            <div class="score d-flex flex-column align-items-center">
+                                <span style=" color: #154800; margin-bottom: 3px;">예상만족도</span>
+                                <div class="badge badge-pill d-flex align-items-center">
+                                    <span>★ {{ product.reviewsummary.total_score|floatformat:1 }}</span>
                                 </div>
                                 <!-- <div class="nature p-2">
                                     <div style="margin-bottom: 3px;">자연유래도</div>
                                     <div class="badge badge-pill badge-primary">
-                                        <i class="fas fa-leaf"></i>{{ product.productingredient.nature_friendly_score|floatformat }}%
+                                        <i class="fas fa-leaf"></i>{{ product.product_fk.productingredient.nature_friendly_score|floatformat }}%
                                     </div>
                                 </div> -->
                             </div>
                         </div>
                     </div>
-                    <div class="p-2 status">
-                        <div>
-                            <span>흡수력</span>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.absorbency_avg }}" 
-                                style="width: {% widthratio product.reviewsummary.absorbency_avg 5 100 %}%" 
-                                aria-valuemin="0" aria-valuemax="5"></div>
-                            </div>
-                            <p>{{ product.reviewsummary.absorbency_avg|floatformat:1 }}</p>
+                    <div
+                        class="status col-xl-6 col-lg-5 col-md-6 col-sm-10 col-12 row d-flex justify-content-md-end justify-content-center h-100 mt-4">
+                        <div
+                            class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-4 d-flex flex-column justify-content-around">
+                            <span class="text-nowrap p-2">흡수력</span>
+                            <span class="text-nowrap p-2">탈취성</span>
+                            <span class="text-nowrap p-2">촉감/착용감</span>
+                            <span class="text-nowrap p-2">피부친화도</span>
                         </div>
-                        <div>
-                            <span>탈취성</span>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.anti_odour_avg }}"
-                                style="width: {% widthratio product.reviewsummary.anti_odour_avg 5 100 %}%" 
-                                aria-valuemin="0" aria-valuemax="5"></div>
+                        <div
+                            class="col-xl-2 col-lg-3 col-md-3 col-sm-5 col-5 d-flex flex-column justify-content-around">
+                            <div class="p-2">
+                                <div class="progress w-100">
+                                    <div class="progress-bar" role="progressbar"
+                                        aria-valuenow="{{ product.absorbency_avg }}"
+                                        style="width: {% widthratio product.absorbency_avg 5 100 %}%" aria-valuemin="0"
+                                        aria-valuemax="5"></div>
+                                </div>
                             </div>
-                            <p>{{ product.reviewsummary.anti_odour_avg|floatformat:1 }}</p>
+                            <div class="p-2">
+                                <div class="progress w-100">
+                                    <div class="progress-bar" role="progressbar"
+                                        aria-valuenow="{{ product.anti_odour_avg }}"
+                                        style="width: {% widthratio product.anti_odour_avg 5 100 %}%" aria-valuemin="0"
+                                        aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <div class="progress w-100">
+                                    <div class="progress-bar" role="progressbar"
+                                        aria-valuenow="{{ product.comfort_avg }}"
+                                        style="width: {% widthratio product.comfort_avg 5 100 %}%" aria-valuemin="0"
+                                        aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <div class="progress w-100">
+                                    <div class="progress-bar" role="progressbar"
+                                        aria-valuenow="{{ product.sensitivity_avg }}"
+                                        style="width: {% widthratio product.sensitivity_avg 5 100 %}%" aria-valuemin="0"
+                                        aria-valuemax="5"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <span>촉감/착용감</span>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.comfort_avg }}"
-                                style="width: {% widthratio product.reviewsummary.comfort_avg 5 100 %}%" 
-                                aria-valuemin="0" aria-valuemax="5"></div>
-                            </div>
-                            <p>{{ product.reviewsummary.comfort_avg|floatformat:1 }}</p>
-                        </div>
-                        <div>
-                            <span>피부친화도</span>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ product.reviewsummary.sensitivity_avg }}"
-                                style="width: {% widthratio product.reviewsummary.sensitivity_avg 5 100 %}%" 
-                                aria-valuemin="0" aria-valuemax="5"></div>
-                            </div>
-                            <p>{{ product.reviewsummary.sensitivity_avg|floatformat:1 }}</p>
+                        <div
+                            class="col-xl-1 col-lg-1 col-md-1 col-sm-3 col-2 d-flex flex-column justify-content-around">
+                            <div class="text-center p-2">{{ product.reviewsummary.absorbency_avg|floatformat:1 }}</div>
+                            <div class="text-center p-2">{{ product.reviewsummary.anti_odour_avg|floatformat:1 }}</div>
+                            <div class="text-center p-2">{{ product.reviewsummary.comfort_avg|floatformat:1 }}</div>
+                            <div class="text-center p-2">{{ product.reviewsummary.sensitivity_avg|floatformat:1 }}</div>
                         </div>
                     </div>
                 </div>
             </li>
-        {% empty %}
+            {% empty %}
             <div class="no-result">
                 <p> 검색 결과가 없습니다.</p>
             </div>
-        {% endfor %}
+            {% endfor %}
         </ul>
     </div>
     <script>
-        $('#popover').popover({ 
-            html : true,
-            title: function() {
-            return $("#popover-head").html();
+        $('#popover').popover({
+            html: true,
+            title: function () {
+                return $("#popover-head").html();
             },
-            content: function() {
-            return $("#popover-content").html();
+            content: function () {
+                return $("#popover-content").html();
             }
         });
     </script>
-    {% comment %} <script>
+    {% comment %}
+    <script>
         $('#but1').popover({
             html: true,
             content: $('#toggle-pop').html(),
@@ -177,3 +143,65 @@ ChaeBi | M-type 랭킹
     </script> {% endcomment %}
 </div>
 {% endblock %}
+
+<!-- <div id="popover-content" class="hide">
+    <form id="toggle-form" action="{% url 'MtypeRanking' %}" method="POST">
+        {% csrf_token %}
+        {# A or I #}
+        <div class="switch switch--vertical">
+            <div class="toggle-outside">
+                <input id="radio-a" type="radio" name="toggle-1" {% if "A" in m_type%}checked="checked"
+                    {% endif %} />
+                <label for="radio-a">A</label>
+                <input id="radio-i" type="radio" name="toggle-1" />
+                <label for="radio-i" class="second">I</label>
+                <div class="toggle-inside">
+                </div>
+                <p>활동량</p>
+            </div>
+        </div>
+
+        {% comment %} H or L {% endcomment %}
+        <div class="switch switch--vertical">
+            <div class="toggle-outside">
+                <input id="radio-h" type="radio" name="toggle-2" {% if "H" in m_type%}checked="checked"
+                    {% endif %} />
+                <label for="radio-h">H</label>
+                <input id="radio-l" type="radio" name="toggle-2" />
+                <label for="radio-l" class="second">L</label>
+                <div class="toggle-inside">
+                </div>
+                <p>월경량</p>
+            </div>
+        </div>
+
+        {% comment %} S or T {% endcomment %}
+        <div class="switch switch--vertical">
+            <div class="toggle-outside">
+                <input id="radio-s" type="radio" name="toggle-3" {% if "S" in m_type%}checked="checked"
+                    {% endif %} />
+                <label for="radio-s">S</label>
+                <input id="radio-t" type="radio" name="toggle-3" />
+                <label for="radio-t" class="second">T</label>
+                <div class="toggle-inside">
+                </div>
+                <p>바디민감도</p>
+            </div>
+        </div>
+
+        {# P or F #}
+        <div class="switch switch--vertical">
+            <div class="toggle-outside">
+                <input id="radio-p" type="radio" name="toggle-4" {% if "P" in m_type %}checked="checked"
+                    {% endif %} />
+                <label for="radio-p">P</label>
+                <input id="radio-f" type="radio" name="toggle-4" />
+                <label for="radio-f" class="second">F</label>
+                <div class="toggle-inside">
+                </div>
+                <p>월경질환</p>
+            </div>
+        </div>
+        <button type="submit">찾기</button>
+    </form>
+</div> -->
