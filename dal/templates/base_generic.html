@@ -29,7 +29,7 @@
     <script> new WOW().init(); </script>
     <script type="text/javascript">
         window.addEventListener('load', function () {
-            {% if request.session.cart %}
+            {% if  request.session.cart %}
             const cart = {{ request.session.cart| safe
         }};
         cart.forEach(function (data) {
@@ -142,7 +142,7 @@
 
         // 비교함 모달 띄우기
         function showCartModal() {
-            document.getElementById('compare-cart-show-modal').style.display = 'block';
+            document.getElementById('compare-cart-show-modal').style.display = 'flex';
             document.getElementsByTagName('body')[0].style = 'position: fixed; width: 100%; overflow: hidden;';
 
             const table = document.getElementById('compare-cart-table');
@@ -158,6 +158,15 @@
                 if (xhr.status === 200) { // 정상
                     var response = xhr.responseText;
                     cart = JSON.parse(response);
+
+                    cart.forEach(function (item) {
+                        item.reviewsummary__total_score = '★ ' + parseFloat(item.reviewsummary__total_score).toFixed(1);
+                        item.reviewsummary__absorbency_avg = parseFloat(item.reviewsummary__absorbency_avg).toFixed(1);
+                        item.reviewsummary__anti_odour_avg = parseFloat(item.reviewsummary__anti_odour_avg).toFixed(1);
+                        item.reviewsummary__comfort_avg = parseFloat(item.reviewsummary__comfort_avg).toFixed(1);
+                        item.reviewsummary__sensitivity_avg = parseFloat(item.reviewsummary__sensitivity_avg).toFixed(1);
+                        item.price = parseFloat(item.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원 / ' + item.count + '개';
+                    });
 
                     // td 전부 삭제
                     tr.forEach(function (item) {
@@ -276,8 +285,7 @@
                         </li>
                     </ul>
                 </div>
-        </div>
-        </nav>
+            </nav>
         </div>
     </header>
     {% endblock navbar %}
@@ -293,7 +301,7 @@
 
     <div id="compare-cart-show-modal" style="display: none;">
         <div>
-            <a href="javascript:void(0);" id="compare-cart-close-modal">&times;</a>
+            <a href="javascript:void(0);" id="compare-cart-close-modal">X</a>
             <h3>한 눈에 비교함 보기</h3>
             <div>
                 <table id="compare-cart-table">
@@ -319,9 +327,6 @@
                     </tr>
                     <tr data-role="reviewsummary__comfort_avg">
                         <th>촉감/착용감</th>
-                    </tr>
-                    <tr data-role="productingredient__nature_friendly_score">
-                        <th>자연유래도</th>
                     </tr>
                 </table>
             </div>
